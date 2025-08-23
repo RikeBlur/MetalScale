@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dolw1jajraj15"]
+
+[ext_resource type="Shader" path="res://Effect/Shader/glowing_text/glowing_text.gdshader" id="1_pl02h"]
+
+[resource]
+shader = ExtResource("1_pl02h")
+shader_parameter/outline_width = 0.0
+shader_parameter/all_color = Color(0.71, 0.1136, 0.071, 1)

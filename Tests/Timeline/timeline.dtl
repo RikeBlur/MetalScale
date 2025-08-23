@@ -1,0 +1,5 @@
+[background arg="res://icon.svg" fade="0.0"]
+1111
+1111
+- q1 | [a1="yes"]
+- q2 | [a2="no"]

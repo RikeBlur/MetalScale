@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://byti8qx4q8lu1"]
+
+[ext_resource type="Shader" path="res://Effect/Shader/glowing_outline/glowingOutline.gdshader" id="1_jyoyy"]
+
+[resource]
+shader = ExtResource("1_jyoyy")
+shader_parameter/outline_width = 1.0
+shader_parameter/outline_color = Color(3.1451, 0.129412, 0, 1)

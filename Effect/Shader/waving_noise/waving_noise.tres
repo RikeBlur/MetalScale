@@ -1,0 +1,106 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://b3merg5ld62cu"]
+
+[ext_resource type="Texture2D" uid="uid://b0qh0wtaqhfst" path="res://Effect/Shader/waving_noise/noise_0.tres" id="1_81pfr"]
+
+[sub_resource type="Shader" id="Shader_1"]
+code = "shader_type canvas_item;
+
+// 控制接口参数
+uniform float wave_speed : hint_range(0.0, 10.0) = 1.0;
+uniform float noise_scale : hint_range(0.1, 50.0) = 5.0;
+uniform float wave_amplitude : hint_range(0.0, 1.0) = 0.5;
+uniform float time_offset : hint_range(0.0, 100.0) = 0.0;
+uniform sampler2D gradient_texture : hint_default_black;
+uniform bool use_gradient = true;
+uniform vec4 base_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform float alpha_multiplier : hint_range(0.0, 2.0) = 1.0;
+
+// 简化版的2D噪声函数
+vec2 random2(vec2 st) {
+    st = vec2(dot(st, vec2(127.1, 311.7)),
+              dot(st, vec2(269.5, 183.3)));
+    return -1.0 + 2.0 * fract(sin(st) * 43758.5453123);
+}
+
+// Perlin噪声函数
+float noise(vec2 st) {
+    vec2 i = floor(st);
+    vec2 f = fract(st);
+
+    vec2 u = f * f * (3.0 - 2.0 * f);
+
+    return mix(mix(dot(random2(i + vec2(0.0, 0.0)), f - vec2(0.0, 0.0)),
+                   dot(random2(i + vec2(1.0, 0.0)), f - vec2(1.0, 0.0)), u.x),
+               mix(dot(random2(i + vec2(0.0, 1.0)), f - vec2(0.0, 1.0)),
+                   dot(random2(i + vec2(1.0, 1.0)), f - vec2(1.0, 1.0)), u.x), u.y);
+}
+
+// 分形噪声（多层噪声叠加）
+float fbm(vec2 st) {
+    float value = 0.0;
+    float amplitude = 0.5;
+    float frequency = 0.0;
+
+    // 添加多个八度的噪声
+    for (int i = 0; i < 4; i++) {
+        value += amplitude * noise(st);
+        st *= 2.0;
+        amplitude *= 0.5;
+    }
+    return value;
+}
+
+void fragment() {
+    vec2 uv = UV;
+
+    // 计算时间偏移
+    float animated_time = TIME * wave_speed + time_offset;
+
+    // 创建波动效果的坐标
+    vec2 wave_uv = uv * noise_scale;
+    wave_uv.x += animated_time * 0.5;
+    wave_uv.y += animated_time * 0.3;
+
+    // 生成基础噪声
+    float noise_value = fbm(wave_uv);
+
+    // 添加第二层移动速度不同的噪声，增加复杂度
+    vec2 wave_uv2 = uv * noise_scale * 0.7;
+    wave_uv2.x -= animated_time * 0.3;
+    wave_uv2.y += animated_time * 0.4;
+    float noise_value2 = fbm(wave_uv2) * 0.5;
+
+    // 合并噪声
+    float final_noise = (noise_value + noise_value2) * wave_amplitude;
+
+    // 标准化到0-1范围
+    final_noise = (final_noise + 1.0) * 0.5;
+    final_noise = clamp(final_noise, 0.0, 1.0);
+
+    vec4 final_color;
+
+    if (use_gradient && texture(gradient_texture, vec2(final_noise, 0.5)).a > 0.001) {
+        // 使用渐变纹理
+        final_color = texture(gradient_texture, vec2(final_noise, 0.5));
+    } else {
+        // 使用基础颜色
+        final_color = base_color;
+        final_color.a *= final_noise;
+    }
+
+    // 应用透明度乘数
+    final_color.a *= alpha_multiplier;
+
+    COLOR = final_color;
+}"
+
+[resource]
+shader = SubResource("Shader_1")
+shader_parameter/wave_speed = 1.0
+shader_parameter/noise_scale = 5.0
+shader_parameter/wave_amplitude = 0.5
+shader_parameter/time_offset = 0.0
+shader_parameter/use_gradient = true
+shader_parameter/base_color = Color(0.89, 0.0623, 0.0623, 1)
+shader_parameter/alpha_multiplier = 1.0
+shader_parameter/gradient_texture = ExtResource("1_81pfr")

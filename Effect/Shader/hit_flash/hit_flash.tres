@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://udxyi4gcebgr"]
+
+[ext_resource type="Shader" uid="uid://byel0rk2hkwre" path="res://Effect/Shader/hit_flash/hit_flash.gdshader" id="1_xnlgd"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_xnlgd")
+shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
+shader_parameter/hit_flash_intensity = 0.0

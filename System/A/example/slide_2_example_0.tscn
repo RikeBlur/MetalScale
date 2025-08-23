@@ -1,0 +1,273 @@
+[gd_scene load_steps=20 format=3 uid="uid://c43anvcd4fnwh"]
+
+[ext_resource type="Script" path="res://Scripts/slide_component/slide_component_2.gd" id="1_poajf"]
+[ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/矩形 1.png" id="2_tcunk"]
+[ext_resource type="Script" path="res://Scripts/static_back.gd" id="3_joglm"]
+[ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="4_th1id"]
+[ext_resource type="Theme" uid="uid://d2uhxdy50yhsv" path="res://Style/theme_01.tres" id="5_07tlp"]
+[ext_resource type="Shader" path="res://Effect/Shader/glowing_text/glowing_text.gdshader" id="6_dbcb2"]
+[ext_resource type="Script" path="res://Scripts/interact/interactabel_label_component.gd" id="7_govhq"]
+[ext_resource type="Material" uid="uid://dolw1jajraj15" path="res://Effect/Shader/glowing_text/glowing_text.tres" id="8_goyfo"]
+[ext_resource type="AudioStream" uid="uid://cc2ppqru4b47t" path="res://Assests/SFX/interact/Fruit collect 1.wav" id="8_hqvr4"]
+[ext_resource type="Script" path="res://Scripts/interact/botton_component.gd" id="9_ub2y6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nbx1y"]
+shader = ExtResource("6_dbcb2")
+shader_parameter/outline_width = 0.0
+shader_parameter/all_color = Color(0.56, 0.063, 0.063, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1roj0"]
+shader = ExtResource("6_dbcb2")
+shader_parameter/outline_width = 0.0
+shader_parameter/all_color = Color(0.56, 0.063, 0.063, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ed58s"]
+shader = ExtResource("6_dbcb2")
+shader_parameter/outline_width = 0.0
+shader_parameter/all_color = Color(0.56, 0.063, 0.063, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3puhp"]
+shader = ExtResource("6_dbcb2")
+shader_parameter/outline_width = 0.0
+shader_parameter/all_color = Color(0.71, 0.1136, 0.071, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bhf7i"]
+size = Vector2(143, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b8q5c"]
+size = Vector2(107, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_34kdx"]
+size = Vector2(86, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_44oyq"]
+size = Vector2(65.25, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jw81k"]
+size = Vector2(122, 36)
+
+[node name="slide_2_example_0" type="Node2D" node_paths=PackedStringArray("area_array") groups=["slide"]]
+position = Vector2(0, 20)
+script = ExtResource("1_poajf")
+area_array = [NodePath("A1"), NodePath("A2"), NodePath("A3"), NodePath("A4"), NodePath("A5")]
+
+[node name="D2" type="Sprite2D" parent="."]
+position = Vector2(585, 303)
+scale = Vector2(0.75, 0.680045)
+texture = ExtResource("2_tcunk")
+script = ExtResource("3_joglm")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.0
+offset_right = 1148.0
+offset_bottom = 649.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Q" type="Label" parent="Control"]
+material = ExtResource("4_th1id")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -7.262
+anchor_top = -0.212
+anchor_right = 8.262
+anchor_bottom = 1.0
+offset_left = -0.019989
+offset_top = -0.0199995
+offset_right = 0.019989
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_07tlp")
+text = "Q4 : 你的生活和工作空间都很干净整洁"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="A1" type="Label" parent="Control" node_paths=PackedStringArray("connected_area")]
+material = SubResource("ShaderMaterial_nbx1y")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -354.0
+offset_top = 7.5
+offset_right = -203.0
+offset_bottom = 64.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_07tlp")
+text = "非常不同意"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("7_govhq")
+connected_area = NodePath("../../A1")
+
+[node name="hoven" type="AudioStreamPlayer2D" parent="Control/A1"]
+position = Vector2(470, -1)
+
+[node name="click" type="AudioStreamPlayer2D" parent="Control/A1"]
+stream = ExtResource("8_hqvr4")
+
+[node name="A2" type="Label" parent="Control" node_paths=PackedStringArray("connected_area")]
+material = SubResource("ShaderMaterial_1roj0")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -172.5
+offset_top = 7.5
+offset_right = -51.5
+offset_bottom = 64.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_07tlp")
+text = "不同意"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("7_govhq")
+connected_area = NodePath("../../A2")
+
+[node name="hoven" type="AudioStreamPlayer2D" parent="Control/A2"]
+position = Vector2(470, -1)
+
+[node name="click" type="AudioStreamPlayer2D" parent="Control/A2"]
+stream = ExtResource("8_hqvr4")
+
+[node name="A3" type="Label" parent="Control" node_paths=PackedStringArray("connected_area")]
+material = SubResource("ShaderMaterial_ed58s")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.5
+offset_top = 7.5
+offset_right = 82.5
+offset_bottom = 64.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_07tlp")
+text = "不知道"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("7_govhq")
+connected_area = NodePath("../../A3")
+
+[node name="hoven" type="AudioStreamPlayer2D" parent="Control/A3"]
+position = Vector2(470, -1)
+
+[node name="click" type="AudioStreamPlayer2D" parent="Control/A3"]
+stream = ExtResource("8_hqvr4")
+
+[node name="A4" type="Label" parent="Control" node_paths=PackedStringArray("connected_area")]
+material = ExtResource("8_goyfo")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 142.5
+offset_top = 6.5
+offset_right = 202.5
+offset_bottom = 63.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_07tlp")
+text = "同意"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("7_govhq")
+connected_area = NodePath("../../A4")
+
+[node name="hoven" type="AudioStreamPlayer2D" parent="Control/A4"]
+position = Vector2(470, -1)
+
+[node name="click" type="AudioStreamPlayer2D" parent="Control/A4"]
+stream = ExtResource("8_hqvr4")
+
+[node name="A5" type="Label" parent="Control" node_paths=PackedStringArray("connected_area")]
+material = SubResource("ShaderMaterial_3puhp")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 265.0
+offset_top = 6.5
+offset_right = 386.0
+offset_bottom = 63.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_07tlp")
+text = "非常同意"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("7_govhq")
+connected_area = NodePath("../../A5")
+
+[node name="hoven" type="AudioStreamPlayer2D" parent="Control/A5"]
+position = Vector2(470, -1)
+
+[node name="click" type="AudioStreamPlayer2D" parent="Control/A5"]
+stream = ExtResource("8_hqvr4")
+
+[node name="A1" type="Area2D" parent="." node_paths=PackedStringArray("text")]
+position = Vector2(-38, 15)
+script = ExtResource("9_ub2y6")
+text = NodePath("../Control/A1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="A1"]
+position = Vector2(330.5, 345)
+shape = SubResource("RectangleShape2D_bhf7i")
+
+[node name="A2" type="Area2D" parent="." node_paths=PackedStringArray("text")]
+position = Vector2(460.5, 360)
+script = ExtResource("9_ub2y6")
+text = NodePath("../Control/A2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="A2"]
+position = Vector2(2, 0)
+shape = SubResource("RectangleShape2D_b8q5c")
+
+[node name="A3" type="Area2D" parent="." node_paths=PackedStringArray("text")]
+position = Vector2(610, 360)
+script = ExtResource("9_ub2y6")
+text = NodePath("../Control/A3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="A3"]
+position = Vector2(-2, 0)
+shape = SubResource("RectangleShape2D_34kdx")
+
+[node name="A4" type="Area2D" parent="." node_paths=PackedStringArray("text")]
+position = Vector2(745, 360)
+script = ExtResource("9_ub2y6")
+text = NodePath("../Control/A4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="A4"]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_44oyq")
+
+[node name="A5" type="Area2D" parent="." node_paths=PackedStringArray("text")]
+position = Vector2(896, 360)
+script = ExtResource("9_ub2y6")
+text = NodePath("../Control/A5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="A5"]
+position = Vector2(2, 0)
+shape = SubResource("RectangleShape2D_jw81k")

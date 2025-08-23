@@ -1,0 +1,138 @@
+[gd_scene load_steps=13 format=3 uid="uid://grkubnju41l2"]
+
+[ext_resource type="Script" path="res://Scripts/slide_component/slide_component_0.gd" id="1_5v87b"]
+[ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/矩形 1.png" id="3_ikdc4"]
+[ext_resource type="Script" path="res://Scripts/static_back.gd" id="5_ntugs"]
+[ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="6_ncrta"]
+[ext_resource type="Theme" uid="uid://d2uhxdy50yhsv" path="res://Style/theme_01.tres" id="7_6cysg"]
+[ext_resource type="AudioStream" uid="uid://cc2ppqru4b47t" path="res://Assests/SFX/interact/Fruit collect 1.wav" id="8_fjs4f"]
+[ext_resource type="Material" uid="uid://dolw1jajraj15" path="res://Effect/Shader/glowing_text/glowing_text.tres" id="8_sorp3"]
+[ext_resource type="Script" path="res://Scripts/interact/interactabel_label_component.gd" id="9_lyoy0"]
+[ext_resource type="Shader" path="res://Effect/Shader/glowing_text/glowing_text.gdshader" id="10_tdwvd"]
+[ext_resource type="Script" path="res://Scripts/interact/botton_component.gd" id="11_1reak"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y7t2l"]
+shader = ExtResource("10_tdwvd")
+shader_parameter/outline_width = 0.0
+shader_parameter/all_color = Color(0.56, 0.063, 0.063, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_op5eq"]
+size = Vector2(28.5, 36)
+
+[node name="slide_0_example_0" type="Node2D" node_paths=PackedStringArray("area_array") groups=["slide"]]
+position = Vector2(0, 20)
+script = ExtResource("1_5v87b")
+area_array = [NodePath("A1"), NodePath("A2")]
+
+[node name="D2" type="Sprite2D" parent="."]
+position = Vector2(585, 303)
+scale = Vector2(0.75, 0.680045)
+texture = ExtResource("3_ikdc4")
+script = ExtResource("5_ntugs")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.0
+offset_right = 1148.0
+offset_bottom = 649.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Q" type="Label" parent="Control"]
+material = ExtResource("6_ncrta")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -7.262
+anchor_top = -0.212
+anchor_right = 8.262
+anchor_bottom = 1.0
+offset_left = -0.019989
+offset_top = -0.0199995
+offset_right = 0.019989
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("7_6cysg")
+text = "Q2 : 你的视线曾离开屏幕"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="A2" type="Label" parent="Control" node_paths=PackedStringArray("connected_area")]
+material = ExtResource("8_sorp3")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 146.5
+offset_top = 9.5
+offset_right = 202.5
+offset_bottom = 66.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("7_6cysg")
+text = "否"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("9_lyoy0")
+connected_area = NodePath("../../A2")
+
+[node name="hoven" type="AudioStreamPlayer2D" parent="Control/A2"]
+position = Vector2(470, -1)
+
+[node name="click" type="AudioStreamPlayer2D" parent="Control/A2"]
+stream = ExtResource("8_fjs4f")
+
+[node name="A1" type="Label" parent="Control" node_paths=PackedStringArray("connected_area")]
+material = SubResource("ShaderMaterial_y7t2l")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.5
+offset_top = 10.5
+offset_right = -124.5
+offset_bottom = 67.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("7_6cysg")
+text = "是"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("9_lyoy0")
+connected_area = NodePath("../../A1")
+
+[node name="hoven" type="AudioStreamPlayer2D" parent="Control/A1"]
+position = Vector2(470, -1)
+
+[node name="click" type="AudioStreamPlayer2D" parent="Control/A1"]
+stream = ExtResource("8_fjs4f")
+
+[node name="A2" type="Area2D" parent="." node_paths=PackedStringArray("text")]
+position = Vector2(747, 363)
+script = ExtResource("11_1reak")
+text = NodePath("../Control/A2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="A2"]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_op5eq")
+
+[node name="A1" type="Area2D" parent="." node_paths=PackedStringArray("text")]
+position = Vector2(88, 18)
+script = ExtResource("11_1reak")
+text = NodePath("../Control/A1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="A1"]
+position = Vector2(332.75, 345)
+shape = SubResource("RectangleShape2D_op5eq")
