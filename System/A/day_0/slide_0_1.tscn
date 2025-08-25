@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://grkubnju41l2"]
+[gd_scene load_steps=13 format=3 uid="uid://63663631356331362d646461382d3466"]
 
 [ext_resource type="Script" path="res://Scripts/slide_component/slide_component_0.gd" id="1_5v87b"]
 [ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/矩形 1.png" id="3_ikdc4"]
@@ -19,7 +19,7 @@ shader_parameter/all_color = Color(0.56, 0.063, 0.063, 1)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_op5eq"]
 size = Vector2(28.5, 36)
 
-[node name="slide_0_example_0" type="Node2D" node_paths=PackedStringArray("area_array") groups=["slide"]]
+[node name="slide_1" type="Node2D" node_paths=PackedStringArray("area_array") groups=["slide"]]
 position = Vector2(0, 20)
 script = ExtResource("1_5v87b")
 area_array = [NodePath("A1"), NodePath("A2")]
@@ -61,7 +61,7 @@ offset_bottom = 8.5
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("7_6cysg")
-text = "Q1 : 你的视线曾离开屏幕"
+text = "Q2 : 我喜欢承担责任并确保任务完成。"
 horizontal_alignment = 1
 vertical_alignment = 1
 

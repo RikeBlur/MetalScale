@@ -88,7 +88,7 @@ offset_bottom = 8.5
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("5_07tlp")
-text = "Q4 : 你的生活和工作空间都很干净整洁"
+text = "Q3 : 你的生活和工作空间都很干净整洁"
 horizontal_alignment = 1
 vertical_alignment = 1
 

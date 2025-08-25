@@ -14,7 +14,7 @@ var is_pressed: bool = false
 var is_recover: bool = false
 var recover_timer: float = 0.0
 
-@export var text: Label = null
+@export var text: interactable_label_component = null
 @export var recover_time: float = 1.0
 
 # Called when the node enters the scene tree for the first time.

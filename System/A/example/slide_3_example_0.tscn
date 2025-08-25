@@ -1,0 +1,73 @@
+[gd_scene load_steps=7 format=3 uid="uid://cu368r7hi8525"]
+
+[ext_resource type="Script" path="res://Scripts/slide_component/slide_component_3.gd" id="1_55gpo"]
+[ext_resource type="PackedScene" uid="uid://bfp1v3smrprey" path="res://Effect/Animation/blinking_eyes.tscn" id="2_phgg7"]
+[ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/矩形 1.png" id="2_wkbb6"]
+[ext_resource type="Script" path="res://Scripts/static_back.gd" id="3_hdu6r"]
+[ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="4_0wc25"]
+[ext_resource type="Theme" uid="uid://d2uhxdy50yhsv" path="res://Style/theme_01.tres" id="5_6sws6"]
+
+[node name="slide_3_example_0" type="Node2D" groups=["slide"]]
+position = Vector2(0, 20)
+script = ExtResource("1_55gpo")
+
+[node name="eyes" type="Node2D" parent="."]
+position = Vector2(29, 68)
+scale = Vector2(0.955435, 0.879554)
+
+[node name="BlinkingEye" parent="eyes" instance=ExtResource("2_phgg7")]
+position = Vector2(41.8658, -19.328)
+
+[node name="BlinkingEye3" parent="eyes" instance=ExtResource("2_phgg7")]
+position = Vector2(1081, 285.5)
+rotation = -0.118974
+scale = Vector2(1.06, 1.20968)
+
+[node name="BlinkingEye2" parent="eyes" instance=ExtResource("2_phgg7")]
+position = Vector2(102.5, 521)
+scale = Vector2(1.35, 1.48387)
+
+[node name="BlinkingEye4" parent="eyes" instance=ExtResource("2_phgg7")]
+position = Vector2(434.75, 567)
+scale = Vector2(1.475, 1.70968)
+
+[node name="D2" type="Sprite2D" parent="."]
+position = Vector2(585, 303)
+scale = Vector2(0.75, 0.680045)
+texture = ExtResource("2_wkbb6")
+script = ExtResource("3_hdu6r")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.0
+offset_right = 1148.0
+offset_bottom = 649.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Q" type="Label" parent="Control"]
+material = ExtResource("4_0wc25")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -7.262
+anchor_top = -0.212
+anchor_right = 8.262
+anchor_bottom = 1.0
+offset_left = -0.019989
+offset_top = -0.0199995
+offset_right = 0.019989
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_6sws6")
+text = "不错。"
+horizontal_alignment = 1
+vertical_alignment = 1

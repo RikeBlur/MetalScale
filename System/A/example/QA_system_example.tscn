@@ -1,0 +1,57 @@
+[gd_scene load_steps=14 format=3 uid="uid://btm020q013dsk"]
+
+[ext_resource type="Script" path="res://Scripts/system/qa_system.gd" id="1_c3ejs"]
+[ext_resource type="Shader" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="2_agj41"]
+[ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/矩形 1.png" id="3_svktp"]
+[ext_resource type="Script" path="res://Scripts/waving_back.gd" id="4_r57g5"]
+[ext_resource type="PackedScene" uid="uid://grkubnju41l2" path="res://System/A/example/slide_0_example_0.tscn" id="5_2361t"]
+[ext_resource type="PackedScene" uid="uid://cfr0o64c1axus" path="res://System/A/example/slide_1_example_0.tscn" id="6_8hr6d"]
+[ext_resource type="PackedScene" uid="uid://c43anvcd4fnwh" path="res://System/A/example/slide_2_example_0.tscn" id="7_mbrjf"]
+[ext_resource type="PackedScene" uid="uid://cu368r7hi8525" path="res://System/A/example/slide_3_example_0.tscn" id="8_sr64h"]
+[ext_resource type="Script" path="res://Scripts/player_scale.gd" id="9_68gck"]
+
+[sub_resource type="Gradient" id="Gradient_onxew"]
+offsets = PackedFloat32Array(0, 0.993506)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_tcbqf"]
+offset = Vector3(0, 140.35, 0)
+fractal_type = 2
+domain_warp_enabled = true
+domain_warp_type = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_up52x"]
+color_ramp = SubResource("Gradient_onxew")
+noise = SubResource("FastNoiseLite_tcbqf")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l6vdl"]
+shader = ExtResource("2_agj41")
+shader_parameter/wave_speed = 1.0
+shader_parameter/noise_scale = 5.0
+shader_parameter/wave_amplitude = 0.5
+shader_parameter/time_offset = 0.0
+shader_parameter/use_gradient = true
+shader_parameter/base_color = Color(1, 0, 0, 1)
+shader_parameter/alpha_multiplier = 1.0
+shader_parameter/color_mix_strength = 0.0
+shader_parameter/gradient_texture = SubResource("NoiseTexture2D_up52x")
+
+[node name="QaSystem" type="Node2D"]
+script = ExtResource("1_c3ejs")
+
+[node name="D1" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_l6vdl")
+position = Vector2(596, 300)
+scale = Vector2(2.61523, 1.35938)
+texture = ExtResource("3_svktp")
+script = ExtResource("4_r57g5")
+
+[node name="slide_0_example" parent="." instance=ExtResource("5_2361t")]
+
+[node name="slide_1_example_0" parent="." instance=ExtResource("6_8hr6d")]
+
+[node name="slide_2_example_0" parent="." instance=ExtResource("7_mbrjf")]
+
+[node name="slide_3_example_0" parent="." instance=ExtResource("8_sr64h")]
+
+[node name="player_scale" type="Node2D" parent="."]
+script = ExtResource("9_68gck")

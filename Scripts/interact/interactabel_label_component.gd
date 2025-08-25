@@ -6,6 +6,8 @@ extends Label
 @export var clicked_color: Color = Color(0.45,0.45,0.45,1)
 
 var click_player: AudioStreamPlayer2D = null
+var hoven_player: AudioStreamPlayer2D = null
+var entered: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -14,6 +16,7 @@ func _ready() -> void:
 	if connected_area:
 		_connect_area_signals()
 	click_player = get_child(1)
+	hoven_player = get_child(0)
 
 # 连接Area2D的信号
 func _connect_area_signals() -> void:
@@ -32,6 +35,9 @@ func _connect_area_signals() -> void:
 func _on_mouse_entered() -> void:
 	material.set_shader_parameter("outline_width", 1.2)
 	material.set_shader_parameter("all_color", hoven_color)
+	if entered == false:
+		hoven_player.play()
+		entered = true
 	
 # 鼠标离开时执行
 func _on_mouse_exited() -> void:
@@ -50,7 +56,10 @@ func _on_click_recover() -> void:
 	material.set_shader_parameter("outline_width", 1.2)
 	material.set_shader_parameter("all_color", hoven_color)
 
-
 # 点击时执行
 func _on_clicked() -> void:
 	pass
+
+func change_color(color_hoven: Color, color_click: Color) -> void:
+	hoven_color = color_hoven
+	clicked_color = color_click

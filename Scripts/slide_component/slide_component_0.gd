@@ -3,8 +3,18 @@ extends Node2D
 
 @export var area_array: Array[Area2D]
 @export var config: int = 0
-@export var parent_qa_system: Node2D = null
+@export var parent_qa_system: qa_system = null
 @export var d1: Sprite2D = null
+
+# 指示下一张slide位置的配置
+@export var next_for_a1: int = 1
+@export var next_for_a2: int = 3
+
+# a的颜色
+@export var a1_hoven_color: Color = Color(0.88,0.88,0.88,1)
+@export var a1_click_color: Color = Color(0.45,0.45,0.45,1)
+@export var a2_hoven_color: Color = Color(0.88,0.88,0.88,1)
+@export var a2_click_color: Color = Color(0.45,0.45,0.45,1)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -13,7 +23,9 @@ func _ready() -> void:
 		print("get qa_system")
 		# 读取父节点下名为D1的Sprite2D节点
 		_find_d1_node()	
+	_label_color_replace()
 	_setup_connections()
+	
 
 # 查找并保存D1节点
 func _find_d1_node() -> void:
@@ -37,6 +49,10 @@ func _setup_connections() -> void:
 		if a2 and a2.has_signal("clicked_signal"):
 			a2.clicked_signal.connect(_on_a2_chosen)
 
+func _label_color_replace() -> void:
+	area_array[0].text.change_color(a1_hoven_color, a1_click_color)
+	area_array[1].text.change_color(a2_hoven_color, a2_click_color)
+
 func _skip_silde() -> void:
 	parent_qa_system.next_slide()
 
@@ -44,11 +60,11 @@ func _skip_silde() -> void:
 func _on_a1_chosen() -> void:
 	# TODO: 填充A1选择的处理逻辑
 	print("A1选项被选择")
-	_skip_silde() 
-	
+	parent_qa_system.goto_slide(next_for_a1)
+
 
 # A2选项被选择时执行
 func _on_a2_chosen() -> void:
 	# TODO: 填充A2选择的处理逻辑
 	print("A2选项被选择")
-	_skip_silde() 
+	parent_qa_system.goto_slide(next_for_a2)

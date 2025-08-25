@@ -1,0 +1,63 @@
+[gd_scene load_steps=13 format=3 uid="uid://dg668iv0oiauy"]
+
+[ext_resource type="Script" path="res://Scripts/system/qa_system.gd" id="1_0fl5k"]
+[ext_resource type="PackedScene" uid="uid://7caxl5b1bcau" path="res://System/A/day_0/slide_0_0.tscn" id="2_mo7uc"]
+[ext_resource type="Shader" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="2_ulfw4"]
+[ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/矩形 1.png" id="3_1kq3o"]
+[ext_resource type="PackedScene" uid="uid://dobhpr5j2ejj2" path="res://System/A/day_0/slide_0_1.tscn" id="3_4jgst"]
+[ext_resource type="Script" path="res://Scripts/waving_back.gd" id="4_236en"]
+[ext_resource type="PackedScene" uid="uid://dxca3gb4mj266" path="res://System/A/day_0/slide_1_10.tscn" id="4_rilvu"]
+[ext_resource type="Script" path="res://Scripts/player_scale.gd" id="5_f7m3r"]
+
+[sub_resource type="Gradient" id="Gradient_7ndbj"]
+offsets = PackedFloat32Array(0, 0.993506)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_feeu2"]
+offset = Vector3(0, 140.35, 0)
+fractal_type = 2
+domain_warp_enabled = true
+domain_warp_type = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_up52x"]
+color_ramp = SubResource("Gradient_7ndbj")
+noise = SubResource("FastNoiseLite_feeu2")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e62wg"]
+shader = ExtResource("2_ulfw4")
+shader_parameter/wave_speed = 1.0
+shader_parameter/noise_scale = 5.0
+shader_parameter/wave_amplitude = 0.5
+shader_parameter/time_offset = 0.0
+shader_parameter/use_gradient = true
+shader_parameter/base_color = Color(1, 0, 0, 1)
+shader_parameter/alpha_multiplier = 1.0
+shader_parameter/color_mix_strength = 0.0
+shader_parameter/gradient_texture = SubResource("NoiseTexture2D_up52x")
+
+[node name="QaDay0" type="Node2D"]
+script = ExtResource("1_0fl5k")
+
+[node name="slide_0" parent="." node_paths=PackedStringArray("area_array") instance=ExtResource("2_mo7uc")]
+area_array = []
+config = 0
+next_for_a1 = 1
+next_for_a2 = 3
+a1_hoven_color = Color(0.88, 0.88, 0.88, 1)
+a1_click_color = Color(0.45, 0.45, 0.45, 1)
+a2_hoven_color = Color(0.88, 0.88, 0.88, 1)
+a2_click_color = Color(0.45, 0.45, 0.45, 1)
+
+[node name="slide_1" parent="." node_paths=PackedStringArray("area_array") instance=ExtResource("3_4jgst")]
+area_array = []
+
+[node name="slide_1_10" parent="." instance=ExtResource("4_rilvu")]
+
+[node name="D1" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_e62wg")
+position = Vector2(596, 300)
+scale = Vector2(2.61523, 1.35938)
+texture = ExtResource("3_1kq3o")
+script = ExtResource("4_236en")
+
+[node name="player_scale" type="Node2D" parent="."]
+script = ExtResource("5_f7m3r")
