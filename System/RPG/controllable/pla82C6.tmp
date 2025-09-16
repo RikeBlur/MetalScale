@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://dp5vrrvbeosux"]
+
+[ext_resource type="Script" path="res://Scripts/state_machine/player/player.gd" id="1_5fr6s"]
+[ext_resource type="Script" path="res://Scripts/state_machine/node_state_machine.gd" id="1_g6mav"]
+[ext_resource type="Script" path="res://Scripts/state_machine/player/walk_state.gd" id="2_soi3b"]
+[ext_resource type="Script" path="res://Scripts/state_machine/player/idle_state.gd" id="3_3skdx"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2k661"]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_5fr6s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_2k661")
+
+[node name="StateMachine" type="Node2D" parent="."]
+script = ExtResource("1_g6mav")
+
+[node name="walk" type="Node2D" parent="StateMachine"]
+script = ExtResource("2_soi3b")
+
+[node name="attack" type="Node2D" parent="StateMachine"]
+
+[node name="idle" type="Node2D" parent="StateMachine"]
+script = ExtResource("3_3skdx")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
