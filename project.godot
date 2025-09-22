@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="metal_scale"
-run/main_scene="res://System/A/day_0/qa_day0.tscn"
+run/main_scene="res://System/QA/day_0/qa_day0.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
