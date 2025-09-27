@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://ca6e3sjoclyky"]
+
+[ext_resource type="PackedScene" uid="uid://dp5vrrvbeosux" path="res://System/RPG/entity/controllable/player.tscn" id="1_xvil1"]
+[ext_resource type="PackedScene" uid="uid://b7fgg2qcnwcji" path="res://System/RPG/entity/npc/AX/npc_ax.tscn" id="2_8l120"]
+
+[node name="Test0" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("1_xvil1")]
+y_sort_enabled = true
+position = Vector2(597, 368)
+
+[node name="ax_npc" parent="." instance=ExtResource("2_8l120")]
+y_sort_enabled = true
+position = Vector2(289, 297)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 446.0
+offset_top = 264.0
+offset_right = 486.0
+offset_bottom = 304.0
+text = "EXAMPLE"

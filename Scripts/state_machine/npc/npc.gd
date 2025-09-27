@@ -1,0 +1,2 @@
+class_name npc
+extends CharacterBody2D

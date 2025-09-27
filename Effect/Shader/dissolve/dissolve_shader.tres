@@ -12,7 +12,7 @@ default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.5
 op_type = 3
 
 [sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_vf0r7"]
-constant = Color(0.77, 0.1386, 0.149123, 1)
+constant = Color(0.65, 0.052, 0.0619665, 1)
 
 [sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_vf0r7"]
 default_input_values = [0, 0.0, 1, 0.1]
@@ -52,7 +52,7 @@ uniform float DissolveValue : hint_range(0, 1);
 
 void fragment() {
 // ColorConstant:14
-	vec4 n_out14p0 = vec4(0.770000, 0.138600, 0.149123, 1.000000);
+	vec4 n_out14p0 = vec4(0.650000, 0.052000, 0.061967, 1.000000);
 
 
 	vec4 n_out9p0;

@@ -15,12 +15,11 @@ static var last_time : float = 0.03
 func _physics_process(delta: float) -> void:
 	if start_flag == true:
 		timer += delta
-		print(timer)
+		# print(timer)
 	if timer >= last_time:
 		timer = 0
 		start_flag = false
 		able_flag = true
-
 
 
 static func movement_input() -> Vector2:

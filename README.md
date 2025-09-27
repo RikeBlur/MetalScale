@@ -1,4 +1,7 @@
 # UPDATE
+## 25.09.27
+仿制对话系统已完成，后续修正点：speaker_img逻辑全部替换成animated_sprite_2d的逻辑；完成自定义类custom_botton
+
 ## 25.09.15
 八向移动系统完成，手感待调试
 

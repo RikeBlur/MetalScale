@@ -1,27 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://ca6e3sjoclyky"]
+[gd_scene load_steps=6 format=3 uid="uid://ca6e3sjoclyky"]
 
 [ext_resource type="PackedScene" uid="uid://dp5vrrvbeosux" path="res://System/RPG/entity/controllable/player.tscn" id="1_xvil1"]
 [ext_resource type="PackedScene" uid="uid://b7fgg2qcnwcji" path="res://System/RPG/entity/npc/AX/npc_ax.tscn" id="2_8l120"]
-[ext_resource type="Script" path="res://Scripts/system/DialogueResource.gd" id="4_m7gr5"]
+[ext_resource type="PackedScene" uid="uid://q502awmo8ato" path="res://System/RPG/interact/npc_inter/dialogue.tscn" id="3_nfgsj"]
 [ext_resource type="Script" path="res://Scripts/interact/dialogue_manager.gd" id="4_pkvo2"]
-[ext_resource type="Script" path="res://Scripts/system/DialogueTextResource.gd" id="5_ch46v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_am6s1"]
 size = Vector2(98, 201)
-
-[sub_resource type="Resource" id="Resource_p08nu"]
-script = ExtResource("5_ch46v")
-speaker_entity = ""
-speaker_img_Hframes = 1
-speaker_img_rest_frame = 0
-text = "You must be kidding me
-"
-text_speed = 8.0
-text_volume_db = 0
-text_volume_pitch_min = 0.85
-text_volume_pitch_max = 1.15
-camera_position = Vector2(999, 999)
-camera_transition_time = 1.0
 
 [node name="Test0" type="Node2D"]
 y_sort_enabled = true
@@ -40,10 +25,12 @@ position = Vector2(289, 297)
 position = Vector2(0, -63.5)
 shape = SubResource("RectangleShape2D_am6s1")
 
+[node name="Dialogue" parent="." instance=ExtResource("3_nfgsj")]
+visible = false
+
 [node name="manager_manager" type="Node2D" parent="."]
 
 [node name="dialogue_manager" type="Node2D" parent="manager_manager"]
 script = ExtResource("4_pkvo2")
 trigger_source = [NodePath("../../ax_npc/trigger_source")]
 trigger_flag = [0]
-dialogue_content = Array[ExtResource("4_m7gr5")]([SubResource("Resource_p08nu")])

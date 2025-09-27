@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bi38t54pwfhwa"]
+
+[ext_resource type="Script" path="res://Scripts/state_machine/npc/npc_state_manager.gd" id="1_1827p"]
+
+[node name="NpcStateManager" type="Node2D"]
+script = ExtResource("1_1827p")

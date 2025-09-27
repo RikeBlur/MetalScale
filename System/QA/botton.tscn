@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://eeygp0orpuvh"]
+
+[ext_resource type="Script" path="res://Scripts/interact/custom_botton.gd" id="1_63el2"]
+
+[node name="Botton" type="Node2D"]
+script = ExtResource("1_63el2")
