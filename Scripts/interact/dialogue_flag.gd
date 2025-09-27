@@ -2,9 +2,10 @@ class_name dialogue_flag
 extends Resource
 
 @export var flag : bool = false
-@export var style : int = 1
-@export var start : int = 0
-@export var end : int = 0
 @export var only_once : bool = true
+
+@export var style : Array[int]
+@export var start : Array[int]
+@export var end :Array[int]
 
 var triggered : bool = false

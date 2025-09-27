@@ -6,6 +6,7 @@ extends Node2D
 @export var trigger_flag : Array[dialogue_flag]
 @export var dialogue_content : Array[DialogueResource]
 var dialogue_style : Array = []
+var dialogue_inst : Array = []
 
 # 一个示例预加载的对话场景（可移除/替换）
 var dialogue_1 = preload("res://System/RPG/interact/npc_inter/dialogue_ax.tscn")
@@ -57,12 +58,10 @@ func _on_trigger_area_entered(area: Area2D, idx: int) -> void:
 func _process(delta: float) -> void:
 	for i in range(trigger_flag.size()):
 		if trigger_flag[i].flag :
-			_spawn_dialogue(trigger_flag[i].style-1, i, trigger_flag[i].start, trigger_flag[i].end)
-			# 将标记置 0，避免每帧重复实例化。
-			# 如果你希望在玩家离开后可以再次触发，请保持为 0；
-			# 若要等待对话结束再允许重触发，可以改成别的状态管理（例如 2 = playing）。
-			trigger_flag[i].flag = false
+			_spawn_dialogue(trigger_flag[i].style[0]-1, i, trigger_flag[i].start[0], trigger_flag[i].end[0])				
+		trigger_flag[i].flag = false
 
+		
 
 # 实例化并添加对话场景到场景树
 func _spawn_dialogue(style: int, content: int, start: int, end: int) -> void:
@@ -70,12 +69,10 @@ func _spawn_dialogue(style: int, content: int, start: int, end: int) -> void:
 	if style < 0 or style >= dialogue_style.size():
 		push_error("dialogue style index out of range: %d" % style)
 		return
-
 	var scene = dialogue_style[style]
 	if scene == null:
 		push_error("dialogue style[%d] is null" % style)
 		return
-
 	var inst = scene.instantiate()
 	if inst == null:
 		push_error("failed to instantiate dialogue style at index %d" % style)
@@ -84,11 +81,6 @@ func _spawn_dialogue(style: int, content: int, start: int, end: int) -> void:
 	# 将对话节点加入到当前 manager（可根据需要改为加入到 UI 层或专门容器）
 	inst.dialogue = dialogue_content.slice(start,end)
 	add_child(inst)
-
-	# 如果实例是 Node2D 且有对应触发源，设置位置到触发源位置（便于示例场景显示在附近）
-	#if inst is Node2D and i < trigger_source.size() and trigger_source[i] != null:
-	#	# 使用 global_position 保持在世界坐标
-	#	inst.global_position = trigger_source[i].global_position
 
 	# 如果对话场景提供了 dialogue_finished 信号，连接它以便自动回收实例
 	if inst.has_signal("dialogue_finished"):
