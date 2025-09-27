@@ -186,27 +186,25 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+custom_minimum_size = Vector2(600, 150)
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.191
-anchor_top = 0.557
-anchor_right = 0.868
-anchor_bottom = 0.973
-offset_left = 98.937
-offset_top = 145.108
-offset_right = -244.124
-offset_bottom = -90.7881
+anchor_left = 0.258
+anchor_top = 0.68
+anchor_right = 0.701
+anchor_bottom = 0.84
+offset_left = 0.605988
+offset_top = -0.0800171
+offset_right = 0.506958
+offset_bottom = -0.0400391
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_horizontal = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Control/HBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(600, 200)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
+size_flags_vertical = 3
 theme_override_fonts/normal_font = ExtResource("8_v4bs1")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true

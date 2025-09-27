@@ -140,7 +140,7 @@ func _text_resource(i: DialogueText) -> void :
 			
 	if i.sprite_animation_name:
 		speaker_sprite.visible = true
-		speaker_sprite.play("sprite_animation_name")
+		speaker_sprite.play(i.sprite_animation_name)
 	else :
 		speaker_sprite.visible = false
 	
