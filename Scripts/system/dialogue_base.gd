@@ -20,7 +20,7 @@ func _ready() -> void:
 	back_sprite = $back_sprite
 	dialogue_label = $Control/HBoxContainer/VBoxContainer/RichTextLabel
 	botton_container = $Control/HBoxContainer/VBoxContainer/botton_container
-	speaker_sprite = $Control/HBoxContainer/SpeakerParent
+	speaker_sprite = $illustrate
 	text_sound = $AudioStreamPlayer2D
 	botton_container.visible = false
 	
@@ -82,11 +82,9 @@ func _funtion_resource(i: DialogueFunction) -> void :
 func _choice_resource(i: DialogueChoice) -> void :
 	dialogue_label.text = i.text
 	dialogue_label.visible_characters = -1
-	if i.speaker_img:
+	if i.sprite_animation_name:
 		speaker_sprite.visible = true
-		speaker_sprite.texture = i.speaker_img
-		speaker_sprite.hframe = i.speaker_img_Hframes
-		speaker_sprite.frame =  min(i.speaker_img_select_frame, i.speaker_img_Hframes-1)
+		speaker_sprite.play("sprite_animation_name")
 	else :
 		speaker_sprite.visible = false
 	botton_container.visible = true
@@ -111,7 +109,6 @@ func _choice_resource(i: DialogueChoice) -> void :
 			DialogueBottonVar.connect("pressed", _choice_botton_pressed.bind(null, ""), CONNECT_ONE_SHOT)	
 		
 		botton_container.add_child(DialogueBottonVar)
-	botton_container.get_child(0).grab_focus()
 		
 		
 func _choice_botton_pressed(target_node : Node, wait_for_signal_to_continue: String) -> void :
@@ -141,11 +138,9 @@ func _text_resource(i: DialogueText) -> void :
 		var camera_tween : Tween = create_tween().set_trans(Tween.TRANS_SINE)
 		camera_tween.tween_property(camera, "global_position", i.camera_position, i.camera_transition_time)
 			
-	if i.speaker_img:
+	if i.sprite_animation_name:
 		speaker_sprite.visible = true
-		speaker_sprite.texture = i.speaker_img
-		speaker_sprite.hframe = i.speaker_img_Hframes
-		speaker_sprite.frame =  0
+		speaker_sprite.play("sprite_animation_name")
 	else :
 		speaker_sprite.visible = false
 	
@@ -168,15 +163,9 @@ func _text_resource(i: DialogueText) -> void :
 			if character != "":
 				text_sound.pitch_scale = randf_range(i.text_volume_pitch_min, i.text_volume_pitch_max)
 				text_sound.play()
-				if i.speaker_img_Hframes != 1:
-					if speaker_sprite.frame < i.speaker_img_Hframes -1:
-						speaker_sprite.frame += 1
-					else:
-						speaker_sprite.frame = 0
 			character_timer = 0
 			
 		await get_tree().process_frame
-	speaker_sprite.frame = min(i.speaker_img_rest_frame, i.speaker_img_Hframes)
 	
 	while true:
 		await get_tree().process_frame

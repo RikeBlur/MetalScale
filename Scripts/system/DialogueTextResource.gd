@@ -2,9 +2,7 @@ extends DialogueResource
 class_name DialogueText
 
 @export var speaker_entity: String
-@export var speaker_img: Texture
-@export var speaker_img_Hframes: int = 1
-@export var speaker_img_rest_frame: int = 0
+@export var sprite_animation_name: String
 
 @export_multiline var text: String
 @export_range(0.1, 30.0, 0.1) var text_speed: float = 1.0

@@ -1,20 +1,21 @@
-[gd_scene load_steps=27 format=3 uid="uid://q502awmo8ato"]
+[gd_scene load_steps=30 format=3 uid="uid://q502awmo8ato"]
 
-[ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="1_3sesk"]
-[ext_resource type="Texture2D" uid="uid://bkdkds3yu4tqa" path="res://Assests/sprite/AX/dialogue/dialogue.png" id="1_g23he"]
-[ext_resource type="Script" path="res://Scripts/system/dialogue_base.gd" id="1_pnvi7"]
-[ext_resource type="Script" path="res://Scripts/system/DialogueResource.gd" id="2_umtsr"]
-[ext_resource type="Script" path="res://Scripts/system/DialogueTextResource.gd" id="3_f4lll"]
-[ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="6_gx8ej"]
-[ext_resource type="Texture2D" uid="uid://blwtfdi1vjgfa" path="res://Assests/sprite/AX/dialogue/ax_illust_idle_sprite_sheet_0927.png" id="7_n28wo"]
+[ext_resource type="Script" path="res://Scripts/system/dialogue_base.gd" id="1_4d38r"]
+[ext_resource type="Script" path="res://Scripts/system/DialogueResource.gd" id="2_lv1qe"]
+[ext_resource type="Script" path="res://Scripts/system/DialogueTextResource.gd" id="3_m3vx8"]
+[ext_resource type="Script" path="res://Scripts/system/DialogueFunctionResource.gd" id="4_sgwrf"]
+[ext_resource type="Script" path="res://Scripts/system/DialogueChoiceResource.gd" id="5_a4kle"]
+[ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="6_vy827"]
+[ext_resource type="Texture2D" uid="uid://bkdkds3yu4tqa" path="res://Assests/sprite/AX/dialogue/dialogue.png" id="7_3efpy"]
+[ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="8_v4bs1"]
+[ext_resource type="Texture2D" uid="uid://blwtfdi1vjgfa" path="res://Assests/sprite/AX/dialogue/ax_illust_idle_sprite_sheet_0927.png" id="9_jncrh"]
 
 [sub_resource type="Resource" id="Resource_3s3v0"]
-script = ExtResource("3_f4lll")
+script = ExtResource("3_m3vx8")
 speaker_entity = "AX"
-speaker_img_Hframes = 1
-speaker_img_rest_frame = 0
+sprite_animation_name = "idle"
 text = "Do you like 玩游戏"
-text_speed = 5.0
+text_speed = 8.0
 text_volume_db = 0
 text_volume_pitch_min = 0.85
 text_volume_pitch_max = 1.15
@@ -22,80 +23,87 @@ camera_position = Vector2(999, 999)
 camera_transition_time = 1.0
 
 [sub_resource type="Resource" id="Resource_baxvt"]
-script = ExtResource("3_f4lll")
-speaker_entity = ""
-speaker_img_Hframes = 1
-speaker_img_rest_frame = 0
+script = ExtResource("3_m3vx8")
+speaker_entity = "AX"
+sprite_animation_name = "idle"
 text = "Oh Yes Sir!!"
-text_speed = 5.0
+text_speed = 8.0
 text_volume_db = 0
 text_volume_pitch_min = 0.85
 text_volume_pitch_max = 1.15
 camera_position = Vector2(999, 999)
 camera_transition_time = 1.0
 
+[sub_resource type="Resource" id="Resource_nyjlb"]
+script = ExtResource("5_a4kle")
+speaker_entity = "AX"
+sprite_animation_name = "idle"
+text = "Do you like what you see?"
+choice_text = Array[String](["Yes", "No"])
+choice_function_call = Array[ExtResource("4_sgwrf")]([null, null])
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_432uo"]
-atlas = ExtResource("7_n28wo")
+atlas = ExtResource("9_jncrh")
 region = Rect2(0, 0, 667, 667)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vxh8i"]
-atlas = ExtResource("7_n28wo")
+atlas = ExtResource("9_jncrh")
 region = Rect2(667, 0, 667, 667)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ejeph"]
-atlas = ExtResource("7_n28wo")
+atlas = ExtResource("9_jncrh")
 region = Rect2(1334, 0, 667, 667)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4bv50"]
-atlas = ExtResource("7_n28wo")
+atlas = ExtResource("9_jncrh")
 region = Rect2(2001, 0, 667, 667)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w207x"]
-atlas = ExtResource("7_n28wo")
+atlas = ExtResource("9_jncrh")
 region = Rect2(2668, 0, 667, 667)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5rt07"]
-atlas = ExtResource("7_n28wo")
+atlas = ExtResource("9_jncrh")
 region = Rect2(3335, 0, 667, 667)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q2sio"]
-atlas = ExtResource("7_n28wo")
+atlas = ExtResource("9_jncrh")
 region = Rect2(4002, 0, 667, 667)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m7hsj"]
-atlas = ExtResource("7_n28wo")
+atlas = ExtResource("9_jncrh")
 region = Rect2(4669, 0, 667, 667)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qf3ka"]
-atlas = ExtResource("7_n28wo")
+atlas = ExtResource("9_jncrh")
 region = Rect2(0, 667, 667, 667)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_enndj"]
-atlas = ExtResource("7_n28wo")
+atlas = ExtResource("9_jncrh")
 region = Rect2(667, 667, 667, 667)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m8n1d"]
-atlas = ExtResource("7_n28wo")
+atlas = ExtResource("9_jncrh")
 region = Rect2(1334, 667, 667, 667)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wadb0"]
-atlas = ExtResource("7_n28wo")
+atlas = ExtResource("9_jncrh")
 region = Rect2(2001, 667, 667, 667)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iof3b"]
-atlas = ExtResource("7_n28wo")
+atlas = ExtResource("9_jncrh")
 region = Rect2(2668, 667, 667, 667)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_igeew"]
-atlas = ExtResource("7_n28wo")
+atlas = ExtResource("9_jncrh")
 region = Rect2(3335, 667, 667, 667)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fx0ut"]
-atlas = ExtResource("7_n28wo")
+atlas = ExtResource("9_jncrh")
 region = Rect2(4002, 667, 667, 667)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aofhv"]
-atlas = ExtResource("7_n28wo")
+atlas = ExtResource("9_jncrh")
 region = Rect2(4669, 667, 667, 667)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_8vbb1"]
@@ -150,20 +158,20 @@ animations = [{
 "texture": SubResource("AtlasTexture_aofhv")
 }],
 "loop": true,
-"name": &"default",
+"name": &"idle",
 "speed": 8.0
 }]
 
-[node name="Dialogue" type="Node2D"]
+[node name="Dialogue_ax" type="Node2D"]
 position = Vector2(543, 513)
-script = ExtResource("1_pnvi7")
-dialogue = Array[ExtResource("2_umtsr")]([SubResource("Resource_3s3v0"), SubResource("Resource_baxvt")])
+script = ExtResource("1_4d38r")
+dialogue = Array[ExtResource("2_lv1qe")]([SubResource("Resource_3s3v0"), SubResource("Resource_baxvt"), SubResource("Resource_nyjlb")])
 
 [node name="back_sprite" type="Sprite2D" parent="."]
-material = ExtResource("1_3sesk")
+material = ExtResource("6_vy827")
 position = Vector2(-7.00002, -48)
 scale = Vector2(0.75, 0.713969)
-texture = ExtResource("1_g23he")
+texture = ExtResource("7_3efpy")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -199,7 +207,7 @@ custom_minimum_size = Vector2(600, 200)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
-theme_override_fonts/normal_font = ExtResource("6_gx8ej")
+theme_override_fonts/normal_font = ExtResource("8_v4bs1")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "EXAMPLE"
@@ -209,6 +217,8 @@ visible_characters_behavior = 1
 [node name="botton_container" type="HBoxContainer" parent="Control/HBoxContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
+size_flags_vertical = 8
+size_flags_stretch_ratio = 0.0
 
 [node name="SpeakerParent" type="AnimatedSprite2D" parent="Control/HBoxContainer"]
 
@@ -218,5 +228,4 @@ layout_mode = 2
 position = Vector2(467, -117)
 scale = Vector2(0.75, 0.75)
 sprite_frames = SubResource("SpriteFrames_8vbb1")
-frame = 10
-frame_progress = 0.739785
+animation = &"idle"

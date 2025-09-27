@@ -1,6 +1,63 @@
-[gd_scene load_steps=2 format=3 uid="uid://eeygp0orpuvh"]
+[gd_scene load_steps=9 format=3 uid="uid://eeygp0orpuvh"]
 
 [ext_resource type="Script" path="res://Scripts/interact/custom_botton.gd" id="1_63el2"]
+[ext_resource type="Shader" path="res://Effect/Shader/glowing_text/glowing_text.gdshader" id="2_t7dqj"]
+[ext_resource type="Theme" uid="uid://d2uhxdy50yhsv" path="res://Style/theme_01.tres" id="3_ee83s"]
+[ext_resource type="Script" path="res://Scripts/interact/interactabel_label_component.gd" id="4_uso6f"]
+[ext_resource type="AudioStream" uid="uid://cc2ppqru4b47t" path="res://Assests/SFX/interact/Fruit collect 1.wav" id="5_k5vcn"]
+[ext_resource type="Script" path="res://Scripts/interact/botton_component.gd" id="6_e0pon"]
 
-[node name="Botton" type="Node2D"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u4qyr"]
+shader = ExtResource("2_t7dqj")
+shader_parameter/outline_width = 0.0
+shader_parameter/all_color = Color(0.56, 0.063, 0.063, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2qox4"]
+size = Vector2(40, 48)
+
+[node name="Botton" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -62.0
+offset_top = -70.0
+offset_right = -62.0
+offset_bottom = -70.0
+scale = Vector2(3, 3)
 script = ExtResource("1_63el2")
+text = "是"
+
+[node name="A1" type="Label" parent="." node_paths=PackedStringArray("connected_area")]
+material = SubResource("ShaderMaterial_u4qyr")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 51.0
+offset_bottom = 52.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_ee83s")
+text = "是"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_uso6f")
+connected_area = NodePath("../A2")
+
+[node name="hoven" type="AudioStreamPlayer2D" parent="A1"]
+position = Vector2(470, -1)
+
+[node name="click" type="AudioStreamPlayer2D" parent="A1"]
+stream = ExtResource("5_k5vcn")
+
+[node name="A2" type="Area2D" parent="." node_paths=PackedStringArray("text")]
+position = Vector2(21, 22)
+script = ExtResource("6_e0pon")
+text = NodePath("../A1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="A2"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_2qox4")
