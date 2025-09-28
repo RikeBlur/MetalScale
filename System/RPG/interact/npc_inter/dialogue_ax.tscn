@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://q502awmo8ato"]
+[gd_scene load_steps=32 format=3 uid="uid://q502awmo8ato"]
 
 [ext_resource type="Script" path="res://Scripts/system/dialogue_base.gd" id="1_4d38r"]
 [ext_resource type="Script" path="res://Scripts/system/DialogueResource.gd" id="2_lv1qe"]
@@ -6,7 +6,8 @@
 [ext_resource type="Script" path="res://Scripts/system/DialogueFunctionResource.gd" id="4_sgwrf"]
 [ext_resource type="Script" path="res://Scripts/system/DialogueChoiceResource.gd" id="5_a4kle"]
 [ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="6_vy827"]
-[ext_resource type="Texture2D" uid="uid://bkdkds3yu4tqa" path="res://Assests/sprite/AX/dialogue/dialogue.png" id="7_3efpy"]
+[ext_resource type="Texture2D" uid="uid://dv2p3c4p3uk8e" path="res://Assests/sprite/AX/dialogue/back_1.png" id="7_3efpy"]
+[ext_resource type="Texture2D" uid="uid://bxngadho5jgwo" path="res://Assests/sprite/AX/dialogue/back_2.png" id="8_56wxg"]
 [ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="8_v4bs1"]
 [ext_resource type="Texture2D" uid="uid://blwtfdi1vjgfa" path="res://Assests/sprite/AX/dialogue/ax_illust_idle_sprite_sheet_0927.png" id="9_jncrh"]
 
@@ -41,6 +42,20 @@ sprite_animation_name = "idle"
 text = "Do you like what you see?"
 choice_text = Array[String](["Yes", "No"])
 choice_function_call = Array[ExtResource("4_sgwrf")]([null, null])
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8h1vk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_3efpy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_56wxg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_432uo"]
 atlas = ExtResource("9_jncrh")
@@ -167,11 +182,12 @@ position = Vector2(543, 513)
 script = ExtResource("1_4d38r")
 dialogue = Array[ExtResource("2_lv1qe")]([SubResource("Resource_3s3v0"), SubResource("Resource_baxvt"), SubResource("Resource_nyjlb")])
 
-[node name="back_sprite" type="Sprite2D" parent="."]
+[node name="back_sprite" type="AnimatedSprite2D" parent="."]
 material = ExtResource("6_vy827")
 position = Vector2(-7.00002, -48)
 scale = Vector2(0.75, 0.713969)
-texture = ExtResource("7_3efpy")
+sprite_frames = SubResource("SpriteFrames_8h1vk")
+autoplay = "default"
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -184,6 +200,7 @@ offset_right = 736.0
 offset_bottom = 242.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control"]
 custom_minimum_size = Vector2(600, 150)

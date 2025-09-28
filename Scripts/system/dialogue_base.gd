@@ -3,7 +3,7 @@ extends Node2D
 
 const DialogueButtonPreload = preload("res://System/QA/botton.tscn")
 
-@export var back_sprite : Sprite2D = null
+@export var back_sprite : AnimatedSprite2D = null
 @export var dialogue_label : RichTextLabel = null
 @export var speaker_sprite : AnimatedSprite2D = null
 @export var botton_container : HBoxContainer = null
@@ -26,10 +26,11 @@ func _ready() -> void:
 	
 	for i in get_tree().get_nodes_in_group("player"):
 		player_node = i
+	z_index = 10
 	
 func _process(_delta: float) -> void:
 	if current_dialogue_item == dialogue.size():
-		print("dialogue over")
+		#print("dialogue over")
 		if !player_node:
 			for i in get_tree().get_nodes_in_group("player"):
 				player_node = i
@@ -192,5 +193,52 @@ func _text_without_square_brackets(text: String) -> String:
 			result += i
 			
 	return result
+	
+func get_into_dark(is_a : bool) -> void:
+	# z坐标下降（被另一个dialogue覆盖）
+	z_index = 9
+	if is_a :
+		global_position -= Vector2(50, 50)
+	else :
+		global_position += Vector2(50, 50)
+	
+	# 不再接收输入
+	process_mode = Node.PROCESS_MODE_DISABLED
+	
+	# RichTextLabel清空
+	if dialogue_label:
+		dialogue_label.text = ""
+		dialogue_label.visible_characters = 0
+	
+	# 动画停止
+	if speaker_sprite:
+		speaker_sprite.stop()
+	
+	# 隐藏按钮容器
+	if botton_container:
+		botton_container.visible = false
+		# 清理所有按钮
+		for child in botton_container.get_children():
+			child.queue_free()
+
+func back_to_light(is_a : bool) -> void:
+	# 恢复正常处理模式
+	process_mode = Node.PROCESS_MODE_INHERIT
+	
+	# z坐标恢复正常
+	z_index = 10
+	
+	# 恢复暂停状态
+	get_tree().paused = false
+	
+	# 恢复位置
+	if is_a :
+		global_position += Vector2(50, 50)
+	else :
+		global_position -= Vector2(50, 50)
+	
+	# 重新启动对话（如果需要的话）
+	# 注意：这里可能需要根据具体需求来决定是否重新启动对话
+	# 如果需要重新启动，可以调用相应的函数
 	
 	

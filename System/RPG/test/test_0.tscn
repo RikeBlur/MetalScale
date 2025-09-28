@@ -16,6 +16,7 @@ size = Vector2(98, 201)
 script = ExtResource("4_k6t0e")
 flag = false
 only_once = true
+double = false
 style = Array[int]([1])
 start = Array[int]([0])
 end = Array[int]([3])
