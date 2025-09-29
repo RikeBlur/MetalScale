@@ -1,33 +1,33 @@
 [gd_scene load_steps=39 format=3 uid="uid://c008w284nsol8"]
 
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_dual.gd" id="1_61lq1"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueResource.gd" id="2_1c5w5"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueTextResource.gd" id="3_20p12"]
-[ext_resource type="Shader" path="res://Effect/Shader/dialogue_dark/dialogue_dark.gdshader" id="4_ylpd2"]
-[ext_resource type="Texture2D" uid="uid://bqugtmn8twlpo" path="res://Assests/sprite/Oni/dialogue/back_1.png" id="6_fkhh0"]
-[ext_resource type="Texture2D" uid="uid://6mrcy46rb3n5" path="res://Assests/sprite/Oni/dialogue/back_2.png" id="7_ek121"]
-[ext_resource type="Texture2D" uid="uid://coyfaxpajqp33" path="res://Assests/sprite/AX/dialogue/idle/f0.png" id="8_5vn58"]
-[ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="8_f4r16"]
-[ext_resource type="Texture2D" uid="uid://ca8kcucbq03cb" path="res://Assests/sprite/Oni/dialogue/idle/f0.png" id="9_6etgq"]
-[ext_resource type="Texture2D" uid="uid://cegrvxm4fwvav" path="res://Assests/sprite/AX/dialogue/idle/f1.png" id="9_j50x5"]
-[ext_resource type="Texture2D" uid="uid://br5bnxa37vr4m" path="res://Assests/sprite/AX/dialogue/idle/f2.png" id="10_2p3it"]
-[ext_resource type="Texture2D" uid="uid://dobtpgeely0ey" path="res://Assests/sprite/Oni/dialogue/idle/f1.png" id="10_5kyvh"]
-[ext_resource type="Texture2D" uid="uid://uwkkdtefraht" path="res://Assests/sprite/AX/dialogue/idle/f3.png" id="11_x52uu"]
-[ext_resource type="Texture2D" uid="uid://dv2p3c4p3uk8e" path="res://Assests/sprite/AX/dialogue/back_1.png" id="12_60gfc"]
-[ext_resource type="Texture2D" uid="uid://blvsm6mqt1cg7" path="res://Assests/sprite/AX/dialogue/idle/f4.png" id="12_ue5x8"]
-[ext_resource type="Texture2D" uid="uid://bxngadho5jgwo" path="res://Assests/sprite/AX/dialogue/back_2.png" id="13_3ikk0"]
-[ext_resource type="Texture2D" uid="uid://dr4kaxldynbhx" path="res://Assests/sprite/AX/dialogue/idle/f6.png" id="13_ym45r"]
-[ext_resource type="Texture2D" uid="uid://celwsg7w4y8ia" path="res://Assests/sprite/AX/dialogue/idle/f7.png" id="14_vyu1k"]
-[ext_resource type="Texture2D" uid="uid://c4pgvdvgnyhd7" path="res://Assests/sprite/AX/dialogue/idle/f8.png" id="15_t0ltn"]
-[ext_resource type="Texture2D" uid="uid://bfsud2frovg7f" path="res://Assests/sprite/AX/dialogue/idle/f9.png" id="16_7mywe"]
-[ext_resource type="Texture2D" uid="uid://befvrs7frqxd6" path="res://Assests/sprite/AX/dialogue/idle/f10.png" id="17_yuedi"]
-[ext_resource type="Texture2D" uid="uid://cbkhcpqik2m5p" path="res://Assests/sprite/AX/dialogue/idle/f12.png" id="18_c1seq"]
-[ext_resource type="Texture2D" uid="uid://f6w53bshqnue" path="res://Assests/sprite/AX/dialogue/idle/f13.png" id="19_3sggk"]
-[ext_resource type="Texture2D" uid="uid://xagk61xvbgju" path="res://Assests/sprite/AX/dialogue/idle/f14.png" id="20_x2h8w"]
-[ext_resource type="Texture2D" uid="uid://ckrntq8bgpwwk" path="res://Assests/sprite/AX/dialogue/idle/f15.png" id="21_4va1i"]
+[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_dual.gd" id="1_qyjxg"]
+[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueResource.gd" id="2_ckqjn"]
+[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueTextResource.gd" id="3_aaaqr"]
+[ext_resource type="Shader" path="res://Effect/Shader/dialogue_dark/dialogue_dark.gdshader" id="4_tfgvc"]
+[ext_resource type="Texture2D" uid="uid://dv2p3c4p3uk8e" path="res://Assests/sprite/AX/dialogue/back_1.png" id="5_ac6ew"]
+[ext_resource type="Texture2D" uid="uid://bxngadho5jgwo" path="res://Assests/sprite/AX/dialogue/back_2.png" id="6_w2r3y"]
+[ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="7_dy21y"]
+[ext_resource type="Texture2D" uid="uid://coyfaxpajqp33" path="res://Assests/sprite/AX/dialogue/idle/f0.png" id="8_rfllr"]
+[ext_resource type="Texture2D" uid="uid://cegrvxm4fwvav" path="res://Assests/sprite/AX/dialogue/idle/f1.png" id="9_7kf3x"]
+[ext_resource type="Texture2D" uid="uid://br5bnxa37vr4m" path="res://Assests/sprite/AX/dialogue/idle/f2.png" id="10_ndijc"]
+[ext_resource type="Texture2D" uid="uid://uwkkdtefraht" path="res://Assests/sprite/AX/dialogue/idle/f3.png" id="11_p7flc"]
+[ext_resource type="Texture2D" uid="uid://blvsm6mqt1cg7" path="res://Assests/sprite/AX/dialogue/idle/f4.png" id="12_uhl0n"]
+[ext_resource type="Texture2D" uid="uid://dr4kaxldynbhx" path="res://Assests/sprite/AX/dialogue/idle/f6.png" id="13_fnkeq"]
+[ext_resource type="Texture2D" uid="uid://celwsg7w4y8ia" path="res://Assests/sprite/AX/dialogue/idle/f7.png" id="14_17gu0"]
+[ext_resource type="Texture2D" uid="uid://c4pgvdvgnyhd7" path="res://Assests/sprite/AX/dialogue/idle/f8.png" id="15_ael43"]
+[ext_resource type="Texture2D" uid="uid://bfsud2frovg7f" path="res://Assests/sprite/AX/dialogue/idle/f9.png" id="16_7nmdp"]
+[ext_resource type="Texture2D" uid="uid://befvrs7frqxd6" path="res://Assests/sprite/AX/dialogue/idle/f10.png" id="17_1j6bm"]
+[ext_resource type="Texture2D" uid="uid://cbkhcpqik2m5p" path="res://Assests/sprite/AX/dialogue/idle/f12.png" id="18_vqe6l"]
+[ext_resource type="Texture2D" uid="uid://f6w53bshqnue" path="res://Assests/sprite/AX/dialogue/idle/f13.png" id="19_3tdgl"]
+[ext_resource type="Texture2D" uid="uid://xagk61xvbgju" path="res://Assests/sprite/AX/dialogue/idle/f14.png" id="20_5wu4k"]
+[ext_resource type="Texture2D" uid="uid://ckrntq8bgpwwk" path="res://Assests/sprite/AX/dialogue/idle/f15.png" id="21_0uwy1"]
+[ext_resource type="Texture2D" uid="uid://bqugtmn8twlpo" path="res://Assests/sprite/Oni/dialogue/back_1.png" id="22_obwhh"]
+[ext_resource type="Texture2D" uid="uid://6mrcy46rb3n5" path="res://Assests/sprite/Oni/dialogue/back_2.png" id="23_r6pv0"]
+[ext_resource type="Texture2D" uid="uid://ca8kcucbq03cb" path="res://Assests/sprite/Oni/dialogue/idle/f0.png" id="24_s0lwo"]
+[ext_resource type="Texture2D" uid="uid://dobtpgeely0ey" path="res://Assests/sprite/Oni/dialogue/idle/f1.png" id="25_2lux1"]
 
 [sub_resource type="Resource" id="Resource_amcn1"]
-script = ExtResource("3_20p12")
+script = ExtResource("3_aaaqr")
 speaker_entity = "Oni"
 sprite_animation_name = "idle"
 text = "A"
@@ -39,7 +39,7 @@ camera_position = Vector2(999, 999)
 camera_transition_time = 1.0
 
 [sub_resource type="Resource" id="Resource_rjwwr"]
-script = ExtResource("3_20p12")
+script = ExtResource("3_aaaqr")
 speaker_entity = "AX"
 sprite_animation_name = "idle"
 text = "B"
@@ -51,7 +51,7 @@ camera_position = Vector2(999, 999)
 camera_transition_time = 1.0
 
 [sub_resource type="Resource" id="Resource_rmcxa"]
-script = ExtResource("3_20p12")
+script = ExtResource("3_aaaqr")
 speaker_entity = "Oni"
 sprite_animation_name = "idle"
 text = "C"
@@ -63,7 +63,7 @@ camera_position = Vector2(999, 999)
 camera_transition_time = 1.0
 
 [sub_resource type="Resource" id="Resource_x2soe"]
-script = ExtResource("3_20p12")
+script = ExtResource("3_aaaqr")
 speaker_entity = "AX"
 sprite_animation_name = "idle"
 text = "D"
@@ -75,7 +75,7 @@ camera_position = Vector2(999, 999)
 camera_transition_time = 1.0
 
 [sub_resource type="Resource" id="Resource_n0tj6"]
-script = ExtResource("3_20p12")
+script = ExtResource("3_aaaqr")
 speaker_entity = "Oni"
 sprite_animation_name = "idle"
 text = "E"
@@ -87,7 +87,7 @@ camera_position = Vector2(999, 999)
 camera_transition_time = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nu54m"]
-shader = ExtResource("4_ylpd2")
+shader = ExtResource("4_tfgvc")
 shader_parameter/brightness = 0.1
 shader_parameter/contrast = 0.99
 
@@ -95,10 +95,10 @@ shader_parameter/contrast = 0.99
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("12_60gfc")
+"texture": ExtResource("5_ac6ew")
 }, {
 "duration": 1.0,
-"texture": ExtResource("13_3ikk0")
+"texture": ExtResource("6_w2r3y")
 }],
 "loop": true,
 "name": &"default",
@@ -106,7 +106,7 @@ animations = [{
 }]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u42b1"]
-shader = ExtResource("4_ylpd2")
+shader = ExtResource("4_tfgvc")
 shader_parameter/brightness = 0.1
 shader_parameter/contrast = 0.99
 
@@ -114,46 +114,46 @@ shader_parameter/contrast = 0.99
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("8_5vn58")
+"texture": ExtResource("8_rfllr")
 }, {
 "duration": 0.5,
-"texture": ExtResource("9_j50x5")
+"texture": ExtResource("9_7kf3x")
 }, {
 "duration": 0.5,
-"texture": ExtResource("10_2p3it")
+"texture": ExtResource("10_ndijc")
 }, {
 "duration": 0.5,
-"texture": ExtResource("11_x52uu")
+"texture": ExtResource("11_p7flc")
 }, {
 "duration": 1.0,
-"texture": ExtResource("12_ue5x8")
+"texture": ExtResource("12_uhl0n")
 }, {
 "duration": 0.5,
-"texture": ExtResource("13_ym45r")
+"texture": ExtResource("13_fnkeq")
 }, {
 "duration": 0.5,
-"texture": ExtResource("14_vyu1k")
+"texture": ExtResource("14_17gu0")
 }, {
 "duration": 0.5,
-"texture": ExtResource("15_t0ltn")
+"texture": ExtResource("15_ael43")
 }, {
 "duration": 1.0,
-"texture": ExtResource("16_7mywe")
+"texture": ExtResource("16_7nmdp")
 }, {
 "duration": 1.0,
-"texture": ExtResource("17_yuedi")
+"texture": ExtResource("17_1j6bm")
 }, {
 "duration": 1.0,
-"texture": ExtResource("18_c1seq")
+"texture": ExtResource("18_vqe6l")
 }, {
 "duration": 1.0,
-"texture": ExtResource("19_3sggk")
+"texture": ExtResource("19_3tdgl")
 }, {
 "duration": 1.0,
-"texture": ExtResource("20_x2h8w")
+"texture": ExtResource("20_5wu4k")
 }, {
 "duration": 1.0,
-"texture": ExtResource("21_4va1i")
+"texture": ExtResource("21_0uwy1")
 }],
 "loop": true,
 "name": &"idle",
@@ -161,7 +161,7 @@ animations = [{
 }]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_blx7d"]
-shader = ExtResource("4_ylpd2")
+shader = ExtResource("4_tfgvc")
 shader_parameter/brightness = 0.1
 shader_parameter/contrast = 0.99
 
@@ -169,10 +169,10 @@ shader_parameter/contrast = 0.99
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("6_fkhh0")
+"texture": ExtResource("22_obwhh")
 }, {
 "duration": 1.0,
-"texture": ExtResource("7_ek121")
+"texture": ExtResource("23_r6pv0")
 }],
 "loop": true,
 "name": &"default",
@@ -180,7 +180,7 @@ animations = [{
 }]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8pirh"]
-shader = ExtResource("4_ylpd2")
+shader = ExtResource("4_tfgvc")
 shader_parameter/brightness = 0.1
 shader_parameter/contrast = 0.99
 
@@ -188,10 +188,10 @@ shader_parameter/contrast = 0.99
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("9_6etgq")
+"texture": ExtResource("24_s0lwo")
 }, {
 "duration": 1.0,
-"texture": ExtResource("10_5kyvh")
+"texture": ExtResource("25_2lux1")
 }],
 "loop": true,
 "name": &"idle",
@@ -200,13 +200,13 @@ animations = [{
 
 [node name="DialogueOniAx" type="Node2D" node_paths=PackedStringArray("back_sprite", "dialogue_label", "speaker_sprite", "botton_container", "text_sound")]
 position = Vector2(0, 1)
-script = ExtResource("1_61lq1")
+script = ExtResource("1_qyjxg")
 back_sprite = [null, null]
 dialogue_label = [null, null]
 speaker_sprite = [null, null]
 botton_container = [null, null]
 text_sound = [null, null]
-dialogue = Array[ExtResource("2_1c5w5")]([SubResource("Resource_amcn1"), SubResource("Resource_rjwwr"), SubResource("Resource_rmcxa"), SubResource("Resource_x2soe"), SubResource("Resource_n0tj6")])
+dialogue = Array[ExtResource("2_ckqjn")]([SubResource("Resource_amcn1"), SubResource("Resource_rjwwr"), SubResource("Resource_rmcxa"), SubResource("Resource_x2soe"), SubResource("Resource_n0tj6")])
 a_index = Array[int]([0, 2, 4])
 b_index = Array[int]([1, 3])
 
@@ -253,7 +253,7 @@ size_flags_horizontal = 3
 [node name="RichTextLabel" type="RichTextLabel" parent="b/Control/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/normal_font = ExtResource("8_f4r16")
+theme_override_fonts/normal_font = ExtResource("7_dy21y")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 scroll_active = false
@@ -318,7 +318,7 @@ size_flags_horizontal = 3
 [node name="RichTextLabel" type="RichTextLabel" parent="a/Control/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/normal_font = ExtResource("8_f4r16")
+theme_override_fonts/normal_font = ExtResource("7_dy21y")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "My name is Oni

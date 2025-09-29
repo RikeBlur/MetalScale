@@ -9,9 +9,9 @@ var dialogue_style : Array = []
 var dialogue_inst : Array = []
 
 # 一个示例预加载的对话场景（可移除/替换）
-var dialogue_1 = preload("res://System/RPG/interact/npc_inter/dialogue_ax_b.tscn")
-var dialogue_2 = preload("res://System/RPG/interact/npc_inter/dialogue_oni_a.tscn")
-var dialogue_3 = preload("res://System/RPG/interact/npc_inter/dialogue_oni_ax.tscn")
+var dialogue_1 = preload("res://System/RPG/interact/dialogue/dialogue_ax_b.tscn")
+var dialogue_2 = preload("res://System/RPG/interact/dialogue/dialogue_oni_a.tscn")
+var dialogue_3 = preload("res://System/RPG/interact/dialogue/dialogue_oni_ax.tscn")
 
 func _ready() -> void:
 	# 如果编辑器里没有填 dialogues，至少用示例占位，避免索引越界

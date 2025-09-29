@@ -1,0 +1,179 @@
+[gd_scene load_steps=26 format=3 uid="uid://q502awmo8ato"]
+
+[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_base.gd" id="1_iykbl"]
+[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueResource.gd" id="2_ho6e1"]
+[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueTextResource.gd" id="3_v7av7"]
+[ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="4_i5od8"]
+[ext_resource type="Texture2D" uid="uid://dv2p3c4p3uk8e" path="res://Assests/sprite/AX/dialogue/back_1.png" id="5_qkr5h"]
+[ext_resource type="Texture2D" uid="uid://bxngadho5jgwo" path="res://Assests/sprite/AX/dialogue/back_2.png" id="6_sbg1f"]
+[ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="7_vpctg"]
+[ext_resource type="Texture2D" uid="uid://coyfaxpajqp33" path="res://Assests/sprite/AX/dialogue/idle/f0.png" id="8_4a626"]
+[ext_resource type="Texture2D" uid="uid://cegrvxm4fwvav" path="res://Assests/sprite/AX/dialogue/idle/f1.png" id="9_a27ws"]
+[ext_resource type="Texture2D" uid="uid://br5bnxa37vr4m" path="res://Assests/sprite/AX/dialogue/idle/f2.png" id="10_xrxx5"]
+[ext_resource type="Texture2D" uid="uid://uwkkdtefraht" path="res://Assests/sprite/AX/dialogue/idle/f3.png" id="11_42gdj"]
+[ext_resource type="Texture2D" uid="uid://blvsm6mqt1cg7" path="res://Assests/sprite/AX/dialogue/idle/f4.png" id="12_1s8mo"]
+[ext_resource type="Texture2D" uid="uid://dr4kaxldynbhx" path="res://Assests/sprite/AX/dialogue/idle/f6.png" id="13_s5moa"]
+[ext_resource type="Texture2D" uid="uid://celwsg7w4y8ia" path="res://Assests/sprite/AX/dialogue/idle/f7.png" id="14_vy37d"]
+[ext_resource type="Texture2D" uid="uid://c4pgvdvgnyhd7" path="res://Assests/sprite/AX/dialogue/idle/f8.png" id="15_nwdid"]
+[ext_resource type="Texture2D" uid="uid://bfsud2frovg7f" path="res://Assests/sprite/AX/dialogue/idle/f9.png" id="16_t0axo"]
+[ext_resource type="Texture2D" uid="uid://befvrs7frqxd6" path="res://Assests/sprite/AX/dialogue/idle/f10.png" id="17_j3bm7"]
+[ext_resource type="Texture2D" uid="uid://cbkhcpqik2m5p" path="res://Assests/sprite/AX/dialogue/idle/f12.png" id="18_m338x"]
+[ext_resource type="Texture2D" uid="uid://f6w53bshqnue" path="res://Assests/sprite/AX/dialogue/idle/f13.png" id="19_y7b76"]
+[ext_resource type="Texture2D" uid="uid://xagk61xvbgju" path="res://Assests/sprite/AX/dialogue/idle/f14.png" id="20_qkygc"]
+[ext_resource type="Texture2D" uid="uid://ckrntq8bgpwwk" path="res://Assests/sprite/AX/dialogue/idle/f15.png" id="21_ko233"]
+
+[sub_resource type="Resource" id="Resource_3s3v0"]
+script = ExtResource("3_v7av7")
+speaker_entity = "AX"
+sprite_animation_name = "idle"
+text = "Do you like 玩游戏"
+text_speed = 8.0
+text_volume_db = 0
+text_volume_pitch_min = 0.85
+text_volume_pitch_max = 1.15
+camera_position = Vector2(999, 999)
+camera_transition_time = 1.0
+
+[sub_resource type="Resource" id="Resource_baxvt"]
+script = ExtResource("3_v7av7")
+speaker_entity = "AX"
+sprite_animation_name = "idle"
+text = "Oh Yes Sir!!"
+text_speed = 8.0
+text_volume_db = 0
+text_volume_pitch_min = 0.85
+text_volume_pitch_max = 1.15
+camera_position = Vector2(999, 999)
+camera_transition_time = 1.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8h1vk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_qkr5h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_sbg1f")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8vbb1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_4a626")
+}, {
+"duration": 0.5,
+"texture": ExtResource("9_a27ws")
+}, {
+"duration": 0.5,
+"texture": ExtResource("10_xrxx5")
+}, {
+"duration": 0.5,
+"texture": ExtResource("11_42gdj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_1s8mo")
+}, {
+"duration": 0.5,
+"texture": ExtResource("13_s5moa")
+}, {
+"duration": 0.5,
+"texture": ExtResource("14_vy37d")
+}, {
+"duration": 0.5,
+"texture": ExtResource("15_nwdid")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_t0axo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_j3bm7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_m338x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_y7b76")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_qkygc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_ko233")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Dialogue_ax" type="Node2D"]
+position = Vector2(543, 513)
+script = ExtResource("1_iykbl")
+dialogue = Array[ExtResource("2_ho6e1")]([SubResource("Resource_3s3v0"), SubResource("Resource_baxvt")])
+
+[node name="back_sprite" type="AnimatedSprite2D" parent="."]
+material = ExtResource("4_i5od8")
+position = Vector2(-7.00002, -48)
+scale = Vector2(0.75, 0.713969)
+sprite_frames = SubResource("SpriteFrames_8h1vk")
+autoplay = "default"
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -657.0
+offset_top = -914.0
+offset_right = 736.0
+offset_bottom = 242.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+custom_minimum_size = Vector2(600, 150)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.258
+anchor_top = 0.68
+anchor_right = 0.701
+anchor_bottom = 0.84
+offset_left = 0.605988
+offset_top = -0.0800171
+offset_right = 0.506958
+offset_bottom = -0.0400391
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("7_vpctg")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "EXAMPLE"
+scroll_active = false
+visible_characters_behavior = 1
+
+[node name="botton_container" type="HBoxContainer" parent="Control/HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 8
+size_flags_stretch_ratio = 0.0
+
+[node name="SpeakerParent" type="AnimatedSprite2D" parent="Control/HBoxContainer"]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[node name="illustrate" type="AnimatedSprite2D" parent="."]
+position = Vector2(400, -120)
+scale = Vector2(0.47, 0.47)
+sprite_frames = SubResource("SpriteFrames_8vbb1")
+animation = &"idle"
