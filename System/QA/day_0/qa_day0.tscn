@@ -3,11 +3,11 @@
 [ext_resource type="Script" path="res://Scripts/system/qa_system.gd" id="1_0fl5k"]
 [ext_resource type="PackedScene" uid="uid://7caxl5b1bcau" path="res://System/QA/day_0/slide_0_0.tscn" id="2_mo7uc"]
 [ext_resource type="Shader" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="2_ulfw4"]
-[ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/矩形 1.png" id="3_1kq3o"]
+[ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/qa/矩形 1.png" id="3_1kq3o"]
 [ext_resource type="PackedScene" uid="uid://dobhpr5j2ejj2" path="res://System/QA/day_0/slide_0_1.tscn" id="3_4jgst"]
-[ext_resource type="Script" path="res://Scripts/waving_back.gd" id="4_236en"]
+[ext_resource type="Script" path="res://Scripts/system/QA/waving_back.gd" id="4_236en"]
 [ext_resource type="PackedScene" uid="uid://dxca3gb4mj266" path="res://System/QA/day_0/slide_1_10.tscn" id="4_rilvu"]
-[ext_resource type="Script" path="res://Scripts/player_scale.gd" id="5_f7m3r"]
+[ext_resource type="Script" path="res://Scripts/system/QA/player_scale.gd" id="5_f7m3r"]
 
 [sub_resource type="Gradient" id="Gradient_7ndbj"]
 offsets = PackedFloat32Array(0, 0.993506)

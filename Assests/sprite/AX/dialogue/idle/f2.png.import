@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdarr718smbi1"
-path="res://.godot/imported/eye_export_0_eye Animation.png-72b964f9d445201288610c68f0cfb177.ctex"
+uid="uid://br5bnxa37vr4m"
+path="res://.godot/imported/f2.png-db0ca2fcaa47517c0cf1affe217ce289.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assests/sprite/eyes/eye_export_0_eye Animation.png"
-dest_files=["res://.godot/imported/eye_export_0_eye Animation.png-72b964f9d445201288610c68f0cfb177.ctex"]
+source_file="res://Assests/sprite/AX/dialogue/idle/f2.png"
+dest_files=["res://.godot/imported/f2.png-db0ca2fcaa47517c0cf1affe217ce289.ctex"]
 
 [params]
 

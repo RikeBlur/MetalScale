@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dqodm34c1861l"
-path="res://.godot/imported/矩形 1.png-f550e1f638de1ffe58cc0d8e2397ef6c.ctex"
+uid="uid://c4pgvdvgnyhd7"
+path="res://.godot/imported/f8.png-de71990efdc717dad939bf1c9efc8968.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assests/sprite/矩形 1.png"
-dest_files=["res://.godot/imported/矩形 1.png-f550e1f638de1ffe58cc0d8e2397ef6c.ctex"]
+source_file="res://Assests/sprite/AX/dialogue/idle/f8.png"
+dest_files=["res://.godot/imported/f8.png-de71990efdc717dad939bf1c9efc8968.ctex"]
 
 [params]
 

@@ -1,8 +1,8 @@
 [gd_scene load_steps=13 format=3 uid="uid://dobhpr5j2ejj2"]
 
 [ext_resource type="Script" path="res://Scripts/slide_component/slide_component_0.gd" id="1_5v87b"]
-[ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/矩形 1.png" id="3_ikdc4"]
-[ext_resource type="Script" path="res://Scripts/static_back.gd" id="5_ntugs"]
+[ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/qa/矩形 1.png" id="3_ikdc4"]
+[ext_resource type="Script" path="res://Scripts/system/QA/static_back.gd" id="5_ntugs"]
 [ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="6_ncrta"]
 [ext_resource type="Theme" uid="uid://d2uhxdy50yhsv" path="res://Style/theme_01.tres" id="7_6cysg"]
 [ext_resource type="AudioStream" uid="uid://cc2ppqru4b47t" path="res://Assests/SFX/interact/Fruit collect 1.wav" id="8_fjs4f"]

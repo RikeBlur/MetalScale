@@ -275,8 +275,7 @@ func _back_to_light(which : int) -> void:
 	else :
 		dialogue_node[which].global_position -= Vector2(50, 20)
 	
-	# 重新启动对话（如果需要的话）
-	# 注意：这里可能需要根据具体需求来决定是否重新启动对话
-	# 如果需要重新启动，可以调用相应的函数
-	
+	if back_sprite[which]:
+		back_sprite[which].play()
+
 	

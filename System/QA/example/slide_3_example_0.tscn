@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Scripts/slide_component/slide_component_3.gd" id="1_55gpo"]
 [ext_resource type="PackedScene" uid="uid://bfp1v3smrprey" path="res://Effect/Animation/blinking_eyes.tscn" id="2_phgg7"]
-[ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/矩形 1.png" id="2_wkbb6"]
-[ext_resource type="Script" path="res://Scripts/static_back.gd" id="3_hdu6r"]
+[ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/qa/矩形 1.png" id="2_wkbb6"]
+[ext_resource type="Script" path="res://Scripts/system/QA/static_back.gd" id="3_hdu6r"]
 [ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="4_0wc25"]
 [ext_resource type="Theme" uid="uid://d2uhxdy50yhsv" path="res://Style/theme_01.tres" id="5_6sws6"]
 
