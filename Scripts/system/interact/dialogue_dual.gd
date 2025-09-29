@@ -50,10 +50,14 @@ func _ready() -> void:
 		which = 0
 		_get_into_dark(1)
 		dialogue_node[0].z_index = 10
+		speaker_sprite[0].material.set_shader_parameter("brightness", 1)
+		speaker_sprite[0].material.set_shader_parameter("contrast", 1)
 	else:
 		which = 1
 		_get_into_dark(0)
 		dialogue_node[1].z_index = 10
+		speaker_sprite[1].material.set_shader_parameter("brightness", 1)
+		speaker_sprite[1].material.set_shader_parameter("contrast", 1)
 		
 func _process(_delta: float) -> void:
 	var new_which : int = 0
@@ -252,8 +256,12 @@ func _get_into_dark(which : int) -> void:
 	# 动画停止
 	if speaker_sprite[which]:
 		speaker_sprite[which].stop()
+		speaker_sprite[which].material.set_shader_parameter("brightness", 0.1)
+		speaker_sprite[which].material.set_shader_parameter("contrast", 0.99)
 	if back_sprite[which]:
 		back_sprite[which].stop()
+		back_sprite[which].material.set_shader_parameter("brightness", 0.1)
+		back_sprite[which].material.set_shader_parameter("contrast", 0.99)	
 	
 	# 隐藏按钮容器
 	if botton_container:
@@ -275,7 +283,14 @@ func _back_to_light(which : int) -> void:
 	else :
 		dialogue_node[which].global_position -= Vector2(50, 20)
 	
+	# 动画停止
+	if speaker_sprite[which]:
+		speaker_sprite[which].play("idle")
+		speaker_sprite[which].material.set_shader_parameter("brightness", 1)
+		speaker_sprite[which].material.set_shader_parameter("contrast", 1)
 	if back_sprite[which]:
 		back_sprite[which].play()
+		back_sprite[which].material.set_shader_parameter("brightness", 1)
+		back_sprite[which].material.set_shader_parameter("contrast", 1)	
 
 	

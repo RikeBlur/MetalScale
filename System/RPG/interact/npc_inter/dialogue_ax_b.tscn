@@ -173,7 +173,7 @@ size_flags_stretch_ratio = 0.0
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
 [node name="illustrate" type="AnimatedSprite2D" parent="."]
-position = Vector2(400, -140)
-scale = Vector2(0.45, 0.45)
+position = Vector2(400, -120)
+scale = Vector2(0.47, 0.47)
 sprite_frames = SubResource("SpriteFrames_8vbb1")
 animation = &"idle"

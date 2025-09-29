@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c6iibsowe5ub8"]
+
+[ext_resource type="Shader" path="res://Effect/Shader/dialogue_dark/dialogue_dark.gdshader" id="1_7vjxw"]
+
+[resource]
+shader = ExtResource("1_7vjxw")
+shader_parameter/brightness = 0.1
+shader_parameter/contrast = 0.99
