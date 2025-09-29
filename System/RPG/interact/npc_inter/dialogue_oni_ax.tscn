@@ -1,16 +1,21 @@
-[gd_scene load_steps=13 format=3 uid="uid://c008w284nsol8"]
+[gd_scene load_steps=38 format=3 uid="uid://c008w284nsol8"]
 
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_double.gd" id="1_a008m"]
-[ext_resource type="PackedScene" uid="uid://q502awmo8ato" path="res://System/RPG/interact/npc_inter/dialogue_ax.tscn" id="1_tg3cp"]
+[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_dual.gd" id="1_61lq1"]
 [ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueResource.gd" id="2_1c5w5"]
 [ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueTextResource.gd" id="3_20p12"]
-[ext_resource type="PackedScene" uid="uid://qmfhw6gnv7wh" path="res://System/RPG/interact/npc_inter/dialogue_oni_a.tscn" id="4_f4bdd"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueFunctionResource.gd" id="4_qbjwl"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueChoiceResource.gd" id="5_duxru"]
+[ext_resource type="Texture2D" uid="uid://bqugtmn8twlpo" path="res://Assests/sprite/Oni/dialogue/back_1.png" id="6_fkhh0"]
+[ext_resource type="Texture2D" uid="uid://6mrcy46rb3n5" path="res://Assests/sprite/Oni/dialogue/back_2.png" id="7_ek121"]
+[ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="8_f4r16"]
+[ext_resource type="Texture2D" uid="uid://ca8kcucbq03cb" path="res://Assests/sprite/Oni/dialogue/idle/f0.png" id="9_6etgq"]
+[ext_resource type="Texture2D" uid="uid://dobtpgeely0ey" path="res://Assests/sprite/Oni/dialogue/idle/f1.png" id="10_5kyvh"]
+[ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="11_140m5"]
+[ext_resource type="Texture2D" uid="uid://dv2p3c4p3uk8e" path="res://Assests/sprite/AX/dialogue/back_1.png" id="12_60gfc"]
+[ext_resource type="Texture2D" uid="uid://bxngadho5jgwo" path="res://Assests/sprite/AX/dialogue/back_2.png" id="13_3ikk0"]
+[ext_resource type="Texture2D" uid="uid://blwtfdi1vjgfa" path="res://Assests/sprite/AX/dialogue/ax_illust_idle_sprite_sheet_0927.png" id="14_21ml7"]
 
-[sub_resource type="Resource" id="Resource_fe0w8"]
+[sub_resource type="Resource" id="Resource_amcn1"]
 script = ExtResource("3_20p12")
-speaker_entity = "AX"
+speaker_entity = "Oni"
 sprite_animation_name = "idle"
 text = "A"
 text_speed = 8.0
@@ -20,7 +25,7 @@ text_volume_pitch_max = 1.15
 camera_position = Vector2(999, 999)
 camera_transition_time = 1.0
 
-[sub_resource type="Resource" id="Resource_vs4b6"]
+[sub_resource type="Resource" id="Resource_rjwwr"]
 script = ExtResource("3_20p12")
 speaker_entity = "AX"
 sprite_animation_name = "idle"
@@ -32,9 +37,9 @@ text_volume_pitch_max = 1.15
 camera_position = Vector2(999, 999)
 camera_transition_time = 1.0
 
-[sub_resource type="Resource" id="Resource_ebbmk"]
+[sub_resource type="Resource" id="Resource_rmcxa"]
 script = ExtResource("3_20p12")
-speaker_entity = "AX"
+speaker_entity = "Oni"
 sprite_animation_name = "idle"
 text = "C"
 text_speed = 8.0
@@ -44,7 +49,7 @@ text_volume_pitch_max = 1.15
 camera_position = Vector2(999, 999)
 camera_transition_time = 1.0
 
-[sub_resource type="Resource" id="Resource_ebfhq"]
+[sub_resource type="Resource" id="Resource_x2soe"]
 script = ExtResource("3_20p12")
 speaker_entity = "AX"
 sprite_animation_name = "idle"
@@ -56,23 +61,316 @@ text_volume_pitch_max = 1.15
 camera_position = Vector2(999, 999)
 camera_transition_time = 1.0
 
-[sub_resource type="Resource" id="Resource_i0e85"]
-script = ExtResource("5_duxru")
-speaker_entity = "AX"
+[sub_resource type="Resource" id="Resource_n0tj6"]
+script = ExtResource("3_20p12")
+speaker_entity = "Oni"
 sprite_animation_name = "idle"
-text = "11"
-choice_text = Array[String](["1", "2"])
-choice_function_call = Array[ExtResource("4_qbjwl")]([null, null])
+text = "E"
+text_speed = 8.0
+text_volume_db = 0
+text_volume_pitch_min = 0.85
+text_volume_pitch_max = 1.15
+camera_position = Vector2(999, 999)
+camera_transition_time = 1.0
 
-[node name="DialogueOniAx" type="Node2D" node_paths=PackedStringArray("a", "b")]
+[sub_resource type="SpriteFrames" id="SpriteFrames_ob4ko"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_60gfc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_3ikk0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_432uo"]
+atlas = ExtResource("14_21ml7")
+region = Rect2(0, 0, 667, 667)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxh8i"]
+atlas = ExtResource("14_21ml7")
+region = Rect2(667, 0, 667, 667)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ejeph"]
+atlas = ExtResource("14_21ml7")
+region = Rect2(1334, 0, 667, 667)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4bv50"]
+atlas = ExtResource("14_21ml7")
+region = Rect2(2001, 0, 667, 667)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w207x"]
+atlas = ExtResource("14_21ml7")
+region = Rect2(2668, 0, 667, 667)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5rt07"]
+atlas = ExtResource("14_21ml7")
+region = Rect2(3335, 0, 667, 667)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q2sio"]
+atlas = ExtResource("14_21ml7")
+region = Rect2(4002, 0, 667, 667)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m7hsj"]
+atlas = ExtResource("14_21ml7")
+region = Rect2(4669, 0, 667, 667)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qf3ka"]
+atlas = ExtResource("14_21ml7")
+region = Rect2(0, 667, 667, 667)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_enndj"]
+atlas = ExtResource("14_21ml7")
+region = Rect2(667, 667, 667, 667)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m8n1d"]
+atlas = ExtResource("14_21ml7")
+region = Rect2(1334, 667, 667, 667)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wadb0"]
+atlas = ExtResource("14_21ml7")
+region = Rect2(2001, 667, 667, 667)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iof3b"]
+atlas = ExtResource("14_21ml7")
+region = Rect2(2668, 667, 667, 667)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_igeew"]
+atlas = ExtResource("14_21ml7")
+region = Rect2(3335, 667, 667, 667)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fx0ut"]
+atlas = ExtResource("14_21ml7")
+region = Rect2(4002, 667, 667, 667)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aofhv"]
+atlas = ExtResource("14_21ml7")
+region = Rect2(4669, 667, 667, 667)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s7m6i"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_432uo")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_vxh8i")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_ejeph")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_4bv50")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w207x")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_5rt07")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_q2sio")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_m7hsj")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_qf3ka")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_enndj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m8n1d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wadb0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iof3b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_igeew")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fx0ut")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aofhv")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ly1h8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_fkhh0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ek121")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_acbrp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_6etgq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_5kyvh")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}]
+
+[node name="DialogueOniAx" type="Node2D" node_paths=PackedStringArray("back_sprite", "dialogue_label", "speaker_sprite", "botton_container", "text_sound")]
 position = Vector2(0, 1)
-script = ExtResource("1_a008m")
+script = ExtResource("1_61lq1")
+back_sprite = [null, null]
+dialogue_label = [null, null]
+speaker_sprite = [null, null]
+botton_container = [null, null]
+text_sound = [null, null]
+dialogue = Array[ExtResource("2_1c5w5")]([SubResource("Resource_amcn1"), SubResource("Resource_rjwwr"), SubResource("Resource_rmcxa"), SubResource("Resource_x2soe"), SubResource("Resource_n0tj6")])
 a_index = Array[int]([0, 2, 4])
 b_index = Array[int]([1, 3])
-dialogue = Array[ExtResource("2_1c5w5")]([SubResource("Resource_fe0w8"), SubResource("Resource_vs4b6"), SubResource("Resource_ebbmk"), SubResource("Resource_ebfhq"), SubResource("Resource_i0e85")])
-a = NodePath("DialogueOni_a")
-b = NodePath("Dialogue_ax_b")
 
-[node name="DialogueOni_a" parent="." instance=ExtResource("4_f4bdd")]
+[node name="b" type="Node2D" parent="."]
+position = Vector2(543, 513)
 
-[node name="Dialogue_ax_b" parent="." instance=ExtResource("1_tg3cp")]
+[node name="back_sprite" type="AnimatedSprite2D" parent="b"]
+material = ExtResource("11_140m5")
+position = Vector2(-7.00002, -48)
+scale = Vector2(0.75, 0.713969)
+sprite_frames = SubResource("SpriteFrames_ob4ko")
+autoplay = "default"
+
+[node name="Control" type="Control" parent="b"]
+layout_mode = 3
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -657.0
+offset_top = -914.0
+offset_right = 736.0
+offset_bottom = 242.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="b/Control"]
+custom_minimum_size = Vector2(600, 150)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.258
+anchor_top = 0.68
+anchor_right = 0.701
+anchor_bottom = 0.84
+offset_left = 0.605988
+offset_top = -0.0800171
+offset_right = 0.506958
+offset_bottom = -0.0400391
+
+[node name="VBoxContainer" type="VBoxContainer" parent="b/Control/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="b/Control/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("8_f4r16")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+scroll_active = false
+visible_characters_behavior = 1
+
+[node name="botton_container" type="HBoxContainer" parent="b/Control/HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 8
+size_flags_stretch_ratio = 0.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="b"]
+
+[node name="illustrate" type="AnimatedSprite2D" parent="b"]
+position = Vector2(442, -116)
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_s7m6i")
+animation = &"idle"
+
+[node name="a" type="Node2D" parent="."]
+position = Vector2(543, 513)
+
+[node name="back_sprite" type="AnimatedSprite2D" parent="a"]
+position = Vector2(91, -64)
+scale = Vector2(0.75, 0.714)
+sprite_frames = SubResource("SpriteFrames_ly1h8")
+autoplay = "default"
+
+[node name="Control" type="Control" parent="a"]
+layout_mode = 3
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = -914.0
+offset_right = 881.0
+offset_bottom = 242.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="a/Control"]
+custom_minimum_size = Vector2(600, 150)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.258
+anchor_top = 0.68
+anchor_right = 0.701
+anchor_bottom = 0.84
+offset_left = 0.605988
+offset_top = -0.0800171
+offset_right = 0.506958
+offset_bottom = -0.0400391
+
+[node name="VBoxContainer" type="VBoxContainer" parent="a/Control/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="a/Control/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("8_f4r16")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "My name is Oni
+"
+scroll_active = false
+visible_characters_behavior = 1
+
+[node name="botton_container" type="HBoxContainer" parent="a/Control/HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 8
+size_flags_stretch_ratio = 0.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="a"]
+
+[node name="illustrate" type="AnimatedSprite2D" parent="a"]
+position = Vector2(-350, -130.401)
+scale = Vector2(0.395703, 0.392072)
+sprite_frames = SubResource("SpriteFrames_acbrp")
+animation = &"idle"

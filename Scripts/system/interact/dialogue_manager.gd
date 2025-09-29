@@ -63,11 +63,11 @@ func _process(delta: float) -> void:
 	for i in range(trigger_flag.size()):
 		if trigger_flag[i].flag :
 			if !trigger_flag[i].double: _spawn_dialogue(trigger_flag[i].style[0]-1, i, trigger_flag[i].start[0], trigger_flag[i].end[0])				
-			if trigger_flag[i].double: _spawn_double_dialogue(trigger_flag[i].style[0]-1, i, trigger_flag[i].start[0], trigger_flag[i].end[0], trigger_flag[i].a_index, trigger_flag[i].b_index)						
+			if trigger_flag[i].double: _spawn_dual_dialogue(trigger_flag[i].style[0]-1, i, trigger_flag[i].start[0], trigger_flag[i].end[0], trigger_flag[i].a_index, trigger_flag[i].b_index)						
 		trigger_flag[i].flag = false
 
 # 实例化并添加对话场景到场景树
-func _spawn_double_dialogue(style: int, content: int, start: int, end: int, a_index: Array[int], b_index: Array[int]) -> void:
+func _spawn_dual_dialogue(style: int, content: int, start: int, end: int, a_index: Array[int], b_index: Array[int]) -> void:
 	print("生成对话")
 	if style < 0 or style >= dialogue_style.size():
 		push_error("dialogue style index out of range: %d" % style)
