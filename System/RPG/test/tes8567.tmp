@@ -2,12 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://dp5vrrvbeosux" path="res://System/RPG/entity/controllable/player.tscn" id="1_xvil1"]
 [ext_resource type="PackedScene" uid="uid://b7fgg2qcnwcji" path="res://System/RPG/entity/npc/AX/npc_ax.tscn" id="2_8l120"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_flag.gd" id="4_k6t0e"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_manager.gd" id="4_pkvo2"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueResource.gd" id="5_v6v0v"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueTextResource.gd" id="6_46iy1"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueFunctionResource.gd" id="7_fi20e"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueChoiceResource.gd" id="8_a7bkp"]
+[ext_resource type="Script" path="res://Scripts/interact/dialogue_flag.gd" id="4_k6t0e"]
+[ext_resource type="Script" path="res://Scripts/system/DialogueResource.gd" id="4_m7gr5"]
+[ext_resource type="Script" path="res://Scripts/interact/dialogue_manager.gd" id="4_pkvo2"]
+[ext_resource type="Script" path="res://Scripts/system/DialogueTextResource.gd" id="5_ch46v"]
+[ext_resource type="Script" path="res://Scripts/system/DialogueFunctionResource.gd" id="7_fbgfg"]
+[ext_resource type="Script" path="res://Scripts/system/DialogueChoiceResource.gd" id="8_kxgos"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_am6s1"]
 size = Vector2(98, 201)
@@ -24,8 +24,8 @@ a_index = Array[int]([0, 2])
 b_index = Array[int]([1])
 
 [sub_resource type="Resource" id="Resource_p08nu"]
-script = ExtResource("6_46iy1")
-speaker_entity = "Oni"
+script = ExtResource("5_ch46v")
+speaker_entity = "AX"
 sprite_animation_name = "idle"
 text = "You must be kidding me
 "
@@ -37,8 +37,8 @@ camera_position = Vector2(999, 999)
 camera_transition_time = 1.0
 
 [sub_resource type="Resource" id="Resource_ev1je"]
-script = ExtResource("6_46iy1")
-speaker_entity = "AX"
+script = ExtResource("5_ch46v")
+speaker_entity = "Oni"
 sprite_animation_name = "idle"
 text = "Fuck you leather man !"
 text_speed = 8.0
@@ -49,12 +49,12 @@ camera_position = Vector2(999, 999)
 camera_transition_time = 1.0
 
 [sub_resource type="Resource" id="Resource_nwpwx"]
-script = ExtResource("8_a7bkp")
-speaker_entity = "Oni"
+script = ExtResource("8_kxgos")
+speaker_entity = "AX"
 sprite_animation_name = "idle"
 text = "Are you sure?"
 choice_text = Array[String](["YEs", "nO"])
-choice_function_call = Array[ExtResource("7_fi20e")]([null, null])
+choice_function_call = Array[ExtResource("7_fbgfg")]([null, null])
 
 [node name="Test0" type="Node2D"]
 y_sort_enabled = true
@@ -79,4 +79,4 @@ shape = SubResource("RectangleShape2D_am6s1")
 script = ExtResource("4_pkvo2")
 trigger_source = [NodePath("../../ax_npc/trigger_source")]
 trigger_flag = Array[ExtResource("4_k6t0e")]([SubResource("Resource_kc3q4")])
-dialogue_content = Array[ExtResource("5_v6v0v")]([SubResource("Resource_p08nu"), SubResource("Resource_ev1je"), SubResource("Resource_nwpwx")])
+dialogue_content = Array[ExtResource("4_m7gr5")]([SubResource("Resource_p08nu"), SubResource("Resource_ev1je"), SubResource("Resource_nwpwx")])

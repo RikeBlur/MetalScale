@@ -7,9 +7,9 @@
 [ext_resource type="Theme" uid="uid://d2uhxdy50yhsv" path="res://Style/theme_01.tres" id="7_6tkih"]
 [ext_resource type="Material" uid="uid://dolw1jajraj15" path="res://Effect/Shader/glowing_text/glowing_text.tres" id="8_53dal"]
 [ext_resource type="AudioStream" uid="uid://cc2ppqru4b47t" path="res://Assests/SFX/interact/Fruit collect 1.wav" id="8_yojxx"]
-[ext_resource type="Script" path="res://Scripts/interact/interactabel_label_component.gd" id="9_uiog4"]
+[ext_resource type="Script" path="res://Scripts/system/interact/interactabel_label_component.gd" id="9_uiog4"]
 [ext_resource type="Shader" path="res://Effect/Shader/glowing_text/glowing_text.gdshader" id="10_m2j8i"]
-[ext_resource type="Script" path="res://Scripts/interact/botton_component.gd" id="11_uiaqk"]
+[ext_resource type="Script" path="res://Scripts/system/interact/botton_component.gd" id="11_uiaqk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nbx1y"]
 shader = ExtResource("10_m2j8i")

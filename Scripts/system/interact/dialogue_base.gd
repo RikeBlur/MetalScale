@@ -85,7 +85,7 @@ func _choice_resource(i: DialogueChoice) -> void :
 	dialogue_label.visible_characters = -1
 	if i.sprite_animation_name:
 		speaker_sprite.visible = true
-		speaker_sprite.play("sprite_animation_name")
+		speaker_sprite.play(i.sprite_animation_name)
 	else :
 		speaker_sprite.visible = false
 	botton_container.visible = true
@@ -172,9 +172,12 @@ func _text_resource(i: DialogueText) -> void :
 		await get_tree().process_frame
 		if dialogue_label.visible_characters == total_character:
 			if Input.is_action_just_pressed("skip"):
+				# 添加延迟避免重复触发
+				await get_tree().process_frame
 				await get_tree().process_frame
 				current_dialogue_item += 1
-				next_item = true	
+				next_item = true
+				break  # 跳出循环，避免重复处理	
 	
 func _text_without_square_brackets(text: String) -> String:
 	var result: String = ""
@@ -198,12 +201,12 @@ func get_into_dark(is_a : bool) -> void:
 	# z坐标下降（被另一个dialogue覆盖）
 	z_index = 9
 	if is_a :
-		global_position -= Vector2(50, 50)
+		global_position -= Vector2(50, -20)
 	else :
-		global_position += Vector2(50, 50)
+		global_position += Vector2(50, 20)
 	
-	# 不再接收输入
-	process_mode = Node.PROCESS_MODE_DISABLED
+	# 不再接收输入（但保持按钮可用）
+	# process_mode = Node.PROCESS_MODE_DISABLED  # 注释掉这行，保持按钮可用
 	
 	# RichTextLabel清空
 	if dialogue_label:
@@ -233,9 +236,9 @@ func back_to_light(is_a : bool) -> void:
 	
 	# 恢复位置
 	if is_a :
-		global_position += Vector2(50, 50)
+		global_position += Vector2(50, -20)
 	else :
-		global_position -= Vector2(50, 50)
+		global_position -= Vector2(50, 20)
 	
 	# 重新启动对话（如果需要的话）
 	# 注意：这里可能需要根据具体需求来决定是否重新启动对话

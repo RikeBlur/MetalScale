@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://eeygp0orpuvh"]
 
 [ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="1_7tegg"]
-[ext_resource type="Script" path="res://Scripts/interact/dialogue_botton.gd" id="1_ntrdg"]
+[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_botton.gd" id="1_ntrdg"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1fpx6"]
 

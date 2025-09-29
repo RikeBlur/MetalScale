@@ -6,9 +6,9 @@
 [ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="6_8imff"]
 [ext_resource type="Theme" uid="uid://d2uhxdy50yhsv" path="res://Style/theme_01.tres" id="7_0bocp"]
 [ext_resource type="Material" uid="uid://dolw1jajraj15" path="res://Effect/Shader/glowing_text/glowing_text.tres" id="8_n0d4u"]
-[ext_resource type="Script" path="res://Scripts/interact/interactabel_label_component.gd" id="9_vsxqp"]
+[ext_resource type="Script" path="res://Scripts/system/interact/interactabel_label_component.gd" id="9_vsxqp"]
 [ext_resource type="Shader" path="res://Effect/Shader/glowing_text/glowing_text.gdshader" id="10_lm38v"]
-[ext_resource type="Script" path="res://Scripts/interact/botton_component.gd" id="11_fjdvl"]
+[ext_resource type="Script" path="res://Scripts/system/interact/botton_component.gd" id="11_fjdvl"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_y7t2l"]
 shader = ExtResource("10_lm38v")

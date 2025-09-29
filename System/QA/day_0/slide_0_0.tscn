@@ -6,10 +6,10 @@
 [ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="4_rdfov"]
 [ext_resource type="Theme" uid="uid://d2uhxdy50yhsv" path="res://Style/theme_01.tres" id="5_isb47"]
 [ext_resource type="Material" uid="uid://dolw1jajraj15" path="res://Effect/Shader/glowing_text/glowing_text.tres" id="6_7t40j"]
-[ext_resource type="Script" path="res://Scripts/interact/interactabel_label_component.gd" id="7_45qbj"]
+[ext_resource type="Script" path="res://Scripts/system/interact/interactabel_label_component.gd" id="7_45qbj"]
 [ext_resource type="AudioStream" uid="uid://cc2ppqru4b47t" path="res://Assests/SFX/interact/Fruit collect 1.wav" id="8_2twsk"]
 [ext_resource type="Shader" path="res://Effect/Shader/glowing_text/glowing_text.gdshader" id="9_3lgh3"]
-[ext_resource type="Script" path="res://Scripts/interact/botton_component.gd" id="10_t4rvv"]
+[ext_resource type="Script" path="res://Scripts/system/interact/botton_component.gd" id="10_t4rvv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_y7t2l"]
 shader = ExtResource("9_3lgh3")

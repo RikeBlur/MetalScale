@@ -9,4 +9,7 @@ extends Resource
 @export var start : Array[int]
 @export var end :Array[int]
 
+@export var a_index :Array[int]
+@export var b_index :Array[int]
+
 var triggered : bool = false
