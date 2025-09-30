@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://qmfhw6gnv7wh"]
+[gd_scene load_steps=18 format=3 uid="uid://qmfhw6gnv7wh"]
 
 [ext_resource type="Script" path="res://Scripts/system/interact/dialogue_base.gd" id="1_4heo6"]
 [ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueResource.gd" id="2_6wmgn"]
@@ -10,6 +10,8 @@
 [ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="8_82d6x"]
 [ext_resource type="Texture2D" uid="uid://ca8kcucbq03cb" path="res://Assests/sprite/Oni/dialogue/idle/f0.png" id="9_oaikl"]
 [ext_resource type="Texture2D" uid="uid://dobtpgeely0ey" path="res://Assests/sprite/Oni/dialogue/idle/f1.png" id="10_acpu5"]
+[ext_resource type="Texture2D" uid="uid://byn1ps6o1l5x4" path="res://Assests/sprite/Oni/dialogue/idle/f2.png" id="11_v47v5"]
+[ext_resource type="Texture2D" uid="uid://bpmtkng3ggqkl" path="res://Assests/sprite/Oni/dialogue/idle/f3.png" id="12_iwper"]
 
 [sub_resource type="Resource" id="Resource_aoyuj"]
 script = ExtResource("3_804g2")
@@ -61,6 +63,12 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("10_acpu5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_v47v5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_iwper")
 }],
 "loop": true,
 "name": &"idle",

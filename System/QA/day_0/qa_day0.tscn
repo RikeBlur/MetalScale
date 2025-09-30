@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://dg668iv0oiauy"]
 
-[ext_resource type="Script" path="res://Scripts/system/qa_system.gd" id="1_0fl5k"]
+[ext_resource type="Script" path="res://Scripts/system/QA/qa_system.gd" id="1_0fl5k"]
 [ext_resource type="PackedScene" uid="uid://7caxl5b1bcau" path="res://System/QA/day_0/slide_0_0.tscn" id="2_mo7uc"]
 [ext_resource type="Shader" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="2_ulfw4"]
 [ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/qa/矩形 1.png" id="3_1kq3o"]

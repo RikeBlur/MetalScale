@@ -12,6 +12,8 @@ static var able_flag : bool = false
 static var timer : float = 0
 static var last_time : float = 0.03
 
+static var running : bool = false
+
 func _physics_process(delta: float) -> void:
 	if start_flag == true:
 		timer += delta
@@ -60,6 +62,12 @@ static func is_movement() -> bool:
 		
 static func is_act() -> bool:
 	if Input.is_action_pressed("act"):
+		return true
+	else:
+		return false
+		
+static func is_running() -> bool:
+	if Input.is_action_pressed("running"):
 		return true
 	else:
 		return false

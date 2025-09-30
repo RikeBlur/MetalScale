@@ -1,6 +1,5 @@
-extends AnimatedSprite2D
-
 class_name AnimationController
+extends AnimatedSprite2D
 
 const MOVEMENT_TO_IDLE = {
 	"front_walk": "front_idle",

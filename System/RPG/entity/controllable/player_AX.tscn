@@ -1,4 +1,4 @@
-[gd_scene load_steps=177 format=3 uid="uid://dp5vrrvbeosux"]
+[gd_scene load_steps=178 format=3 uid="uid://dp5vrrvbeosux"]
 
 [ext_resource type="Script" path="res://Scripts/state_machine/player/player.gd" id="1_5fr6s"]
 [ext_resource type="Script" path="res://Scripts/state_machine/node_state_machine.gd" id="1_g6mav"]
@@ -21,6 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://bar6s4mvqt0yd" path="res://Assests/sprite/AX/idle/idle_front_right-Sheet.png" id="10_x21m5"]
 [ext_resource type="Texture2D" uid="uid://03xqfwdw25ii" path="res://Assests/sprite/AX/walk/walk-left-Sheet.png" id="11_tj4co"]
 [ext_resource type="Texture2D" uid="uid://cd4snx66m2n06" path="res://Assests/sprite/AX/walk/walk-right-Sheet.png" id="12_maqhd"]
+[ext_resource type="PackedScene" uid="uid://d8qsnxa2ok7a" path="res://System/RPG/interact/interact_component.tscn" id="22_8nxkb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2k661"]
 radius = 20.0
@@ -1181,11 +1182,11 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_id5i6"]
 size = Vector2(69, 142)
 
-[node name="Player" type="CharacterBody2D" groups=["player"]]
+[node name="Player_AX" type="CharacterBody2D" groups=["player"]]
+z_index = 1
 position = Vector2(532, 496)
 motion_mode = 1
 script = ExtResource("1_5fr6s")
-player_speed = 200
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, -59)
@@ -1213,6 +1214,12 @@ scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_hiall")
 
 [node name="interact_rage" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 128
+
+[node name="InteractComponent" parent="interact_rage" node_paths=PackedStringArray("interact_rage", "player_node") instance=ExtResource("22_8nxkb")]
+interact_rage = NodePath("..")
+player_node = NodePath("../..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="interact_rage"]
 position = Vector2(-0.5, -61)

@@ -42,7 +42,7 @@ func _play_idle_animation(anim_direction: Vector2) -> void:
 
 func _on_next_transitions() -> void:
 	InputEvents.movement_input()
-	if InputEvents.is_movement() :
+	if InputEvents.is_movement() and Character_body.can_move:
 		transition.emit("walk")
 	elif  InputEvents.is_act() :
 		return
@@ -50,6 +50,7 @@ func _on_next_transitions() -> void:
 func _on_enter() -> void:
 	var state_machine: NodeStateMachine = get_parent()
 	Character_body = state_machine.entity
+	print("Now State : IDLE")
 
 func _on_exit() -> void:
 	Animated_Sprite.stop()

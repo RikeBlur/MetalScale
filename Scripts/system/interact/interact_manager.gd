@@ -1,0 +1,2 @@
+class_name interact_manager
+extends Node2D

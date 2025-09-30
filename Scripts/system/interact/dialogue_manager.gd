@@ -13,6 +13,11 @@ var dialogue_1 = preload("res://System/RPG/interact/dialogue/dialogue_ax_b.tscn"
 var dialogue_2 = preload("res://System/RPG/interact/dialogue/dialogue_oni_a.tscn")
 var dialogue_3 = preload("res://System/RPG/interact/dialogue/dialogue_oni_ax.tscn")
 
+var dialogue_reminder = preload("res://System/RPG/interact/dialogue/dialogue_reminder.tscn")
+var reminder_instances : Dictionary = {}  # 存储每个area对应的reminder实例
+
+@export var player_node : CharacterBody2D = null 
+
 func _ready() -> void:
 	# 如果编辑器里没有填 dialogues，至少用示例占位，避免索引越界
 	if dialogue_style.size() == 0:
@@ -26,8 +31,16 @@ func _ready() -> void:
 	for i in range(trigger_source.size()):
 		if trigger_source != null:
 			# 绑定索引 i，回调签名为: func _on_trigger_area_entered(idx: int)
-			var area = get_node(trigger_source[i])
-			area.connect("area_entered", _on_trigger_area_entered.bind(i))
+			var source = get_node(trigger_source[i])
+			if source is Area2D:
+				if source.get_child(0) is interacted_component :
+					# 将interact组件和dialogue生成组件绑定
+					source.get_child(0).connect("be_interactable", _spawn_reminder.bind(source))
+					source.get_child(0).connect("be_not_interactable", _destory_reminder.bind(source))
+					source.get_child(0).connect("interacted", _destory_reminder.bind(source))
+					source.get_child(0).connect("interacted", _on_trigger_area_entered.bind(i))
+				else :
+					print("I want to spawn dialogue but no interacted component ... ")
 		else:
 			push_warning("trigger_source[%d] is null" % i)
 
@@ -46,7 +59,7 @@ func _ensure_array_lengths() -> void:
 
 
 # 当某个触发区检测到进入时调用（被绑定的回调）
-func _on_trigger_area_entered(area: Area2D, idx: int) -> void:
+func _on_trigger_area_entered(idx: int) -> void:
 	# 把对应标记置为 1（外部或其他逻辑也可直接修改 trigger_flag）
 	if idx >= 0 and idx < trigger_flag.size():
 		if trigger_flag[idx].only_once and !trigger_flag[idx].triggered:
@@ -69,6 +82,7 @@ func _process(delta: float) -> void:
 # 实例化并添加对话场景到场景树
 func _spawn_dual_dialogue(style: int, content: int, start: int, end: int, a_index: Array[int], b_index: Array[int]) -> void:
 	print("生成对话")
+	player_node.can_move = false
 	if style < 0 or style >= dialogue_style.size():
 		push_error("dialogue style index out of range: %d" % style)
 		return
@@ -96,6 +110,7 @@ func _spawn_dual_dialogue(style: int, content: int, start: int, end: int, a_inde
 # 实例化并添加对话场景到场景树
 func _spawn_dialogue(style: int, content: int, start: int, end: int) -> void:
 	print("生成对话")
+	player_node.can_move = false
 	if style < 0 or style >= dialogue_style.size():
 		push_error("dialogue style index out of range: %d" % style)
 		return
@@ -117,8 +132,46 @@ func _spawn_dialogue(style: int, content: int, start: int, end: int) -> void:
 		inst.connect("dialogue_finished", Callable(self, "_on_dialogue_finished"), [inst])
 	# 否则可以根据需要设定自动回收或由对话场景自行回收
 
-
 # 当对话节点发出结束信号时回收
 func _on_dialogue_finished(inst: Node) -> void:
 	if is_instance_valid(inst):
 		inst.queue_free()
+		
+func _spawn_reminder(area: Area2D) -> void:
+	# 如果该area已经有reminder实例，先销毁
+	if reminder_instances.has(area):
+		_destory_reminder(area)
+	
+	var pos : Vector2 = area.global_position
+	var inst = dialogue_reminder.instantiate()
+	
+	# 设置位置偏移（可以根据需要调整）
+	var offset = Vector2(50, -150)  
+	inst.global_position = pos + offset
+	
+	# 添加到场景树
+	add_child(inst)
+	
+	# 播放动画
+	var animated_sprite = inst.get_node("AnimatedSprite2D")
+	if animated_sprite:
+		animated_sprite.play()
+	
+	# 存储实例引用
+	reminder_instances[area] = inst
+
+func _destory_reminder(area: Area2D) -> void:
+	if reminder_instances.has(area):
+		var inst = reminder_instances[area]
+		
+		# 暂停动画
+		var animated_sprite = inst.get_node("AnimatedSprite2D")
+		if animated_sprite:
+			animated_sprite.pause()
+		
+		# 销毁实例
+		if is_instance_valid(inst):
+			inst.queue_free()
+		
+		# 从字典中移除
+		reminder_instances.erase(area)
