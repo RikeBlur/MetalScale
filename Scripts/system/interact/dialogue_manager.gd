@@ -26,7 +26,10 @@ func _ready() -> void:
 		dialogue_style.append(dialogue_3)
 
 	_ensure_array_lengths()
-
+	
+	for i in get_tree().get_nodes_in_group("player"):
+		player_node = i
+	
 	# 连接每个 trigger_source 的 area_entered 信号，并把 index bind 到回调
 	for i in range(trigger_source.size()):
 		if trigger_source != null:
@@ -38,7 +41,7 @@ func _ready() -> void:
 					source.get_child(0).connect("be_interactable", _spawn_reminder.bind(source))
 					source.get_child(0).connect("be_not_interactable", _destory_reminder.bind(source))
 					source.get_child(0).connect("interacted", _destory_reminder.bind(source))
-					source.get_child(0).connect("interacted", _on_trigger_area_entered.bind(i))
+					source.get_child(0).connect("interacted", _on_triggered.bind(source,i))
 				else :
 					print("I want to spawn dialogue but no interacted component ... ")
 		else:
@@ -59,11 +62,15 @@ func _ensure_array_lengths() -> void:
 
 
 # 当某个触发区检测到进入时调用（被绑定的回调）
-func _on_trigger_area_entered(idx: int) -> void:
+func _on_triggered(area: Area2D, idx: int) -> void:
 	# 把对应标记置为 1（外部或其他逻辑也可直接修改 trigger_flag）
 	if idx >= 0 and idx < trigger_flag.size():
 		if trigger_flag[idx].only_once and !trigger_flag[idx].triggered:
 			trigger_flag[idx].triggered = true
+			# 解除reminder生成机制，避免重复产生reminder
+			area.get_child(0).disconnect("be_interactable", _spawn_reminder)
+			area.get_child(0).disconnect("be_not_interactable", _destory_reminder)
+			area.get_child(0).disconnect("interacted", _destory_reminder)
 		elif trigger_flag[idx].only_once and trigger_flag[idx].triggered:
 			return
 		trigger_flag[idx].flag = true

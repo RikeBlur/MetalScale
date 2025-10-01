@@ -1,6 +1,5 @@
 [gd_scene load_steps=23 format=3 uid="uid://ca6e3sjoclyky"]
 
-[ext_resource type="PackedScene" uid="uid://dp5vrrvbeosux" path="res://System/RPG/entity/controllable/player_AX.tscn" id="1_xvil1"]
 [ext_resource type="PackedScene" uid="uid://b7fgg2qcnwcji" path="res://System/RPG/entity/npc/AX/npc_ax.tscn" id="2_8l120"]
 [ext_resource type="Shader" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="2_v6rbn"]
 [ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/qa/矩形 1.png" id="3_c5fvc"]
@@ -10,6 +9,7 @@
 [ext_resource type="Script" path="res://Scripts/system/QA/waving_back.gd" id="4_y1sfr"]
 [ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueResource.gd" id="5_v6v0v"]
 [ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueTextResource.gd" id="6_46iy1"]
+[ext_resource type="PackedScene" uid="uid://ds14l74hq1t3s" path="res://System/RPG/entity/controllable/player_Oni.tscn" id="6_yseyn"]
 [ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueFunctionResource.gd" id="7_fi20e"]
 [ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueChoiceResource.gd" id="8_a7bkp"]
 [ext_resource type="Script" path="res://Scripts/system/interact/interact_manager.gd" id="10_denqn"]
@@ -34,9 +34,9 @@ shader_parameter/noise_scale = 3.0
 shader_parameter/wave_amplitude = 0.5
 shader_parameter/time_offset = 0.0
 shader_parameter/use_gradient = true
-shader_parameter/base_color = Color(0.75, 0.0375, 0.0375, 1)
+shader_parameter/base_color = Color(0.83, 0.1494, 0.1494, 1)
 shader_parameter/alpha_multiplier = 1.0
-shader_parameter/color_mix_strength = 0.75
+shader_parameter/color_mix_strength = 0.95
 shader_parameter/gradient_texture = SubResource("NoiseTexture2D_up52x")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_am6s1"]
@@ -96,9 +96,8 @@ scale = Vector2(2.61523, 1.35938)
 texture = ExtResource("3_c5fvc")
 script = ExtResource("4_y1sfr")
 
-[node name="Player" parent="." instance=ExtResource("1_xvil1")]
-y_sort_enabled = true
-position = Vector2(605, 440)
+[node name="Player_Oni" parent="." instance=ExtResource("6_yseyn")]
+player_walk_speed_max = 120
 
 [node name="ax_npc" parent="." instance=ExtResource("2_8l120")]
 y_sort_enabled = true
@@ -117,12 +116,11 @@ shape = SubResource("RectangleShape2D_am6s1")
 
 [node name="manager_manager" type="Node2D" parent="."]
 
-[node name="dialogue_manager" type="Node2D" parent="manager_manager" node_paths=PackedStringArray("player_node")]
+[node name="dialogue_manager" type="Node2D" parent="manager_manager"]
 script = ExtResource("4_pkvo2")
 trigger_source = [NodePath("../../ax_npc/trigger_source_1")]
 trigger_flag = Array[ExtResource("4_k6t0e")]([SubResource("Resource_kc3q4")])
 dialogue_content = Array[ExtResource("5_v6v0v")]([SubResource("Resource_p08nu"), SubResource("Resource_ev1je"), SubResource("Resource_1xi42")])
-player_node = NodePath("../../Player")
 
 [node name="interact_manager" type="Node2D" parent="manager_manager"]
 script = ExtResource("10_denqn")
