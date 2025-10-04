@@ -5,8 +5,12 @@ extends Node2D
 @export var trigger_source : Array = []
 @export var trigger_flag : Array[dialogue_flag]
 @export var dialogue_content : Array[DialogueResource]
+@export var camera : Camera2D = null
+
 var dialogue_style : Array = []
 var dialogue_inst : Array = []
+var camera_position : Vector2 = Vector2.ZERO
+var camera_offset : Vector2 = Vector2(-576, -324)
 
 # 一个示例预加载的对话场景（可移除/替换）
 var dialogue_1 = preload("res://System/RPG/interact/dialogue/dialogue_ax_b.tscn")
@@ -80,6 +84,9 @@ func _on_triggered(area: Area2D, idx: int) -> void:
 
 # 实时检查 trigger_flag 并在需要时实例化对话
 func _process(delta: float) -> void:
+	# 更新相机位置
+	camera_position = camera.global_position
+	# 执行对话生成
 	for i in range(trigger_flag.size()):
 		if trigger_flag[i].flag :
 			if !trigger_flag[i].double: _spawn_dialogue(trigger_flag[i].style[0]-1, i, trigger_flag[i].start[0], trigger_flag[i].end[0])				
@@ -103,6 +110,7 @@ func _spawn_dual_dialogue(style: int, content: int, start: int, end: int, a_inde
 		return
 
 	# 将对话节点加入到当前 manager（可根据需要改为加入到 UI 层或专门容器）
+	inst.global_position = camera_position + camera_offset
 	inst.dialogue = dialogue_content.slice(start,end)
 	inst.a_index = a_index
 	inst.b_index = b_index
@@ -131,6 +139,7 @@ func _spawn_dialogue(style: int, content: int, start: int, end: int) -> void:
 		return
 
 	# 将对话节点加入到当前 manager（可根据需要改为加入到 UI 层或专门容器）
+	inst.global_position = camera_position + camera_offset
 	inst.dialogue = dialogue_content.slice(start,end)
 	add_child(inst)
 

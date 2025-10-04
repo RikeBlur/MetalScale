@@ -1,4 +1,8 @@
 # UPDATE
+## 25.10.04
+修复bug：配置了移动Camera后对话生成无法追随camera位置。已完成修复，通过实时更新camera位置和设置合适的offset
+Oni的奔跑动画已完成
+
 ## 25.09.30
 完成抽象类 interact component / interacted component
 可以用于表达所有player和环境的交互，用 E键 输入

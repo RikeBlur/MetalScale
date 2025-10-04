@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://ca6e3sjoclyky"]
+[gd_scene load_steps=32 format=3 uid="uid://ca6e3sjoclyky"]
 
 [ext_resource type="PackedScene" uid="uid://b7fgg2qcnwcji" path="res://System/RPG/entity/npc/AX/npc_ax.tscn" id="2_8l120"]
 [ext_resource type="Shader" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="2_v6rbn"]
@@ -7,12 +7,14 @@
 [ext_resource type="Script" path="res://Scripts/system/interact/dialogue_flag.gd" id="4_k6t0e"]
 [ext_resource type="Script" path="res://Scripts/system/interact/dialogue_manager.gd" id="4_pkvo2"]
 [ext_resource type="Script" path="res://Scripts/system/QA/waving_back.gd" id="4_y1sfr"]
+[ext_resource type="Shader" uid="uid://qvica54eevs6" path="res://Effect/Shader/dissolve/dissolve_shader.tres" id="5_0ygwi"]
 [ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueResource.gd" id="5_v6v0v"]
 [ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueTextResource.gd" id="6_46iy1"]
 [ext_resource type="PackedScene" uid="uid://ds14l74hq1t3s" path="res://System/RPG/entity/controllable/player_Oni.tscn" id="6_yseyn"]
 [ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueFunctionResource.gd" id="7_fi20e"]
 [ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueChoiceResource.gd" id="8_a7bkp"]
 [ext_resource type="Script" path="res://Scripts/system/interact/interact_manager.gd" id="10_denqn"]
+[ext_resource type="Script" path="res://Scripts/system/view/camera.gd" id="15_ruqbr"]
 
 [sub_resource type="Gradient" id="Gradient_2o8x6"]
 offsets = PackedFloat32Array(0, 0.993506)
@@ -36,8 +38,19 @@ shader_parameter/time_offset = 0.0
 shader_parameter/use_gradient = true
 shader_parameter/base_color = Color(0.83, 0.1494, 0.1494, 1)
 shader_parameter/alpha_multiplier = 1.0
-shader_parameter/color_mix_strength = 0.95
+shader_parameter/color_mix_strength = 0.99
 shader_parameter/gradient_texture = SubResource("NoiseTexture2D_up52x")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5bmp1"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5bmp1"]
+noise = SubResource("FastNoiseLite_5bmp1")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m4woc"]
+resource_local_to_scene = true
+shader = ExtResource("5_0ygwi")
+shader_parameter/DissolveValue = 1.0
+shader_parameter/Noise = SubResource("NoiseTexture2D_5bmp1")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_am6s1"]
 size = Vector2(109, 150)
@@ -57,7 +70,7 @@ b_index = Array[int]([1])
 script = ExtResource("6_46iy1")
 speaker_entity = "Oni"
 sprite_animation_name = "idle"
-text = "You must be kidding me
+text = "我感觉我搞砸了。
 "
 text_speed = 8.0
 text_volume_db = 0
@@ -70,7 +83,7 @@ camera_transition_time = 1.0
 script = ExtResource("6_46iy1")
 speaker_entity = "AX"
 sprite_animation_name = "idle"
-text = "Fuck you leather man !"
+text = "我同意。"
 text_speed = 8.0
 text_volume_db = 0
 text_volume_pitch_min = 0.85
@@ -82,26 +95,39 @@ camera_transition_time = 1.0
 script = ExtResource("8_a7bkp")
 speaker_entity = "Oni"
 sprite_animation_name = "idle"
-text = "Do you like what you see?"
-choice_text = Array[String](["Yes", "No"])
+text = "你认为呢？"
+choice_text = Array[String](["当然", "确实"])
 choice_function_call = Array[ExtResource("7_fi20e")]([null, null])
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_kbudn"]
+normal = Vector2(-0.991998, -0.126254)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_3lb5b"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_r5tux"]
+normal = Vector2(0.99948, 0.0322413)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2owme"]
+normal = Vector2(0.0534947, 0.998568)
 
 [node name="Test0" type="Node2D"]
 y_sort_enabled = true
 
 [node name="D1" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_oe86c")
-position = Vector2(596, 300)
-scale = Vector2(2.61523, 1.35938)
+position = Vector2(596, 301.5)
+scale = Vector2(2.61523, 1.98167)
 texture = ExtResource("3_c5fvc")
 script = ExtResource("4_y1sfr")
 
 [node name="Player_Oni" parent="." instance=ExtResource("6_yseyn")]
+material = SubResource("ShaderMaterial_m4woc")
+position = Vector2(573, 405)
 player_walk_speed_max = 120
 
 [node name="ax_npc" parent="." instance=ExtResource("2_8l120")]
 y_sort_enabled = true
-position = Vector2(297, 369)
+position = Vector2(295, 274)
 
 [node name="trigger_source_1" type="Area2D" parent="ax_npc"]
 collision_layer = 128
@@ -116,14 +142,50 @@ shape = SubResource("RectangleShape2D_am6s1")
 
 [node name="manager_manager" type="Node2D" parent="."]
 
-[node name="dialogue_manager" type="Node2D" parent="manager_manager"]
+[node name="dialogue_manager" type="Node2D" parent="manager_manager" node_paths=PackedStringArray("camera", "player_node")]
 script = ExtResource("4_pkvo2")
 trigger_source = [NodePath("../../ax_npc/trigger_source_1")]
 trigger_flag = Array[ExtResource("4_k6t0e")]([SubResource("Resource_kc3q4")])
 dialogue_content = Array[ExtResource("5_v6v0v")]([SubResource("Resource_p08nu"), SubResource("Resource_ev1je"), SubResource("Resource_1xi42")])
+camera = NodePath("../../Camera2D")
+player_node = NodePath("../../Player_Oni")
 
 [node name="interact_manager" type="Node2D" parent="manager_manager"]
 script = ExtResource("10_denqn")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(577, 328)
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
+position = Vector2(578, 326)
+script = ExtResource("15_ruqbr")
+target = NodePath("../Player_Oni")
+y_offset = 0.0
+center_x = false
+use_y_offset = false
+
+[node name="boundery" type="Node2D" parent="."]
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="boundery"]
+position = Vector2(-1704, 1292)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundery/StaticBody2D4"]
+position = Vector2(2857, -943)
+shape = SubResource("WorldBoundaryShape2D_kbudn")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="boundery"]
+position = Vector2(-852, 646)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundery/StaticBody2D3"]
+position = Vector2(1427, 4)
+shape = SubResource("WorldBoundaryShape2D_3lb5b")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="boundery"]
+position = Vector2(-426, 323)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundery/StaticBody2D2"]
+position = Vector2(427, 14)
+shape = SubResource("WorldBoundaryShape2D_r5tux")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="boundery"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundery/StaticBody2D"]
+position = Vector2(526, 4)
+shape = SubResource("WorldBoundaryShape2D_2owme")

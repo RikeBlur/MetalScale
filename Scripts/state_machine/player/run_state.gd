@@ -34,21 +34,21 @@ func _on_physics_process(delta : float) -> void:
 # 新增：播放行走动画的函数
 func _play_run_animation(anim_direction: Vector2) -> void:
 	if anim_direction == Vector2.DOWN :
-		Animated_Sprite.play("walk_front")
+		Animated_Sprite.play("run_front")
 	elif anim_direction == Vector2.UP :
-		Animated_Sprite.play("walk_back")
+		Animated_Sprite.play("run_back")
 	elif anim_direction == Vector2.LEFT :
-		Animated_Sprite.play("walk_left")
+		Animated_Sprite.play("run_left")
 	elif anim_direction == Vector2.RIGHT :
-		Animated_Sprite.play("walk_right")
+		Animated_Sprite.play("run_right")
 	elif anim_direction.x > 0 and anim_direction.y > 0:
-		Animated_Sprite.play("walk_front_right")
+		Animated_Sprite.play("run_front_right")
 	elif anim_direction.x > 0 and anim_direction.y < 0:
-		Animated_Sprite.play("walk_back_right")
+		Animated_Sprite.play("run_back_right")
 	elif anim_direction.x < 0 and anim_direction.y > 0:
-		Animated_Sprite.play("walk_front_left")
+		Animated_Sprite.play("run_front_left")
 	elif anim_direction.x < 0 and anim_direction.y < 0:
-		Animated_Sprite.play("walk_back_left")
+		Animated_Sprite.play("run_back_left")
 
 func _on_next_transitions() -> void:
 	InputEvents.movement_input()
