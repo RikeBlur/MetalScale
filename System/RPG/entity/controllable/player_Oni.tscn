@@ -1765,6 +1765,7 @@ Character_body = NodePath("../..")
 Animated_Sprite = NodePath("../../Animate")
 
 [node name="Animate" type="AnimatedSprite2D" parent="."]
+light_mask = 2
 material = ExtResource("5_pqv8x")
 position = Vector2(-5.96046e-08, -67)
 scale = Vector2(0.3, 0.3)

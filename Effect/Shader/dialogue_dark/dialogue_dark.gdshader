@@ -12,20 +12,20 @@ void vertex() {
 void fragment() {
 	// 获取原始纹理颜色
 	vec4 original_color = texture(TEXTURE, UV);
-	
+
 	// 保持原始颜色，只调整明度和对比度
 	vec3 adjusted_color = original_color.rgb;
-	
+
 	// 降低明度
 	adjusted_color = adjusted_color * brightness;
-	
+
 	// 降低对比度
 	// 对比度公式：new_color = (color - 0.5) * contrast + 0.5
 	adjusted_color = (adjusted_color - 0.5) * contrast + 0.5;
-	
+
 	// 确保颜色值在有效范围内
 	adjusted_color = clamp(adjusted_color, 0.0, 1.0);
-	
+
 	// 保持原始透明度
 	COLOR = vec4(adjusted_color, original_color.a);
 }
