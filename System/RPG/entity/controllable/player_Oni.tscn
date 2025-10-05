@@ -34,7 +34,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_blmno"]
 radius = 17.0
-height = 76.0
+height = 92.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_be17m"]
 atlas = ExtResource("8_jhu3j")
@@ -1741,7 +1741,7 @@ player_walk_acceleration = 300
 player_run_acceleration = 300
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, -59)
+position = Vector2(2, -46)
 shape = SubResource("CapsuleShape2D_blmno")
 
 [node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("initial_node_state", "entity")]

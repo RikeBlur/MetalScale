@@ -1,4 +1,7 @@
 # UPDATE
+## 25.10.05
+开始进行光照系统尝试，目前对于遮蔽的使用还有待探究
+
 ## 25.10.04
 修复bug：配置了移动Camera后对话生成无法追随camera位置。已完成修复，通过实时更新camera位置和设置合适的offset
 Oni的奔跑动画已完成
@@ -26,10 +29,6 @@ interact system -- dialogue 完成：
 	2.DialogueChoice： 文本（text）+choices；每个choice会对应一个DialogueFucntion
 	3.DialogueFucntion： 配置target_path（指定function的节点）；function_name；function_arguments；hide_dialogue_box（需要隐藏对话框）；wait_for_signal_to_continue（是否需要节点对应的信号来推进）
 
-### 后续一周计划：
-	1.完成Oni的Animation： idle、walk、run、idle_with_gun、walk_with_gun、run_with_gun、attack
-	2.完成基本的动作系统：移动奔跑、软碰撞、伤害造成与承受逻辑
-
 ## 25.09.27
 仿制对话系统已完成，后续修正点：speaker_img逻辑全部替换成animated_sprite_2d的逻辑；完成自定义类custom_botton
 
@@ -39,17 +38,10 @@ interact system -- dialogue 完成：
 ## 25.08.25
 QA系统基本完成，接下来完成30题
 
-# SYSTEM
-## RPG
+## SYSTEM
 ### interact
 处理所有场景交互内容，包括所有实体间的交互，如道具拾取、伤害、位置改变、状态施加
 ### terrain
-地图逻辑，包括地图切换、地图生成、小地图、寻路等
+地图逻辑，包括地图切换、地图生成、小地图、寻路、光照系统逻辑等
 ### attribute
 属性逻辑，包括实体所有属性的计算和buff、奖励系统
-
-## QA
-问答系统、影响剧情
-
-## AVG
-用于角色间对话、影响剧情

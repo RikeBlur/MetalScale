@@ -1,0 +1,159 @@
+[gd_scene load_steps=26 format=3 uid="uid://ca6e3sjoclyky"]
+
+[ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/terrain/d_1.tscn" id="1_phtbw"]
+[ext_resource type="PackedScene" uid="uid://ds14l74hq1t3s" path="res://System/RPG/entity/controllable/player_Oni.tscn" id="4_qkb8r"]
+[ext_resource type="Shader" uid="uid://qvica54eevs6" path="res://Effect/Shader/dissolve/dissolve_shader.tres" id="5_akkw2"]
+[ext_resource type="PackedScene" uid="uid://b7fgg2qcnwcji" path="res://System/RPG/entity/npc/AX/npc_ax.tscn" id="6_565r3"]
+[ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="7_lebc1"]
+[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_manager.gd" id="8_bsw2b"]
+[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_flag.gd" id="9_x4idq"]
+[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueResource.gd" id="10_jbcpv"]
+[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueTextResource.gd" id="11_wlsy8"]
+[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueFunctionResource.gd" id="12_f5q28"]
+[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueChoiceResource.gd" id="13_nx2t8"]
+[ext_resource type="Script" path="res://Scripts/system/interact/interact_manager.gd" id="14_tt4ln"]
+[ext_resource type="Script" path="res://Scripts/system/view/camera.gd" id="15_lpbp6"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5bmp1"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5bmp1"]
+noise = SubResource("FastNoiseLite_5bmp1")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i7d7b"]
+resource_local_to_scene = true
+shader = ExtResource("5_akkw2")
+shader_parameter/DissolveValue = 1.0
+shader_parameter/Noise = SubResource("NoiseTexture2D_5bmp1")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_am6s1"]
+size = Vector2(109, 150)
+
+[sub_resource type="Resource" id="Resource_kc3q4"]
+script = ExtResource("9_x4idq")
+flag = false
+only_once = true
+double = true
+style = Array[int]([3])
+start = Array[int]([0])
+end = Array[int]([3])
+a_index = Array[int]([0, 2])
+b_index = Array[int]([1])
+
+[sub_resource type="Resource" id="Resource_p08nu"]
+script = ExtResource("11_wlsy8")
+speaker_entity = "Oni"
+sprite_animation_name = "idle"
+text = "我感觉我搞砸了。
+"
+text_speed = 8.0
+text_volume_db = 0
+text_volume_pitch_min = 0.85
+text_volume_pitch_max = 1.15
+camera_position = Vector2(999, 999)
+camera_transition_time = 1.0
+
+[sub_resource type="Resource" id="Resource_ev1je"]
+script = ExtResource("11_wlsy8")
+speaker_entity = "AX"
+sprite_animation_name = "idle"
+text = "我同意。"
+text_speed = 8.0
+text_volume_db = 0
+text_volume_pitch_min = 0.85
+text_volume_pitch_max = 1.15
+camera_position = Vector2(999, 999)
+camera_transition_time = 1.0
+
+[sub_resource type="Resource" id="Resource_1xi42"]
+script = ExtResource("13_nx2t8")
+speaker_entity = "Oni"
+sprite_animation_name = "idle"
+text = "你认为呢？"
+choice_text = Array[String](["当然", "确实"])
+choice_function_call = Array[ExtResource("12_f5q28")]([null, null])
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_kbudn"]
+normal = Vector2(-0.991998, -0.126254)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_3lb5b"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_r5tux"]
+normal = Vector2(0.99948, 0.0322413)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2owme"]
+normal = Vector2(0.0534947, 0.998568)
+
+[node name="Test0" type="Node2D"]
+y_sort_enabled = true
+
+[node name="D1" parent="." instance=ExtResource("1_phtbw")]
+
+[node name="Player_Oni" parent="." instance=ExtResource("4_qkb8r")]
+material = SubResource("ShaderMaterial_i7d7b")
+position = Vector2(573, 405)
+player_walk_speed_max = 120
+
+[node name="ax_npc" parent="." instance=ExtResource("6_565r3")]
+y_sort_enabled = true
+position = Vector2(295, 274)
+
+[node name="trigger_source_1" type="Area2D" parent="ax_npc"]
+collision_layer = 128
+collision_mask = 64
+
+[node name="InteractedComponent" parent="ax_npc/trigger_source_1" node_paths=PackedStringArray("interacted_rage") instance=ExtResource("7_lebc1")]
+interacted_rage = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ax_npc/trigger_source_1"]
+position = Vector2(4.5, -61)
+shape = SubResource("RectangleShape2D_am6s1")
+
+[node name="manager_manager" type="Node2D" parent="."]
+
+[node name="dialogue_manager" type="Node2D" parent="manager_manager" node_paths=PackedStringArray("camera", "player_node")]
+script = ExtResource("8_bsw2b")
+trigger_source = [NodePath("../../ax_npc/trigger_source_1")]
+trigger_flag = Array[ExtResource("9_x4idq")]([SubResource("Resource_kc3q4")])
+dialogue_content = Array[ExtResource("10_jbcpv")]([SubResource("Resource_p08nu"), SubResource("Resource_ev1je"), SubResource("Resource_1xi42")])
+camera = NodePath("../../Camera")
+player_node = NodePath("../../Player_Oni")
+
+[node name="interact_manager" type="Node2D" parent="manager_manager"]
+script = ExtResource("14_tt4ln")
+
+[node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
+position = Vector2(578, 326)
+script = ExtResource("15_lpbp6")
+target = NodePath("../Player_Oni")
+y_offset = 0.0
+center_x = false
+use_y_offset = false
+
+[node name="boundery" type="Node2D" parent="."]
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="boundery"]
+position = Vector2(-1704, 1292)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundery/StaticBody2D4"]
+position = Vector2(2857, -943)
+shape = SubResource("WorldBoundaryShape2D_kbudn")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="boundery"]
+position = Vector2(-852, 646)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundery/StaticBody2D3"]
+position = Vector2(1427, 4)
+shape = SubResource("WorldBoundaryShape2D_3lb5b")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="boundery"]
+position = Vector2(-426, 323)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundery/StaticBody2D2"]
+position = Vector2(427, 14)
+shape = SubResource("WorldBoundaryShape2D_r5tux")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="boundery"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundery/StaticBody2D"]
+position = Vector2(526, 4)
+shape = SubResource("WorldBoundaryShape2D_2owme")
