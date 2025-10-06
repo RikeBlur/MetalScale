@@ -4,7 +4,7 @@ extends light_source
 @export var radius : float = 200.0
 @export var range_offset : float = 1.0
 @export var logic_energy : float = 1.0
-@export var sampling_rate : int = 72
+@export var sampling_rate : int = 36
 @export var debug_mode : bool = false
 
 func _ready():

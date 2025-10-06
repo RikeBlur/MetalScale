@@ -3,7 +3,7 @@ extends Node2D
 
 @export var light_sources: Array[light_source] = []
 @export var detecte_offset: float = 100.0
-@export var update_rate : float = 0.1
+@export var update_rate : float = 0.2
 @export var grid_size : float = 10.0
 
 var occlusion_points: PackedVector2Array = []

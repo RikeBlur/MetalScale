@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://drxum6townqdh"]
+[gd_scene load_steps=21 format=4 uid="uid://drxum6townqdh"]
 
 [ext_resource type="Script" path="res://Scripts/system/view/camera.gd" id="1_5qjx8"]
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_by6gl"]
@@ -38,6 +38,9 @@ atlas = ExtResource("7_evtkx")
 region = Rect2(2, 81, 12, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pl6xt"]
+size = Vector2(70, 47)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_67cqq"]
 size = Vector2(70, 47)
 
 [node name="TestForLighting" type="Node2D"]
@@ -144,20 +147,35 @@ environment = SubResource("Environment_c6vp4")
 
 [node name="light_debug" type="Node2D" parent="."]
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="light_debug" groups=["occlusion"]]
-position = Vector2(684, 343)
+[node name="LightOccluder1" type="LightOccluder2D" parent="light_debug" groups=["occlusion"]]
+position = Vector2(380, 298)
 occluder = SubResource("OccluderPolygon2D_ye6ua")
 
-[node name="Sprite2D" type="Sprite2D" parent="light_debug/LightOccluder2D"]
+[node name="Sprite2D" type="Sprite2D" parent="light_debug/LightOccluder1"]
 position = Vector2(30.5, 22)
 scale = Vector2(5.75, 3.28571)
 texture = SubResource("AtlasTexture_v4myu")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="light_debug/LightOccluder2D"]
+[node name="StaticBody2D" type="StaticBody2D" parent="light_debug/LightOccluder1"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="light_debug/LightOccluder2D/StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="light_debug/LightOccluder1/StaticBody2D"]
 position = Vector2(31, 21.5)
 shape = SubResource("RectangleShape2D_pl6xt")
+
+[node name="LightOccluder2" type="LightOccluder2D" parent="light_debug" groups=["occlusion"]]
+position = Vector2(684, 343)
+occluder = SubResource("OccluderPolygon2D_ye6ua")
+
+[node name="Sprite2D" type="Sprite2D" parent="light_debug/LightOccluder2"]
+position = Vector2(30.5, 22)
+scale = Vector2(5.75, 3.28571)
+texture = SubResource("AtlasTexture_v4myu")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="light_debug/LightOccluder2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="light_debug/LightOccluder2/StaticBody2D"]
+position = Vector2(31, 21.5)
+shape = SubResource("RectangleShape2D_67cqq")
 
 [node name="lightdetector" type="Node2D" parent="light_debug" groups=["light_detector"]]
 position = Vector2(792, 371)

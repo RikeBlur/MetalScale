@@ -21,6 +21,3 @@ height = 100.0
 script = ExtResource("1_u6rv0")
 radius = 150.0
 range_offset = 5.0
-logic_energy = null
-sampling_rate = null
-debug_mode = null

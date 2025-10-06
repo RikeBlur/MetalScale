@@ -2,7 +2,7 @@ class_name light_detector
 extends Node2D
 
 # 检测半径
-@export var radius: float = 300.0
+@export var radius: float = 500.0
 # 更新频率（秒）
 @export var update_rate: float = 1.0
 # 附近的光源数组
@@ -69,7 +69,7 @@ func get_nearby_lights() -> Array[light_source]:
 	return nearby_light_sources
 
 func _update_visualize(intensity: float) -> void:
-	var value = snappedf(intensity, 0.01)
-	debug_label.text = str(value)
+	var value = snappedf(intensity, 0.01) * 100
+	debug_label.text = "Intensity:" + str(value)
 	
 	
