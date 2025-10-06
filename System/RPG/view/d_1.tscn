@@ -19,7 +19,7 @@ noise = SubResource("FastNoiseLite_eyb0s")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oe86c"]
 shader = ExtResource("1_tgsc5")
-shader_parameter/wave_speed = 0.5
+shader_parameter/wave_speed = 0.25
 shader_parameter/noise_scale = 3.0
 shader_parameter/wave_amplitude = 0.5
 shader_parameter/time_offset = 0.0

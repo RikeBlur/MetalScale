@@ -1,6 +1,6 @@
 [gd_scene load_steps=26 format=3 uid="uid://ca6e3sjoclyky"]
 
-[ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/terrain/d_1.tscn" id="1_phtbw"]
+[ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_phtbw"]
 [ext_resource type="PackedScene" uid="uid://ds14l74hq1t3s" path="res://System/RPG/entity/controllable/player_Oni.tscn" id="4_qkb8r"]
 [ext_resource type="Shader" uid="uid://qvica54eevs6" path="res://Effect/Shader/dissolve/dissolve_shader.tres" id="5_akkw2"]
 [ext_resource type="PackedScene" uid="uid://b7fgg2qcnwcji" path="res://System/RPG/entity/npc/AX/npc_ax.tscn" id="6_565r3"]

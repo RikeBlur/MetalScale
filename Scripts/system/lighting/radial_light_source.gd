@@ -5,11 +5,13 @@ extends light_source
 @export var range_offset : float = 1.0
 @export var logic_energy : float = 1.0
 @export var sampling_rate : int = 72
+@export var debug_mode : bool = false
 
 func _ready():
 	initialize_sample_rays()
 	#update_ray_collisions()
-	start_visual_debug()
+	if debug_mode:
+		start_visual_debug()
 
 func initialize_sample_rays():
 	"""初始化采样射线"""
@@ -103,68 +105,72 @@ func get_sample_ray_for_angle(angle: float) -> SampleRay:
 func calculate_intensity(angle: float, length: float) -> float:
 	"""计算指定角度和距离的光照强度"""
 	var ray = get_sample_ray_for_angle(angle)
+	var rlr = radius / length
 	
 	if ray.is_occluded:
 		# 如果射线被遮挡，检查距离是否小于遮挡距离
 		if length < ray.ray_length:
-			return (length / radius) * logic_energy
+			return (1 - 1 / rlr) * logic_energy
 		else:
 			return 0.0
 	else:
 		# 如果射线未被遮挡，直接计算强度
-		return (length / radius) * logic_energy
+		return (1 - 1 / rlr) * logic_energy
 
 #------------------------------------------------------------------------------------------------
 #-------------------------------------------测试用------------------------------------------------
 #-------------------------------------------------------------------------------------------------
 func test_occlusion_detection():
 	"""测试遮挡检测功能"""
-	print("=== 开始测试遮挡检测 ===")
-	print("光源位置: ", global_position)
-	print("半径: ", radius)
-	print("采样率: ", sampling_rate)
+	#print("=== 开始测试遮挡检测 ===")
+	#print("光源位置: ", global_position)
+	#print("半径: ", radius)
+	#print("采样率: ", sampling_rate)
 
 	# 检查每个射线的状态
-	for ray in sample_rays:
-		if ray.is_occluded:
-			print("射线 ", ray.ray_id, " 被遮挡，遮挡距离: ", ray.ray_length)
-		else:
-			print("射线 ", ray.ray_id, " 未被遮挡")
+	#for ray in sample_rays:
+	#	if ray.is_occluded:
+	#		print("射线 ", ray.ray_id, " 被遮挡，遮挡距离: ", ray.ray_length)
+	#	else:
+	#		print("射线 ", ray.ray_id, " 未被遮挡")
 	
-	print("=== 测试完成 ===")
+	#print("=== 测试完成 ===")
 
 func _draw():
-	"""绘制可视化元素"""
-	if not is_inside_tree():
+	if debug_mode:
+		"""绘制可视化元素"""
+		if not is_inside_tree():
+			return
+		
+		# 绘制光源中心点
+		draw_circle(Vector2.ZERO, 3.0, Color.YELLOW)
+		
+		# 绘制光源范围圆
+		draw_arc(Vector2.ZERO, radius, 0, 2.0 * PI, 64, Color.WHITE, 2.0)
+		
+		# 绘制遮挡点
+		for point in occlusion_points:
+			var local_point = point - global_position
+			draw_circle(local_point, 1.0, Color.RED)
+		
+		# 绘制射线（仅显示被遮挡的射线）
+		for ray in sample_rays:
+			if ray.is_occluded:
+				var ray_direction = Vector2(cos(ray.angle_start), sin(ray.angle_start))
+				var ray_end = ray_direction * ray.ray_length
+				draw_line(Vector2.ZERO, ray_end, Color.ORANGE, 1.0)
+				
+				# 在射线终点绘制小圆点
+				draw_circle(ray_end, 1.5, Color.ORANGE)
+		
+		# 绘制未被遮挡的射线（较短，表示光线能到达的范围）
+		for ray in sample_rays:
+			if not ray.is_occluded:
+				var ray_direction = Vector2(cos(ray.angle_start), sin(ray.angle_start))
+				var ray_end = ray_direction * radius
+				draw_line(Vector2.ZERO, ray_end, Color.CYAN, 0.5)
+	else:
 		return
-	
-	# 绘制光源中心点
-	draw_circle(Vector2.ZERO, 3.0, Color.YELLOW)
-	
-	# 绘制光源范围圆
-	draw_arc(Vector2.ZERO, radius, 0, 2.0 * PI, 64, Color.WHITE, 2.0)
-	
-	# 绘制遮挡点
-	for point in occlusion_points:
-		var local_point = point - global_position
-		draw_circle(local_point, 2.0, Color.RED)
-	
-	# 绘制射线（仅显示被遮挡的射线）
-	for ray in sample_rays:
-		if ray.is_occluded:
-			var ray_direction = Vector2(cos(ray.angle_start), sin(ray.angle_start))
-			var ray_end = ray_direction * ray.ray_length
-			draw_line(Vector2.ZERO, ray_end, Color.ORANGE, 1.0)
-			
-			# 在射线终点绘制小圆点
-			draw_circle(ray_end, 1.5, Color.ORANGE)
-	
-	# 绘制未被遮挡的射线（较短，表示光线能到达的范围）
-	for ray in sample_rays:
-		if not ray.is_occluded:
-			var ray_direction = Vector2(cos(ray.angle_start), sin(ray.angle_start))
-			var ray_end = ray_direction * radius
-			draw_line(Vector2.ZERO, ray_end, Color.CYAN, 0.5)
 
 func start_visual_debug():
 	"""开始可视化调试模式"""

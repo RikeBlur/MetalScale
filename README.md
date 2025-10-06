@@ -1,4 +1,24 @@
 # UPDATE
+## 25.10.06
+光照检测系统 完成：
+### 系统介绍（light_mask == 1）
+	1.系统由 LightingManager、LightSource、LightDetector三部分组成
+	2.系统的基本功能：实现光照系统的渲染层、逻辑层分离。对于每个实体，都可以检测到实体所在位置的光照强度（Intensity）
+### 光照管理器（LightingManager）
+	1.实时更新场景中所有LightSource、LightDetector、OcclusionPoints
+	2.将附近的 OcclusionPoints 分配给 LightSource
+	3.将附近的 LightSource 分配给 LightDetector
+	4.对 Occluder 进行栅格化采样，得到 OcclusionPoints（PackedVector2Array）
+### 光源（LightSource）
+	1.分多种类型，如径向光（Radial_light_source）
+	2.本身是一个PointLight2D节点，具有光照渲染的基本属性
+	3.将光纤栅格化为 SampleRay 变量
+	4.通过射线检测 SampleRay 是否与 Occlusion 相交，按照极坐标思路计算每个 SampleRay 对应的角度和有效长度
+	5.设计函数 calculate_intensity ，传入一个位置（到光源的距离和角度）， 计算 Intensity
+### 光探测器（LightDetector）
+	1.单纯的Node2D节点，只检查一个点的Intensity
+	2.如果有距离内的LightSource，则挨个计算Intensity并求和
+	
 ## 25.10.05
 开始进行光照系统尝试，目前对于遮蔽的使用还有待探究
 

@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://c283lsaseccd1"]
+
+[ext_resource type="Script" path="res://Scripts/system/view/floating_text.gd" id="1_563v5"]
+[ext_resource type="FontFile" uid="uid://d37i5aeopil7e" path="res://Assests/font/pixel8/PixelOperator8-Bold.ttf" id="2_leayp"]
+
+[node name="FloatingText" type="Node2D"]
+z_index = 9
+scale = Vector2(2, 2)
+script = ExtResource("1_563v5")
+position_offset = Vector2(20, -20)
+scale_offset = Vector2(1, 1)
+last_time_1 = 1.0
+last_time_2 = 0.1
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(40, 16)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -16.5
+offset_right = 48.0
+offset_bottom = 16.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_leayp")
+text = "114514"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -3,10 +3,11 @@ extends Node2D
 
 @export var light_sources: Array[light_source] = []
 @export var detecte_offset: float = 100.0
-@export var update_rate : float = 1.0
+@export var update_rate : float = 0.1
 @export var grid_size : float = 10.0
 
 var occlusion_points: PackedVector2Array = []
+var detectors: Array[light_detector] = []
 var update_timer: Timer
 
 func _ready():
@@ -19,14 +20,18 @@ func _ready():
 	
 	# 初始化
 	update_light_sources()
+	update_detectors()
 	update_occlusion_points()
 	assign_occlusion_to_lights()
+	assign_lights_to_detectors()
 
 func _on_update_timer_timeout():
 	"""定时更新回调"""
 	update_light_sources()
+	update_detectors()
 	update_occlusion_points()
 	assign_occlusion_to_lights()
+	assign_lights_to_detectors()
 
 func update_light_sources():
 	"""更新场景中的光源列表"""
@@ -39,7 +44,20 @@ func update_light_sources():
 		if node is light_source:
 			light_sources.append(node)
 	
-	print("找到 ", light_sources.size(), " 个光源")
+	#print("找到 ", light_sources.size(), " 个光源")
+
+func update_detectors():
+	"""更新场景中的检测器列表"""
+	detectors.clear()
+	
+	# 获取场景中所有detector分组的节点
+	var detector_nodes = get_tree().get_nodes_in_group("light_detector")
+	
+	for node in detector_nodes:
+		if node is light_detector:
+			detectors.append(node)
+	
+	#print("找到 ", detectors.size(), " 个检测器")
 
 func update_occlusion_points():
 	"""更新场景中的遮挡点列表"""
@@ -53,7 +71,7 @@ func update_occlusion_points():
 		if node is LightOccluder2D:
 			# 检查OccluderLightMask是否为1
 			if node.occluder_light_mask == 1:
-				print("找到LightOccluder2D: ", node.name, " light_mask: ", node.occluder_light_mask)
+				#print("找到LightOccluder2D: ", node.name, " light_mask: ", node.occluder_light_mask)
 				
 				# 获取polygon中的所有点
 				var polygon = node.occluder.polygon
@@ -62,10 +80,20 @@ func update_occlusion_points():
 					var internal_points = generate_polygon_internal_points(polygon, node.global_transform, grid_size)
 					occlusion_points.append_array(internal_points)
 					#print("添加 ", internal_points.size(), " 个内部遮挡点")
+		
+		# 检查是否为TileMapLayer类型
+		elif node is TileMapLayer:
+			# 检查是否有Occlusion layer和light_mask == 1的tile
+			var _tilemap_layer = node as TileMapLayer
+			#if tilemap_layer:
+				#var tilemap_points = extract_tilemap_occlusion_points(tilemap_layer)
+				#occlusion_points.append_array(tilemap_points)
+				#if tilemap_points.size() > 0:
+				#	print("从TileMapLayer ", node.name, " 提取了 ", tilemap_points.size(), " 个遮挡点")
 	
-	print("找到 ", occlusion_points.size(), " 个遮挡点")
+	#print("找到 ", occlusion_points.size(), " 个遮挡点")
 
-func generate_polygon_internal_points(polygon: PackedVector2Array, transform: Transform2D, grid_size: float) -> PackedVector2Array:
+func generate_polygon_internal_points(polygon: PackedVector2Array, polygon_transform: Transform2D, sample_grid_size: float) -> PackedVector2Array:
 	"""生成多边形内部的所有点"""
 	var points = PackedVector2Array()
 	
@@ -94,11 +122,11 @@ func generate_polygon_internal_points(polygon: PackedVector2Array, transform: Tr
 			# 检查点是否在多边形内部
 			if is_point_in_polygon(test_point, polygon):
 				# 转换为全局坐标
-				var global_point = transform * test_point
+				var global_point = polygon_transform * test_point
 				points.append(global_point)
 			
-			y += grid_size
-		x += grid_size
+			y += sample_grid_size
+		x += sample_grid_size
 	
 	return points
 
@@ -121,6 +149,71 @@ func is_point_in_polygon(point: Vector2, polygon: PackedVector2Array) -> bool:
 	
 	return inside
 
+func extract_tilemap_occlusion_points(tilemap_layer: TileMapLayer) -> PackedVector2Array:
+	"""从TileMapLayer中提取遮挡点"""
+	var points = PackedVector2Array()
+	
+	if not tilemap_layer:
+		return points
+	
+	# 获取TileMapLayer的used_rect（已使用的区域）
+	var used_rect = tilemap_layer.get_used_rect()
+	if used_rect.size == Vector2i.ZERO:
+		return points
+	
+	# 遍历所有已使用的tile
+	for x in range(used_rect.position.x, used_rect.position.x + used_rect.size.x):
+		for y in range(used_rect.position.y, used_rect.position.y + used_rect.size.y):
+			var cell_coord = Vector2i(x, y)
+			
+			# 获取该位置的tile数据
+			var source_id = tilemap_layer.get_cell_source_id(cell_coord)
+			if source_id == -1:  # 没有tile
+				continue
+			
+			# 检查tile的occlusion layer和light_mask
+			var tile_data = tilemap_layer.get_cell_tile_data(cell_coord)
+			if tile_data:
+				# 检查是否有occlusion layer
+				var has_occlusion = tile_data.get_custom_data("occlusion_layer") != null
+				var tile_light_mask = tile_data.get_custom_data("light_mask")
+				
+				# 如果满足条件：有occlusion layer且light_mask == 1
+				if has_occlusion and tile_light_mask == 1:
+					# 将tile坐标转换为世界坐标
+					var world_pos = tilemap_layer.map_to_local(cell_coord)
+					
+					# 获取tile的尺寸
+					var tile_size = tilemap_layer.tile_set.tile_size
+					
+					# 在tile区域内生成栅格化采样点
+					var tile_points = generate_tile_internal_points(world_pos, tile_size, grid_size)
+					points.append_array(tile_points)
+	
+	return points
+
+func generate_tile_internal_points(tile_world_pos: Vector2, tile_size: Vector2, sample_grid_size: float) -> PackedVector2Array:
+	"""在tile区域内生成栅格化采样点"""
+	var points = PackedVector2Array()
+	
+	# 计算tile的边界
+	var min_x = tile_world_pos.x
+	var max_x = tile_world_pos.x + tile_size.x
+	var min_y = tile_world_pos.y
+	var max_y = tile_world_pos.y + tile_size.y
+	
+	# 在tile区域内进行栅格化采样
+	var x = min_x
+	while x < max_x:
+		var y = min_y
+		while y < max_y:
+			var point = Vector2(x, y)
+			points.append(point)
+			y += sample_grid_size
+		x += sample_grid_size
+	
+	return points
+
 
 func assign_occlusion_to_lights():
 	"""为每个光源分配附近的遮挡点"""
@@ -140,7 +233,30 @@ func assign_occlusion_to_lights():
 			var distance = light_pos.distance_to(occlusion_point)
 			if distance <= detection_radius:
 				light.add_occlusion_point(occlusion_point)
-				print("光源 ", light.name, " 添加遮挡点: ", occlusion_point, " 距离: ", distance)
+				#print("光源 ", light.name, " 添加遮挡点: ", occlusion_point, " 距离: ", distance)
+
+func assign_lights_to_detectors():
+	"""为每个检测器分配附近的光源"""
+	for detector in detectors:
+		if not is_instance_valid(detector):
+			continue
+		
+		# 清空检测器的现有光源列表
+		detector.nearby_light_sources.clear()
+		
+		# 获取检测器的检测范围
+		var detect_range = detector.radius
+		var detector_pos = detector.global_position
+		
+		# 检查每个光源是否在检测范围内
+		for light in light_sources:
+			if not is_instance_valid(light):
+				continue
+				
+			var distance = detector_pos.distance_to(light.global_position)
+			if distance <= detect_range:
+				detector.nearby_light_sources.append(light)
+				#print("检测器 ", detector.name, " 添加光源: ", light.name, " 距离: ", distance)
 
 func add_light_source(light: light_source):
 	"""手动添加光源"""
@@ -183,10 +299,10 @@ func get_occlusion_points_count() -> int:
 	"""获取遮挡点数量"""
 	return occlusion_points.size()
 
-func get_light_source_by_name(name: String) -> light_source:
+func get_light_source_by_name(light_name: String) -> light_source:
 	"""根据名称获取光源"""
 	for light in light_sources:
-		if is_instance_valid(light) and light.name == name:
+		if is_instance_valid(light) and light.name == light_name:
 			return light
 	return null
 
@@ -194,9 +310,11 @@ func force_update():
 	"""强制更新所有数据"""
 	print("=== 强制更新光照管理器 ===")
 	update_light_sources()
+	update_detectors()
 	update_occlusion_points()
 	assign_occlusion_to_lights()
-	print("更新完成 - 光源: ", light_sources.size(), " 遮挡点: ", occlusion_points.size())
+	assign_lights_to_detectors()
+	print("更新完成 - 光源: ", light_sources.size(), " 检测器: ", detectors.size(), " 遮挡点: ", occlusion_points.size())
 
 func debug_all_nodes():
 	"""调试：显示所有节点的信息"""
@@ -250,3 +368,27 @@ func get_light_occluders_count() -> int:
 			count += 1
 	
 	return count
+
+func add_detector(detector: light_detector):
+	"""手动添加检测器"""
+	if detector not in detectors:
+		detectors.append(detector)
+		print("手动添加检测器: ", detector.name)
+
+func remove_detector(detector: light_detector):
+	"""手动移除检测器"""
+	var index = detectors.find(detector)
+	if index != -1:
+		detectors.remove_at(index)
+		print("移除检测器: ", detector.name)
+
+func get_detectors_count() -> int:
+	"""获取检测器数量"""
+	return detectors.size()
+
+func get_detector_by_name(detector_name: String) -> light_detector:
+	"""根据名称获取检测器"""
+	for detector in detectors:
+		if is_instance_valid(detector) and detector.name == detector_name:
+			return detector
+	return null

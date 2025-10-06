@@ -16,3 +16,6 @@ class SampleRay:
 
 var sample_rays: Array[SampleRay] = []
 var occlusion_points: Array[Vector2] = []
+
+func calculate_intensity(angle: float, length: float) -> float:
+	return -1

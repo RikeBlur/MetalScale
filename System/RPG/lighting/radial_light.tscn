@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bnrqip1fx0561"]
 
-[ext_resource type="Script" path="res://Scripts/system/view/radial_light_source.gd" id="1_u6rv0"]
+[ext_resource type="Script" path="res://Scripts/system/lighting/radial_light_source.gd" id="1_u6rv0"]
 
 [sub_resource type="Gradient" id="Gradient_w212q"]
 interpolation_mode = 2
@@ -19,3 +19,8 @@ texture = SubResource("GradientTexture2D_3sk2x")
 texture_scale = 5.0
 height = 100.0
 script = ExtResource("1_u6rv0")
+radius = 150.0
+range_offset = 5.0
+logic_energy = null
+sampling_rate = null
+debug_mode = null

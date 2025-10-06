@@ -93,6 +93,8 @@ folder_colors={
 slide="basic components of the QA system"
 player=""
 light_source=""
+occlusion=""
+light_detector=""
 
 [input]
 
