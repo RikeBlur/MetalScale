@@ -76,10 +76,10 @@ func update_occlusion_points():
 				# 获取polygon中的所有点
 				var polygon = node.occluder.polygon
 				if polygon and polygon.size() > 0:
-					# 生成多边形内部的所有点
-					var internal_points = generate_polygon_internal_points(polygon, node.global_transform, grid_size)
-					occlusion_points.append_array(internal_points)
-					#print("添加 ", internal_points.size(), " 个内部遮挡点")
+					# 生成多边形边缘上的采样点
+					var edge_points = generate_polygon_edge_points(polygon, node.global_transform, grid_size)
+					occlusion_points.append_array(edge_points)
+					#print("添加 ", edge_points.size(), " 个边缘遮挡点")
 		
 		# 检查是否为TileMapLayer类型
 		elif node is TileMapLayer:
@@ -93,61 +93,35 @@ func update_occlusion_points():
 	
 	#print("找到 ", occlusion_points.size(), " 个遮挡点")
 
-func generate_polygon_internal_points(polygon: PackedVector2Array, polygon_transform: Transform2D, sample_grid_size: float) -> PackedVector2Array:
-	"""生成多边形内部的所有点"""
+func generate_polygon_edge_points(polygon: PackedVector2Array, polygon_transform: Transform2D, sample_grid_size: float) -> PackedVector2Array:
+	"""生成多边形边缘上的采样点"""
 	var points = PackedVector2Array()
 	
 	if polygon.size() < 3:
 		return points
 	
-	# 计算多边形的边界框
-	var min_x = polygon[0].x
-	var max_x = polygon[0].x
-	var min_y = polygon[0].y
-	var max_y = polygon[0].y
-	
-	for point in polygon:
-		min_x = min(min_x, point.x)
-		max_x = max(max_x, point.x)
-		min_y = min(min_y, point.y)
-		max_y = max(max_y, point.y)
-	
-	# 遍历边界框内的所有点
-	var x = min_x
-	while x <= max_x:
-		var y = min_y
-		while y <= max_y:
-			var test_point = Vector2(x, y)
+	# 遍历多边形的每条边
+	for i in range(polygon.size()):
+		var start_point = polygon[i]
+		var end_point = polygon[(i + 1) % polygon.size()]
+		
+		# 计算边的长度
+		var edge_length = start_point.distance_to(end_point)
+		
+		# 计算这条边上需要采样的点数
+		var sample_count = max(1, int(edge_length / sample_grid_size))
+		
+		# 在边上均匀采样点
+		for j in range(sample_count + 1):
+			var t = float(j) / float(sample_count) if sample_count > 0 else 0.0
+			var edge_point = start_point.lerp(end_point, t)
 			
-			# 检查点是否在多边形内部
-			if is_point_in_polygon(test_point, polygon):
-				# 转换为全局坐标
-				var global_point = polygon_transform * test_point
-				points.append(global_point)
-			
-			y += sample_grid_size
-		x += sample_grid_size
+			# 转换为全局坐标
+			var global_point = polygon_transform * edge_point
+			points.append(global_point)
 	
 	return points
 
-func is_point_in_polygon(point: Vector2, polygon: PackedVector2Array) -> bool:
-	"""使用射线投射算法判断点是否在多边形内部"""
-	if polygon.size() < 3:
-		return false
-	
-	var inside = false
-	var j = polygon.size() - 1
-	
-	for i in range(polygon.size()):
-		var pi = polygon[i]
-		var pj = polygon[j]
-		
-		if ((pi.y > point.y) != (pj.y > point.y)) and (point.x < (pj.x - pi.x) * (point.y - pi.y) / (pj.y - pi.y) + pi.x):
-			inside = !inside
-		
-		j = i
-	
-	return inside
 
 func extract_tilemap_occlusion_points(tilemap_layer: TileMapLayer) -> PackedVector2Array:
 	"""从TileMapLayer中提取遮挡点"""

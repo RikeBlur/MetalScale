@@ -7,9 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bnrqip1fx0561" path="res://System/RPG/lighting/radial_light.tscn" id="4_gfkth"]
 [ext_resource type="Script" path="res://Scripts/system/lighting/lighting_manager.gd" id="6_nudyg"]
 [ext_resource type="Texture2D" uid="uid://rhopjwjby1mm" path="res://Assests/tileset/tileset_assest_2/neo_zero_props_02_free.png" id="7_evtkx"]
-[ext_resource type="Script" path="res://Scripts/system/lighting/light_detector.gd" id="7_vflm5"]
-[ext_resource type="Texture2D" uid="uid://bdutmm8j37wyd" path="res://icon.svg" id="8_7iif6"]
-[ext_resource type="FontFile" uid="uid://d37i5aeopil7e" path="res://Assests/font/pixel8/PixelOperator8-Bold.ttf" id="10_k43gk"]
+[ext_resource type="PackedScene" uid="uid://gkd838orapi5" path="res://System/RPG/lighting/light_detector.tscn" id="8_pkn8b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pije4"]
 size = Vector2(66, 49)
@@ -31,24 +29,30 @@ normal = Vector2(0, 1)
 [sub_resource type="Environment" id="Environment_c6vp4"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ye6ua"]
-polygon = PackedVector2Array(-3, 0, 64, 0, 64, 44, -3, 44)
+polygon = PackedVector2Array(-2, 0, 64, 0, 64, 44, -2, 44)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v4myu"]
 atlas = ExtResource("7_evtkx")
 region = Rect2(2, 81, 12, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pl6xt"]
-size = Vector2(70, 47)
+size = Vector2(69, 46)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_67cqq"]
 size = Vector2(70, 47)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ri14c"]
+polygon = PackedVector2Array(-55, -95, 184, -94, 185, 48, 153, 47, 154, 2, -50, 0, -50, 45, -56, 45)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2woey"]
+size = Vector2(122, 88)
 
 [node name="TestForLighting" type="Node2D"]
 
 [node name="terrian" type="Node2D" parent="."]
 
 [node name="D1" parent="terrian" instance=ExtResource("1_by6gl")]
-position = Vector2(840.861, 474)
+position = Vector2(808, 443)
 scale = Vector2(5.63955, 5.58333)
 
 [node name="tilemap" type="Node2D" parent="terrian"]
@@ -141,11 +145,15 @@ color = Color(0.385417, 0.375, 0.5, 1)
 
 [node name="lighting_manager" type="Node2D" parent="manager_manager"]
 script = ExtResource("6_nudyg")
+detecte_offset = 50.0
+update_rate = 0.1
+grid_size = 20.0
 
 [node name="WorldOfWonder" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_c6vp4")
 
 [node name="light_debug" type="Node2D" parent="."]
+position = Vector2(-122, -140)
 
 [node name="LightOccluder1" type="LightOccluder2D" parent="light_debug" groups=["occlusion"]]
 position = Vector2(380, 298)
@@ -159,7 +167,7 @@ texture = SubResource("AtlasTexture_v4myu")
 [node name="StaticBody2D" type="StaticBody2D" parent="light_debug/LightOccluder1"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="light_debug/LightOccluder1/StaticBody2D"]
-position = Vector2(31, 21.5)
+position = Vector2(30.5, 22)
 shape = SubResource("RectangleShape2D_pl6xt")
 
 [node name="LightOccluder2" type="LightOccluder2D" parent="light_debug" groups=["occlusion"]]
@@ -177,30 +185,53 @@ texture = SubResource("AtlasTexture_v4myu")
 position = Vector2(31, 21.5)
 shape = SubResource("RectangleShape2D_67cqq")
 
-[node name="lightdetector" type="Node2D" parent="light_debug" groups=["light_detector"]]
-position = Vector2(792, 371)
-script = ExtResource("7_vflm5")
-debug_mode = true
+[node name="LightOccluder3" type="LightOccluder2D" parent="light_debug" groups=["occlusion"]]
+position = Vector2(311, 502)
+occluder = SubResource("OccluderPolygon2D_ye6ua")
 
-[node name="Sprite2D" type="Sprite2D" parent="light_debug/lightdetector"]
-position = Vector2(1.37687e-05, 1.0252e-05)
-scale = Vector2(0.15625, 0.15625)
-texture = ExtResource("8_7iif6")
+[node name="Sprite2D" type="Sprite2D" parent="light_debug/LightOccluder3"]
+position = Vector2(30.5, 22)
+scale = Vector2(5.75, 3.28571)
+texture = SubResource("AtlasTexture_v4myu")
 
-[node name="Label" type="Label" parent="light_debug/lightdetector"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -25.0
-offset_top = -34.0
-offset_right = 25.0
-offset_bottom = -11.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("10_k43gk")
-text = "null
-"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="StaticBody2D" type="StaticBody2D" parent="light_debug/LightOccluder3"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="light_debug/LightOccluder3/StaticBody2D"]
+position = Vector2(31, 21.5)
+shape = SubResource("RectangleShape2D_67cqq")
+
+[node name="LightOccluder4" type="LightOccluder2D" parent="light_debug" groups=["occlusion"]]
+position = Vector2(726, 559)
+occluder = SubResource("OccluderPolygon2D_ye6ua")
+
+[node name="Sprite2D" type="Sprite2D" parent="light_debug/LightOccluder4"]
+position = Vector2(30.5, 22)
+scale = Vector2(5.75, 3.28571)
+texture = SubResource("AtlasTexture_v4myu")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="light_debug/LightOccluder4"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="light_debug/LightOccluder4/StaticBody2D"]
+position = Vector2(31, 21.5)
+shape = SubResource("RectangleShape2D_67cqq")
+
+[node name="lightdetector" parent="light_debug" instance=ExtResource("8_pkn8b")]
+position = Vector2(791, 390)
+extension_length = 25.0
+
+[node name="light_debug2" type="Node2D" parent="."]
+
+[node name="LightOccluder1" type="LightOccluder2D" parent="light_debug2" groups=["occlusion"]]
+position = Vector2(1291, 536)
+occluder = SubResource("OccluderPolygon2D_ri14c")
+
+[node name="Sprite2D" type="Sprite2D" parent="light_debug2/LightOccluder1"]
+position = Vector2(4.99999, 1.49998)
+scale = Vector2(10, 6.21428)
+texture = SubResource("AtlasTexture_v4myu")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="light_debug2/LightOccluder1"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="light_debug2/LightOccluder1/StaticBody2D"]
+position = Vector2(5, 1)
+shape = SubResource("RectangleShape2D_2woey")

@@ -1,4 +1,11 @@
 # UPDATE
+## 25.10.07
+光照系统优化问题：
+	1.occlusion_points的采用多边形边缘采样，同时 gird_size 设为20，降低点数
+	2.radius_light_source 采样光线设置为36个，intersection阈值设为10
+	3.光探测器衍生4个点计算平均
+	4.目前单光源和4个实体交互可以60帧，有待进一步优化
+
 ## 25.10.06
 光照检测系统 完成：
 ### 系统介绍（light_mask == 1）
@@ -18,6 +25,7 @@
 ### 光探测器（LightDetector）
 	1.单纯的Node2D节点，只检查一个点的Intensity
 	2.如果有距离内的LightSource，则挨个计算Intensity并求和
+	
 	
 ## 25.10.05
 开始进行光照系统尝试，目前对于遮蔽的使用还有待探究
