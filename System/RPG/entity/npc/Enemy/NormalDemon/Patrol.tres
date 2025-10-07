@@ -1,0 +1,56 @@
+[gd_resource type="BehaviorTree" load_steps=16 format=3 uid="uid://byh2pg3d8qkyw"]
+
+[ext_resource type="Script" uid="uid://ruy6igvdnadx" path="res://Scripts/system/ai/tasks/get_first_in_group.gd" id="1_qc6cw"]
+[ext_resource type="Script" uid="uid://cpgmrr2q5ku7l" path="res://Scripts/system/ai/tasks/get_target_distance.gd" id="2_37ams"]
+[ext_resource type="Script" uid="uid://b57pog1dawtvk" path="res://Scripts/system/ai/tasks/hang_around.gd" id="3_5t1gq"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_lynhw"]
+var/speed/name = &"speed"
+var/speed/type = 3
+var/speed/value = 0.0
+var/speed/hint = 0
+var/speed/hint_string = ""
+
+[sub_resource type="BTConsolePrint" id="BTConsolePrint_lynhw"]
+text = "NowBTState: Patrol"
+
+[sub_resource type="BTAction" id="BTAction_37ams"]
+script = ExtResource("1_qc6cw")
+group = &"player"
+
+[sub_resource type="BTAction" id="BTAction_5t1gq"]
+script = ExtResource("2_37ams")
+
+[sub_resource type="BBVariant" id="BBVariant_7kwc8"]
+type = 3
+saved_value = 500.0
+resource_name = "500.0"
+
+[sub_resource type="BTCheckVar" id="BTCheckVar_k5u4w"]
+variable = &"target_distance"
+check_type = 2
+value = SubResource("BBVariant_7kwc8")
+
+[sub_resource type="BTWait" id="BTWait_5t1gq"]
+
+[sub_resource type="BTAction" id="BTAction_7kwc8"]
+script = ExtResource("3_5t1gq")
+move_duration = 1.0
+
+[sub_resource type="BTTimeLimit" id="BTTimeLimit_5t1gq"]
+time_limit = 1.0
+children = [SubResource("BTAction_7kwc8")]
+
+[sub_resource type="BTSequence" id="BTSequence_7kwc8"]
+custom_name = "patrol"
+children = [SubResource("BTWait_5t1gq"), SubResource("BTTimeLimit_5t1gq")]
+
+[sub_resource type="BTSelector" id="BTSelector_37ams"]
+children = [SubResource("BTCheckVar_k5u4w"), SubResource("BTSequence_7kwc8")]
+
+[sub_resource type="BTSequence" id="BTSequence_37ams"]
+children = [SubResource("BTConsolePrint_lynhw"), SubResource("BTAction_37ams"), SubResource("BTAction_5t1gq"), SubResource("BTSelector_37ams")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_lynhw")
+root_task = SubResource("BTSequence_37ams")

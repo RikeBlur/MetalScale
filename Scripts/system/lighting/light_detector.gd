@@ -77,8 +77,8 @@ func calculate_and_print_intensities() -> float:
 			#print("光源: ", light.name, " 有效检测点: ", valid_points, " 平均光强: ", average_intensity)
 			total_intensity += average_intensity
 			if debug_mode: _update_visualize()
-		else:
-			print("光源: ", light.name, " 无有效检测点")
+		#else:
+		#	print("光源: ", light.name, " 无有效检测点")
 	
 	return total_intensity
 

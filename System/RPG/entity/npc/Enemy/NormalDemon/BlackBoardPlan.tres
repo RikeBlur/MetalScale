@@ -1,0 +1,8 @@
+[gd_resource type="BlackboardPlan" format=3 uid="uid://dc2cipg7f06kr"]
+
+[resource]
+var/speed/name = &"speed"
+var/speed/type = 3
+var/speed/value = 400.0
+var/speed/hint = 0
+var/speed/hint_string = "10,1000,10"

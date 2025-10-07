@@ -10,6 +10,12 @@ var _moved_this_frame: bool = false
 @onready var health: Health = $Health
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 
+@onready var hsm: LimboHSM = $LimboHSM
+@onready var PatrolState: LimboState = $LimboHSM/PatrolState
+@onready var PursueState: LimboState = $LimboHSM/PursueState
+
+func _ready() -> void:
+	_init_state_machine()
 
 func _physics_process(_delta: float) -> void:
 	_post_physics_process.call_deferred()
@@ -35,3 +41,12 @@ func is_good_position(p_position: Vector2) -> bool:
 	params.collision_mask = 1 # Obstacle layer has value 1
 	var collision := space_state.intersect_point(params)
 	return collision.is_empty()
+
+func _init_state_machine() -> void:
+	# 添加状态转换
+	hsm.add_transition(PatrolState, PursueState, "target_detected")
+	hsm.add_transition(PursueState, PatrolState, "target_lost")
+	
+	# 初始化状态机
+	hsm.initialize(self)
+	hsm.set_active(true)

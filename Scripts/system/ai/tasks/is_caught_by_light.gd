@@ -13,7 +13,7 @@ func _generate_name() -> String:
 func _tick(_delta: float) -> Status:
 	var detector_inst = blackboard.get_var(target_var)
 	#if detector_inst is light_detector: return SUCCESS
-	print(detector_inst.intensity_now)
+	#aaaaaaaprint(detector_inst.intensity_now)
 	if detector_inst.intensity_now <= tolerance:
 		return FAILURE
 	else:

@@ -1,0 +1,105 @@
+[gd_resource type="BehaviorTree" load_steps=32 format=3 uid="uid://dw3ywrr6pnj8o"]
+
+[ext_resource type="Script" uid="uid://ruy6igvdnadx" path="res://Scripts/system/ai/tasks/get_first_in_group.gd" id="1_pk82o"]
+[ext_resource type="Script" uid="uid://cpgmrr2q5ku7l" path="res://Scripts/system/ai/tasks/get_target_distance.gd" id="2_y6ake"]
+[ext_resource type="Script" uid="uid://dgoub1ru4k1k7" path="res://demo/ai/tasks/get_detector.gd" id="3_7clef"]
+[ext_resource type="Script" uid="uid://clkuwbm2txnvv" path="res://demo/ai/tasks/IsCaughtByLight.gd" id="4_gu11r"]
+[ext_resource type="Script" uid="uid://cgwnandapnw0h" path="res://demo/ai/tasks/flee_from_light.gd" id="5_alxfv"]
+[ext_resource type="Script" uid="uid://ccr43pgd4488l" path="res://demo/ai/tasks/get_first_in_group.gd" id="6_biqs6"]
+[ext_resource type="Script" uid="uid://dcjgktglb1slf" path="res://demo/ai/tasks/pursue.gd" id="7_jnocg"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_ilc2e"]
+var/speed/name = &"speed"
+var/speed/type = 3
+var/speed/value = 400.0
+var/speed/hint = 0
+var/speed/hint_string = ""
+
+[sub_resource type="BTConsolePrint" id="BTConsolePrint_1yeq0"]
+text = "NowBTState : Pursue"
+
+[sub_resource type="BTAction" id="BTAction_xtgtj"]
+script = ExtResource("1_pk82o")
+group = &"player"
+
+[sub_resource type="BTAction" id="BTAction_1yeq0"]
+script = ExtResource("2_y6ake")
+
+[sub_resource type="BBNode" id="BBNode_h843t"]
+saved_value = NodePath("AnimatedSprite")
+resource_name = "AnimatedSprite"
+
+[sub_resource type="BTCallMethod" id="BTCallMethod_rxbbq"]
+node = SubResource("BBNode_h843t")
+method = &"play"
+
+[sub_resource type="BTAction" id="BTAction_mlucc"]
+script = ExtResource("3_7clef")
+
+[sub_resource type="BTCondition" id="BTCondition_ayl05"]
+script = ExtResource("4_gu11r")
+tolerance = 0.01
+
+[sub_resource type="BTAction" id="BTAction_ydn12"]
+script = ExtResource("5_alxfv")
+flee_distance = 300.0
+
+[sub_resource type="BTTimeLimit" id="BTTimeLimit_vys4e"]
+time_limit = 0.1
+children = [SubResource("BTAction_ydn12")]
+
+[sub_resource type="BTSequence" id="BTSequence_4jrbo"]
+custom_name = "flee"
+children = [SubResource("BTCondition_ayl05"), SubResource("BTTimeLimit_vys4e")]
+
+[sub_resource type="BTCondition" id="BTCondition_rw2uv"]
+script = ExtResource("4_gu11r")
+tolerance = 0.01
+
+[sub_resource type="BTInvert" id="BTInvert_gvqx2"]
+children = [SubResource("BTCondition_rw2uv")]
+
+[sub_resource type="BTAction" id="BTAction_wvj00"]
+script = ExtResource("6_biqs6")
+group = &"player"
+
+[sub_resource type="BTAction" id="BTAction_fginr"]
+script = ExtResource("7_jnocg")
+
+[sub_resource type="BTTimeLimit" id="BTTimeLimit_l5cvy"]
+time_limit = 0.1
+children = [SubResource("BTAction_fginr")]
+
+[sub_resource type="BTSequence" id="BTSequence_p0ji8"]
+custom_name = "pursue_player"
+children = [SubResource("BTInvert_gvqx2"), SubResource("BTAction_wvj00"), SubResource("BTTimeLimit_l5cvy")]
+
+[sub_resource type="BTSelector" id="BTSelector_0cg7d"]
+children = [SubResource("BTSequence_4jrbo"), SubResource("BTSequence_p0ji8")]
+
+[sub_resource type="BTSequence" id="BTSequence_ft3k3"]
+children = [SubResource("BTCallMethod_rxbbq"), SubResource("BTAction_mlucc"), SubResource("BTSelector_0cg7d")]
+
+[sub_resource type="BTAlwaysFail" id="BTAlwaysFail_ec12m"]
+children = [SubResource("BTSequence_ft3k3")]
+
+[sub_resource type="BBVariant" id="BBVariant_tftqv"]
+type = 3
+saved_value = 200.0
+resource_name = "200.0"
+
+[sub_resource type="BTCheckVar" id="BTCheckVar_7clef"]
+variable = &"target_distance"
+check_type = 3
+value = SubResource("BBVariant_tftqv")
+
+[sub_resource type="BTSelector" id="BTSelector_pk82o"]
+children = [SubResource("BTAlwaysFail_ec12m"), SubResource("BTCheckVar_7clef")]
+
+[sub_resource type="BTSequence" id="BTSequence_pk82o"]
+custom_name = "player"
+children = [SubResource("BTConsolePrint_1yeq0"), SubResource("BTAction_xtgtj"), SubResource("BTAction_1yeq0"), SubResource("BTSelector_pk82o")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_ilc2e")
+root_task = SubResource("BTSequence_pk82o")
