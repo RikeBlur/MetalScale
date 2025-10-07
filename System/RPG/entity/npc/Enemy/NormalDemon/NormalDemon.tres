@@ -1,0 +1,66 @@
+[gd_resource type="BehaviorTree" load_steps=20 format=3 uid="uid://kdala1awrcuk"]
+
+[ext_resource type="Script" uid="uid://ccr43pgd4488l" path="res://demo/ai/tasks/get_first_in_group.gd" id="1_hhdfo"]
+[ext_resource type="Script" uid="uid://dcjgktglb1slf" path="res://demo/ai/tasks/pursue.gd" id="2_saw5f"]
+[ext_resource type="Script" uid="uid://clkuwbm2txnvv" path="res://demo/ai/tasks/IsCaughtByLight.gd" id="2_t2f2i"]
+[ext_resource type="Script" uid="uid://dgoub1ru4k1k7" path="res://demo/ai/tasks/get_detector.gd" id="2_yroe1"]
+[ext_resource type="Script" uid="uid://cgwnandapnw0h" path="res://demo/ai/tasks/flee_from_light.gd" id="5_24cx0"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_5x6x3"]
+var/speed/name = &"speed"
+var/speed/type = 3
+var/speed/value = 300.0
+var/speed/hint = 0
+var/speed/hint_string = "10,1000,10"
+
+[sub_resource type="BBNode" id="BBNode_24cx0"]
+saved_value = NodePath("AnimatedSprite")
+resource_name = "AnimatedSprite"
+
+[sub_resource type="BTCallMethod" id="BTCallMethod_aqln6"]
+node = SubResource("BBNode_24cx0")
+method = &"play"
+
+[sub_resource type="BTAction" id="BTAction_24cx0"]
+script = ExtResource("2_yroe1")
+
+[sub_resource type="BTCondition" id="BTCondition_yroe1"]
+script = ExtResource("2_t2f2i")
+
+[sub_resource type="BTAction" id="BTAction_aqln6"]
+script = ExtResource("5_24cx0")
+flee_distance = 300.0
+
+[sub_resource type="BTTimeLimit" id="BTTimeLimit_24cx0"]
+time_limit = 1.0
+children = [SubResource("BTAction_aqln6")]
+
+[sub_resource type="BTSequence" id="BTSequence_lakdi"]
+custom_name = "flee"
+children = [SubResource("BTCondition_yroe1"), SubResource("BTTimeLimit_24cx0")]
+
+[sub_resource type="BTAction" id="BTAction_saw5f"]
+script = ExtResource("1_hhdfo")
+group = &"player"
+
+[sub_resource type="BTAction" id="BTAction_t2f2i"]
+script = ExtResource("2_saw5f")
+
+[sub_resource type="BTTimeLimit" id="BTTimeLimit_yroe1"]
+time_limit = 0.5
+children = [SubResource("BTAction_t2f2i")]
+
+[sub_resource type="BTSequence" id="BTSequence_5x6x3"]
+custom_name = "pursue_player"
+children = [SubResource("BTAction_saw5f"), SubResource("BTTimeLimit_yroe1")]
+
+[sub_resource type="BTSelector" id="BTSelector_t2f2i"]
+children = [SubResource("BTSequence_lakdi"), SubResource("BTSequence_5x6x3")]
+
+[sub_resource type="BTSequence" id="BTSequence_hhdfo"]
+custom_name = "main"
+children = [SubResource("BTCallMethod_aqln6"), SubResource("BTAction_24cx0"), SubResource("BTSelector_t2f2i")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_5x6x3")
+root_task = SubResource("BTSequence_hhdfo")

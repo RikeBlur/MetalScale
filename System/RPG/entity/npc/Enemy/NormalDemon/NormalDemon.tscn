@@ -1,3 +1,99 @@
-[gd_scene format=3 uid="uid://ctcr1sh6whs5s"]
+[gd_scene load_steps=17 format=3 uid="uid://ctcr1sh6whs5s"]
 
-[node name="NormalDemon" type="Node2D"]
+[ext_resource type="Texture2D" uid="uid://cdarr718smbi1" path="res://Assests/sprite/qa/eyes/eye_export_0_eye Animation.png" id="1_7ak06"]
+[ext_resource type="Script" uid="uid://66l62r06nnn4" path="res://Scripts/system/entity/enemy/normal_demon.gd" id="1_n5mda"]
+[ext_resource type="Script" uid="uid://5byn62y1oa76" path="res://demo/agents/scripts/health.gd" id="2_khjo0"]
+[ext_resource type="PackedScene" uid="uid://gkd838orapi5" path="res://System/RPG/lighting/light_detector.tscn" id="2_pord0"]
+[ext_resource type="BehaviorTree" uid="uid://kdala1awrcuk" path="res://System/RPG/entity/npc/Enemy/NormalDemon/NormalDemon.tres" id="4_7t5xi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pord0"]
+radius = 18.110771
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pord0"]
+atlas = ExtResource("1_7ak06")
+region = Rect2(0, 0, 100, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7t5xi"]
+atlas = ExtResource("1_7ak06")
+region = Rect2(0, 62, 100, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3hvfr"]
+atlas = ExtResource("1_7ak06")
+region = Rect2(0, 124, 100, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ne0r"]
+atlas = ExtResource("1_7ak06")
+region = Rect2(0, 186, 100, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2c53l"]
+atlas = ExtResource("1_7ak06")
+region = Rect2(0, 248, 100, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4yhav"]
+atlas = ExtResource("1_7ak06")
+region = Rect2(0, 310, 100, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gmpvj"]
+atlas = ExtResource("1_7ak06")
+region = Rect2(0, 372, 100, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_em7l0"]
+atlas = ExtResource("1_7ak06")
+region = Rect2(0, 434, 100, 62)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_35s1q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pord0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7t5xi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3hvfr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ne0r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2c53l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4yhav")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gmpvj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_em7l0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_n5mda"]
+
+[node name="NormalDemon" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_n5mda")
+
+[node name="lightdetector" parent="." instance=ExtResource("2_pord0")]
+extension_length = 30.0
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("2_khjo0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pord0")
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+z_index = 1
+sprite_frames = SubResource("SpriteFrames_35s1q")
+frame = 7
+frame_progress = 0.2580015
+
+[node name="BT" type="BTPlayer" parent="."]
+behavior_tree = ExtResource("4_7t5xi")
+blackboard_plan = SubResource("BlackboardPlan_n5mda")

@@ -1,9 +1,9 @@
 [gd_scene load_steps=178 format=3 uid="uid://dp5vrrvbeosux"]
 
-[ext_resource type="Script" path="res://Scripts/state_machine/player/player.gd" id="1_5fr6s"]
-[ext_resource type="Script" path="res://Scripts/state_machine/node_state_machine.gd" id="1_g6mav"]
-[ext_resource type="Script" path="res://Scripts/state_machine/player/walk_state.gd" id="2_soi3b"]
-[ext_resource type="Script" path="res://Scripts/state_machine/player/idle_state.gd" id="3_3skdx"]
+[ext_resource type="Script" uid="uid://cqscuo4027so7" path="res://Scripts/system/entity/player.gd" id="1_5fr6s"]
+[ext_resource type="Script" uid="uid://dflthbyd1yt3o" path="res://Scripts/state_machine/node_state_machine.gd" id="1_g6mav"]
+[ext_resource type="Script" uid="uid://d0goiirsp8tt6" path="res://Scripts/state_machine/player/walk_state.gd" id="2_soi3b"]
+[ext_resource type="Script" uid="uid://dgga2dn8x04s6" path="res://Scripts/state_machine/player/idle_state.gd" id="3_3skdx"]
 [ext_resource type="Material" uid="uid://byti8qx4q8lu1" path="res://Effect/Shader/glowing_outline/glowingOutline.tres" id="5_qflm1"]
 [ext_resource type="Texture2D" uid="uid://crv2fxbyxgdkb" path="res://Assests/sprite/AX/idle/idle-back-Sheet.png" id="5_rya6n"]
 [ext_resource type="Texture2D" uid="uid://bnp1fcrwfvn8r" path="res://Assests/sprite/AX/walk/walk-back-Sheet.png" id="5_thtd4"]

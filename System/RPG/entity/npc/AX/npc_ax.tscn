@@ -1,7 +1,7 @@
 [gd_scene load_steps=174 format=3 uid="uid://b7fgg2qcnwcji"]
 
-[ext_resource type="Script" path="res://Scripts/state_machine/npc/npc.gd" id="1_nwrsu"]
-[ext_resource type="Script" path="res://Scripts/state_machine/node_state_machine.gd" id="2_86k84"]
+[ext_resource type="Script" uid="uid://b62pfc5vc8hmy" path="res://Scripts/system/entity/npc.gd" id="1_nwrsu"]
+[ext_resource type="Script" uid="uid://dflthbyd1yt3o" path="res://Scripts/state_machine/node_state_machine.gd" id="2_86k84"]
 [ext_resource type="Material" uid="uid://byti8qx4q8lu1" path="res://Effect/Shader/glowing_outline/glowingOutline.tres" id="5_i224r"]
 [ext_resource type="Texture2D" uid="uid://crv2fxbyxgdkb" path="res://Assests/sprite/AX/idle/idle-back-Sheet.png" id="6_fkxkv"]
 [ext_resource type="Texture2D" uid="uid://b8s7q7yprhjax" path="res://Assests/sprite/AX/idle/idle_back_left-Sheet.png" id="7_dqf7p"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://drxum6townqdh"]
+[gd_scene load_steps=18 format=4 uid="uid://drxum6townqdh"]
 
 [ext_resource type="Script" uid="uid://dw4hvyigndglp" path="res://Scripts/system/view/camera.gd" id="1_5qjx8"]
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_by6gl"]
@@ -7,10 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bnrqip1fx0561" path="res://System/RPG/lighting/radial_light.tscn" id="4_gfkth"]
 [ext_resource type="Script" uid="uid://b3v26rgbib2s4" path="res://Scripts/system/lighting/lighting_manager.gd" id="6_nudyg"]
 [ext_resource type="Texture2D" uid="uid://rhopjwjby1mm" path="res://Assests/tileset/tileset_assest_2/neo_zero_props_02_free.png" id="7_evtkx"]
-[ext_resource type="PackedScene" uid="uid://gkd838orapi5" path="res://System/RPG/lighting/light_detector.tscn" id="8_pkn8b"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_pije4"]
-size = Vector2(66, 49)
+[ext_resource type="PackedScene" uid="uid://ctcr1sh6whs5s" path="res://System/RPG/entity/npc/Enemy/NormalDemon/NormalDemon.tscn" id="9_su6pt"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ifk1v"]
 normal = Vector2(-1, 0)
@@ -68,25 +65,6 @@ tile_set = ExtResource("3_lj6ko")
 [node name="wall" type="TileMapLayer" parent="terrian/tilemap/back/wall"]
 tile_map_data = PackedByteArray("AAAeAPv/AAADAAQAAAAeAPz/AAADAAQAAAAeAP3/AAADAAQAAAAeAP7/AAADAAQAAAAeAP//AAADAAQAAAAeAAAAAAADAAQAAAAeAAEAAAADAAQAAAAeAAIAAAADAAQAAAAeAAMAAAADAAQAAAAeAAQAAAADAAQAAAAeAAUAAAADAAQAAAAeAAYAAAADAAQAAAAeAAcAAAADAAQAAAAeAAgAAAADAAQAAAAeAAkAAAADAAQAAAAeAAoAAAADAAQAAAAeAAsAAAADAAQAAAAeAAwAAAADAAQAAAAeAA0AAAADAAQAAAAeAA4AAAADAAQAAAAeAA8AAAADAAQAAAAeABAAAAADAAQAAAAeABEAAAADAAQAAAAeABIAAAADAAQAAAAeABMAAAADAAUAAAD2/xMAAAACAAUAAAD3/xMAAAACAAUAAAD4/xMAAAACAAUAAAD5/xMAAAACAAUAAAD6/xMAAAACAAUAAAD7/xMAAAACAAUAAAD8/xMAAAACAAUAAAD9/xMAAAACAAUAAAD+/xMAAAACAAUAAAD//xMAAAACAAUAAAAAABMAAAACAAUAAAABABMAAAACAAUAAAACABMAAAACAAUAAAADABMAAAACAAUAAAAEABMAAAACAAUAAAAFABMAAAACAAUAAAAGABMAAAACAAUAAAAHABMAAAACAAUAAAAIABMAAAACAAUAAAAJABMAAAACAAUAAAAKABMAAAACAAUAAAALABMAAAACAAUAAAAMABMAAAACAAUAAAANABMAAAACAAUAAAAOABMAAAACAAUAAAAPABMAAAACAAUAAAAQABMAAAACAAUAAAARABMAAAACAAUAAAASABMAAAACAAUAAAATABMAAAACAAUAAAAUABMAAAACAAUAAAAVABMAAAACAAUAAAAWABMAAAACAAUAAAAXABMAAAACAAUAAAAYABMAAAACAAUAAAAZABMAAAACAAUAAAAaABMAAAACAAUAAAAbABMAAAACAAUAAAAcABMAAAACAAUAAAAdABMAAAACAAUAAAD1/xMAAAABAAUAAAD1//v/AAABAAQAAAD1//z/AAABAAQAAAD1//3/AAABAAQAAAD1//7/AAABAAQAAAD1////AAABAAQAAAD1/wAAAAABAAQAAAD1/wEAAAABAAQAAAD1/wIAAAABAAQAAAD1/wMAAAABAAQAAAD1/wQAAAABAAQAAAD1/wUAAAABAAQAAAD1/wYAAAABAAQAAAD1/wcAAAABAAQAAAD1/wgAAAABAAQAAAD1/wkAAAABAAQAAAD1/woAAAABAAQAAAD1/wsAAAABAAQAAAD1/wwAAAABAAQAAAD1/w0AAAABAAQAAAD1/w4AAAABAAQAAAD1/w8AAAABAAQAAAD1/xAAAAABAAQAAAD1/xEAAAABAAQAAAD1/xIAAAABAAQAAAD2//j/AAACAAMAAAD3//j/AAACAAMAAAD4//j/AAACAAMAAAD5//j/AAACAAMAAAD6//j/AAACAAMAAAD7//j/AAACAAMAAAD8//j/AAACAAMAAAD9//j/AAACAAMAAAD+//j/AAACAAMAAAD///j/AAACAAMAAAAAAPj/AAACAAMAAAABAPj/AAACAAMAAAACAPj/AAACAAMAAAADAPj/AAACAAMAAAAEAPj/AAACAAMAAAAFAPj/AAACAAMAAAAGAPj/AAACAAMAAAAHAPj/AAACAAMAAAAIAPj/AAACAAMAAAAJAPj/AAACAAMAAAAKAPj/AAACAAMAAAALAPj/AAACAAMAAAAMAPj/AAACAAMAAAANAPj/AAACAAMAAAAOAPj/AAACAAMAAAAPAPj/AAACAAMAAAAQAPj/AAACAAMAAAARAPj/AAACAAMAAAASAPj/AAACAAMAAAATAPj/AAACAAMAAAAUAPj/AAACAAMAAAAVAPj/AAACAAMAAAAWAPj/AAACAAMAAAAXAPj/AAACAAMAAAAYAPj/AAACAAMAAAAZAPj/AAACAAMAAAAaAPj/AAACAAMAAAAbAPj/AAACAAMAAAAcAPj/AAACAAMAAAAdAPj/AAACAAMAAAAeAPj/AAADAAMAAAAeAPn/AAADAAQAAAAeAPr/AAADAAQAAAD1//j/AAABAAMAAAD1//n/AAABAAQAAAD1//r/AAABAAQAAAA=")
 tile_set = ExtResource("3_lj6ko")
-
-[node name="obstacle" type="Node2D" parent="terrian/tilemap"]
-position = Vector2(-112, -69)
-
-[node name="box1" type="TileMapLayer" parent="terrian/tilemap/obstacle" groups=["occlusion"]]
-scale = Vector2(3, 3)
-tile_map_data = PackedByteArray("AAADAAMAAAAFAAcAAAAEAAMAAAAFAAcAAAAFAAMAAAAFAAcAAAAFAAIAAAAFAAcAAAAEAAIAAAAFAAcAAAADAAIAAAAFAAcAAAADAAQAAAAGAAcAAAAEAAQAAAABAAcAAAAFAAQAAAABAAcAAAAGAAQAAAAHAAcAAAAGAAIAAAAFAAcAAAAGAAMAAAAFAAcAAAA=")
-tile_set = ExtResource("3_lj6ko")
-
-[node name="top" type="TileMapLayer" parent="terrian/tilemap/obstacle/box1" groups=["occlusion"]]
-tile_map_data = PackedByteArray("AAAFAAIAAAACAAMAAAAGAAIAAAADAAMAAAAGAAMAAAADAAUAAAAFAAMAAAACAAUAAAAEAAMAAAACAAUAAAADAAMAAAABAAUAAAADAAIAAAABAAMAAAAEAAIAAAACAAMAAAA=")
-tile_set = ExtResource("3_lj6ko")
-
-[node name="StaticBody2D" type="StaticBody2D" parent="terrian/tilemap/obstacle/box1"]
-position = Vector2(58, 42.3333)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="terrian/tilemap/obstacle/box1/StaticBody2D"]
-position = Vector2(22.3333, 13.8333)
-shape = SubResource("RectangleShape2D_pije4")
 
 [node name="boundery" type="Node2D" parent="terrian"]
 
@@ -239,6 +217,5 @@ texture = SubResource("AtlasTexture_v4myu")
 position = Vector2(31, 21.5)
 shape = SubResource("RectangleShape2D_67cqq")
 
-[node name="lightdetector" parent="light_debug" instance=ExtResource("8_pkn8b")]
-position = Vector2(791, 390)
-extension_length = 25.0
+[node name="NormalDemon" parent="." instance=ExtResource("9_su6pt")]
+position = Vector2(686, 486)

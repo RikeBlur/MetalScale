@@ -15,6 +15,8 @@ var debug_label: Label = null
 
 var update_timer: Timer
 
+var intensity_now : float = 1.0
+
 func _ready():
 	# 创建更新定时器
 	update_timer = Timer.new()
@@ -26,7 +28,7 @@ func _ready():
 		debug_label = $Label
 
 func _on_update_timer_timeout():
-	calculate_and_print_intensities()
+	intensity_now = calculate_and_print_intensities()
 	if debug_mode:
 		queue_redraw()
 
@@ -72,9 +74,9 @@ func calculate_and_print_intensities() -> float:
 		# 计算平均光强
 		if valid_points > 0:
 			var average_intensity = light_intensity_sum / float(valid_points)
-			print("光源: ", light.name, " 有效检测点: ", valid_points, " 平均光强: ", average_intensity)
+			#print("光源: ", light.name, " 有效检测点: ", valid_points, " 平均光强: ", average_intensity)
 			total_intensity += average_intensity
-			if debug_mode: _update_visualize(average_intensity)
+			if debug_mode: _update_visualize()
 		else:
 			print("光源: ", light.name, " 无有效检测点")
 	
@@ -105,8 +107,8 @@ func get_nearby_lights() -> Array[light_source]:
 	"""获取附近光源列表"""
 	return nearby_light_sources
 
-func _update_visualize(intensity: float) -> void:
-	var value = snappedf(intensity, 0.01) * 100
+func _update_visualize() -> void:
+	var value = snappedf(intensity_now, 0.01)
 	debug_label.text = "Intensity:" + str(value)
 	
 

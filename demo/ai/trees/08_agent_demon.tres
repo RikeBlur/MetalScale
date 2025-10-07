@@ -1,0 +1,495 @@
+[gd_resource type="BehaviorTree" load_steps=49 format=3 uid="uid://cpcnbi81jqge4"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_8ay3j"]
+var/speed/name = &"speed"
+var/speed/type = 3
+var/speed/value = 400.0
+var/speed/hint = 1
+var/speed/hint_string = "10,1000,10"
+
+[sub_resource type="BBNode" id="BBNode_lpri5"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_p3e7a"]
+animation_player = SubResource("BBNode_lpri5")
+animation_name = &"idle"
+blend = 0.1
+
+[sub_resource type="BTRandomWait" id="BTRandomWait_j6cjm"]
+min_duration = 2.0
+max_duration = 3.0
+
+[sub_resource type="BTSequence" id="BTSequence_5thv4"]
+custom_name = "Chill"
+children = [SubResource("BTPlayAnimation_p3e7a"), SubResource("BTRandomWait_j6cjm")]
+
+[sub_resource type="BTCooldown" id="BTCooldown_oms7a"]
+trigger_on_failure = true
+children = [SubResource("BTSequence_5thv4")]
+
+[sub_resource type="GDScript" id="GDScript_nas2l"]
+script/source = "#*
+#* get_first_in_group.gd
+#* =============================================================================
+#* Copyright (c) 2023-present Serhii Snitsaruk and the LimboAI contributors.
+#*
+#* Use of this source code is governed by an MIT-style
+#* license that can be found in the LICENSE file or at
+#* https://opensource.org/licenses/MIT.
+#* =============================================================================
+#*
+@tool
+extends BTAction
+## Stores the first node in the [member group] on the blackboard, returning [code]SUCCESS[/code]. [br]
+## Returns [code]FAILURE[/code] if the group contains 0 nodes.
+
+## Name of the SceneTree group.
+@export var group: StringName
+
+## Blackboard variable in which the task will store the acquired node.
+@export var output_var: StringName = &\"target\"
+
+
+func _generate_name() -> String:
+	return \"GetFirstNodeInGroup \\\"%s\\\"  ➜%s\" % [
+		group,
+		LimboUtility.decorate_var(output_var)
+		]
+
+func _tick(_delta: float) -> Status:
+	var nodes: Array[Node] = agent.get_tree().get_nodes_in_group(group)
+	if nodes.size() == 0:
+		return FAILURE
+	blackboard.set_var(output_var, nodes[0])
+	return SUCCESS
+"
+
+[sub_resource type="BTAction" id="BTAction_ohfp7"]
+script = SubResource("GDScript_nas2l")
+group = &"player"
+
+[sub_resource type="GDScript" id="GDScript_u30da"]
+script/source = "#*
+#* in_range.gd
+#* =============================================================================
+#* Copyright (c) 2023-present Serhii Snitsaruk and the LimboAI contributors.
+#*
+#* Use of this source code is governed by an MIT-style
+#* license that can be found in the LICENSE file or at
+#* https://opensource.org/licenses/MIT.
+#* =============================================================================
+#*
+@tool
+extends BTCondition
+## InRange condition checks if the agent is within a range of target,
+## defined by [member distance_min] and [member distance_max]. [br]
+## Returns [code]SUCCESS[/code] if the agent is within the given range;
+## otherwise, returns [code]FAILURE[/code].
+
+## Minimum distance to target.
+@export var distance_min: float
+
+## Maximum distance to target.
+@export var distance_max: float
+
+## Blackboard variable that holds the target (expecting Node2D).
+@export var target_var: StringName = &\"target\"
+
+var _min_distance_squared: float
+var _max_distance_squared: float
+
+
+# Called to generate a display name for the task.
+func _generate_name() -> String:
+	return \"InRange (%d, %d) of %s\" % [distance_min, distance_max,
+		LimboUtility.decorate_var(target_var)]
+
+
+# Called to initialize the task.
+func _setup() -> void:
+	## Small performance optimization
+	_min_distance_squared = distance_min * distance_min
+	_max_distance_squared = distance_max * distance_max
+
+
+# Called when the task is executed.
+func _tick(_delta: float) -> Status:
+	var target: Node2D = blackboard.get_var(target_var, null)
+	if not is_instance_valid(target):
+		return FAILURE
+
+	var dist_sq: float = agent.global_position.distance_squared_to(target.global_position)
+	if dist_sq >= _min_distance_squared and dist_sq <= _max_distance_squared:
+		return SUCCESS
+	else:
+		return FAILURE
+"
+
+[sub_resource type="BTCondition" id="BTCondition_7a5nv"]
+script = SubResource("GDScript_u30da")
+distance_max = 150.0
+
+[sub_resource type="GDScript" id="GDScript_2qi5i"]
+script/source = "#*
+#* face_target.gd
+#* =============================================================================
+#* Copyright (c) 2023-present Serhii Snitsaruk and the LimboAI contributors.
+#*
+#* Use of this source code is governed by an MIT-style
+#* license that can be found in the LICENSE file or at
+#* https://opensource.org/licenses/MIT.
+#* =============================================================================
+#*
+@tool
+extends BTAction
+## Flips the agent to face the target, returning [code]SUCCESS[/code]. [br]
+## Returns [code]FAILURE[/code] if [member target_var] is not a valid [Node2D] instance.
+
+## Blackboard variable that stores our target (expecting Node2D).
+@export var target_var: StringName = &\"target\"
+
+# Display a customized name (requires @tool).
+func _generate_name() -> String:
+	return \"FaceTarget \" + LimboUtility.decorate_var(target_var)
+
+
+# Called each time this task is ticked (aka executed).
+func _tick(_delta: float) -> Status:
+	var target: Node2D = blackboard.get_var(target_var)
+	if not is_instance_valid(target):
+		return FAILURE
+	var dir: float = target.global_position.x - agent.global_position.x
+	agent.velocity = Vector2.ZERO
+	agent.face_dir(dir)
+	return SUCCESS
+"
+
+[sub_resource type="BTAction" id="BTAction_ddvrs"]
+script = SubResource("GDScript_2qi5i")
+
+[sub_resource type="BBNode" id="BBNode_c4nfu"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_yytkn"]
+await_completion = 3.0
+animation_player = SubResource("BBNode_c4nfu")
+animation_name = &"attack_3"
+blend = 0.1
+
+[sub_resource type="BTCooldown" id="BTCooldown_ejg6q"]
+duration = 3.0
+children = [SubResource("BTPlayAnimation_yytkn")]
+
+[sub_resource type="BTSequence" id="BTSequence_eikr4"]
+custom_name = "Melee"
+children = [SubResource("BTAction_ohfp7"), SubResource("BTCondition_7a5nv"), SubResource("BTAction_ddvrs"), SubResource("BTCooldown_ejg6q")]
+
+[sub_resource type="BTCondition" id="BTCondition_h75v8"]
+script = SubResource("GDScript_u30da")
+distance_max = 300.0
+
+[sub_resource type="BTAction" id="BTAction_wpt7j"]
+script = SubResource("GDScript_2qi5i")
+
+[sub_resource type="BBNode" id="BBNode_iv62h"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_wnaul"]
+animation_player = SubResource("BBNode_iv62h")
+animation_name = &"walk"
+blend = 0.1
+speed = -1.0
+
+[sub_resource type="GDScript" id="GDScript_g4w0d"]
+script/source = "#*
+#* back_away.gd
+#* =============================================================================
+#* Copyright (c) 2023-present Serhii Snitsaruk and the LimboAI contributors.
+#*
+#* Use of this source code is governed by an MIT-style
+#* license that can be found in the LICENSE file or at
+#* https://opensource.org/licenses/MIT.
+#* =============================================================================
+#*
+@tool
+extends BTAction
+## Moves the agent in the opposite direction of its current facing. [br]
+## Returns [code]RUNNING[/code] always.
+
+## Blackboard variable that stores desired speed.
+@export var speed_var: StringName = &\"speed\"
+
+## How much can we deviate from the \"away\" direction (in radians).
+@export var max_angle_deviation: float = 0.7
+
+var _dir: Vector2
+var _desired_velocity: Vector2
+
+
+# Called each time this task is entered.
+func _enter() -> void:
+	# Determine \"away\" direction and desired velocity
+	_dir = Vector2.LEFT * agent.get_facing()
+	var speed: float = blackboard.get_var(speed_var, 200.0)
+	var rand_angle = randf_range(-max_angle_deviation, max_angle_deviation)
+	_desired_velocity = _dir.rotated(rand_angle) * speed
+
+
+# Called each time this task is ticked (aka executed).
+func _tick(_delta: float) -> Status:
+	agent.move(_desired_velocity)
+	agent.face_dir(-signf(_dir.x))
+	return RUNNING
+"
+
+[sub_resource type="BTAction" id="BTAction_h2efl"]
+script = SubResource("GDScript_g4w0d")
+
+[sub_resource type="BTTimeLimit" id="BTTimeLimit_wm5g2"]
+time_limit = 1.0
+children = [SubResource("BTAction_h2efl")]
+
+[sub_resource type="BTSequence" id="BTSequence_wh4dl"]
+custom_name = "Back away"
+children = [SubResource("BTCondition_h75v8"), SubResource("BTAction_wpt7j"), SubResource("BTPlayAnimation_wnaul"), SubResource("BTTimeLimit_wm5g2")]
+
+[sub_resource type="BTComment" id="BTComment_mqte5"]
+custom_name = "Get into position"
+
+[sub_resource type="BBNode" id="BBNode_edmui"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_vjtpq"]
+animation_player = SubResource("BBNode_edmui")
+animation_name = &"walk"
+blend = 0.1
+
+[sub_resource type="GDScript" id="GDScript_rj8nr"]
+script/source = "#*
+#* select_flanking_pos.gd
+#* =============================================================================
+#* Copyright (c) 2023-present Serhii Snitsaruk and the LimboAI contributors.
+#*
+#* Use of this source code is governed by an MIT-style
+#* license that can be found in the LICENSE file or at
+#* https://opensource.org/licenses/MIT.
+#* =============================================================================
+#*
+@tool
+extends BTAction
+## Selects a position on the target's side and stores it on the
+## blackboard, returning [code]SUCCESS[/code]. [br]
+## Returns [code]FAILURE[/code] if the target is not valid.
+
+enum AgentSide {
+	CLOSEST,
+	FARTHEST,
+	BACK,
+	FRONT,
+}
+
+## Blackboard variable that holds current target (should be a Node2D instance).
+@export var target_var: StringName = &\"target\"
+
+## Which agent's side should we flank?
+@export var flank_side: AgentSide = AgentSide.CLOSEST
+
+## Minimum range relative to the target.
+@export var range_min: int = 300
+
+## Maximum range relative to the target.
+@export var range_max: int = 400
+
+## Blackboard variable that will be used to store selected position.
+@export var position_var: StringName = &\"pos\"
+
+
+# Display a customized name (requires @tool).
+func _generate_name() -> String:
+	return \"SelectFlankingPos  target: %s  range: [%s, %s]  side: %s  ➜%s\" % [
+		LimboUtility.decorate_var(target_var),
+		range_min,
+		range_max,
+		AgentSide.keys()[flank_side],
+		LimboUtility.decorate_var(position_var)]
+
+
+# Called each time this task is ticked (aka executed).
+func _tick(_delta: float) -> Status:
+	var target := blackboard.get_var(target_var) as Node2D
+	if not is_instance_valid(target):
+		return FAILURE
+
+	var dir: float  # 1.0 is right, -1.0 is left (relative to target)
+	match flank_side:
+		AgentSide.FARTHEST:
+			dir = signf(target.global_position.x - agent.global_position.x)
+		AgentSide.CLOSEST :
+			dir = -signf(target.global_position.x - agent.global_position.x)
+		AgentSide.BACK:
+			dir = -target.get_facing()
+		AgentSide.FRONT:
+			dir = target.get_facing()
+
+	var flank_pos: Vector2
+	var offset := Vector2(dir * randf_range(range_min, range_max), 0.0)
+	flank_pos = target.global_position + offset
+	if not agent.is_good_position(flank_pos):
+		# Choose the opposite side if the preferred side is not good (i.e., inside a collision shape).
+		flank_pos = target.global_position - offset
+	blackboard.set_var(position_var, flank_pos)
+	return SUCCESS
+"
+
+[sub_resource type="BTAction" id="BTAction_4mmh0"]
+script = SubResource("GDScript_rj8nr")
+range_max = 700
+
+[sub_resource type="GDScript" id="GDScript_olfnc"]
+script/source = "#*
+#* arrive_pos.gd
+#* =============================================================================
+#* Copyright (c) 2023-present Serhii Snitsaruk and the LimboAI contributors.
+#*
+#* Use of this source code is governed by an MIT-style
+#* license that can be found in the LICENSE file or at
+#* https://opensource.org/licenses/MIT.
+#* =============================================================================
+#*
+@tool
+extends BTAction
+## Moves the agent to the specified position, favoring horizontal movement. [br]
+## Returns [code]SUCCESS[/code] when close to the target position (see [member tolerance]);
+## otherwise returns [code]RUNNING[/code].
+
+## Blackboard variable that stores the target position (Vector2)
+@export var target_position_var := &\"pos\"
+
+## Variable that stores desired speed (float)
+@export var speed_var := &\"speed\"
+
+## How close should the agent be to the target position to return SUCCESS.
+@export var tolerance := 50.0
+
+## Specifies the node to avoid (valid Node2D is expected).
+## If not empty, agent will circle around the node while moving into position.
+@export var avoid_var: StringName
+
+
+func _generate_name() -> String:
+	return \"Arrive  pos: %s%s\" % [
+		LimboUtility.decorate_var(target_position_var),
+		\"\" if avoid_var.is_empty() else \"  avoid: \" + LimboUtility.decorate_var(avoid_var)
+	]
+
+
+func _tick(_delta: float) -> Status:
+	var target_pos: Vector2 = blackboard.get_var(target_position_var, Vector2.ZERO)
+	if target_pos.distance_to(agent.global_position) < tolerance:
+		return SUCCESS
+
+	var speed: float = blackboard.get_var(speed_var, 10.0)
+	var dist: float = absf(agent.global_position.x - target_pos.x)
+	var dir: Vector2 = agent.global_position.direction_to(target_pos)
+
+	# Prefer horizontal movement:
+	var vertical_factor: float = remap(dist, 200.0, 500.0, 1.0, 0.0)
+	vertical_factor = clampf(vertical_factor, 0.0, 1.0)
+	dir.y *= vertical_factor
+
+	# Avoid the node specified by `avoid_var`.
+	# I.e., if `avoid_var` is set, agent will circle around that node while moving into position.
+	if not avoid_var.is_empty():
+		var avoid_node: Node2D = blackboard.get_var(avoid_var)
+		if is_instance_valid(avoid_node):
+			var distance_vector: Vector2 = avoid_node.global_position - agent.global_position
+			if dir.dot(distance_vector) > 0.0:
+				var side := dir.rotated(PI * 0.5).normalized()
+				# The closer we are to the avoid target, the stronger is the avoidance.
+				var strength: float = remap(distance_vector.length(), 200.0, 400.0, 1.0, 0.0)
+				strength = clampf(strength, 0.0, 1.0)
+				var avoidance := side * signf(-side.dot(distance_vector)) * strength
+				dir += avoidance
+
+	var desired_velocity: Vector2 = dir.normalized() * speed
+	agent.move(desired_velocity)
+	agent.update_facing()
+	return RUNNING
+"
+
+[sub_resource type="BTAction" id="BTAction_vb5c3"]
+script = SubResource("GDScript_olfnc")
+
+[sub_resource type="BTTimeLimit" id="BTTimeLimit_jyks2"]
+children = [SubResource("BTAction_vb5c3")]
+
+[sub_resource type="BTComment" id="BTComment_ym6nj"]
+custom_name = "Short break before action"
+
+[sub_resource type="BTAction" id="BTAction_fkevy"]
+script = SubResource("GDScript_2qi5i")
+
+[sub_resource type="BBNode" id="BBNode_lh25u"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_vcjeq"]
+animation_player = SubResource("BBNode_lh25u")
+animation_name = &"idle"
+blend = 0.1
+
+[sub_resource type="BTWait" id="BTWait_42smh"]
+duration = 0.2
+
+[sub_resource type="BTComment" id="BTComment_nbp2b"]
+custom_name = "Spit fire!"
+
+[sub_resource type="BBNode" id="BBNode_cqw71"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_214yn"]
+await_completion = 3.0
+animation_player = SubResource("BBNode_cqw71")
+animation_name = &"spit"
+blend = 0.1
+
+[sub_resource type="BBNode" id="BBNode_dv5b5"]
+saved_value = NodePath(".")
+resource_name = "."
+
+[sub_resource type="BTCallMethod" id="BTCallMethod_lk7i6"]
+node = SubResource("BBNode_dv5b5")
+method = &"spit_fire"
+
+[sub_resource type="BTComment" id="BTComment_fndxk"]
+custom_name = "Wind down"
+
+[sub_resource type="BBNode" id="BBNode_m68ui"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
+
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_m7gyp"]
+animation_player = SubResource("BBNode_m68ui")
+animation_name = &"idle"
+blend = 0.1
+
+[sub_resource type="BTRandomWait" id="BTRandomWait_v0el8"]
+min_duration = 0.7
+max_duration = 1.5
+
+[sub_resource type="BTSequence" id="BTSequence_djtph"]
+custom_name = "Spit fire"
+children = [SubResource("BTComment_mqte5"), SubResource("BTPlayAnimation_vjtpq"), SubResource("BTAction_4mmh0"), SubResource("BTTimeLimit_jyks2"), SubResource("BTComment_ym6nj"), SubResource("BTAction_fkevy"), SubResource("BTPlayAnimation_vcjeq"), SubResource("BTWait_42smh"), SubResource("BTComment_nbp2b"), SubResource("BTPlayAnimation_214yn"), SubResource("BTCallMethod_lk7i6"), SubResource("BTComment_fndxk"), SubResource("BTPlayAnimation_m7gyp"), SubResource("BTRandomWait_v0el8")]
+
+[sub_resource type="BTSelector" id="BTSelector_feba6"]
+children = [SubResource("BTCooldown_oms7a"), SubResource("BTSequence_eikr4"), SubResource("BTSequence_wh4dl"), SubResource("BTSequence_djtph")]
+
+[resource]
+description = "Here, we use the [con]InRange[/con] condition task together with [comp]Sequence[/comp] and [comp]Selector[/comp] to create a reactive behavior for this agent. When the player comes close, this agent will attempt to hit them with a melee attack and move away afterward for a better ranged position."
+blackboard_plan = SubResource("BlackboardPlan_8ay3j")
+root_task = SubResource("BTSelector_feba6")

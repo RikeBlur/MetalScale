@@ -1,10 +1,10 @@
 [gd_scene load_steps=259 format=3 uid="uid://ds14l74hq1t3s"]
 
-[ext_resource type="Script" path="res://Scripts/state_machine/player/player.gd" id="1_58adm"]
-[ext_resource type="Script" path="res://Scripts/state_machine/node_state_machine.gd" id="2_o2obw"]
-[ext_resource type="Script" path="res://Scripts/state_machine/player/walk_state.gd" id="3_jf3fs"]
-[ext_resource type="Script" path="res://Scripts/state_machine/player/idle_state.gd" id="4_r26sp"]
-[ext_resource type="Script" path="res://Scripts/state_machine/player/run_state.gd" id="5_6cwob"]
+[ext_resource type="Script" uid="uid://cqscuo4027so7" path="res://Scripts/system/entity/player.gd" id="1_58adm"]
+[ext_resource type="Script" uid="uid://dflthbyd1yt3o" path="res://Scripts/state_machine/node_state_machine.gd" id="2_o2obw"]
+[ext_resource type="Script" uid="uid://d0goiirsp8tt6" path="res://Scripts/state_machine/player/walk_state.gd" id="3_jf3fs"]
+[ext_resource type="Script" uid="uid://dgga2dn8x04s6" path="res://Scripts/state_machine/player/idle_state.gd" id="4_r26sp"]
+[ext_resource type="Script" uid="uid://dj635ajyqqtxn" path="res://Scripts/state_machine/player/run_state.gd" id="5_6cwob"]
 [ext_resource type="Material" uid="uid://byti8qx4q8lu1" path="res://Effect/Shader/glowing_outline/glowingOutline.tres" id="5_pqv8x"]
 [ext_resource type="Texture2D" uid="uid://daudkeas5wqrg" path="res://Assests/sprite/Oni/idle/idle-back-Sheet.png" id="8_jhu3j"]
 [ext_resource type="Texture2D" uid="uid://c7uv2k6et6f6m" path="res://Assests/sprite/Oni/idle/idle-back-left-Sheet.png" id="9_2ttpw"]
@@ -1766,6 +1766,7 @@ Animated_Sprite = NodePath("../../Animate")
 
 [node name="Animate" type="AnimatedSprite2D" parent="."]
 light_mask = 2
+z_index = 1
 material = ExtResource("5_pqv8x")
 position = Vector2(-5.96046e-08, -67)
 scale = Vector2(0.3, 0.3)

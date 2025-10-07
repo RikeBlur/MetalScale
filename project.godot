@@ -153,6 +153,11 @@ running={
 2d_physics/layer_7="Interact"
 2d_physics/layer_8="BeInteracted"
 
+[limbo_ai]
+
+behavior_tree/behavior_tree_default_dir="res://Scripts/system/ai/tasks"
+behavior_tree/user_task_dirs=PackedStringArray("res://Scripts/system/ai/tasks")
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
