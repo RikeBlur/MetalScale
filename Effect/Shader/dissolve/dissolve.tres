@@ -10,5 +10,5 @@ noise = SubResource("FastNoiseLite_5bmp1")
 [resource]
 resource_local_to_scene = true
 shader = ExtResource("1_5bmp1")
-shader_parameter/DissolveValue = 1.0
 shader_parameter/Noise = SubResource("NoiseTexture2D_5bmp1")
+shader_parameter/DissolveValue = 1.0

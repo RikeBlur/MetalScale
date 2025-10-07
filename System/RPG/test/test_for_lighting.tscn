@@ -1,11 +1,11 @@
-[gd_scene load_steps=21 format=4 uid="uid://drxum6townqdh"]
+[gd_scene load_steps=19 format=4 uid="uid://drxum6townqdh"]
 
-[ext_resource type="Script" path="res://Scripts/system/view/camera.gd" id="1_5qjx8"]
+[ext_resource type="Script" uid="uid://dw4hvyigndglp" path="res://Scripts/system/view/camera.gd" id="1_5qjx8"]
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_by6gl"]
 [ext_resource type="PackedScene" uid="uid://ds14l74hq1t3s" path="res://System/RPG/entity/controllable/player_Oni.tscn" id="2_l0tuh"]
 [ext_resource type="TileSet" uid="uid://dwo48yd7cr5yt" path="res://Style/tilesets/test_assest_2.tres" id="3_lj6ko"]
 [ext_resource type="PackedScene" uid="uid://bnrqip1fx0561" path="res://System/RPG/lighting/radial_light.tscn" id="4_gfkth"]
-[ext_resource type="Script" path="res://Scripts/system/lighting/lighting_manager.gd" id="6_nudyg"]
+[ext_resource type="Script" uid="uid://b3v26rgbib2s4" path="res://Scripts/system/lighting/lighting_manager.gd" id="6_nudyg"]
 [ext_resource type="Texture2D" uid="uid://rhopjwjby1mm" path="res://Assests/tileset/tileset_assest_2/neo_zero_props_02_free.png" id="7_evtkx"]
 [ext_resource type="PackedScene" uid="uid://gkd838orapi5" path="res://System/RPG/lighting/light_detector.tscn" id="8_pkn8b"]
 
@@ -40,12 +40,6 @@ size = Vector2(69, 46)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_67cqq"]
 size = Vector2(70, 47)
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ri14c"]
-polygon = PackedVector2Array(-55, -95, 184, -94, 185, 48, 153, 47, 154, 2, -50, 0, -50, 45, -56, 45)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2woey"]
-size = Vector2(122, 88)
 
 [node name="TestForLighting" type="Node2D"]
 
@@ -156,7 +150,7 @@ environment = SubResource("Environment_c6vp4")
 position = Vector2(-122, -140)
 
 [node name="LightOccluder1" type="LightOccluder2D" parent="light_debug" groups=["occlusion"]]
-position = Vector2(380, 298)
+position = Vector2(716, 319)
 occluder = SubResource("OccluderPolygon2D_ye6ua")
 
 [node name="Sprite2D" type="Sprite2D" parent="light_debug/LightOccluder1"]
@@ -171,7 +165,7 @@ position = Vector2(30.5, 22)
 shape = SubResource("RectangleShape2D_pl6xt")
 
 [node name="LightOccluder2" type="LightOccluder2D" parent="light_debug" groups=["occlusion"]]
-position = Vector2(684, 343)
+position = Vector2(755, 416)
 occluder = SubResource("OccluderPolygon2D_ye6ua")
 
 [node name="Sprite2D" type="Sprite2D" parent="light_debug/LightOccluder2"]
@@ -186,7 +180,7 @@ position = Vector2(31, 21.5)
 shape = SubResource("RectangleShape2D_67cqq")
 
 [node name="LightOccluder3" type="LightOccluder2D" parent="light_debug" groups=["occlusion"]]
-position = Vector2(311, 502)
+position = Vector2(353, 414)
 occluder = SubResource("OccluderPolygon2D_ye6ua")
 
 [node name="Sprite2D" type="Sprite2D" parent="light_debug/LightOccluder3"]
@@ -201,7 +195,7 @@ position = Vector2(31, 21.5)
 shape = SubResource("RectangleShape2D_67cqq")
 
 [node name="LightOccluder4" type="LightOccluder2D" parent="light_debug" groups=["occlusion"]]
-position = Vector2(726, 559)
+position = Vector2(623, 244)
 occluder = SubResource("OccluderPolygon2D_ye6ua")
 
 [node name="Sprite2D" type="Sprite2D" parent="light_debug/LightOccluder4"]
@@ -215,23 +209,36 @@ texture = SubResource("AtlasTexture_v4myu")
 position = Vector2(31, 21.5)
 shape = SubResource("RectangleShape2D_67cqq")
 
+[node name="LightOccluder5" type="LightOccluder2D" parent="light_debug" groups=["occlusion"]]
+position = Vector2(499, 246)
+occluder = SubResource("OccluderPolygon2D_ye6ua")
+
+[node name="Sprite2D" type="Sprite2D" parent="light_debug/LightOccluder5"]
+position = Vector2(30.5, 22)
+scale = Vector2(5.75, 3.28571)
+texture = SubResource("AtlasTexture_v4myu")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="light_debug/LightOccluder5"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="light_debug/LightOccluder5/StaticBody2D"]
+position = Vector2(31, 21.5)
+shape = SubResource("RectangleShape2D_67cqq")
+
+[node name="LightOccluder6" type="LightOccluder2D" parent="light_debug" groups=["occlusion"]]
+position = Vector2(392, 311)
+occluder = SubResource("OccluderPolygon2D_ye6ua")
+
+[node name="Sprite2D" type="Sprite2D" parent="light_debug/LightOccluder6"]
+position = Vector2(30.5, 22)
+scale = Vector2(5.75, 3.28571)
+texture = SubResource("AtlasTexture_v4myu")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="light_debug/LightOccluder6"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="light_debug/LightOccluder6/StaticBody2D"]
+position = Vector2(31, 21.5)
+shape = SubResource("RectangleShape2D_67cqq")
+
 [node name="lightdetector" parent="light_debug" instance=ExtResource("8_pkn8b")]
 position = Vector2(791, 390)
 extension_length = 25.0
-
-[node name="light_debug2" type="Node2D" parent="."]
-
-[node name="LightOccluder1" type="LightOccluder2D" parent="light_debug2" groups=["occlusion"]]
-position = Vector2(1291, 536)
-occluder = SubResource("OccluderPolygon2D_ri14c")
-
-[node name="Sprite2D" type="Sprite2D" parent="light_debug2/LightOccluder1"]
-position = Vector2(4.99999, 1.49998)
-scale = Vector2(10, 6.21428)
-texture = SubResource("AtlasTexture_v4myu")
-
-[node name="StaticBody2D" type="StaticBody2D" parent="light_debug2/LightOccluder1"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="light_debug2/LightOccluder1/StaticBody2D"]
-position = Vector2(5, 1)
-shape = SubResource("RectangleShape2D_2woey")

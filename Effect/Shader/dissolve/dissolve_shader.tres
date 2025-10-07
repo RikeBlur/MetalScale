@@ -46,7 +46,7 @@ code = "shader_type canvas_item;
 render_mode blend_mix;
 
 uniform sampler2D Noise;
-uniform float DissolveValue : hint_range(0, 1);
+uniform float DissolveValue : hint_range(0.0, 1.0);
 
 
 

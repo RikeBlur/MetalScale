@@ -37,7 +37,7 @@ func update_ray_collisions():
 		var closest_intersection_distance = radius + range_offset
 		var has_intersection = false
 		
-		# 检查与所有遮挡点的交点
+		# 检查与所有遮挡点的交点（可优化！！！aw）
 		for point in occlusion_points:
 			var intersection_distance = calculate_ray_point_intersection(ray_direction, point)
 			if intersection_distance > 0 and intersection_distance < closest_intersection_distance:

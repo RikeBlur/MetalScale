@@ -12,12 +12,11 @@ config_version=5
 
 config/name="metal_scale"
 run/main_scene="res://System/RPG/test/test_for_lighting.tscn"
-config/features=PackedStringArray("4.3", "Forward Plus")
+config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 Tools="*res://Scripts/global/Tools.gd"
 RPGInputEvents="*res://Scripts/global/game_input_events.gd"
 RPGTimeManager="*res://Scripts/global/time_manager.gd"
@@ -73,10 +72,6 @@ audio/channel_defaults={
 
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
-
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/dialogic/plugin.cfg")
 
 [file_customization]
 

@@ -1,5 +1,8 @@
 # UPDATE
 ## 25.10.07
+换godot4.5之后帧率明显提升
+
+## 25.10.07
 光照系统优化问题：
 	1.occlusion_points的采用多边形边缘采样，同时 gird_size 设为20，降低点数
 	2.radius_light_source 采样光线设置为36个，intersection阈值设为10
