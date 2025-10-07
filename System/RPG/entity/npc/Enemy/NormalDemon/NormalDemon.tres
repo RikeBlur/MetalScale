@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=20 format=3 uid="uid://kdala1awrcuk"]
+[gd_resource type="BehaviorTree" load_steps=22 format=3 uid="uid://kdala1awrcuk"]
 
 [ext_resource type="Script" uid="uid://ccr43pgd4488l" path="res://demo/ai/tasks/get_first_in_group.gd" id="1_hhdfo"]
 [ext_resource type="Script" uid="uid://dcjgktglb1slf" path="res://demo/ai/tasks/pursue.gd" id="2_saw5f"]
@@ -26,18 +26,26 @@ script = ExtResource("2_yroe1")
 
 [sub_resource type="BTCondition" id="BTCondition_yroe1"]
 script = ExtResource("2_t2f2i")
+tolerance = 0.01
 
 [sub_resource type="BTAction" id="BTAction_aqln6"]
 script = ExtResource("5_24cx0")
 flee_distance = 300.0
 
 [sub_resource type="BTTimeLimit" id="BTTimeLimit_24cx0"]
-time_limit = 1.0
+time_limit = 0.1
 children = [SubResource("BTAction_aqln6")]
 
 [sub_resource type="BTSequence" id="BTSequence_lakdi"]
 custom_name = "flee"
 children = [SubResource("BTCondition_yroe1"), SubResource("BTTimeLimit_24cx0")]
+
+[sub_resource type="BTCondition" id="BTCondition_24cx0"]
+script = ExtResource("2_t2f2i")
+tolerance = 0.01
+
+[sub_resource type="BTInvert" id="BTInvert_aqln6"]
+children = [SubResource("BTCondition_24cx0")]
 
 [sub_resource type="BTAction" id="BTAction_saw5f"]
 script = ExtResource("1_hhdfo")
@@ -47,12 +55,12 @@ group = &"player"
 script = ExtResource("2_saw5f")
 
 [sub_resource type="BTTimeLimit" id="BTTimeLimit_yroe1"]
-time_limit = 0.5
+time_limit = 0.1
 children = [SubResource("BTAction_t2f2i")]
 
 [sub_resource type="BTSequence" id="BTSequence_5x6x3"]
 custom_name = "pursue_player"
-children = [SubResource("BTAction_saw5f"), SubResource("BTTimeLimit_yroe1")]
+children = [SubResource("BTInvert_aqln6"), SubResource("BTAction_saw5f"), SubResource("BTTimeLimit_yroe1")]
 
 [sub_resource type="BTSelector" id="BTSelector_t2f2i"]
 children = [SubResource("BTSequence_lakdi"), SubResource("BTSequence_5x6x3")]
