@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=16 format=3 uid="uid://byh2pg3d8qkyw"]
+[gd_resource type="BehaviorTree" load_steps=22 format=3 uid="uid://byh2pg3d8qkyw"]
 
 [ext_resource type="Script" uid="uid://ruy6igvdnadx" path="res://Scripts/system/ai/tasks/get_first_in_group.gd" id="1_qc6cw"]
 [ext_resource type="Script" uid="uid://cpgmrr2q5ku7l" path="res://Scripts/system/ai/tasks/get_target_distance.gd" id="2_37ams"]
@@ -31,6 +31,20 @@ variable = &"target_distance"
 check_type = 2
 value = SubResource("BBVariant_7kwc8")
 
+[sub_resource type="BBVariant" id="BBVariant_5t1gq"]
+type = 4
+saved_value = "patrol"
+resource_name = "patrol"
+
+[sub_resource type="BBNode" id="BBNode_7kwc8"]
+saved_value = NodePath("AnimatedSprite")
+resource_name = "AnimatedSprite"
+
+[sub_resource type="BTCallMethod" id="BTCallMethod_k5u4w"]
+node = SubResource("BBNode_7kwc8")
+method = &"play"
+args = Array[BBVariant]([SubResource("BBVariant_5t1gq")])
+
 [sub_resource type="BTWait" id="BTWait_5t1gq"]
 
 [sub_resource type="BTAction" id="BTAction_7kwc8"]
@@ -43,13 +57,22 @@ children = [SubResource("BTAction_7kwc8")]
 
 [sub_resource type="BTSequence" id="BTSequence_7kwc8"]
 custom_name = "patrol"
-children = [SubResource("BTWait_5t1gq"), SubResource("BTTimeLimit_5t1gq")]
+children = [SubResource("BTCallMethod_k5u4w"), SubResource("BTWait_5t1gq"), SubResource("BTTimeLimit_5t1gq")]
+
+[sub_resource type="BTAlwaysFail" id="BTAlwaysFail_5t1gq"]
+children = [SubResource("BTSequence_7kwc8")]
 
 [sub_resource type="BTSelector" id="BTSelector_37ams"]
-children = [SubResource("BTCheckVar_k5u4w"), SubResource("BTSequence_7kwc8")]
+children = [SubResource("BTCheckVar_k5u4w"), SubResource("BTAlwaysFail_5t1gq")]
+
+[sub_resource type="BTSequence" id="BTSequence_5t1gq"]
+children = [SubResource("BTAction_5t1gq"), SubResource("BTSelector_37ams")]
+
+[sub_resource type="BTRepeatUntilSuccess" id="BTRepeatUntilSuccess_7kwc8"]
+children = [SubResource("BTSequence_5t1gq")]
 
 [sub_resource type="BTSequence" id="BTSequence_37ams"]
-children = [SubResource("BTConsolePrint_lynhw"), SubResource("BTAction_37ams"), SubResource("BTAction_5t1gq"), SubResource("BTSelector_37ams")]
+children = [SubResource("BTConsolePrint_lynhw"), SubResource("BTAction_37ams"), SubResource("BTRepeatUntilSuccess_7kwc8")]
 
 [resource]
 blackboard_plan = SubResource("BlackboardPlan_lynhw")

@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=32 format=3 uid="uid://dw3ywrr6pnj8o"]
+[gd_resource type="BehaviorTree" load_steps=35 format=3 uid="uid://dw3ywrr6pnj8o"]
 
 [ext_resource type="Script" uid="uid://ruy6igvdnadx" path="res://Scripts/system/ai/tasks/get_first_in_group.gd" id="1_pk82o"]
 [ext_resource type="Script" uid="uid://cpgmrr2q5ku7l" path="res://Scripts/system/ai/tasks/get_target_distance.gd" id="2_y6ake"]
@@ -25,6 +25,11 @@ group = &"player"
 [sub_resource type="BTAction" id="BTAction_1yeq0"]
 script = ExtResource("2_y6ake")
 
+[sub_resource type="BBVariant" id="BBVariant_5t1gq"]
+type = 4
+saved_value = "pursue"
+resource_name = "pursue"
+
 [sub_resource type="BBNode" id="BBNode_h843t"]
 saved_value = NodePath("AnimatedSprite")
 resource_name = "AnimatedSprite"
@@ -32,6 +37,7 @@ resource_name = "AnimatedSprite"
 [sub_resource type="BTCallMethod" id="BTCallMethod_rxbbq"]
 node = SubResource("BBNode_h843t")
 method = &"play"
+args = Array[BBVariant]([SubResource("BBVariant_5t1gq")])
 
 [sub_resource type="BTAction" id="BTAction_mlucc"]
 script = ExtResource("3_7clef")
@@ -85,20 +91,26 @@ children = [SubResource("BTSequence_ft3k3")]
 
 [sub_resource type="BBVariant" id="BBVariant_tftqv"]
 type = 3
-saved_value = 200.0
-resource_name = "200.0"
+saved_value = 500.0
+resource_name = "500.0"
 
 [sub_resource type="BTCheckVar" id="BTCheckVar_7clef"]
 variable = &"target_distance"
 check_type = 3
 value = SubResource("BBVariant_tftqv")
 
-[sub_resource type="BTSelector" id="BTSelector_pk82o"]
+[sub_resource type="BTSelector" id="BTSelector_7clef"]
 children = [SubResource("BTAlwaysFail_ec12m"), SubResource("BTCheckVar_7clef")]
+
+[sub_resource type="BTSequence" id="BTSequence_7clef"]
+children = [SubResource("BTAction_1yeq0"), SubResource("BTSelector_7clef")]
+
+[sub_resource type="BTRepeatUntilSuccess" id="BTRepeatUntilSuccess_gu11r"]
+children = [SubResource("BTSequence_7clef")]
 
 [sub_resource type="BTSequence" id="BTSequence_pk82o"]
 custom_name = "player"
-children = [SubResource("BTConsolePrint_1yeq0"), SubResource("BTAction_xtgtj"), SubResource("BTAction_1yeq0"), SubResource("BTSelector_pk82o")]
+children = [SubResource("BTConsolePrint_1yeq0"), SubResource("BTAction_xtgtj"), SubResource("BTRepeatUntilSuccess_gu11r")]
 
 [resource]
 blackboard_plan = SubResource("BlackboardPlan_ilc2e")

@@ -1,10 +1,9 @@
-[gd_scene load_steps=18 format=4 uid="uid://drxum6townqdh"]
+[gd_scene load_steps=17 format=4 uid="uid://drxum6townqdh"]
 
 [ext_resource type="Script" uid="uid://dw4hvyigndglp" path="res://Scripts/system/view/camera.gd" id="1_5qjx8"]
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_by6gl"]
 [ext_resource type="PackedScene" uid="uid://ds14l74hq1t3s" path="res://System/RPG/entity/controllable/player_Oni.tscn" id="2_l0tuh"]
 [ext_resource type="TileSet" uid="uid://dwo48yd7cr5yt" path="res://Style/tilesets/test_assest_2.tres" id="3_lj6ko"]
-[ext_resource type="PackedScene" uid="uid://bnrqip1fx0561" path="res://System/RPG/lighting/radial_light.tscn" id="4_gfkth"]
 [ext_resource type="Script" uid="uid://b3v26rgbib2s4" path="res://Scripts/system/lighting/lighting_manager.gd" id="6_nudyg"]
 [ext_resource type="Texture2D" uid="uid://rhopjwjby1mm" path="res://Assests/tileset/tileset_assest_2/neo_zero_props_02_free.png" id="7_evtkx"]
 [ext_resource type="PackedScene" uid="uid://ctcr1sh6whs5s" path="res://System/RPG/entity/npc/Enemy/NormalDemon/NormalDemon.tscn" id="9_su6pt"]
@@ -98,12 +97,8 @@ shape = SubResource("WorldBoundaryShape2D_udewa")
 [node name="Player_Oni" parent="." instance=ExtResource("2_l0tuh")]
 y_sort_enabled = true
 player_walk_speed_max = 120
+player_run_speed_max = 500
 player_walk_speed_min = 20
-
-[node name="radial_light" parent="Player_Oni" instance=ExtResource("4_gfkth")]
-range_item_cull_mask = 3
-texture_scale = 10.0
-radius = 300.0
 
 [node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
 position = Vector2(572, 326)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=259 format=3 uid="uid://ds14l74hq1t3s"]
+[gd_scene load_steps=260 format=3 uid="uid://ds14l74hq1t3s"]
 
 [ext_resource type="Script" uid="uid://cqscuo4027so7" path="res://Scripts/system/entity/player.gd" id="1_58adm"]
 [ext_resource type="Script" uid="uid://dflthbyd1yt3o" path="res://Scripts/state_machine/node_state_machine.gd" id="2_o2obw"]
@@ -31,6 +31,7 @@
 [ext_resource type="Texture2D" uid="uid://nhc82iwr7o3s" path="res://Assests/sprite/Oni/run/run-right-Sheet.png" id="22_8ngwo"]
 [ext_resource type="Texture2D" uid="uid://b5y7mc6vhqrcm" path="res://Assests/sprite/Oni/walk/walk-right-Sheet.png" id="22_mg8q7"]
 [ext_resource type="PackedScene" uid="uid://d8qsnxa2ok7a" path="res://System/RPG/interact/interact_component.tscn" id="22_wc45c"]
+[ext_resource type="Script" uid="uid://dkkcxq5sww6a6" path="res://Scripts/system/entity/tool_manager.gd" id="32_okprr"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_blmno"]
 radius = 17.0
@@ -1784,3 +1785,8 @@ player_node = NodePath("../..")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="interact_rage"]
 position = Vector2(-0.5, -61)
 shape = SubResource("RectangleShape2D_id5i6")
+
+[node name="ToolManager" type="Node2D" parent="." node_paths=PackedStringArray("player_now")]
+script = ExtResource("32_okprr")
+player_now = NodePath("..")
+current_tool = 1

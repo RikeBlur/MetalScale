@@ -24,8 +24,8 @@ func _ready():
 	update_timer.timeout.connect(_on_update_timer_timeout)
 	add_child(update_timer)
 	update_timer.start()
-	if debug_mode:
-		debug_label = $Label
+	debug_label = $Label
+	if !debug_mode : debug_label.visible = false
 
 func _on_update_timer_timeout():
 	intensity_now = calculate_and_print_intensities()

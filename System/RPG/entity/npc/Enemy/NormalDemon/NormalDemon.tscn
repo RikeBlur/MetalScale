@@ -71,8 +71,19 @@ animations = [{
 "texture": SubResource("AtlasTexture_em7l0")
 }],
 "loop": true,
-"name": &"default",
-"speed": 5.0
+"name": &"patrol",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pord0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7t5xi")
+}],
+"loop": true,
+"name": &"pursue",
+"speed": 10.0
 }]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_3e6or"]
@@ -83,6 +94,7 @@ script = ExtResource("1_n5mda")
 
 [node name="lightdetector" parent="." instance=ExtResource("2_pord0")]
 extension_length = 30.0
+debug_mode = false
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("2_khjo0")
@@ -93,8 +105,9 @@ shape = SubResource("CircleShape2D_pord0")
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 z_index = 1
 sprite_frames = SubResource("SpriteFrames_35s1q")
-frame = 7
-frame_progress = 0.2580015
+animation = &"pursue"
+frame = 1
+frame_progress = 0.7292407
 
 [node name="LimboHSM" type="LimboHSM" parent="."]
 blackboard_plan = SubResource("BlackboardPlan_3e6or")
@@ -111,3 +124,5 @@ behavior_tree = ExtResource("6_3hvfr")
 success_event = &"target_lost"
 failure_event = &"target_detected"
 blackboard_plan = SubResource("BlackboardPlan_3e6or")
+
+[node name="HurtComponent" type="Node2D" parent="."]
