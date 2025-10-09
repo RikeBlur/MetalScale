@@ -1,4 +1,9 @@
 # UPDATE
+## 25.10.08
+normal_demon类实现：三种state（Patrol、Pursue、FLee），范围追踪玩家且惧光，目前会在光线边缘折返是个问题，需要改善
+工具系统 初步完成：有统一的tool_manager管理所有tool的生成、切换、耐久；player具有 tool_available 属性，可以确保只能调用玩家具备的工具。
+光探测器加入 intensity_future 变量，确保多层次感知。
+
 ## 25.10.07
 换godot4.5之后帧率明显提升
 完成敌人类 entity/enemy/normal_demon ： 在一定范围内自动索敌玩家追击、检测到光照后会逃离。
@@ -8,7 +13,7 @@
 光照系统优化问题：
 	1.occlusion_points的采用多边形边缘采样，同时 gird_size 设为20，降低点数
 	2.radius_light_source 采样光线设置为36个，intersection阈值设为10
-	3.光探测器衍生4个点计算平均
+	3.光探测器衍生4个点计算平均 （保存变量intensity_now）
 	4.目前单光源和4个实体交互可以60帧，有待进一步优化
 
 ## 25.10.06

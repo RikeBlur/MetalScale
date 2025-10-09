@@ -1,24 +1,25 @@
-[gd_resource type="BehaviorTree" load_steps=35 format=3 uid="uid://dw3ywrr6pnj8o"]
+[gd_resource type="BehaviorTree" load_steps=29 format=3 uid="uid://dw3ywrr6pnj8o"]
 
 [ext_resource type="Script" uid="uid://ruy6igvdnadx" path="res://Scripts/system/ai/tasks/get_first_in_group.gd" id="1_pk82o"]
 [ext_resource type="Script" uid="uid://cpgmrr2q5ku7l" path="res://Scripts/system/ai/tasks/get_target_distance.gd" id="2_y6ake"]
-[ext_resource type="Script" uid="uid://dgoub1ru4k1k7" path="res://demo/ai/tasks/get_detector.gd" id="3_7clef"]
-[ext_resource type="Script" uid="uid://clkuwbm2txnvv" path="res://demo/ai/tasks/IsCaughtByLight.gd" id="4_gu11r"]
-[ext_resource type="Script" uid="uid://cgwnandapnw0h" path="res://demo/ai/tasks/flee_from_light.gd" id="5_alxfv"]
-[ext_resource type="Script" uid="uid://ccr43pgd4488l" path="res://demo/ai/tasks/get_first_in_group.gd" id="6_biqs6"]
-[ext_resource type="Script" uid="uid://dcjgktglb1slf" path="res://demo/ai/tasks/pursue.gd" id="7_jnocg"]
+[ext_resource type="Script" uid="uid://duholooqx2vum" path="res://Scripts/system/ai/tasks/get_detector.gd" id="3_1yeq0"]
+[ext_resource type="Script" uid="uid://c31p6xk5rsnqg" path="res://Scripts/system/ai/tasks/is_caught_by_light.gd" id="3_tftqv"]
+[ext_resource type="Script" uid="uid://c005nfeib46uc" path="res://Scripts/system/ai/tasks/pursue.gd" id="5_1yeq0"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_ilc2e"]
 var/speed/name = &"speed"
 var/speed/type = 3
-var/speed/value = 400.0
+var/speed/value = 300.0
 var/speed/hint = 0
 var/speed/hint_string = ""
 
 [sub_resource type="BTConsolePrint" id="BTConsolePrint_1yeq0"]
 text = "NowBTState : Pursue"
 
-[sub_resource type="BTAction" id="BTAction_xtgtj"]
+[sub_resource type="BTAction" id="BTAction_tftqv"]
+script = ExtResource("3_1yeq0")
+
+[sub_resource type="BTAction" id="BTAction_7clef"]
 script = ExtResource("1_pk82o")
 group = &"player"
 
@@ -39,52 +40,35 @@ node = SubResource("BBNode_h843t")
 method = &"play"
 args = Array[BBVariant]([SubResource("BBVariant_5t1gq")])
 
-[sub_resource type="BTAction" id="BTAction_mlucc"]
-script = ExtResource("3_7clef")
+[sub_resource type="BTCondition" id="BTCondition_7clef"]
+script = ExtResource("3_tftqv")
 
-[sub_resource type="BTCondition" id="BTCondition_ayl05"]
-script = ExtResource("4_gu11r")
-tolerance = 0.01
+[sub_resource type="BBNode" id="BBNode_tftqv"]
+saved_value = NodePath("LimboHSM")
+resource_name = "LimboHSM"
 
-[sub_resource type="BTAction" id="BTAction_ydn12"]
-script = ExtResource("5_alxfv")
-flee_distance = 300.0
+[sub_resource type="BTCallMethod" id="BTCallMethod_7clef"]
+node = SubResource("BBNode_tftqv")
+method = &"_dispatch_light_detected"
 
-[sub_resource type="BTTimeLimit" id="BTTimeLimit_vys4e"]
-time_limit = 0.1
-children = [SubResource("BTAction_ydn12")]
+[sub_resource type="BTSequence" id="BTSequence_gu11r"]
+custom_name = "to flee"
+children = [SubResource("BTCondition_7clef"), SubResource("BTCallMethod_7clef")]
 
-[sub_resource type="BTSequence" id="BTSequence_4jrbo"]
-custom_name = "flee"
-children = [SubResource("BTCondition_ayl05"), SubResource("BTTimeLimit_vys4e")]
+[sub_resource type="BTAlwaysSucceed" id="BTAlwaysSucceed_alxfv"]
+children = [SubResource("BTSequence_gu11r")]
 
-[sub_resource type="BTCondition" id="BTCondition_rw2uv"]
-script = ExtResource("4_gu11r")
-tolerance = 0.01
-
-[sub_resource type="BTInvert" id="BTInvert_gvqx2"]
-children = [SubResource("BTCondition_rw2uv")]
-
-[sub_resource type="BTAction" id="BTAction_wvj00"]
-script = ExtResource("6_biqs6")
-group = &"player"
-
-[sub_resource type="BTAction" id="BTAction_fginr"]
-script = ExtResource("7_jnocg")
+[sub_resource type="BTAction" id="BTAction_gu11r"]
+script = ExtResource("5_1yeq0")
+approach_distance = 50.0
 
 [sub_resource type="BTTimeLimit" id="BTTimeLimit_l5cvy"]
 time_limit = 0.1
-children = [SubResource("BTAction_fginr")]
-
-[sub_resource type="BTSequence" id="BTSequence_p0ji8"]
-custom_name = "pursue_player"
-children = [SubResource("BTInvert_gvqx2"), SubResource("BTAction_wvj00"), SubResource("BTTimeLimit_l5cvy")]
-
-[sub_resource type="BTSelector" id="BTSelector_0cg7d"]
-children = [SubResource("BTSequence_4jrbo"), SubResource("BTSequence_p0ji8")]
+children = [SubResource("BTAction_gu11r")]
 
 [sub_resource type="BTSequence" id="BTSequence_ft3k3"]
-children = [SubResource("BTCallMethod_rxbbq"), SubResource("BTAction_mlucc"), SubResource("BTSelector_0cg7d")]
+custom_name = "pursue"
+children = [SubResource("BTCallMethod_rxbbq"), SubResource("BTAlwaysSucceed_alxfv"), SubResource("BTTimeLimit_l5cvy")]
 
 [sub_resource type="BTAlwaysFail" id="BTAlwaysFail_ec12m"]
 children = [SubResource("BTSequence_ft3k3")]
@@ -98,19 +82,21 @@ resource_name = "500.0"
 variable = &"target_distance"
 check_type = 3
 value = SubResource("BBVariant_tftqv")
+custom_name = "目标感知范围"
 
 [sub_resource type="BTSelector" id="BTSelector_7clef"]
 children = [SubResource("BTAlwaysFail_ec12m"), SubResource("BTCheckVar_7clef")]
 
 [sub_resource type="BTSequence" id="BTSequence_7clef"]
+custom_name = "pursue loop"
 children = [SubResource("BTAction_1yeq0"), SubResource("BTSelector_7clef")]
 
 [sub_resource type="BTRepeatUntilSuccess" id="BTRepeatUntilSuccess_gu11r"]
 children = [SubResource("BTSequence_7clef")]
 
 [sub_resource type="BTSequence" id="BTSequence_pk82o"]
-custom_name = "player"
-children = [SubResource("BTConsolePrint_1yeq0"), SubResource("BTAction_xtgtj"), SubResource("BTRepeatUntilSuccess_gu11r")]
+custom_name = "normal_demon"
+children = [SubResource("BTConsolePrint_1yeq0"), SubResource("BTAction_tftqv"), SubResource("BTAction_7clef"), SubResource("BTRepeatUntilSuccess_gu11r")]
 
 [resource]
 blackboard_plan = SubResource("BlackboardPlan_ilc2e")

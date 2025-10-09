@@ -33,10 +33,6 @@
 [ext_resource type="PackedScene" uid="uid://d8qsnxa2ok7a" path="res://System/RPG/interact/interact_component.tscn" id="22_wc45c"]
 [ext_resource type="Script" uid="uid://dkkcxq5sww6a6" path="res://Scripts/system/entity/tool_manager.gd" id="32_okprr"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_blmno"]
-radius = 17.0
-height = 70.0
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_be17m"]
 atlas = ExtResource("8_jhu3j")
 region = Rect2(0, 0, 320, 520)
@@ -1731,19 +1727,19 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_id5i6"]
 size = Vector2(69, 142)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_blmno"]
+radius = 17.0
+height = 70.0
+
 [node name="Player_Oni" type="CharacterBody2D" groups=["player"]]
 z_index = 1
-position = Vector2(532, 499)
 motion_mode = 1
 script = ExtResource("1_58adm")
 player_walk_speed_max = 150
 player_run_speed_max = 300
 player_walk_acceleration = 300
 player_run_acceleration = 300
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2, -40)
-shape = SubResource("CapsuleShape2D_blmno")
+tool_available = Array[int]([0, 1])
 
 [node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("initial_node_state", "entity")]
 script = ExtResource("2_o2obw")
@@ -1790,3 +1786,7 @@ shape = SubResource("RectangleShape2D_id5i6")
 script = ExtResource("32_okprr")
 player_now = NodePath("..")
 current_tool = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, -40)
+shape = SubResource("CapsuleShape2D_blmno")

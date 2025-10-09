@@ -72,6 +72,16 @@ static func is_running() -> bool:
 	else:
 		return false
 
+static func to_tool() -> int:
+	if Input.is_action_just_pressed("tool_1") :
+		return 0
+	elif Input.is_action_just_pressed("tool_2") :
+		return 1
+	elif Input.is_action_just_pressed("tool_3") :
+		return 2	
+	else :
+		return -1	
+
 # 新增：获取最后一个有效移动方向的函数
 static func get_last_valid_direction() -> Vector2:
 	if valid_last_direction == Vector2.ZERO:

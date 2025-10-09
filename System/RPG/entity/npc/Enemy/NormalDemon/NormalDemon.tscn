@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ctcr1sh6whs5s"]
+[gd_scene load_steps=21 format=3 uid="uid://ctcr1sh6whs5s"]
 
 [ext_resource type="Texture2D" uid="uid://cdarr718smbi1" path="res://Assests/sprite/qa/eyes/eye_export_0_eye Animation.png" id="1_7ak06"]
 [ext_resource type="Script" uid="uid://66l62r06nnn4" path="res://Scripts/system/entity/enemy/normal_demon.gd" id="1_n5mda"]
@@ -7,6 +7,7 @@
 [ext_resource type="BehaviorTree" uid="uid://byh2pg3d8qkyw" path="res://System/RPG/entity/npc/Enemy/NormalDemon/Patrol.tres" id="6_3e6or"]
 [ext_resource type="BehaviorTree" uid="uid://dw3ywrr6pnj8o" path="res://System/RPG/entity/npc/Enemy/NormalDemon/Pursue.tres" id="6_3hvfr"]
 [ext_resource type="Script" uid="uid://cuthq77nxi88s" path="res://System/RPG/entity/npc/Enemy/NormalDemon/limbo_hsm.gd" id="6_6ne0r"]
+[ext_resource type="BehaviorTree" uid="uid://dvv7t1jdna0ri" path="res://System/RPG/entity/npc/Enemy/NormalDemon/Flee.tres" id="8_6ne0r"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pord0"]
 radius = 18.110771
@@ -88,12 +89,16 @@ animations = [{
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_3e6or"]
 
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_4umh4"]
+
 [node name="NormalDemon" type="CharacterBody2D"]
 motion_mode = 1
 script = ExtResource("1_n5mda")
 
 [node name="lightdetector" parent="." instance=ExtResource("2_pord0")]
+update_rate = 0.05
 extension_length = 30.0
+future_length = 100.0
 debug_mode = false
 
 [node name="Health" type="Node" parent="."]
@@ -124,5 +129,11 @@ behavior_tree = ExtResource("6_3hvfr")
 success_event = &"target_lost"
 failure_event = &"target_detected"
 blackboard_plan = SubResource("BlackboardPlan_3e6or")
+
+[node name="FleeState" type="BTState" parent="LimboHSM"]
+behavior_tree = ExtResource("8_6ne0r")
+success_event = &"light_lost"
+failure_event = &"light_detected"
+blackboard_plan = SubResource("BlackboardPlan_4umh4")
 
 [node name="HurtComponent" type="Node2D" parent="."]

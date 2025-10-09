@@ -6,7 +6,8 @@ extends Node2D
 # 更新频率（秒）
 @export var update_rate: float = 1.0
 # 扩展长度（十字形检测点的距离）
-@export var extension_length: float = 10.0
+@export var extension_length: float = 30.0
+@export var future_length: float = 80.0
 # 附近的光源数组
 @export var nearby_light_sources: Array[light_source] = []
 
@@ -16,6 +17,7 @@ var debug_label: Label = null
 var update_timer: Timer
 
 var intensity_now : float = 1.0
+var intensity_future : float = 1.0
 
 func _ready():
 	# 创建更新定时器
@@ -28,17 +30,14 @@ func _ready():
 	if !debug_mode : debug_label.visible = false
 
 func _on_update_timer_timeout():
-	intensity_now = calculate_and_print_intensities()
+	intensity_now = calculate_intensities(true)
+	intensity_future = calculate_intensities(false)
 	if debug_mode:
 		queue_redraw()
 
-func get_detection_points() -> PackedVector2Array:
-	"""获取5个检测点：中心点 + 十字形4个点"""
+func get_now_detection_points() -> PackedVector2Array:
 	var points = PackedVector2Array()
-	
-	# 中心点
 	points.append(global_position)
-	
 	# 十字形4个点：上、下、左、右
 	points.append(global_position + Vector2(0, -extension_length))  # 上
 	points.append(global_position + Vector2(0, extension_length))   # 下
@@ -47,7 +46,20 @@ func get_detection_points() -> PackedVector2Array:
 	
 	return points
 
-func calculate_and_print_intensities() -> float:
+func get_future_detection_points() -> PackedVector2Array:
+	var points = PackedVector2Array()
+	points.append(global_position + Vector2(future_length, -future_length))
+	points.append(global_position + Vector2(future_length, future_length))
+	points.append(global_position + Vector2(-future_length, future_length))
+	points.append(global_position + Vector2(-future_length, -future_length))
+	points.append(global_position + Vector2(future_length * 1.414, 0))
+	points.append(global_position + Vector2(-future_length * 1.414, 0))
+	points.append(global_position + Vector2(0, future_length * 1.414))
+	points.append(global_position + Vector2(0, -future_length * 1.414))
+	
+	return points
+
+func calculate_intensities(is_now : bool) -> float:
 	"""计算并打印所有附近光源的光强（5点平均）"""
 	var total_intensity: float = 0.0
 	for light in nearby_light_sources:
@@ -55,7 +67,11 @@ func calculate_and_print_intensities() -> float:
 			continue
 		
 		# 获取5个检测点
-		var detection_points = get_detection_points()
+		var detection_points : Array = []
+		if is_now:
+			detection_points = get_now_detection_points()
+		else : 
+			detection_points = get_future_detection_points()
 		var light_intensity_sum: float = 0.0
 		var valid_points: int = 0
 		
@@ -115,7 +131,7 @@ func _update_visualize() -> void:
 func _draw():
 	if not debug_mode:
 		return
-	var points = get_detection_points()
+	var points = get_future_detection_points()
 	var color = Color(1, 0, 0, 0.8)
 	var r = 3.0
 	for p in points:

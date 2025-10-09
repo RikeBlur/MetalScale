@@ -13,6 +13,7 @@ var _moved_this_frame: bool = false
 @onready var hsm: LimboHSM = $LimboHSM
 @onready var PatrolState: LimboState = $LimboHSM/PatrolState
 @onready var PursueState: LimboState = $LimboHSM/PursueState
+@onready var FleeState: LimboState = $LimboHSM/FleeState
 
 func _ready() -> void:
 	_init_state_machine()
@@ -46,6 +47,9 @@ func _init_state_machine() -> void:
 	# 添加状态转换
 	hsm.add_transition(PatrolState, PursueState, "target_detected")
 	hsm.add_transition(PursueState, PatrolState, "target_lost")
+	hsm.add_transition(PursueState, FleeState, "light_detected")
+	hsm.add_transition(PatrolState, FleeState, "light_detected")
+	hsm.add_transition(FleeState, PatrolState, "light_lost")	
 	
 	# 初始化状态机
 	hsm.initialize(self)

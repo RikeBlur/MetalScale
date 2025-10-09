@@ -2,19 +2,21 @@
 extends BTCondition
 
 @export var target_var: StringName = &"detector"
-@export var tolerance: float = 0.01
+@export var tolerance: float = 0.1
+
+var detector : light_detector
 
 # Display a customized name (requires @tool).
 func _generate_name() -> String:
 	return "IsCaughtByLight " + LimboUtility.decorate_var(target_var)
 
+func _enter() -> void:
+	detector = blackboard.get_var(target_var)
 
-# Called each time this task is ticked (aka executed).
+# Called each time this task is ticked (aka exdecuted).
 func _tick(_delta: float) -> Status:
-	var detector_inst = blackboard.get_var(target_var)
-	#if detector_inst is light_detector: return SUCCESS
-	#aaaaaaaprint(detector_inst.intensity_now)
-	if detector_inst.intensity_now <= tolerance:
-		return FAILURE
-	else:
+	#print(detector.intensity_future,' ',detector.intensity_now)
+	if detector.intensity_future + detector.intensity_now >= tolerance:
 		return SUCCESS
+	else:
+		return FAILURE

@@ -41,7 +41,8 @@ func _generate_name() -> String:
 func _enter() -> void:
 	detector = blackboard.get_var(detector_var)
 	for i in detector.nearby_light_sources.size():
-		pos.append(detector.nearby_light_sources[i].global_position)
+		if is_instance_valid(detector.nearby_light_sources[i]) :
+			pos.append(detector.nearby_light_sources[i].global_position)
 	_calculate_flee_direction()
 
 # 每次任务被 tick（执行）时调用

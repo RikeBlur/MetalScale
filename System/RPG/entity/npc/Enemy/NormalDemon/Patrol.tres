@@ -1,8 +1,10 @@
-[gd_resource type="BehaviorTree" load_steps=22 format=3 uid="uid://byh2pg3d8qkyw"]
+[gd_resource type="BehaviorTree" load_steps=30 format=3 uid="uid://byh2pg3d8qkyw"]
 
+[ext_resource type="Script" uid="uid://duholooqx2vum" path="res://Scripts/system/ai/tasks/get_detector.gd" id="1_k5u4w"]
 [ext_resource type="Script" uid="uid://ruy6igvdnadx" path="res://Scripts/system/ai/tasks/get_first_in_group.gd" id="1_qc6cw"]
 [ext_resource type="Script" uid="uid://cpgmrr2q5ku7l" path="res://Scripts/system/ai/tasks/get_target_distance.gd" id="2_37ams"]
 [ext_resource type="Script" uid="uid://b57pog1dawtvk" path="res://Scripts/system/ai/tasks/hang_around.gd" id="3_5t1gq"]
+[ext_resource type="Script" uid="uid://c31p6xk5rsnqg" path="res://Scripts/system/ai/tasks/is_caught_by_light.gd" id="4_7kwc8"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_lynhw"]
 var/speed/name = &"speed"
@@ -14,11 +16,14 @@ var/speed/hint_string = ""
 [sub_resource type="BTConsolePrint" id="BTConsolePrint_lynhw"]
 text = "NowBTState: Patrol"
 
-[sub_resource type="BTAction" id="BTAction_37ams"]
+[sub_resource type="BTAction" id="BTAction_xqqtb"]
+script = ExtResource("1_k5u4w")
+
+[sub_resource type="BTAction" id="BTAction_k5u4w"]
 script = ExtResource("1_qc6cw")
 group = &"player"
 
-[sub_resource type="BTAction" id="BTAction_5t1gq"]
+[sub_resource type="BTAction" id="BTAction_bocjc"]
 script = ExtResource("2_37ams")
 
 [sub_resource type="BBVariant" id="BBVariant_7kwc8"]
@@ -30,6 +35,7 @@ resource_name = "500.0"
 variable = &"target_distance"
 check_type = 2
 value = SubResource("BBVariant_7kwc8")
+custom_name = "目标感知范围"
 
 [sub_resource type="BBVariant" id="BBVariant_5t1gq"]
 type = 4
@@ -45,19 +51,37 @@ node = SubResource("BBNode_7kwc8")
 method = &"play"
 args = Array[BBVariant]([SubResource("BBVariant_5t1gq")])
 
-[sub_resource type="BTWait" id="BTWait_5t1gq"]
-
-[sub_resource type="BTAction" id="BTAction_7kwc8"]
+[sub_resource type="BTAction" id="BTAction_cbmls"]
 script = ExtResource("3_5t1gq")
-move_duration = 1.0
 
 [sub_resource type="BTTimeLimit" id="BTTimeLimit_5t1gq"]
 time_limit = 1.0
-children = [SubResource("BTAction_7kwc8")]
+children = [SubResource("BTAction_cbmls")]
+
+[sub_resource type="BTInvert" id="BTInvert_7kwc8"]
+children = [SubResource("BTTimeLimit_5t1gq")]
+
+[sub_resource type="BTCondition" id="BTCondition_xqqtb"]
+script = ExtResource("4_7kwc8")
+
+[sub_resource type="BBNode" id="BBNode_bocjc"]
+saved_value = NodePath("LimboHSM")
+resource_name = "LimboHSM"
+
+[sub_resource type="BTCallMethod" id="BTCallMethod_cbmls"]
+node = SubResource("BBNode_bocjc")
+method = &"_dispatch_light_detected"
+
+[sub_resource type="BTSequence" id="BTSequence_xqqtb"]
+custom_name = "to flee"
+children = [SubResource("BTCondition_xqqtb"), SubResource("BTCallMethod_cbmls")]
+
+[sub_resource type="BTAlwaysSucceed" id="BTAlwaysSucceed_0ega2"]
+children = [SubResource("BTSequence_xqqtb")]
 
 [sub_resource type="BTSequence" id="BTSequence_7kwc8"]
 custom_name = "patrol"
-children = [SubResource("BTCallMethod_k5u4w"), SubResource("BTWait_5t1gq"), SubResource("BTTimeLimit_5t1gq")]
+children = [SubResource("BTCallMethod_k5u4w"), SubResource("BTInvert_7kwc8"), SubResource("BTAlwaysSucceed_0ega2")]
 
 [sub_resource type="BTAlwaysFail" id="BTAlwaysFail_5t1gq"]
 children = [SubResource("BTSequence_7kwc8")]
@@ -66,13 +90,15 @@ children = [SubResource("BTSequence_7kwc8")]
 children = [SubResource("BTCheckVar_k5u4w"), SubResource("BTAlwaysFail_5t1gq")]
 
 [sub_resource type="BTSequence" id="BTSequence_5t1gq"]
-children = [SubResource("BTAction_5t1gq"), SubResource("BTSelector_37ams")]
+custom_name = "patrol loop"
+children = [SubResource("BTAction_bocjc"), SubResource("BTSelector_37ams")]
 
 [sub_resource type="BTRepeatUntilSuccess" id="BTRepeatUntilSuccess_7kwc8"]
 children = [SubResource("BTSequence_5t1gq")]
 
 [sub_resource type="BTSequence" id="BTSequence_37ams"]
-children = [SubResource("BTConsolePrint_lynhw"), SubResource("BTAction_37ams"), SubResource("BTRepeatUntilSuccess_7kwc8")]
+custom_name = "normal_demon"
+children = [SubResource("BTConsolePrint_lynhw"), SubResource("BTAction_xqqtb"), SubResource("BTAction_k5u4w"), SubResource("BTRepeatUntilSuccess_7kwc8")]
 
 [resource]
 blackboard_plan = SubResource("BlackboardPlan_lynhw")
