@@ -4,7 +4,6 @@ extends Node2D
 
 # 受击box
 @export var hurted_area : Area2D = null
-@export var health_max : float = 100
 @export var hit_flash_player : AnimationPlayer = null
 
 # 受击特效
@@ -12,40 +11,42 @@ extends Node2D
 @export var hurted_effect: GPUParticles2D = null
 
 # 血条
-@onready var health_bar: HealthBar = $HealthBar
+@export var health_bar: HealthBar = null
 
 # 死亡特效
 @export var die_audio: AudioStreamPlayer2D = null
 @export var die_effect: GPUParticles2D = null
 
-
 # 依附 Rigid
 var entity : CharacterBody2D = null
 # 当前血量
-var health : float
-var is_died : bool = false
+var health_max : float = 100
+var health : float = 100
 
+var is_died : bool = false
 
 func _ready() -> void:
 	entity = Tools._find_character_body_parent(hurted_area)
+	health_max = entity.health_max
 	health = health_max
 	# 受击闪烁特效
-	if not hit_flash_player:
+	if not hit_flash_player :
 		hit_flash_player = self.get_parent().find_child("FlashAnimation")
 	
-	# 将HealthBar设置为top_level，使其不受父节点变换影响
-	health_bar.top_level = true
-	health_bar._setup_health_bar(health)
-	# z_index设高，避免血条被盖住
-	health_bar.z_index = 2
-	
-	# 初始血条位置同步
-	_update_health_bar_position()
+	if health_bar :
+		# 将HealthBar设置为top_level，使其不受父节点变换影响
+		health_bar.top_level = true
+		health_bar._setup_health_bar(health)
+		# z_index设高，避免血条被盖住
+		health_bar.z_index = 2
+		
+		# 初始血条位置同步
+		_update_health_bar_position()
 
 
 # 添加_process函数来更新HealthBar位置
 func _process(_delta: float) -> void:
-	if not is_died:
+	if health_bar and not is_died :
 		_update_health_bar_position()
 	
 		
@@ -66,6 +67,7 @@ func _update_health_bar_position() -> void:
 func _on_hurt(amount : float) -> void:
 	if (health - amount) > 0:
 		health -= amount
+		entity.health_now = health
 		# 播放粒子特效
 		_hurted_effect()
 		health_bar.change_value(health)
@@ -85,6 +87,7 @@ func _on_hurt(amount : float) -> void:
 # 死亡处理
 func on_died() -> void:
 	is_died = true
+	entity.is_died = true
 	# 没做死亡特效，暂时先用受伤特效，否则最后击杀目标后没有任何特效
 	_hurted_effect()
 	# -------------------------------------------------播放死亡特效------------------------------------------------       

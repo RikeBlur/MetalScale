@@ -91,6 +91,10 @@ light_source=""
 occlusion=""
 light_detector=""
 
+[gui]
+
+theme/default_font_multichannel_signed_distance_field=true
+
 [input]
 
 dialogic_default_action={

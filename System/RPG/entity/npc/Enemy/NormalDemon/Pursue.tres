@@ -26,6 +26,17 @@ group = &"player"
 [sub_resource type="BTAction" id="BTAction_1yeq0"]
 script = ExtResource("2_y6ake")
 
+[sub_resource type="BBVariant" id="BBVariant_tftqv"]
+type = 3
+saved_value = 500.0
+resource_name = "500.0"
+
+[sub_resource type="BTCheckVar" id="BTCheckVar_7clef"]
+variable = &"target_distance"
+check_type = 3
+value = SubResource("BBVariant_tftqv")
+custom_name = "目标感知范围"
+
 [sub_resource type="BBVariant" id="BBVariant_5t1gq"]
 type = 4
 saved_value = "pursue"
@@ -73,19 +84,8 @@ children = [SubResource("BTCallMethod_rxbbq"), SubResource("BTAlwaysSucceed_alxf
 [sub_resource type="BTAlwaysFail" id="BTAlwaysFail_ec12m"]
 children = [SubResource("BTSequence_ft3k3")]
 
-[sub_resource type="BBVariant" id="BBVariant_tftqv"]
-type = 3
-saved_value = 500.0
-resource_name = "500.0"
-
-[sub_resource type="BTCheckVar" id="BTCheckVar_7clef"]
-variable = &"target_distance"
-check_type = 3
-value = SubResource("BBVariant_tftqv")
-custom_name = "目标感知范围"
-
 [sub_resource type="BTSelector" id="BTSelector_7clef"]
-children = [SubResource("BTAlwaysFail_ec12m"), SubResource("BTCheckVar_7clef")]
+children = [SubResource("BTCheckVar_7clef"), SubResource("BTAlwaysFail_ec12m")]
 
 [sub_resource type="BTSequence" id="BTSequence_7clef"]
 custom_name = "pursue loop"

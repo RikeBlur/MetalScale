@@ -1,4 +1,15 @@
 # UPDATE
+## 25.10.11
+工具栏ToolBar完成：
+1. 读取player的tool_available来配置icon、processbar
+2. 读取player的tool_now 来高亮显示（待完成）
+3. 读取ToolManager中每个tool的durability来更新processbar
+
+Tilemap不太好处理，寻找替代方案
+
+## 25.10.10
+预定：完成normal_demon三状态动画；选取demon音效、脚步；完成hurt/damage配置；道具耐久UI设计；单一bgm，bgm切换机制。
+
 ## 25.10.08
 normal_demon类实现：三种state（Patrol、Pursue、FLee），范围追踪玩家且惧光，目前会在光线边缘折返是个问题，需要改善
 工具系统 初步完成：有统一的tool_manager管理所有tool的生成、切换、耐久；player具有 tool_available 属性，可以确保只能调用玩家具备的工具。

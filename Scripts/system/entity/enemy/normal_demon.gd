@@ -7,7 +7,7 @@ var summon_count: int = 0
 var _moved_this_frame: bool = false
 
 @onready var animation_player: AnimatedSprite2D = $AnimatedSprite
-@onready var health: Health = $Health
+#@onready var health: Health = $Health
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 
 @onready var hsm: LimboHSM = $LimboHSM
