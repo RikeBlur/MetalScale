@@ -1,9 +1,26 @@
 # UPDATE
+## 25.10.13
+完成hurted-damage（layer5-layer6）配置。目前角色死亡时一些地方处理的不鲁棒。<br>
+NormalDemon的行动逻辑还存在很大问题。<br>
+hit_flash效果被写入 player.animate 的 material 里，还是用 animation player 控制 hit flash internsity<br>
+所有ShaderMaterial都需要经过唯一化，才可以被配置参数！重点！<br>
+
+## 25.10.12
+ToolSystem系统 完成：<br>
+## 系统介绍
+	1.枚举类 ToolManager.Tool 作为工作名
+	2.ToolManager 管理所有 Tool 的场景、耐久（config==1 有耐久工具）、数量（config==2 有数量消耗品）
+	3.ToolManager 会清理子节点并实例化 player 当前激活的 Tool
+	4.Player 的 tool_available 和 tool 表示玩家具有哪些工具、正在激活哪个工具
+	5.ToolBar 控制节点用于渲染工具栏UI， ToolBox控制单个栏的属性
+	6.ToolBar完全根据 Player 的 tool_available 来更新需要显示的 Tool； 根据 ToolManager 的属性来更新需要显示的ProcessBar
+	7.总体而言：ToolManager负责所有工具的实际属性管理；Player负责玩家可调用和已调用工具的管理；ToolBar负责UI渲染。
+
 ## 25.10.11
 工具栏ToolBar完成：
-1. 读取player的tool_available来配置icon、processbar
-2. 读取player的tool_now 来高亮显示（待完成）
-3. 读取ToolManager中每个tool的durability来更新processbar
+	1. 读取player的tool_available来配置icon、processbar
+	2. 读取player的tool_now 来高亮显示（待完成）
+	3. 读取ToolManager中每个tool的durability来更新processbar
 
 Tilemap不太好处理，寻找替代方案
 
@@ -11,13 +28,13 @@ Tilemap不太好处理，寻找替代方案
 预定：完成normal_demon三状态动画；选取demon音效、脚步；完成hurt/damage配置；道具耐久UI设计；单一bgm，bgm切换机制。
 
 ## 25.10.08
-normal_demon类实现：三种state（Patrol、Pursue、FLee），范围追踪玩家且惧光，目前会在光线边缘折返是个问题，需要改善
-工具系统 初步完成：有统一的tool_manager管理所有tool的生成、切换、耐久；player具有 tool_available 属性，可以确保只能调用玩家具备的工具。
+normal_demon类实现：三种state（Patrol、Pursue、FLee），范围追踪玩家且惧光，目前会在光线边缘折返是个问题，需要改善<br>
+工具系统 初步完成：有统一的tool_manager管理所有tool的生成、切换、耐久；player具有 tool_available 属性，可以确保只能调用玩家具备的工具。<br>
 光探测器加入 intensity_future 变量，确保多层次感知。
 
 ## 25.10.07
-换godot4.5之后帧率明显提升
-完成敌人类 entity/enemy/normal_demon ： 在一定范围内自动索敌玩家追击、检测到光照后会逃离。
+换godot4.5之后帧率明显提升<br>
+完成敌人类 entity/enemy/normal_demon ： 在一定范围内自动索敌玩家追击、检测到光照后会逃离。<br>
 使用LimboAI实现，有待完善
 
 ## 25.10.07
@@ -52,11 +69,11 @@ normal_demon类实现：三种state（Patrol、Pursue、FLee），范围追踪�
 开始进行光照系统尝试，目前对于遮蔽的使用还有待探究
 
 ## 25.10.04
-修复bug：配置了移动Camera后对话生成无法追随camera位置。已完成修复，通过实时更新camera位置和设置合适的offset
+修复bug：配置了移动Camera后对话生成无法追随camera位置。已完成修复，通过实时更新camera位置和设置合适的offset<br>
 Oni的奔跑动画已完成
 
 ## 25.09.30
-完成抽象类 interact component / interacted component
+完成抽象类 interact component / interacted component<br>
 可以用于表达所有player和环境的交互，用 E键 输入
 
 ## 25.09.29

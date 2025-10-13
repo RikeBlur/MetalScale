@@ -18,7 +18,7 @@ extends Node2D
 @export var die_effect: GPUParticles2D = null
 
 # 依附 Rigid
-var entity : CharacterBody2D = null
+@export var entity : CharacterBody2D = null
 # 当前血量
 var health_max : float = 100
 var health : float = 100
@@ -26,7 +26,6 @@ var health : float = 100
 var is_died : bool = false
 
 func _ready() -> void:
-	entity = Tools._find_character_body_parent(hurted_area)
 	health_max = entity.health_max
 	health = health_max
 	# 受击闪烁特效
@@ -69,8 +68,8 @@ func _on_hurt(amount : float) -> void:
 		health -= amount
 		entity.health_now = health
 		# 播放粒子特效
-		_hurted_effect()
-		health_bar.change_value(health)
+		#_hurted_effect()
+		if health_bar: health_bar.change_value(health)
 		print("health:",health)
 	elif not is_died :
 		print("DIED")
@@ -89,7 +88,7 @@ func on_died() -> void:
 	is_died = true
 	entity.is_died = true
 	# 没做死亡特效，暂时先用受伤特效，否则最后击杀目标后没有任何特效
-	_hurted_effect()
+	#_hurted_effect()
 	# -------------------------------------------------播放死亡特效------------------------------------------------       
 	# 保存当前位置用于特效播放
 	if die_effect and die_audio: 
@@ -120,7 +119,7 @@ func _hurted_effect() -> void:
 	var effect_instance = hurted_effect.duplicate()
 	#var audio_instance = die_audio.duplicate()	
 	# 将特效添加到场景树
-	get_tree().root.add_child(effect_instance)
+	get_tree().add_child(effect_instance)
 	#get_tree().root.add_child(audio_instance)
 	# 设置特效位置并播放
 	effect_instance.global_position = effect_pos

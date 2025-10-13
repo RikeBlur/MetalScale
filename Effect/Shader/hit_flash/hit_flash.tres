@@ -6,4 +6,4 @@
 resource_local_to_scene = true
 shader = ExtResource("1_xnlgd")
 shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
-shader_parameter/hit_flash_intensity = 0.0
+shader_parameter/hit_flash_intensity = 1.0

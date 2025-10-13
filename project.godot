@@ -169,6 +169,8 @@ tool_3={
 
 [layer_names]
 
+2d_physics/layer_5="hurted"
+2d_physics/layer_6="damage"
 2d_physics/layer_7="Interact"
 2d_physics/layer_8="BeInteracted"
 

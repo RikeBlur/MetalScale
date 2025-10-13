@@ -6,6 +6,12 @@ const TOOL_ICONS = {
 	ToolManager.Tool.RADIUS_LIGHT: preload("res://Assests/sprite/icon/light-bulb-clipart-md.png")
 }
 
+const TOOL_CONFIG = {
+	ToolManager.Tool.NONE: 0,
+	ToolManager.Tool.RADIUS_LIGHT: 1
+}
+
+
 @export var player_now: CharacterBody2D
 
 var tool_boxes: Array = []
@@ -26,44 +32,22 @@ func _ready():
 	_update_toolbar()
 
 func _initialize_tool_boxes():
-	# 清空数组
 	tool_boxes.clear()
-	durability_bars.clear()
-
-	# 从tool_bar的子节点中获取工具箱
 	for child in tool_bar.get_children():
-		if child is HBoxContainer :
+		if child is Toolbox :
 			tool_boxes.append(child)
-
-			# 获取或创建Icon节点
-			var icon = child.get_node_or_null("Icon")
-			if not icon:
-				icon = TextureRect.new()
-				icon.name = "Icon"
-				icon.custom_minimum_size = Vector2(32, 32)
-				child.add_child(icon)
-
-			# 获取或创建DurabilityBar节点
-			var durability_bar = child.get_node_or_null("DurabilityBar")
-			if not durability_bar:
-				durability_bar = durability_process_bar.new()
-				durability_bar.name = "DurabilityBar"
-				durability_bar.custom_minimum_size = Vector2(10, 0)
-				durability_bar.visible = false
-				child.add_child(durability_bar)
-			durability_bar.max_value = ToolManager.max_durability
-			durability_bars.append(durability_bar)
 
 func _process(_delta):
 	if not player_now: return
 	if not tool_manager: return
 	
 	_update_durability()
+	_update_toolbar()
 	
 func _update_durability() -> void:
 	for i in range(min(6, player_now.tool_available.size())):
 		var tool_type = player_now.tool_available[i]
-		var durability_bar = durability_bars[i]
+		var durability_bar = tool_boxes[i].durability
 
 		if tool_type != ToolManager.Tool.NONE and durability_bar.visible:
 			if tool_manager.durability.has(tool_type):
@@ -73,16 +57,29 @@ func _update_durability() -> void:
 
 func _update_toolbar():
 	if not player_now or tool_boxes.is_empty(): return
+	var activated_tool = player_now.tool
 
 	for i in range(min(6, player_now.tool_available.size())):
 		var tool_type = player_now.tool_available[i]
-		var icon = tool_boxes[i].get_node("Icon") as TextureRect
-		var durability_bar = durability_bars[i]
-
+		var icon = tool_boxes[i].icon
+		var durability_bar = tool_boxes[i].durability
+		
+		tool_boxes[i].tool = tool_type
+		tool_boxes[i].config = TOOL_CONFIG[tool_type]
 		icon.texture = TOOL_ICONS.get(tool_type)
-		durability_bar.visible = tool_type != ToolManager.Tool.NONE
-
-		if tool_type != ToolManager.Tool.NONE:
-			if tool_manager and tool_manager.durability.has(tool_type):
-				durability_bar.max_value = ToolManager.max_durability
-				durability_bar.value = tool_manager.durability[tool_type]
+		# 设置工具箱状态和图标shader状态
+		var new_state = 0
+		if tool_type == activated_tool:
+			new_state = 1
+		elif tool_boxes[i].tool == 1 and tool_manager and tool_manager.durability.has(tool_type):
+			durability_bar.max_value = ToolManager.max_durability
+			durability_bar.value = tool_manager.durability[tool_type]
+			if durability_bar.value == 0.0:
+				new_state = 2
+		
+		# 同步更新状态
+		tool_boxes[i].state = new_state
+		if icon.material:
+			icon.material.set_shader_parameter("state", new_state)
+				
+				

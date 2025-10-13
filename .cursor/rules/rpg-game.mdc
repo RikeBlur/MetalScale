@@ -1,0 +1,4 @@
+---
+alwaysApply: true
+这是一个由godot开发的rpg游戏。开发语言以gdscript和gdshader为主，godot版本为4.5
+---
