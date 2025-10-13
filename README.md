@@ -10,7 +10,7 @@ hit_flash效果被写入 player.animate 的 material 里，还是用 animation p
 
 ## 25.10.12
 ToolSystem系统 完成：<br>
-## 系统介绍
+### 系统介绍
 	1.枚举类 ToolManager.Tool 作为工作名
 	2.ToolManager 管理所有 Tool 的场景、耐久（config==1 有耐久工具）、数量（config==2 有数量消耗品）
 	3.ToolManager 会清理子节点并实例化 player 当前激活的 Tool
@@ -73,15 +73,16 @@ normal_demon类实现：三种state（Patrol、Pursue、FLee），范围追踪�
 
 ## 25.10.04
 修复bug：配置了移动Camera后对话生成无法追随camera位置。已完成修复，通过实时更新camera位置和设置合适的offset<br>
+
 Oni的奔跑动画已完成
 
 ## 25.09.30
 完成抽象类 interact component / interacted component<br>
+
 可以用于表达所有player和环境的交互，用 E键 输入
 
 ## 25.09.29
 interact system -- dialogue 完成：
-
 ### 系统介绍（z-index 10 9）
 	1./System/interact.dialogue/ 每个角色/双人角色组合对应一个tscn，称为一个“dialogue”（dialogue style）
 	2.每个dialogue可以包含多个DialogueResource（DialogueText、DialogueChoice、DialogueFunction）
