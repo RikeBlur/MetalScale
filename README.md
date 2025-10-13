@@ -1,8 +1,11 @@
 # UPDATE
 ## 25.10.13
 完成hurted-damage（layer5-layer6）配置。目前角色死亡时一些地方处理的不鲁棒。<br>
+
 NormalDemon的行动逻辑还存在很大问题。<br>
-hit_flash效果被写入 player.animate 的 material 里，还是用 animation player 控制 hit flash internsity<br>
+
+hit_flash效果被写入 player.animate 的 material 里，还是用 animation player 控制 hit flash internsity.<br>
+
 所有ShaderMaterial都需要经过唯一化，才可以被配置参数！重点！<br>
 
 ## 25.10.12
@@ -17,7 +20,7 @@ ToolSystem系统 完成：<br>
 	7.总体而言：ToolManager负责所有工具的实际属性管理；Player负责玩家可调用和已调用工具的管理；ToolBar负责UI渲染。
 
 ## 25.10.11
-工具栏ToolBar完成：
+工具栏ToolBar完成：<br>
 	1. 读取player的tool_available来配置icon、processbar
 	2. 读取player的tool_now 来高亮显示（待完成）
 	3. 读取ToolManager中每个tool的durability来更新processbar
