@@ -21,9 +21,9 @@ ToolSystem系统 完成：<br>
 
 ## 25.10.11
 工具栏ToolBar完成：<br>
-	1. 读取player的tool_available来配置icon、processbar
-	2. 读取player的tool_now 来高亮显示（待完成）
-	3. 读取ToolManager中每个tool的durability来更新processbar
+	1. 读取player的tool_available来配置icon、processbar<br>
+	2. 读取player的tool_now 来高亮显示（待完成）<br>
+	3. 读取ToolManager中每个tool的durability来更新processbar<br>
 
 Tilemap不太好处理，寻找替代方案
 
@@ -32,20 +32,24 @@ Tilemap不太好处理，寻找替代方案
 
 ## 25.10.08
 normal_demon类实现：三种state（Patrol、Pursue、FLee），范围追踪玩家且惧光，目前会在光线边缘折返是个问题，需要改善<br>
+
 工具系统 初步完成：有统一的tool_manager管理所有tool的生成、切换、耐久；player具有 tool_available 属性，可以确保只能调用玩家具备的工具。<br>
+
 光探测器加入 intensity_future 变量，确保多层次感知。
 
 ## 25.10.07
 换godot4.5之后帧率明显提升<br>
+
 完成敌人类 entity/enemy/normal_demon ： 在一定范围内自动索敌玩家追击、检测到光照后会逃离。<br>
+
 使用LimboAI实现，有待完善
 
 ## 25.10.07
 光照系统优化问题：
-	1.occlusion_points的采用多边形边缘采样，同时 gird_size 设为20，降低点数
-	2.radius_light_source 采样光线设置为36个，intersection阈值设为10
-	3.光探测器衍生4个点计算平均 （保存变量intensity_now）
-	4.目前单光源和4个实体交互可以60帧，有待进一步优化
+	1.occlusion_points的采用多边形边缘采样，同时 gird_size 设为20，降低点数<br>
+	2.radius_light_source 采样光线设置为36个，intersection阈值设为10<br>
+	3.光探测器衍生4个点计算平均 （保存变量intensity_now）<br>
+	4.目前单光源和4个实体交互可以60帧，有待进一步优化<br>
 
 ## 25.10.06
 光照检测系统 完成：
