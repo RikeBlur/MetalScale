@@ -28,8 +28,8 @@ script = ExtResource("2_y6ake")
 
 [sub_resource type="BBVariant" id="BBVariant_tftqv"]
 type = 3
-saved_value = 300.0
-resource_name = "300.0"
+saved_value = 500.0
+resource_name = "500.0"
 
 [sub_resource type="BTCheckVar" id="BTCheckVar_7clef"]
 variable = &"target_distance"
@@ -53,6 +53,7 @@ args = Array[BBVariant]([SubResource("BBVariant_5t1gq")])
 
 [sub_resource type="BTCondition" id="BTCondition_7clef"]
 script = ExtResource("3_tftqv")
+required_frames = null
 
 [sub_resource type="BBNode" id="BBNode_tftqv"]
 saved_value = NodePath("LimboHSM")

@@ -1,4 +1,9 @@
 # UPDATE
+## 25.10.14
+NormalDemon的Pursue、Flee、Patrol都按照 八向 8-direction 来移动了。<br>
+
+要补充 run、walk 动画<br>
+
 ## 25.10.13
 完成hurted-damage（layer5-layer6）配置。目前角色死亡时一些地方处理的不鲁棒。<br>
 

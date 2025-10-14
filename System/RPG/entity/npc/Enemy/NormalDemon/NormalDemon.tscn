@@ -90,10 +90,25 @@ animations = [{
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_3e6or"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_6ne0r"]
+var/speed/name = &"speed"
+var/speed/type = 3
+var/speed/value = 400.0
+var/speed/hint = 0
+var/speed/hint_string = ""
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_4umh4"]
+var/speed/name = &"speed"
+var/speed/type = 3
+var/speed/value = 400.0
+var/speed/hint = 0
+var/speed/hint_string = ""
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_2c53l"]
+var/speed/name = &"speed"
+var/speed/type = 3
+var/speed/value = 400.0
+var/speed/hint = 0
+var/speed/hint_string = ""
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2c53l"]
 radius = 43.0
@@ -105,6 +120,7 @@ wall_min_slide_angle = 0.0
 script = ExtResource("1_n5mda")
 
 [node name="lightdetector" parent="." instance=ExtResource("2_pord0")]
+radius = 800.0
 update_rate = 0.05
 extension_length = 30.0
 future_length = 100.0
