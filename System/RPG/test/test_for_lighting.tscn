@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://drxum6townqdh"]
+[gd_scene load_steps=14 format=3 uid="uid://drxum6townqdh"]
 
 [ext_resource type="Script" uid="uid://dw4hvyigndglp" path="res://Scripts/system/view/camera.gd" id="1_5qjx8"]
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_by6gl"]
@@ -12,6 +12,9 @@
 [ext_resource type="PackedScene" uid="uid://ctcr1sh6whs5s" path="res://System/RPG/entity/npc/Enemy/NormalDemon/NormalDemon.tscn" id="9_su6pt"]
 [ext_resource type="Script" uid="uid://1tmjkabys6o4" path="res://Scripts/system/view/UI/toolbar/durability_process_bar.gd" id="10_8b8tj"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8b8tj"]
+size = Vector2(56, 339)
+
 [sub_resource type="Environment" id="Environment_c6vp4"]
 
 [node name="TestForLighting" type="Node2D"]
@@ -20,8 +23,17 @@ y_sort_enabled = true
 [node name="terrian" type="Node2D" parent="."]
 
 [node name="D1" parent="terrian" instance=ExtResource("1_by6gl")]
-position = Vector2(808, 443)
+position = Vector2(781.00006, 338)
 scale = Vector2(5.63955, 5.58333)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="terrian"]
+position = Vector2(627, 240)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="terrian/StaticBody2D"]
+position = Vector2(-51, 109.5)
+shape = SubResource("RectangleShape2D_8b8tj")
+
+[node name="Sprite2D" type="Sprite2D" parent="terrian/StaticBody2D"]
 
 [node name="Player_Oni" parent="." instance=ExtResource("2_l0tuh")]
 y_sort_enabled = true
@@ -53,7 +65,7 @@ environment = SubResource("Environment_c6vp4")
 position = Vector2(-122, -140)
 
 [node name="NormalDemon" parent="." instance=ExtResource("9_su6pt")]
-position = Vector2(1043, 243)
+position = Vector2(917, 124)
 
 [node name="UI" type="CanvasLayer" parent="."]
 

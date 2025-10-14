@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=29 format=3 uid="uid://dw3ywrr6pnj8o"]
+[gd_resource type="BehaviorTree" load_steps=28 format=3 uid="uid://dw3ywrr6pnj8o"]
 
 [ext_resource type="Script" uid="uid://ruy6igvdnadx" path="res://Scripts/system/ai/tasks/get_first_in_group.gd" id="1_pk82o"]
 [ext_resource type="Script" uid="uid://cpgmrr2q5ku7l" path="res://Scripts/system/ai/tasks/get_target_distance.gd" id="2_y6ake"]
@@ -28,8 +28,8 @@ script = ExtResource("2_y6ake")
 
 [sub_resource type="BBVariant" id="BBVariant_tftqv"]
 type = 3
-saved_value = 500.0
-resource_name = "500.0"
+saved_value = 300.0
+resource_name = "300.0"
 
 [sub_resource type="BTCheckVar" id="BTCheckVar_7clef"]
 variable = &"target_distance"
@@ -71,15 +71,11 @@ children = [SubResource("BTSequence_gu11r")]
 
 [sub_resource type="BTAction" id="BTAction_gu11r"]
 script = ExtResource("5_1yeq0")
-approach_distance = 50.0
-
-[sub_resource type="BTTimeLimit" id="BTTimeLimit_l5cvy"]
-time_limit = 0.1
-children = [SubResource("BTAction_gu11r")]
+last_time = 0.2
 
 [sub_resource type="BTSequence" id="BTSequence_ft3k3"]
 custom_name = "pursue"
-children = [SubResource("BTCallMethod_rxbbq"), SubResource("BTAlwaysSucceed_alxfv"), SubResource("BTTimeLimit_l5cvy")]
+children = [SubResource("BTCallMethod_rxbbq"), SubResource("BTAlwaysSucceed_alxfv"), SubResource("BTAction_gu11r")]
 
 [sub_resource type="BTAlwaysFail" id="BTAlwaysFail_ec12m"]
 children = [SubResource("BTSequence_ft3k3")]

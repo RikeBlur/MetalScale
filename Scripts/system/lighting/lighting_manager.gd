@@ -1,7 +1,7 @@
 class_name lighting_manager
 extends Node2D
 
-@export var light_sources: Array[light_source] = []
+@export var light_sources: Array[LightSource] = []
 @export var detecte_offset: float = 100.0
 @export var update_rate : float = 0.2
 @export var grid_size : float = 10.0
@@ -41,7 +41,7 @@ func update_light_sources():
 	var light_source_nodes = get_tree().get_nodes_in_group("light_source")
 	
 	for node in light_source_nodes:
-		if node is light_source:
+		if node is LightSource:
 			light_sources.append(node)
 	
 	#print("找到 ", light_sources.size(), " 个光源")
@@ -232,13 +232,13 @@ func assign_lights_to_detectors():
 				detector.nearby_light_sources.append(light)
 				#print("检测器 ", detector.name, " 添加光源: ", light.name, " 距离: ", distance)
 
-func add_light_source(light: light_source):
+func add_light_source(light: LightSource):
 	"""手动添加光源"""
 	if light not in light_sources:
 		light_sources.append(light)
 		print("手动添加光源: ", light.name)
 
-func remove_light_source(light: light_source):
+func remove_light_source(light: LightSource):
 	"""手动移除光源"""
 	var index = light_sources.find(light)
 	if index != -1:
@@ -273,7 +273,7 @@ func get_occlusion_points_count() -> int:
 	"""获取遮挡点数量"""
 	return occlusion_points.size()
 
-func get_light_source_by_name(light_name: String) -> light_source:
+func get_light_source_by_name(light_name: String) -> LightSource:
 	"""根据名称获取光源"""
 	for light in light_sources:
 		if is_instance_valid(light) and light.name == light_name:

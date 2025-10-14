@@ -1737,6 +1737,20 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="Animation" id="Animation_axk6g"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/hit_flash_intensity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
 [sub_resource type="Animation" id="Animation_lnjpj"]
 resource_name = "hit"
 length = 0.3
@@ -1750,20 +1764,6 @@ tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
 "points": PackedFloat32Array(0, -0.25, 0, 0.26666668, 3.5, 1, -0.16666666, 1.5, 0, 0, 0, -0.03333333, -0.25, 0, 0),
 "times": PackedFloat32Array(0, 0.2, 0.3)
-}
-
-[sub_resource type="Animation" id="Animation_axk6g"]
-length = 0.001
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:material:shader_parameter/hit_flash_intensity")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vnu8s"]
@@ -1781,6 +1781,7 @@ height = 136.0
 
 [node name="Player_Oni" type="CharacterBody2D" groups=["player"]]
 motion_mode = 1
+wall_min_slide_angle = 0.0
 script = ExtResource("1_58adm")
 player_walk_speed_max = 150
 player_run_speed_max = 300

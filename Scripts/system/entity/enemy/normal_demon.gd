@@ -5,8 +5,9 @@ extends CharacterBody2D
 var summon_count: int = 0
 
 var _moved_this_frame: bool = false
+var direction : Vector2 = Vector2.ZERO
 
-@onready var animation_player: AnimatedSprite2D = $AnimatedSprite
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite
 #@onready var health: Health = $Health
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 

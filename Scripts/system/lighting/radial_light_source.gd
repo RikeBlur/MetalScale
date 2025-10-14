@@ -1,5 +1,5 @@
 class_name radial_light_source
-extends light_source
+extends LightSource
 
 @export var radius : float = 200.0
 @export var range_offset : float = 1.0

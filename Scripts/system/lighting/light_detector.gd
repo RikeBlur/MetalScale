@@ -9,7 +9,7 @@ extends Node2D
 @export var extension_length: float = 30.0
 @export var future_length: float = 80.0
 # 附近的光源数组
-@export var nearby_light_sources: Array[light_source] = []
+@export var nearby_light_sources: Array[LightSource] = []
 
 @export var debug_mode : bool = false
 var debug_label: Label = null
@@ -119,7 +119,7 @@ func get_nearby_lights_count() -> int:
 	"""获取附近光源数量"""
 	return nearby_light_sources.size()
 
-func get_nearby_lights() -> Array[light_source]:
+func get_nearby_lights() -> Array[LightSource]:
 	"""获取附近光源列表"""
 	return nearby_light_sources
 

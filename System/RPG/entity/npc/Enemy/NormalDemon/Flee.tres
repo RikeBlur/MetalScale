@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=15 format=3 uid="uid://dvv7t1jdna0ri"]
+[gd_resource type="BehaviorTree" load_steps=13 format=3 uid="uid://dvv7t1jdna0ri"]
 
 [ext_resource type="Script" uid="uid://duholooqx2vum" path="res://Scripts/system/ai/tasks/get_detector.gd" id="1_al123"]
 [ext_resource type="Script" uid="uid://eu01augamggx" path="res://Scripts/system/ai/tasks/flee_from_light.gd" id="2_c65qo"]
@@ -20,13 +20,6 @@ script = ExtResource("1_al123")
 [sub_resource type="BTAction" id="BTAction_8kyhe"]
 script = ExtResource("2_c65qo")
 
-[sub_resource type="BTTimeLimit" id="BTTimeLimit_qweif"]
-time_limit = 0.1
-children = [SubResource("BTAction_8kyhe")]
-
-[sub_resource type="BTInvert" id="BTInvert_qweif"]
-children = [SubResource("BTTimeLimit_qweif")]
-
 [sub_resource type="BTCondition" id="BTCondition_qweif"]
 script = ExtResource("2_qweif")
 
@@ -36,7 +29,7 @@ children = [SubResource("BTCondition_qweif")]
 
 [sub_resource type="BTSequence" id="BTSequence_olf7p"]
 custom_name = "flee loop"
-children = [SubResource("BTInvert_qweif"), SubResource("BTInvert_al123")]
+children = [SubResource("BTAction_8kyhe"), SubResource("BTInvert_al123")]
 
 [sub_resource type="BTRepeatUntilSuccess" id="BTRepeatUntilSuccess_rauo6"]
 children = [SubResource("BTSequence_olf7p")]

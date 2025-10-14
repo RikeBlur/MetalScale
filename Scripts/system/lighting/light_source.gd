@@ -1,4 +1,4 @@
-class_name light_source
+class_name LightSource
 extends PointLight2D
 
 # 射线采样类
