@@ -13,7 +13,7 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 
-[node name="radial_light" type="PointLight2D" groups=["light_source"]]
+[node name="radial_light" type="PointLight2D" groups=["light_source", "tool"]]
 shadow_enabled = true
 shadow_filter = 2
 shadow_filter_smooth = 1.0
@@ -23,3 +23,5 @@ height = 100.0
 script = ExtResource("1_u6rv0")
 radius = 240.0
 range_offset = 5.0
+
+[node name="SuccessSFX" type="AudioStreamPlayer2D" parent="."]

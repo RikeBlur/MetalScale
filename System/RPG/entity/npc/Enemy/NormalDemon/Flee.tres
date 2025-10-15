@@ -22,7 +22,6 @@ script = ExtResource("2_c65qo")
 
 [sub_resource type="BTCondition" id="BTCondition_qweif"]
 script = ExtResource("2_qweif")
-required_frames = null
 
 [sub_resource type="BTInvert" id="BTInvert_al123"]
 custom_name = "back to patrol"

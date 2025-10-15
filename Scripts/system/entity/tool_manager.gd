@@ -32,6 +32,7 @@ var durability = {
 @export var radius_light_durability_consumption: float = 1.0
 @export var parallel_light_durability_consumption: float = 1.0
 
+@onready var failure_sfx: AudioStreamPlayer2D = $FailureSFX
 
 func _ready():
 	# Set the initial tool state based on the exported variable.
@@ -74,9 +75,12 @@ func _on_tool_changed(new_tool):
 			# Do nothing if no tool is selected.
 			pass
 		Tool.RADIUS_LIGHT:
+			var instance = RADIAL_LIGHT_SCENE.instantiate()
 			if durability[Tool.RADIUS_LIGHT] > 0:
-				var instance = RADIAL_LIGHT_SCENE.instantiate()
 				add_child(instance)
+				instance.success_sfx.play()
+			else :
+				failure_sfx.play()
 		#Tool.PARALLEL_LIGHT:
 		#	if durability[Tool.PARALLEL_LIGHT] > 0:
 		#		var instance = PARALLEL_LIGHT_SCENE.instantiate()

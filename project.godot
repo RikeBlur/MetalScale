@@ -90,6 +90,7 @@ player=""
 light_source=""
 occlusion=""
 light_detector=""
+tool=""
 
 [gui]
 

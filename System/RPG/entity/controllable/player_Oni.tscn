@@ -1844,6 +1844,8 @@ shape = SubResource("RectangleShape2D_id5i6")
 script = ExtResource("32_okprr")
 player_now = NodePath("..")
 
+[node name="FailureSFX" type="AudioStreamPlayer2D" parent="ToolManager"]
+
 [node name="hurted_component" type="Node2D" parent="." node_paths=PackedStringArray("hurted_area", "hit_flash_player", "hurted_audio", "entity")]
 modulate = Color(1.412422, 0.9849966, 1.1019353, 1)
 material = ExtResource("33_axk6g")
