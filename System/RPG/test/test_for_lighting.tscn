@@ -14,10 +14,10 @@
 [ext_resource type="Script" uid="uid://1tmjkabys6o4" path="res://Scripts/system/view/UI/toolbar/durability_process_bar.gd" id="10_8b8tj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8b8tj"]
-size = Vector2(56, 339)
+size = Vector2(169, 339)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_f3pkm"]
-polygon = PackedVector2Array(-78, -58, -24, -58, -24, 276, -78, 276)
+polygon = PackedVector2Array(-103, -58, 58, -58, 58, 275, -103, 275)
 
 [sub_resource type="Environment" id="Environment_c6vp4"]
 
@@ -36,12 +36,12 @@ scale = Vector2(5.63955, 5.58333)
 position = Vector2(627, 240)
 
 [node name="Sprite2D" type="Sprite2D" parent="terrian/obstacle/obstacle1"]
-position = Vector2(-51.00001, 109.00002)
-scale = Vector2(0.0464286, 0.55666673)
+position = Vector2(-22.500006, 109.00002)
+scale = Vector2(0.14375003, 0.55666673)
 texture = ExtResource("2_ib32c")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="terrian/obstacle/obstacle1"]
-position = Vector2(-51, 109.5)
+position = Vector2(-22.5, 109.5)
 shape = SubResource("RectangleShape2D_8b8tj")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="terrian/obstacle/obstacle1"]

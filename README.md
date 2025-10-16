@@ -1,4 +1,14 @@
 # UPDATE
+## 25.10.15
+准备开始配置音效和音乐。<br>
+
+每个entity有独立的SFX_manager。<br>
+值得注意的是 ToolManager 也有音效管理：<br>
+对于选用了可以选用的 Tool ，会有 success_sfx，这个 stream_player 保存在 Tool 的场景下。<br>
+对于试图选用不可使用的 Tool ，会有 failure_sfx， 这个 stream_player 会保存在持有的这个 ToolManager 的 entity 场景下。<br>
+
+计划：完善工具系统（0、1、2三种工具，以及对于消耗品的处理、对于耗尽 Tool 的处理、对于耐久耗尽 Tool 的处理）并给出详细文档
+
 ## 25.10.14
 NormalDemon的Pursue、Flee、Patrol都按照 八向 8-direction 来移动了。<br>
 

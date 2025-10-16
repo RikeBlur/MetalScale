@@ -8,11 +8,13 @@ const max_durability : float = 100.0
 enum Tool {
 	NONE, # 0
 	RADIUS_LIGHT, # 1
-	PARALLEL_LIGHT # 2
+	PARALLEL_LIGHT, # 2
+	ADRENALINE
 }
 
 # NOTE: Please replace with the actual paths to your scenes.
 const RADIAL_LIGHT_SCENE = preload("res://System/RPG/lighting/radial_light.tscn")
+const ADRENALINE_SCENE = preload("res://System/RPG/tools/adrenaline.tscn")
 #const PARALLEL_LIGHT_SCENE = preload("res://System/RPG/entity/item/parallel_light_source.tscn")
 
 @export var current_tool: Tool = Tool.NONE:
@@ -28,11 +30,15 @@ var durability = {
 	Tool.PARALLEL_LIGHT: max_durability
 }
 
+var consumption = {
+	Tool.ADRENALINE: 0
+}
+
 # Durability consumption rate per second. Can be adjusted in the inspector.
 @export var radius_light_durability_consumption: float = 1.0
 @export var parallel_light_durability_consumption: float = 1.0
 
-@onready var failure_sfx: AudioStreamPlayer2D = $FailureSFX
+@export var failure_sfx: AudioStreamPlayer2D
 
 func _ready():
 	# Set the initial tool state based on the exported variable.
@@ -54,6 +60,10 @@ func _process(delta):
 				durability[Tool.PARALLEL_LIGHT] = 0
 				# Switch to NONE when durability runs out.
 				current_tool = Tool.NONE
+		Tool.ADRENALINE:
+			if consumption[Tool.ADRENALINE] <= 0:
+				consumption[Tool.ADRENALINE] = 0
+				current_tool = Tool.NONE
 	# 如果按下数字键，切换到当前的tool
 	var to_tool = InputEvents.to_tool()
 	if to_tool >= 0 : current_tool = player_now.tool_available[InputEvents.to_tool()]
@@ -63,12 +73,10 @@ func _on_tool_changed(new_tool):
 	# When the tool changes, first clear any existing tool instances.
 	for child in get_children():
 		child.queue_free()
-
 	if player_now:
 		player_now.tool = new_tool
 	else:
 		push_warning("ToolManager: player_now is not assigned in the inspector.")
-
 	# Instantiate and add the new tool's scene as a child.
 	match current_tool:
 		Tool.NONE:
@@ -85,3 +93,7 @@ func _on_tool_changed(new_tool):
 		#	if durability[Tool.PARALLEL_LIGHT] > 0:
 		#		var instance = PARALLEL_LIGHT_SCENE.instantiate()
 		#		add_child(instance)
+		Tool.ADRENALINE:
+			var instance = ADRENALINE_SCENE.instantiate()
+			if consumption[Tool.ADRENALINE] > 0:
+				add_child(instance)

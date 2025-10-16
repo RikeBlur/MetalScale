@@ -28,14 +28,14 @@ script = ExtResource("2_y6ake")
 
 [sub_resource type="BBVariant" id="BBVariant_tftqv"]
 type = 3
-saved_value = 500.0
-resource_name = "500.0"
+saved_value = 1000.0
+resource_name = "1000.0"
 
 [sub_resource type="BTCheckVar" id="BTCheckVar_7clef"]
 variable = &"target_distance"
 check_type = 3
 value = SubResource("BBVariant_tftqv")
-custom_name = "目标感知范围"
+custom_name = "To Patrol"
 
 [sub_resource type="BBVariant" id="BBVariant_5t1gq"]
 type = 4

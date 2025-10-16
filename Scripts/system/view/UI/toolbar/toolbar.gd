@@ -11,7 +11,6 @@ const TOOL_CONFIG = {
 	ToolManager.Tool.RADIUS_LIGHT: 1
 }
 
-
 @export var player_now: CharacterBody2D
 
 var tool_boxes: Array = []
@@ -41,10 +40,10 @@ func _process(_delta):
 	if not player_now: return
 	if not tool_manager: return
 	
-	_update_durability()
+	_update_progressbar()
 	_update_toolbar()
 	
-func _update_durability() -> void:
+func _update_progressbar() -> void:
 	for i in range(min(6, player_now.tool_available.size())):
 		var tool_type = player_now.tool_available[i]
 		var durability_bar = tool_boxes[i].durability
@@ -62,24 +61,23 @@ func _update_toolbar():
 	for i in range(min(6, player_now.tool_available.size())):
 		var tool_type = player_now.tool_available[i]
 		var icon = tool_boxes[i].icon
-		var durability_bar = tool_boxes[i].durability
+		var progressbar = tool_boxes[i].progressbar
 		
 		tool_boxes[i].tool = tool_type
 		tool_boxes[i].config = TOOL_CONFIG[tool_type]
 		icon.texture = TOOL_ICONS.get(tool_type)
+		
 		# 设置工具箱状态和图标shader状态
 		var new_state = 0
 		if tool_type == activated_tool:
 			new_state = 1
 		elif tool_boxes[i].tool == 1 and tool_manager and tool_manager.durability.has(tool_type):
-			durability_bar.max_value = ToolManager.max_durability
-			durability_bar.value = tool_manager.durability[tool_type]
-			if durability_bar.value == 0.0:
+			progressbar.max_value = ToolManager.max_durability
+			progressbar.value = tool_manager.durability[tool_type]
+			if progressbar.value == 0.0:
 				new_state = 2
 		
 		# 同步更新状态
 		tool_boxes[i].state = new_state
 		if icon.material:
 			icon.material.set_shader_parameter("state", new_state)
-				
-				

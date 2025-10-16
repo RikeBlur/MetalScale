@@ -6,8 +6,8 @@ var tool : ToolManager.Tool = ToolManager.Tool.NONE
 var config : int = 0
 
 @export var icon : TextureRect
-@export var durability : durability_process_bar
+@export var progressbar : ProgressBar
 
 func _ready() -> void:
 	icon = $Icon
-	durability = $DurabilityBar
+	progressbar = $DurabilityBar

@@ -38,7 +38,7 @@ resource_name = "500.0"
 variable = &"target_distance"
 check_type = 2
 value = SubResource("BBVariant_7kwc8")
-custom_name = "目标感知范围"
+custom_name = "To Pursue"
 
 [sub_resource type="BBVariant" id="BBVariant_5t1gq"]
 type = 4
