@@ -1,4 +1,7 @@
 # UPDATE
+## 25.10.16
+完善 ToolSystem 系统， Toolbox 会自动加载 DurabilityBar 等子场景。<br>
+
 ## 25.10.15
 准备开始配置音效和音乐。<br>
 

@@ -116,7 +116,7 @@ height = 86.0
 
 [node name="NormalDemon" type="CharacterBody2D"]
 motion_mode = 1
-wall_min_slide_angle = 0.0
+wall_min_slide_angle = 0.17453292
 script = ExtResource("1_n5mda")
 
 [node name="lightdetector" parent="." instance=ExtResource("2_pord0")]

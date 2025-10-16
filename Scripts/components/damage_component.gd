@@ -28,7 +28,8 @@ func _ready() -> void:
 	assert(damage_area != null, "伤害组件需要一个伤害判定区域DamageArea")
 	# 获取Rigid
 	if not entity:
-		entity = Tools._find_character_body_parent(damage_area)
+		print("Can't Find Entity")
+		return
 	# 连接信号
 	if damage_area:
 		damage_area.area_entered.connect(_on_area_entered)
@@ -57,7 +58,7 @@ func _on_area_entered(area: Area2D) -> void:
 		
 		if parent and parent is hurted_component:
 			var hurted_comp = parent
-			var hurted_entity = Tools._find_character_body_parent(area)
+			var hurted_entity = area.get_parent().entity
 			
 			# 检查目标组
 			if target_group != "" and hurted_entity and not hurted_entity.is_in_group(target_group):

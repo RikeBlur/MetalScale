@@ -83,7 +83,7 @@ func _on_triggered(area: Area2D, idx: int) -> void:
 
 
 # 实时检查 trigger_flag 并在需要时实例化对话
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# 更新相机位置
 	camera_position = camera.global_position
 	# 执行对话生成

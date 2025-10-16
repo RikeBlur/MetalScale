@@ -31,7 +31,7 @@
 [ext_resource type="Texture2D" uid="uid://nhc82iwr7o3s" path="res://Assests/sprite/Oni/run/run-right-Sheet.png" id="22_8ngwo"]
 [ext_resource type="Texture2D" uid="uid://b5y7mc6vhqrcm" path="res://Assests/sprite/Oni/walk/walk-right-Sheet.png" id="22_mg8q7"]
 [ext_resource type="PackedScene" uid="uid://d8qsnxa2ok7a" path="res://System/RPG/interact/interact_component.tscn" id="22_wc45c"]
-[ext_resource type="Script" uid="uid://dkkcxq5sww6a6" path="res://Scripts/system/entity/tool_manager.gd" id="32_okprr"]
+[ext_resource type="Script" uid="uid://dkkcxq5sww6a6" path="res://Scripts/system/tools/tool_manager.gd" id="32_okprr"]
 [ext_resource type="Material" uid="uid://udxyi4gcebgr" path="res://Effect/Shader/hit_flash/hit_flash.tres" id="33_axk6g"]
 [ext_resource type="Script" uid="uid://bwj03sov6w1te" path="res://Scripts/components/hurted_component.gd" id="33_qhkxi"]
 
@@ -1781,13 +1781,13 @@ height = 136.0
 
 [node name="Player_Oni" type="CharacterBody2D" groups=["player"]]
 motion_mode = 1
-wall_min_slide_angle = 0.0
+wall_min_slide_angle = 0.17453292
 script = ExtResource("1_58adm")
 player_walk_speed_max = 150
 player_run_speed_max = 300
 player_walk_acceleration = 300
 player_run_acceleration = 300
-tool_available = Array[int]([1, 0, 0, 0, 0, 0])
+tool_available = Array[int]([0, 1, 0, 0, 0, 0])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -44)
@@ -1843,9 +1843,6 @@ shape = SubResource("RectangleShape2D_id5i6")
 [node name="ToolManager" type="Node2D" parent="." node_paths=PackedStringArray("player_now", "failure_sfx")]
 script = ExtResource("32_okprr")
 player_now = NodePath("..")
-current_tool = null
-radius_light_durability_consumption = null
-parallel_light_durability_consumption = null
 failure_sfx = NodePath("../SFX_manager/FailureSFX")
 
 [node name="hurted_component" type="Node2D" parent="." node_paths=PackedStringArray("hurted_area", "hit_flash_player", "hurted_audio", "entity")]

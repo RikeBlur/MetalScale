@@ -28,7 +28,7 @@ func _ready():
 	# 从tool_bar节点下读取现有的工具箱
 	_initialize_tool_boxes()
 	# 根据玩家已有的tool更新toolbox
-	_update_toolbar()
+	call_deferred("_update_toolbar")
 
 func _initialize_tool_boxes():
 	tool_boxes.clear()
@@ -40,8 +40,9 @@ func _process(_delta):
 	if not player_now: return
 	if not tool_manager: return
 	
-	_update_progressbar()
-	_update_toolbar()
+	call_deferred("_update_toolbar")
+	call_deferred("_update_progressbar")
+	
 	
 func _update_progressbar() -> void:
 	for i in range(min(6, player_now.tool_available.size())):
@@ -56,22 +57,24 @@ func _update_progressbar() -> void:
 
 func _update_toolbar():
 	if not player_now or tool_boxes.is_empty(): return
-	var activated_tool = player_now.tool
 
 	for i in range(min(6, player_now.tool_available.size())):
 		var tool_type = player_now.tool_available[i]
 		var icon = tool_boxes[i].icon
-		var progressbar = tool_boxes[i].progressbar
-		
 		tool_boxes[i].tool = tool_type
 		tool_boxes[i].config = TOOL_CONFIG[tool_type]
 		icon.texture = TOOL_ICONS.get(tool_type)
 		
+		tool_boxes[i].update_children_based_on_config()
+		
+		var progressbar = tool_boxes[i].durability
+		
 		# 设置工具箱状态和图标shader状态
+		var activated_tool = player_now.tool
 		var new_state = 0
 		if tool_type == activated_tool:
 			new_state = 1
-		elif tool_boxes[i].tool == 1 and tool_manager and tool_manager.durability.has(tool_type):
+		elif tool_boxes[i].config == 1 and tool_manager and tool_manager.durability.has(tool_type):
 			progressbar.max_value = ToolManager.max_durability
 			progressbar.value = tool_manager.durability[tool_type]
 			if progressbar.value == 0.0:
@@ -79,5 +82,13 @@ func _update_toolbar():
 		
 		# 同步更新状态
 		tool_boxes[i].state = new_state
-		if icon.material:
-			icon.material.set_shader_parameter("state", new_state)
+		
+		# 确保 icon 有 ShaderMaterial，然后设置状态
+		if not icon.material:
+			# 如果没有材质，创建一个 ShaderMaterial
+			var shader_material = ShaderMaterial.new()
+			shader_material.shader = preload("res://Effect/Shader/toolbox/toolbox.gdshader")
+			icon.material = shader_material
+		
+		# 设置 shader 参数
+		icon.material.set_shader_parameter("state", new_state)

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0gy0lorihy17"]
+
+[ext_resource type="Script" uid="uid://1tmjkabys6o4" path="res://Scripts/system/view/UI/toolbar/durability_process_bar.gd" id="1_rce4t"]
+
+[node name="DurabilityBar" type="ProgressBar"]
+custom_minimum_size = Vector2(5, 50)
+fill_mode = 3
+show_percentage = false
+script = ExtResource("1_rce4t")

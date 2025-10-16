@@ -15,11 +15,12 @@ var player_direction : Vector2 = Vector2.DOWN
 var player_last_direction : Vector2 = Vector2.DOWN
 
 @export var tool_available : Array[ToolManager.Tool]
-var tool : int = 0
+@export var tool : ToolManager.Tool = ToolManager.Tool.NONE
 
 var health_max : float = 100.0
 var health_now : float = 100.0
 var is_died : bool = false
+
 
 
  
