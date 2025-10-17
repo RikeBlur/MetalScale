@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://drxum6townqdh"]
+[gd_scene load_steps=12 format=3 uid="uid://drxum6townqdh"]
 
 [ext_resource type="Script" uid="uid://dw4hvyigndglp" path="res://Scripts/system/view/camera.gd" id="1_5qjx8"]
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_by6gl"]
 [ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/qa/矩形 1.png" id="2_ib32c"]
 [ext_resource type="PackedScene" uid="uid://ds14l74hq1t3s" path="res://System/RPG/entity/controllable/player_Oni.tscn" id="2_l0tuh"]
+[ext_resource type="PackedScene" uid="uid://cbbsdt6o882k0" path="res://System/RPG/tools/FlashLight.tscn" id="4_c1wm1"]
 [ext_resource type="Script" uid="uid://b3v26rgbib2s4" path="res://Scripts/system/lighting/lighting_manager.gd" id="6_nudyg"]
 [ext_resource type="PackedScene" uid="uid://1b5wtmditoi1" path="res://System/RPG/tools/toolbar.tscn" id="7_urbdc"]
 [ext_resource type="PackedScene" uid="uid://ctcr1sh6whs5s" path="res://System/RPG/entity/npc/Enemy/NormalDemon/NormalDemon.tscn" id="9_su6pt"]
@@ -39,7 +40,7 @@ texture = ExtResource("2_ib32c")
 position = Vector2(-22.5, 109.5)
 shape = SubResource("RectangleShape2D_8b8tj")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="terrian/obstacle/obstacle1"]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="terrian/obstacle/obstacle1" groups=["occlusion"]]
 occluder = SubResource("OccluderPolygon2D_f3pkm")
 
 [node name="Player_Oni" parent="." instance=ExtResource("2_l0tuh")]
@@ -48,6 +49,8 @@ position = Vector2(410, 410)
 player_walk_speed_max = 120
 player_run_speed_max = 500
 player_walk_speed_min = 20
+
+[node name="FlashLight" parent="Player_Oni" instance=ExtResource("4_c1wm1")]
 
 [node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
 position = Vector2(572, 326)

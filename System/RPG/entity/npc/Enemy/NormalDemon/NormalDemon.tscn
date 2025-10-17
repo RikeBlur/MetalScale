@@ -124,7 +124,6 @@ radius = 800.0
 update_rate = 0.05
 extension_length = 30.0
 future_length = 100.0
-debug_mode = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_pord0")

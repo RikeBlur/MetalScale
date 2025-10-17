@@ -1,4 +1,8 @@
 # UPDATE
+## 25.10.17
+做两个新 Tool 类， ParallelLight 和 Adrenaline。<br>
+实现光源的 逻辑层 和 渲染层 实际分离！分到不同节点！<br>
+
 ## 25.10.16
 完善 ToolSystem 系统， Toolbox 会自动加载 DurabilityBar 等子场景。<br>
 
