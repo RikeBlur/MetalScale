@@ -1,5 +1,5 @@
 class_name LightSource
-extends PointLight2D
+extends Node2D
 
 # 射线采样类
 class SampleRay:

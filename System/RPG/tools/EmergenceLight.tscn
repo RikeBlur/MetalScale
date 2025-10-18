@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://5yatj0fnvtx4"]
+
+[ext_resource type="Script" uid="uid://dmbyhedqvu3rn" path="res://Scripts/system/tools/emergence_light.gd" id="1_d2w5c"]
+[ext_resource type="PackedScene" uid="uid://bnrqip1fx0561" path="res://System/RPG/lighting/radial_light.tscn" id="1_lmf6b"]
+
+[node name="EmergenceLight" type="Node2D" groups=["tool"]]
+script = ExtResource("1_d2w5c")
+
+[node name="toolbody" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="toolbody"]
+
+[node name="radial_light" parent="." instance=ExtResource("1_lmf6b")]
+debug_mode = false
+
+[node name="SuccessSFX" type="AudioStreamPlayer2D" parent="."]

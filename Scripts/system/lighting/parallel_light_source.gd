@@ -16,7 +16,7 @@ extends LightSource
 
 @export var debug_mode : bool = false
 
-@onready var success_sfx: AudioStreamPlayer2D = $SuccessSFX
+@onready var point_light_2d: PointLight2D = $PointLight2D
 
 func _ready():
 	initialize_sample_rays()

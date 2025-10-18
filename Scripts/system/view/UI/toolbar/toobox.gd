@@ -9,8 +9,8 @@ var config : int = 0:
 			config = value
 			update_children_based_on_config()
 
-@export var icon : TextureRect
-@export var durability : ProgressBar
+@export var icon : TextureRect = null
+@export var durability : ProgressBar = null
 
 const DURABILITY_BAR_SCENE = preload("res://System/RPG/tools/durability_bar.tscn")
 
@@ -20,6 +20,7 @@ func _ready() -> void:
 
 func update_children_based_on_config() -> void:
 	# 需要在下一帧执行，确保子节点已经准备好
+	print("update config")
 	_apply_config()
 
 func _apply_config() -> void:
@@ -48,3 +49,9 @@ func _apply_config() -> void:
 			for child in get_children():
 				if child != icon and child != durability_bar_node:
 					child.queue_free()
+		2:
+			# config=2: 清除除Icon外的所有子节点
+			for child in get_children():
+				if child != icon:
+					child.queue_free()
+			durability = null

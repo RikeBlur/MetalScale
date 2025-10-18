@@ -15,8 +15,6 @@ size = Vector2(169, 339)
 polygon = PackedVector2Array(-103, -58, 58, -58, 58, 275, -103, 275)
 
 [sub_resource type="Environment" id="Environment_c6vp4"]
-ssao_enabled = true
-glow_enabled = true
 
 [node name="TestForLighting" type="Node2D"]
 y_sort_enabled = true
@@ -57,7 +55,7 @@ script = ExtResource("1_5qjx8")
 target = NodePath("../Player_Oni")
 
 [node name="Dark" type="CanvasModulate" parent="."]
-color = Color(0.38431373, 0.3764706, 0.5019608, 1)
+color = Color(0.385417, 0.375, 0.5, 1)
 
 [node name="manager_manager" type="Node2D" parent="."]
 

@@ -7,8 +7,6 @@ extends LightSource
 @export var sampling_rate : int = 36
 @export var debug_mode : bool = false
 
-@onready var success_sfx: AudioStreamPlayer2D = $SuccessSFX
-
 func _ready():
 	initialize_sample_rays()
 	#update_ray_collisions()

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://x5b7hlnm4ojo"
-path="res://.godot/imported/light-bulb-clipart-md.png-987736a03fdcee699383dd8446a0eb67.ctex"
+uid="uid://b6qt6aci4g44h"
+path="res://.godot/imported/Adrenaline_icon.png-10e035aa5af536d2db8ef2aef3181474.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assests/sprite/icon/light-bulb-clipart-md.png"
-dest_files=["res://.godot/imported/light-bulb-clipart-md.png-987736a03fdcee699383dd8446a0eb67.ctex"]
+source_file="res://Assests/sprite/icon/Adrenaline_icon.png"
+dest_files=["res://.godot/imported/Adrenaline_icon.png-10e035aa5af536d2db8ef2aef3181474.ctex"]
 
 [params]
 

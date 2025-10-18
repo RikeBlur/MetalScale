@@ -42,7 +42,7 @@ height = 88.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_axk6g"]
 shader = ExtResource("6_lnjpj")
 shader_parameter/outline_width = 8.0
-shader_parameter/outline_color = Color(45.406, 59.46, 60.541, 1)
+shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
 shader_parameter/hit_flash_intensity = 0.0
 
@@ -1787,7 +1787,7 @@ player_walk_speed_max = 150
 player_run_speed_max = 300
 player_walk_acceleration = 300
 player_run_acceleration = 300
-tool_available = Array[int]([0, 1, 0, 0, 0, 0])
+tool_available = Array[int]([0, 1, 2, 3, 0, 0])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -44)

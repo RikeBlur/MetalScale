@@ -17,5 +17,5 @@ texture = ExtResource("2_78coa")
 
 [node name="ParallelLight" parent="." instance=ExtResource("3_3mxrj")]
 position = Vector2(10, 0)
-texture_scale = 0.5
-debug_mode = true
+
+[node name="SuccessSFX" type="AudioStreamPlayer2D" parent="."]

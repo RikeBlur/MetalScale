@@ -10,6 +10,8 @@ extends Node2D
 # 内部变量：当前的目标角度
 var current_target_angle : float = 0.0
 
+@onready var success_sfx: AudioStreamPlayer2D = $SuccessSFX
+
 func _ready() -> void:
 	# 如果没有指定光源，尝试从子节点获取
 	if not light_source:
@@ -63,9 +65,9 @@ func _apply_rotation(angle: float) -> void:
 		flash_light_body.rotation = angle
 	
 	# 2. 旋转光源节点本身（这会旋转纹理）
-	if light_source:
+	if light_source.point_light_2d:
 		# 直接旋转光源节点来旋转纹理
-		light_source.rotation = angle
+		light_source.point_light_2d.rotation = angle
 	
 	# 3. 设置光源的角度偏移（控制光线检测方向）
 	if light_source and light_source is parallel_light_source:

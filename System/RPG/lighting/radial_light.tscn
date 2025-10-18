@@ -1,27 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://bnrqip1fx0561"]
+[gd_scene load_steps=3 format=3 uid="uid://bnrqip1fx0561"]
 
 [ext_resource type="Script" uid="uid://b1qwa7ctreuo0" path="res://Scripts/system/lighting/radial_light_source.gd" id="1_u6rv0"]
+[ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/point_radial_light_texture.tres" id="2_lrsov"]
 
-[sub_resource type="Gradient" id="Gradient_w212q"]
-interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.984375, 1)
-colors = PackedColorArray(1, 1, 1, 1, 0.0273438, 0.0273438, 0.0273438, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_3sk2x"]
-gradient = SubResource("Gradient_w212q")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.5, 0)
-
-[node name="radial_light" type="PointLight2D" groups=["light_source", "tool"]]
-shadow_enabled = true
-shadow_filter = 1
-shadow_filter_smooth = 0.5
-texture = SubResource("GradientTexture2D_3sk2x")
-texture_scale = 8.0
-height = 100.0
+[node name="radial_light" type="Node2D" groups=["light_source"]]
 script = ExtResource("1_u6rv0")
 radius = 240.0
 range_offset = 5.0
+debug_mode = true
 
-[node name="SuccessSFX" type="AudioStreamPlayer2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="."]
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 0.5
+texture = ExtResource("2_lrsov")
+texture_scale = 8.0

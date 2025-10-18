@@ -3,7 +3,7 @@ extends BTCondition
 
 @export var target_var: StringName = &"detector"
 @export var tolerance: float = 0.1
-@export var required_frames: int = 3  # 需要连续检测到的帧数
+@export var required_frames: int = 8  # 需要连续检测到的帧数
 
 var detector : light_detector
 var success_frames: int = 0  # 当前连续成功的帧数

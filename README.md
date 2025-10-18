@@ -1,4 +1,11 @@
 # UPDATE
+## 25.10.19
+
+## 25.10.18
+完成 ToolSystem 更新； config=2 的消耗品可以正常使用了； player类的属性tool现在只存储int，用于在tool_available里检索。<br>
+完成 ToolSystem 文档，指导新 Tool 的扩展。<br>
+设置 ToolBar 的 Style（等板子）；设置不同 config 对应的 ToolBox 的 Style（等板子）；画 NormalDemon 的动画（等板子）。<br>
+
 ## 25.10.17
 做两个新 Tool 类， ParallelLight 和 Adrenaline。<br>
 实现光源的 逻辑层 和 渲染层 实际分离！分到不同节点！<br>

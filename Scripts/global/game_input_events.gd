@@ -14,6 +14,13 @@ static var last_time : float = 0.03
 
 static var running : bool = false
 
+var target_position = Vector2.ZERO
+var is_dragging = false
+
+static var _last_consume_timestamp: float = 0.0
+const CONSUME_COOLDOWN: float = 0.2 # Cooldown in seconds
+
+
 func _physics_process(delta: float) -> void:
 	if start_flag == true:
 		timer += delta
@@ -72,6 +79,14 @@ static func is_running() -> bool:
 	else:
 		return false
 
+static func consume_once() -> bool:
+	if Input.is_action_just_pressed("consume"):
+		var now = Time.get_ticks_msec() / 1000.0
+		if now - _last_consume_timestamp > CONSUME_COOLDOWN:
+			_last_consume_timestamp = now
+			return true
+	return false
+
 static func to_tool() -> int:
 	if Input.is_action_just_pressed("tool_1") :
 		return 0
@@ -79,6 +94,12 @@ static func to_tool() -> int:
 		return 1
 	elif Input.is_action_just_pressed("tool_3") :
 		return 2	
+	elif Input.is_action_just_pressed("tool_4") :
+		return 3	
+	elif Input.is_action_just_pressed("tool_5") :
+		return 4	
+	elif Input.is_action_just_pressed("tool_6") :
+		return 5	
 	else :
 		return -1	
 

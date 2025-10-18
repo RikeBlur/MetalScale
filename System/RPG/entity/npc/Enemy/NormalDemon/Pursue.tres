@@ -53,6 +53,7 @@ args = Array[BBVariant]([SubResource("BBVariant_5t1gq")])
 
 [sub_resource type="BTCondition" id="BTCondition_7clef"]
 script = ExtResource("3_tftqv")
+required_frames = 3
 
 [sub_resource type="BBNode" id="BBNode_tftqv"]
 saved_value = NodePath("LimboHSM")
