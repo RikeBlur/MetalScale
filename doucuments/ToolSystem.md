@@ -5,10 +5,10 @@ res://Scripts/system/tools/tool_manager.gd<br>
 
 ### 基本属性
 
-	枚举类 **Tool** ： 保存所有工具的名称。<br>
-	每个 Tool 对应一个 **preload 场景**。<br>
-	current_tool ： 用于保存现在使用的 Tool。<br>
-	所有 工具场景节点 均为该节点的子节点，该节点为玩家的子节点。<br>
+枚举类 **Tool** ： 保存所有工具的名称。<br>
+每个 Tool 对应一个 **preload 场景**。<br>
+current_tool ： 用于保存现在使用的 Tool。<br>
+所有 工具场景节点 均为该节点的子节点，该节点为玩家的子节点。<br>
 	
 ### 工具分类
 
