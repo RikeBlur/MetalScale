@@ -4,25 +4,22 @@
 res://Scripts/system/tools/tool_manager.gd<br>
 
 ### 基本属性
-
 枚举类 **Tool** ： 保存所有工具的名称。<br>
 每个 Tool 对应一个 **preload 场景**。<br>
 current_tool ： 用于保存现在使用的 Tool。<br>
 所有 工具场景节点 均为该节点的子节点，该节点为玩家的子节点。<br>
 	
 ### 工具分类
-
-	Tool 简单分为三类 ： 永久使用类（config == 0）;耐久使用类（config == 1）;消耗品类（config == 2）。比较令人
+Tool 简单分为三类 ： 永久使用类（config == 0）;耐久使用类（config == 1）;消耗品类（config == 2）。比较令人
 疑惑的：每个 Tool 对应的 config 并不存在与 ToolManager 中，而是存在于 ToolBar 中。<br>
-	config == 1 的 Tool 需要在字典类 durability 中设置耐久上限， 随时间消耗的话，需要设置
+config == 1 的 Tool 需要在字典类 durability 中设置耐久上限， 随时间消耗的话，需要设置
  durability_consumption 。<br>
-	config == 2 的 Tool 需要在字典类 consumption 中设置持有量。
+config == 2 的 Tool 需要在字典类 consumption 中设置持有量。
 	
 ###重要方法 
-
-	1._on_tool_changed ： current_tool 变化时调用。清除掉当前的子节点（工具场景节点），实例化
+1._on_tool_changed ： current_tool 变化时调用。清除掉当前的子节点（工具场景节点），实例化
  current_tool 对应的 工具场景节点 并设为子节点。如需要，播放特效、音效。需注意，**每个 Tool 对应一个代码段**<br>
-	2._process : 每个 Tool 需要即时处理的逻辑， 如 每帧消耗耐久、使用消耗品； 切换 Tool 逻辑。目前通过数字切换，
+2._process : 每个 Tool 需要即时处理的逻辑， 如 每帧消耗耐久、使用消耗品； 切换 Tool 逻辑。目前通过数字切换，
 读取玩家的可用工具列表，将对应的值赋给 current_tool （同时改变玩家的 tool）；需注意，**每个 Tool 对应一个代码段**<br>
 
 
@@ -30,29 +27,27 @@ current_tool ： 用于保存现在使用的 Tool。<br>
 res://Scripts/system/view/UI/toolbar/toolbar.gd<br>
 
 ### 基本属性
-
-	**TOOL_ICONS** 每个 Tool 对应的 icon 文件 <br>
-	**TOOL_CONFIG** 每个 Tool 对应的config（0、1、2） <br>
-	tool_boxes 用于存储 ToolBar 的组件 ToolBox <br>
+**TOOL_ICONS** 每个 Tool 对应的 icon 文件 <br>
+**TOOL_CONFIG** 每个 Tool 对应的config（0、1、2） <br>
+tool_boxes 用于存储 ToolBar 的组件 ToolBox <br>
 	
 ### 组件 ToolBox
-
-	state ： 0 未激活、1 已激活、2 不可激活；
-	tool ： 对应的 Tool；
-	config ： 对应的 Tool 的 config；
-	icon ： 对应的图标；
-	durability ： 对应的耐久条（对应场景 DURABILITY_BAR_SCENE ）<br>
-	重要方法 update_children_based_on_config ： config == 0 时，清除 icon 外所有子节点；
-	config == 1 时，如果没有"DurabilityBar"子节点，则通过 DURABILITY_BAR_SCENE 加载，并清除
+state ： 0 未激活、1 已激活、2 不可激活；
+tool ： 对应的 Tool；
+config ： 对应的 Tool 的 config；
+icon ： 对应的图标；
+durability ： 对应的耐久条（对应场景 DURABILITY_BAR_SCENE ）<br>
+重要方法 update_children_based_on_config ： config == 0 时，清除 icon 外所有子节点；
+config == 1 时，如果没有"DurabilityBar"子节点，则通过 DURABILITY_BAR_SCENE 加载，并清除
 处 icon 和 DurabilityBar 外所有子节点；
-	config == 2 时，清除 icon 外所有子节点。<br>
-	需要注意，每次 Toolbox 的 config 发送变化时， 会自动调用方法。<br>
+config == 2 时，清除 icon 外所有子节点。<br>
+需要注意，每次 Toolbox 的 config 发送变化时， 会自动调用方法。<br>
 	
 ###重要方法 
 
-	1._update_progressbar ： 遍历 toolboxes， 如果当前 ToolBox 有 durability，则根据 ToolManager 中对应的
+1._update_progressbar ： 遍历 toolboxes， 如果当前 ToolBox 有 durability，则根据 ToolManager 中对应的
 数值更新  durability_progressbar。<br>
-	2._update_toolbar ： 遍历玩家可用工具 tool_available ，根据 tool_available 更新每个 ToolBox 的
+2._update_toolbar ： 遍历玩家可用工具 tool_available ，根据 tool_available 更新每个 ToolBox 的
 tool icon 和 config；并玩家的 tool 更新 ToolBox 的 state（同步 material 的 state parameter）。<br>
 
 
