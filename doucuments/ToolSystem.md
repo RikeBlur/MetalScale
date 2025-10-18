@@ -53,12 +53,12 @@ tool icon 和 config；并玩家的 tool 更新 ToolBox 的 state（同步 mater
 
 ## 工具一览
 
-###0 空手 NONE
+### 0 空手 NONE
 
 config 0
 无对应场景，完全的无，不过后续考虑增添对应空场景避免边界问题。<br>
 
-###1 应急光源 EMERGENCELIGHT
+### 1 应急光源 EMERGENCELIGHT
 
 res://System/RPG/tools/EmergenceLight.tscn<br>
 config 1 每秒消耗 0.05 <br>
@@ -66,7 +66,7 @@ config 1 每秒消耗 0.05 <br>
 2.radial_light 辐射光源，详细设定见 LightingSystem <br>
 3.SuccessSFX 激活音效 <br>
 
-###2 手电筒 FLASHLIGHT
+### 2 手电筒 FLASHLIGHT
 
 res://System/RPG/tools/FlashLight.tscn<br>
 config 1 每秒消耗 0.05 <br>
@@ -75,7 +75,7 @@ config 1 每秒消耗 0.05 <br>
 3.SuccessSFX 激活音效 <br>
 4.随鼠标转动：通过转动toolbody、ParallelLight 的渲染节点 和 给 ParallelLight增加 angle_offset 实现 <br>
 
-###3 肾上腺素 ADRENALINE
+### 3 肾上腺素 ADRENALINE
 
 res://System/RPG/tools/Adrenaline.tscn<br>
 config 2 持有上限 1 <br>
