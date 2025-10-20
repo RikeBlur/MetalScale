@@ -8,8 +8,8 @@
 ### 核心参数
 radius : 光源半径 <br>
 logic_energy : 光源处的 Intensity （最大） <br>
-sampling_rate ： 栅格化采样数 <br>
-threshold : 对于射线 SampleRay 和遮挡点的相交判定阈值 <br>
+**sampling_rate** ： 栅格化采样数 <br>
+**threshold** : 对于射线 SampleRay 和遮挡点的相交判定阈值 <br>
 ### 重要方法
 initialize_sample_rays： 为每个角度分配对应编号的 SampleRay。 <br>
 update_ray_collisions ： 对每个 SampleRay 计算是否与遮挡点有交点， 如果有，需计算这个 
@@ -44,7 +44,16 @@ intensity_future (is_now == false) 并求和, 返回值为float类型  <br>
 遮挡点计算（对应group：occlusion），目前只能对 LightOccluder2D 的多边形边缘按找一定长度采样；<br>
 将 LightSource 周围的遮挡点分配给 LightSource；将 LightDetector 周围的 LightSource 分配给 LightDetector 。<br>
 ### 核心参数
-grid_size ： 遮挡点采样时的长度间隔 <br>
-update_rate ： 更新Updata 和 分配Assign 的频率 <br>
+**grid_size** ： 遮挡点采样时的长度间隔 <br>
+**update_rate** ： 更新Updata 和 分配Assign 的频率 <br>
 detecte_offset : 遮挡点分配给光源时，距离阈值为 光源的 radius + detecte_offset <br>
 （光源分配给探测器时，距离阈值就是探测器的radius） <br>
+
+## 性能优化
+### 影响性能的参数
+**sampling_rate** ： radial_light_source 36； parallel_light_source 9 （越小越快）<br>
+**grid_size** : 10 （越大越快）<br>
+**update_rate** ： 0.2 （越小越快）<br>
+**threshold** ： 10 如果 grid_size 、 sampling_rate过小，为了避免性能太差，可以调高阈值。<br>
+### 优化方向
+每个 SampleRay 检查与所有 遮挡点 计算交点（双循环），非常慢慢慢，需要优化 <br>

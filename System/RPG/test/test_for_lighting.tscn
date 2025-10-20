@@ -76,8 +76,9 @@ detecte_offset = 50.0
 update_rate = 0.1
 grid_size = 20.0
 
-[node name="UI_manager" type="Node2D" parent="manager_manager"]
+[node name="UI_manager" type="Node2D" parent="manager_manager" node_paths=PackedStringArray("player_now")]
 script = ExtResource("6_su6pt")
+player_now = NodePath("../../Player_Oni")
 
 [node name="WorldOfWonder" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_c6vp4")

@@ -5,33 +5,31 @@
 [ext_resource type="Shader" uid="uid://qvica54eevs6" path="res://Effect/Shader/dissolve/dissolve_shader.tres" id="5_akkw2"]
 [ext_resource type="PackedScene" uid="uid://b7fgg2qcnwcji" path="res://System/RPG/entity/npc/AX/npc_ax.tscn" id="6_565r3"]
 [ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="7_lebc1"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_manager.gd" id="8_bsw2b"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_flag.gd" id="9_x4idq"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueResource.gd" id="10_jbcpv"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueTextResource.gd" id="11_wlsy8"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueFunctionResource.gd" id="12_f5q28"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueChoiceResource.gd" id="13_nx2t8"]
-[ext_resource type="Script" path="res://Scripts/system/interact/interact_manager.gd" id="14_tt4ln"]
-[ext_resource type="Script" path="res://Scripts/system/view/camera.gd" id="15_lpbp6"]
+[ext_resource type="Script" uid="uid://dgprjwspphr6g" path="res://Scripts/system/interact/dialogue_manager.gd" id="8_bsw2b"]
+[ext_resource type="Script" uid="uid://b37t7a67t8onx" path="res://Scripts/system/interact/dialogue_flag.gd" id="9_x4idq"]
+[ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/system/interact/dialogue_resource/DialogueResource.gd" id="10_jbcpv"]
+[ext_resource type="Script" uid="uid://4p4vcldhkkvo" path="res://Scripts/system/interact/dialogue_resource/DialogueTextResource.gd" id="11_wlsy8"]
+[ext_resource type="Script" uid="uid://qyrh2jt5lx0e" path="res://Scripts/system/interact/dialogue_resource/DialogueFunctionResource.gd" id="12_f5q28"]
+[ext_resource type="Script" uid="uid://bns5otigdg8vu" path="res://Scripts/system/interact/dialogue_resource/DialogueChoiceResource.gd" id="13_nx2t8"]
+[ext_resource type="Script" uid="uid://dcbxllahjanfo" path="res://Scripts/system/interact/interact_manager.gd" id="14_tt4ln"]
+[ext_resource type="Script" uid="uid://dw4hvyigndglp" path="res://Scripts/system/view/camera.gd" id="15_lpbp6"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_5bmp1"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5bmp1"]
 noise = SubResource("FastNoiseLite_5bmp1")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_i7d7b"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0sskb"]
 resource_local_to_scene = true
 shader = ExtResource("5_akkw2")
-shader_parameter/DissolveValue = 1.0
 shader_parameter/Noise = SubResource("NoiseTexture2D_5bmp1")
+shader_parameter/DissolveValue = 1.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_am6s1"]
 size = Vector2(109, 150)
 
 [sub_resource type="Resource" id="Resource_kc3q4"]
 script = ExtResource("9_x4idq")
-flag = false
-only_once = true
 double = true
 style = Array[int]([3])
 start = Array[int]([0])
@@ -42,27 +40,12 @@ b_index = Array[int]([1])
 [sub_resource type="Resource" id="Resource_p08nu"]
 script = ExtResource("11_wlsy8")
 speaker_entity = "Oni"
-sprite_animation_name = "idle"
 text = "我感觉我搞砸了。
 "
-text_speed = 8.0
-text_volume_db = 0
-text_volume_pitch_min = 0.85
-text_volume_pitch_max = 1.15
-camera_position = Vector2(999, 999)
-camera_transition_time = 1.0
 
 [sub_resource type="Resource" id="Resource_ev1je"]
 script = ExtResource("11_wlsy8")
-speaker_entity = "AX"
-sprite_animation_name = "idle"
 text = "我同意。"
-text_speed = 8.0
-text_volume_db = 0
-text_volume_pitch_min = 0.85
-text_volume_pitch_max = 1.15
-camera_position = Vector2(999, 999)
-camera_transition_time = 1.0
 
 [sub_resource type="Resource" id="Resource_1xi42"]
 script = ExtResource("13_nx2t8")
@@ -89,7 +72,7 @@ y_sort_enabled = true
 [node name="D1" parent="." instance=ExtResource("1_phtbw")]
 
 [node name="Player_Oni" parent="." instance=ExtResource("4_qkb8r")]
-material = SubResource("ShaderMaterial_i7d7b")
+material = SubResource("ShaderMaterial_0sskb")
 position = Vector2(573, 405)
 player_walk_speed_max = 120
 

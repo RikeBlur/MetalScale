@@ -27,7 +27,7 @@ func _connect_setting_signals():
 	"""连接所有settingbox的按钮信号"""
 	for i in range(setting_boxes.size()):
 		var setting_box = setting_boxes[i]
-		var button = setting_box.button #检查settingbox的button存储变量
+		var button = setting_box.button   # 检查settingbox的button存储变量
 		if button:
 			# 如果按钮已经连接过，先断开
 			if button.pressed.is_connected(_on_setting_pressed):

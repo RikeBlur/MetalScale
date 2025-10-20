@@ -5,7 +5,7 @@ res://Scripts/system/tools/tool_manager.gd<br>
 注意，Tool 是一个广义的 工具类，任何会被玩家获取且可以在某种情况下激活的实例都被称为 Tool 。 <br>
 
 ### 基本属性
-枚举类 **Tool** ： 保存所有工具的名称。<br>
+枚举类 **Tool** ： 保存所有工具的名称。 （对应group：tool） <br>
 每个 Tool 对应一个 **preload 场景**。<br>
 current_tool ： 用于保存现在使用的 Tool。<br>
 所有 工具场景节点 均为该节点的子节点，该节点为玩家的子节点。<br>
@@ -54,12 +54,10 @@ tool icon 和 config；并玩家的 tool 更新 ToolBox 的 state（同步 mater
 ## 工具一览
 
 ### 0 空手 NONE
-
 config 0
 无对应场景，完全的无，不过后续考虑增添对应空场景避免边界问题。<br>
 
 ### 1 应急光源 EMERGENCELIGHT
-
 res://System/RPG/tools/EmergenceLight.tscn<br>
 config 1 每秒消耗 0.05 <br>
 1.toolbody 工具本身的sprite，待设计 <br>
@@ -67,7 +65,6 @@ config 1 每秒消耗 0.05 <br>
 3.SuccessSFX 激活音效 <br>
 
 ### 2 手电筒 FLASHLIGHT
-
 res://System/RPG/tools/FlashLight.tscn<br>
 config 1 每秒消耗 0.05 <br>
 1.toolbody 工具本身的sprite，待设计 <br>
@@ -76,7 +73,6 @@ config 1 每秒消耗 0.05 <br>
 4.随鼠标转动：通过转动toolbody、ParallelLight 的渲染节点 和 给 ParallelLight增加 angle_offset 实现 <br>
 
 ### 3 肾上腺素 ADRENALINE
-
 res://System/RPG/tools/Adrenaline.tscn<br>
 config 2 持有上限 1 <br>
 消耗时调用 adrenaline_release() <br>

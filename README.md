@@ -1,6 +1,10 @@
 # UPDATE
+## 25.10.20
+setting类基本完成，需要填充功能，目前预计功能：存档、结束。 <br>
+UISystem：控制场景中所有UI。 <br>
+
 ## 25.10.19
-开始制作 ESC settings
+开始制作 ESC settings<br>
 
 ## 25.10.18
 完成 ToolSystem 更新； config=2 的消耗品可以正常使用了； player类的属性tool现在只存储int，用于在tool_available里检索。<br>
