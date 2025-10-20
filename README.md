@@ -1,5 +1,6 @@
 # UPDATE
 ## 25.10.19
+开始制作 ESC settings
 
 ## 25.10.18
 完成 ToolSystem 更新； config=2 的消耗品可以正常使用了； player类的属性tool现在只存储int，用于在tool_available里检索。<br>

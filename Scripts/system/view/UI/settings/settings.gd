@@ -1,0 +1,100 @@
+class_name Settings
+extends Control
+
+# 设置项容器节点路径（根据实际场景结构调整）
+@onready var settings: HBoxContainer = $topoffset/PanelContainer/MarginContainer/settings
+
+var setting_boxes: Array = []
+var setting_container: Container = null
+
+func _ready():
+	if setting_container:
+		# 初始化设置项
+		_initialize_setting_boxes()
+		# 连接所有settingbox的按钮信号
+		_connect_setting_signals()
+
+func _initialize_setting_boxes():
+	"""初始化所有settingbox子组件"""
+	setting_boxes.clear()
+	if not settings:
+		return	
+	for child in settings.get_children():
+		if child is Settingbox:
+			setting_boxes.append(child)
+
+func _connect_setting_signals():
+	"""连接所有settingbox的按钮信号"""
+	for i in range(setting_boxes.size()):
+		var setting_box = setting_boxes[i]
+		var button = setting_box.button #检查settingbox的button存储变量
+		if button:
+			# 如果按钮已经连接过，先断开
+			if button.pressed.is_connected(_on_setting_pressed):
+				button.pressed.disconnect(_on_setting_pressed)
+			# 连接按钮信号，传递index参数
+			button.pressed.connect(_on_setting_pressed.bind(i))
+
+func _on_setting_pressed(index: int):
+	"""当某个设置项的按钮被按下时调用"""
+	print("设置项 %d 被按下" % index)
+	
+	# 根据index调用对应的处理函数
+	match index:
+		0:
+			_on_setting_0_pressed()
+		1:
+			_on_setting_1_pressed()
+		2:
+			_on_setting_2_pressed()
+		3:
+			_on_setting_3_pressed()
+		4:
+			_on_setting_4_pressed()
+		_:
+			push_warning("未处理的设置项index: %d" % index)
+
+# ============ 以下是各个设置项的处理函数 ============
+
+func _on_setting_0_pressed():
+	"""设置项 0 的处理函数（例如：音量设置）"""
+	print("执行设置项 0")
+	# 在这里添加具体的功能实现
+	pass
+
+func _on_setting_1_pressed():
+	"""设置项 1 的处理函数（例如：全屏切换）"""
+	print("执行设置项 1")
+	# 在这里添加具体的功能实现
+	pass
+
+func _on_setting_2_pressed():
+	"""设置项 2 的处理函数（例如：分辨率设置）"""
+	print("执行设置项 2")
+	# 在这里添加具体的功能实现
+	pass
+
+func _on_setting_3_pressed():
+	"""设置项 3 的处理函数"""
+	print("执行设置项 3")
+	# 在这里添加具体的功能实现
+	pass
+
+func _on_setting_4_pressed():
+	"""设置项 4 的处理函数"""
+	print("执行设置项 4")
+	# 在这里添加具体的功能实现
+	pass
+
+# ============ 工具函数 ============
+
+func get_setting_box(index: int) -> Settingbox:
+	"""获取指定index的settingbox"""
+	if index >= 0 and index < setting_boxes.size():
+		return setting_boxes[index]
+	return null
+
+func refresh_settings():
+	"""刷新设置显示"""
+	_initialize_setting_boxes()
+	_connect_setting_signals()

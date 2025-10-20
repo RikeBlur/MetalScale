@@ -17,92 +17,98 @@ grow_vertical = 2
 size_flags_horizontal = 0
 script = ExtResource("1_vcotx")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="leftoffset" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -62.0
-offset_right = 85.0
-offset_bottom = 62.0
+offset_top = -210.0
+offset_right = 50.0
+offset_bottom = 210.0
 grow_vertical = 2
+theme_override_constants/margin_left = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="leftoffset"]
+layout_mode = 2
 theme = ExtResource("2_tm3ea")
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="leftoffset/PanelContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 10
 
-[node name="tool_bar" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+[node name="tool_bar" type="VBoxContainer" parent="leftoffset/PanelContainer/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 30
 
-[node name="tool1" type="HBoxContainer" parent="PanelContainer/MarginContainer/tool_bar"]
+[node name="tool1" type="HBoxContainer" parent="leftoffset/PanelContainer/MarginContainer/tool_bar"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 theme = ExtResource("2_tm3ea")
 script = ExtResource("3_8deqn")
 
-[node name="Icon" type="TextureRect" parent="PanelContainer/MarginContainer/tool_bar/tool1"]
+[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool1"]
 material = ExtResource("4_teogu")
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 expand_mode = 1
 
-[node name="tool2" type="HBoxContainer" parent="PanelContainer/MarginContainer/tool_bar"]
+[node name="tool2" type="HBoxContainer" parent="leftoffset/PanelContainer/MarginContainer/tool_bar"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 theme = ExtResource("2_tm3ea")
 script = ExtResource("3_8deqn")
 
-[node name="Icon" type="TextureRect" parent="PanelContainer/MarginContainer/tool_bar/tool2"]
+[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool2"]
 material = ExtResource("4_teogu")
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 expand_mode = 1
 
-[node name="tool3" type="HBoxContainer" parent="PanelContainer/MarginContainer/tool_bar"]
+[node name="tool3" type="HBoxContainer" parent="leftoffset/PanelContainer/MarginContainer/tool_bar"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("3_8deqn")
 
-[node name="Icon" type="TextureRect" parent="PanelContainer/MarginContainer/tool_bar/tool3"]
+[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool3"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 expand_mode = 1
 
-[node name="tool4" type="HBoxContainer" parent="PanelContainer/MarginContainer/tool_bar"]
+[node name="tool4" type="HBoxContainer" parent="leftoffset/PanelContainer/MarginContainer/tool_bar"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("3_8deqn")
 
-[node name="Icon" type="TextureRect" parent="PanelContainer/MarginContainer/tool_bar/tool4"]
+[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool4"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 expand_mode = 1
 
-[node name="tool5" type="HBoxContainer" parent="PanelContainer/MarginContainer/tool_bar"]
+[node name="tool5" type="HBoxContainer" parent="leftoffset/PanelContainer/MarginContainer/tool_bar"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("3_8deqn")
 
-[node name="Icon" type="TextureRect" parent="PanelContainer/MarginContainer/tool_bar/tool5"]
+[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool5"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 expand_mode = 1
 
-[node name="tool6" type="HBoxContainer" parent="PanelContainer/MarginContainer/tool_bar"]
+[node name="tool6" type="HBoxContainer" parent="leftoffset/PanelContainer/MarginContainer/tool_bar"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("3_8deqn")
 
-[node name="Icon" type="TextureRect" parent="PanelContainer/MarginContainer/tool_bar/tool6"]
+[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool6"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 expand_mode = 1

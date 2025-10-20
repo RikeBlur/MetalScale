@@ -18,7 +18,8 @@ var target_position = Vector2.ZERO
 var is_dragging = false
 
 static var _last_consume_timestamp: float = 0.0
-const CONSUME_COOLDOWN: float = 0.2 # Cooldown in seconds
+const CONSUME_COOLDOWN: float = 0.2 
+const QUIT_COOLDOWN: float = 0.2
 
 
 func _physics_process(delta: float) -> void:
@@ -83,6 +84,14 @@ static func consume_once() -> bool:
 	if Input.is_action_just_pressed("consume"):
 		var now = Time.get_ticks_msec() / 1000.0
 		if now - _last_consume_timestamp > CONSUME_COOLDOWN:
+			_last_consume_timestamp = now
+			return true
+	return false
+	
+static func quit_once() -> bool:
+	if Input.is_action_just_pressed("quit"):
+		var now = Time.get_ticks_msec() / 1000.0
+		if now - _last_consume_timestamp > QUIT_COOLDOWN:
 			_last_consume_timestamp = now
 			return true
 	return false

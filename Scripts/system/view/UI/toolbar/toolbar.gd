@@ -26,7 +26,7 @@ var tool_manager : ToolManager = null
 func _ready():
 	if not player_now: return
 	
-	tool_bar = $PanelContainer/MarginContainer/tool_bar
+	tool_bar = $leftoffset/PanelContainer/MarginContainer/tool_bar
 	tool_manager = player_now.get_node("ToolManager")
 
 	# 从tool_bar节点下读取现有的工具箱

@@ -11,8 +11,8 @@ light_source = NodePath("ParallelLight")
 [node name="toolbody" type="Node2D" parent="."]
 
 [node name="flashlight" type="Sprite2D" parent="toolbody"]
-position = Vector2(2.7500002, 0)
-scale = Vector2(0.03515625, 0.015625)
+position = Vector2(3.75, 5.9604645e-08)
+scale = Vector2(0.050781246, 0.03125)
 texture = ExtResource("2_78coa")
 
 [node name="ParallelLight" parent="." instance=ExtResource("3_3mxrj")]

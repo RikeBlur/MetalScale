@@ -6,7 +6,9 @@ extends LightSource
 @export var logic_energy : float = 1.0
 @export var sampling_rate : int = 9
 
-@export var angle_range : float = PI / 16  # 角度范围，默认为 π/4 (45度)
+var threshold : float = 10.0
+
+@export var angle_range : float = PI / 16 
 @export var angle_offset : float = 0:
 	set(value):
 		angle_offset = value
@@ -85,7 +87,6 @@ func calculate_ray_point_intersection(ray_direction: Vector2, point: Vector2) ->
 	var distance_to_ray = point_in_ray_space.distance_to(closest_point_on_ray)
 	
 	# 如果距离小于某个阈值，认为有交点
-	var threshold = 10.0  # 可以根据需要调整
 	if distance_to_ray <= threshold:
 		return dot_product
 	

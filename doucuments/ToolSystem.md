@@ -2,6 +2,7 @@
 
 ## 逻辑核心：ToolManager
 res://Scripts/system/tools/tool_manager.gd<br>
+注意，Tool 是一个广义的 工具类，任何会被玩家获取且可以在某种情况下激活的实例都被称为 Tool 。 <br>
 
 ### 基本属性
 枚举类 **Tool** ： 保存所有工具的名称。<br>
@@ -17,9 +18,9 @@ config == 1 的 Tool 需要在字典类 durability 中设置耐久上限， 随�
 config == 2 的 Tool 需要在字典类 consumption 中设置持有量。
 	
 ###重要方法 
-1._on_tool_changed ： current_tool 变化时调用。清除掉当前的子节点（工具场景节点），实例化
+_on_tool_changed ： current_tool 变化时调用。清除掉当前的子节点（工具场景节点），实例化
  current_tool 对应的 工具场景节点 并设为子节点。如需要，播放特效、音效。需注意，**每个 Tool 对应一个代码段**<br>
-2._process : 每个 Tool 需要即时处理的逻辑， 如 每帧消耗耐久、使用消耗品； 切换 Tool 逻辑。目前通过数字切换，
+_process : 每个 Tool 需要即时处理的逻辑， 如 每帧消耗耐久、使用消耗品； 切换 Tool 逻辑。目前通过数字切换，
 读取玩家的可用工具列表，将对应的值赋给 current_tool （同时改变玩家的 tool）；需注意，**每个 Tool 对应一个代码段**<br>
 
 
@@ -44,10 +45,9 @@ config == 2 时，清除 icon 外所有子节点。<br>
 需要注意，每次 Toolbox 的 config 发送变化时， 会自动调用方法。<br>
 	
 ###重要方法 
-
-1._update_progressbar ： 遍历 toolboxes， 如果当前 ToolBox 有 durability，则根据 ToolManager 中对应的
+_update_progressbar ： 遍历 toolboxes， 如果当前 ToolBox 有 durability，则根据 ToolManager 中对应的
 数值更新  durability_progressbar。<br>
-2._update_toolbar ： 遍历玩家可用工具 tool_available ，根据 tool_available 更新每个 ToolBox 的
+_update_toolbar ： 遍历玩家可用工具 tool_available ，根据 tool_available 更新每个 ToolBox 的
 tool icon 和 config；并玩家的 tool 更新 ToolBox 的 state（同步 material 的 state parameter）。<br>
 
 
