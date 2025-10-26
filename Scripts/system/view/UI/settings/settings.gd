@@ -5,19 +5,17 @@ extends Control
 @onready var settings: HBoxContainer = $topoffset/PanelContainer/MarginContainer/settings
 
 var setting_boxes: Array = []
-var setting_container: Container = null
 
 func _ready():
-	if setting_container:
-		# 初始化设置项
-		_initialize_setting_boxes()
-		# 连接所有settingbox的按钮信号
-		_connect_setting_signals()
+	_initialize_setting_boxes()
+	# 连接所有settingbox的按钮信号
+	_connect_setting_signals()
 
 func _initialize_setting_boxes():
 	"""初始化所有settingbox子组件"""
 	setting_boxes.clear()
 	if not settings:
+		print("No Settings !!")
 		return	
 	for child in settings.get_children():
 		if child is Settingbox:
@@ -84,7 +82,7 @@ func _on_setting_4_pressed():
 	"""设置项 4 的处理函数"""
 	print("执行设置项 4")
 	# 在这里添加具体的功能实现
-	pass
+	quit_game()
 
 # ============ 工具函数 ============
 
@@ -98,3 +96,8 @@ func refresh_settings():
 	"""刷新设置显示"""
 	_initialize_setting_boxes()
 	_connect_setting_signals()
+	
+func quit_game() -> void:
+	"""强制退出游戏（不保存数据）"""
+	print("强制退出游戏...")
+	get_tree().quit()

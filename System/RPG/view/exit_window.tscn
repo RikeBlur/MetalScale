@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dw5ys7i10iu41"]
+
+[node name="ExitWindow" type="AcceptDialog"]
+oversampling_override = 1.0
+title = "确认要退出游戏吗"
+visible = true
+ok_button_text = "是"

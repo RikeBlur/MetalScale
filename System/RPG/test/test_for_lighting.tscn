@@ -1,15 +1,14 @@
-[gd_scene load_steps=14 format=3 uid="uid://drxum6townqdh"]
+[gd_scene load_steps=13 format=3 uid="uid://drxum6townqdh"]
 
 [ext_resource type="Script" uid="uid://dw4hvyigndglp" path="res://Scripts/system/view/camera.gd" id="1_5qjx8"]
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_by6gl"]
 [ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/qa/矩形 1.png" id="2_ib32c"]
 [ext_resource type="PackedScene" uid="uid://ds14l74hq1t3s" path="res://System/RPG/entity/controllable/player_Oni.tscn" id="2_l0tuh"]
+[ext_resource type="PackedScene" uid="uid://cr1cfwpuoqd8k" path="res://System/RPG/view/settings.tscn" id="2_su6pt"]
 [ext_resource type="Script" uid="uid://b3v26rgbib2s4" path="res://Scripts/system/lighting/lighting_manager.gd" id="6_nudyg"]
 [ext_resource type="Script" uid="uid://0rro0wuoi7bn" path="res://Scripts/system/view/UI/ui_manager.gd" id="6_su6pt"]
 [ext_resource type="PackedScene" uid="uid://1b5wtmditoi1" path="res://System/RPG/tools/toolbar.tscn" id="7_urbdc"]
-[ext_resource type="Script" uid="uid://pyq368xualgt" path="res://Scripts/system/view/UI/settings/settings.gd" id="8_c1wm1"]
 [ext_resource type="PackedScene" uid="uid://ctcr1sh6whs5s" path="res://System/RPG/entity/npc/Enemy/NormalDemon/NormalDemon.tscn" id="9_su6pt"]
-[ext_resource type="Script" uid="uid://cd3nl1ac0hn2c" path="res://Scripts/system/view/UI/settings/settingbox.gd" id="10_qtipa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8b8tj"]
 size = Vector2(169, 339)
@@ -23,6 +22,16 @@ glow_enabled = true
 
 [node name="TestForLighting" type="Node2D"]
 y_sort_enabled = true
+
+[node name="UI_layer1" type="CanvasLayer" parent="."]
+
+[node name="toolbar" parent="UI_layer1" node_paths=PackedStringArray("player_now") instance=ExtResource("7_urbdc")]
+player_now = NodePath("../../Player_Oni")
+
+[node name="UI_layer2" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="settings" parent="UI_layer2" instance=ExtResource("2_su6pt")]
 
 [node name="terrian" type="Node2D" parent="."]
 
@@ -88,73 +97,3 @@ position = Vector2(-122, -140)
 
 [node name="NormalDemon" parent="." instance=ExtResource("9_su6pt")]
 position = Vector2(917, 124)
-
-[node name="UI_layer1" type="CanvasLayer" parent="."]
-
-[node name="toolbar" parent="UI_layer1" node_paths=PackedStringArray("player_now") instance=ExtResource("7_urbdc")]
-player_now = NodePath("../../Player_Oni")
-
-[node name="UI_layer2" type="CanvasLayer" parent="."]
-layer = 2
-
-[node name="settings" type="Control" parent="UI_layer2"]
-layout_mode = 3
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 40.0
-grow_horizontal = 2
-size_flags_horizontal = 4
-script = ExtResource("8_c1wm1")
-
-[node name="topoffset" type="MarginContainer" parent="UI_layer2/settings"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -142.5
-offset_right = 142.5
-offset_bottom = 81.0
-grow_horizontal = 2
-theme_override_constants/margin_top = 20
-
-[node name="PanelContainer" type="PanelContainer" parent="UI_layer2/settings/topoffset"]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="UI_layer2/settings/topoffset/PanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 3
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 3
-
-[node name="settings" type="HBoxContainer" parent="UI_layer2/settings/topoffset/PanelContainer/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="MarginContainer" type="MarginContainer" parent="UI_layer2/settings/topoffset/PanelContainer/MarginContainer/settings"]
-custom_minimum_size = Vector2(75, 75)
-layout_mode = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-script = ExtResource("10_qtipa")
-
-[node name="MarginContainer2" type="MarginContainer" parent="UI_layer2/settings/topoffset/PanelContainer/MarginContainer/settings"]
-custom_minimum_size = Vector2(75, 75)
-layout_mode = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="MarginContainer3" type="MarginContainer" parent="UI_layer2/settings/topoffset/PanelContainer/MarginContainer/settings"]
-custom_minimum_size = Vector2(75, 75)
-layout_mode = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5

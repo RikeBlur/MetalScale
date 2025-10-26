@@ -1,0 +1,102 @@
+[gd_scene load_steps=3 format=3 uid="uid://cr1cfwpuoqd8k"]
+
+[ext_resource type="Script" uid="uid://pyq368xualgt" path="res://Scripts/system/view/UI/settings/settings.gd" id="1_oaby7"]
+[ext_resource type="Script" uid="uid://cd3nl1ac0hn2c" path="res://Scripts/system/view/UI/settings/settingbox.gd" id="2_lev6s"]
+
+[node name="settings" type="Control"]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+script = ExtResource("1_oaby7")
+
+[node name="topoffset" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -142.5
+offset_right = 142.5
+offset_bottom = 81.0
+grow_horizontal = 2
+theme_override_constants/margin_top = 20
+
+[node name="PanelContainer" type="PanelContainer" parent="topoffset"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="topoffset/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 3
+
+[node name="settings" type="HBoxContainer" parent="topoffset/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="settingbox1" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("2_lev6s")
+
+[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox1"]
+layout_mode = 2
+
+[node name="settingbox2" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("2_lev6s")
+
+[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox2"]
+layout_mode = 2
+
+[node name="settingbox3" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("2_lev6s")
+
+[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox3"]
+layout_mode = 2
+
+[node name="settingbox4" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("2_lev6s")
+
+[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox4"]
+layout_mode = 2
+
+[node name="settingbox5" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" node_paths=PackedStringArray("button")]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("2_lev6s")
+button = NodePath("Button")
+
+[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox5"]
+layout_mode = 2

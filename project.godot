@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 RPGInputEvents="*res://Scripts/global/game_input_events.gd"
 RPGTimeManager="*res://Scripts/global/time_manager.gd"
+GlobalFunction="*res://Scripts/global/GLOBAL_FUNCTION.gd"
 
 [dialogic]
 
@@ -83,7 +84,8 @@ folder_colors={
 "res://Effect/": "purple",
 "res://Scripts/": "red",
 "res://Style/": "yellow",
-"res://System/": "teal"
+"res://System/": "teal",
+"res://doucuments/": "blue"
 }
 
 [global_group]

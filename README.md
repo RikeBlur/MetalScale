@@ -1,4 +1,7 @@
 # UPDATE
+## 25.10.26
+按Esc切换settings显示的功能完成。 <br>
+
 ## 25.10.20
 setting类基本完成，需要填充功能，目前预计功能：存档、结束。 <br>
 UISystem：控制场景中所有UI。 <br>

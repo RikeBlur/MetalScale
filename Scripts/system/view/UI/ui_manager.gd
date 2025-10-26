@@ -7,10 +7,8 @@ enum UI_component {
 	SETTINGS
 }
 
-# UI场景预加载
 const TOOLBAR_SCENE = preload("res://System/RPG/tools/toolbar.tscn")
-# settings场景路径（暂时使用字符串，待场景创建后可改为preload）
-# const SETTINGS_SCENE_PATH = "res://Scripts/system/view/UI/settings/settings.tscn"
+const SETTINGS_SCENE = preload("res://System/RPG/view/settings.tscn")
 
 # UI配置：场景路径和目标layer
 const UI_CONFIG = {
@@ -18,10 +16,10 @@ const UI_CONFIG = {
 		"layer": 1,
 		"stage": 0  # stage0时加载
 	},
-	#UI_component.SETTINGS: {
-	#	"layer": 2,
-	#	"stage": -1  # 不在初始化时加载
-	#}
+	UI_component.SETTINGS: {
+		"layer": 2,
+		"stage": -1  # 不在初始化时加载
+	}
 }
 
 # Canvas Layers存储
@@ -47,18 +45,16 @@ func _ready():
 	_initialize_stage0_ui()
 
 func _process(_delta):
-	# 检测退出键
+	# 检测退出键，弹出/隐藏 settings
 	if InputEvents.quit_once():
 		_toggle_settings()
 
 func _initialize_layers():
 	"""初始化所有canvas layer引用"""
 	layers.clear()
-	
 	# 获取场景根节点
 	# 方法1：通过owner获取（如果UI_manager是场景的一部分）
 	var root = owner
-	
 	# 方法2：如果owner为空，尝试通过父节点链向上查找
 	if not root:
 		root = get_parent()
@@ -68,11 +64,9 @@ func _initialize_layers():
 			if parent == get_tree().root:
 				break
 			root = parent
-	
 	if not root:
 		push_warning("UI_manager: 无法获取场景根节点")
 		return
-	
 	# 遍历场景根节点的所有子节点，查找CanvasLayer
 	for child in root.get_children():
 		if child is CanvasLayer:
@@ -108,14 +102,8 @@ func _instantiate_ui(ui_type: UI_component) -> Node:
 	match ui_type:
 		UI_component.TOOLBAR:
 			ui_instance = TOOLBAR_SCENE.instantiate()
-	#	UI_component.SETTINGS:
-	#		# 尝试加载settings场景
-	#		if ResourceLoader.exists(SETTINGS_SCENE_PATH):
-	#			var settings_scene = load(SETTINGS_SCENE_PATH)
-	#			ui_instance = settings_scene.instantiate()
-	#		else:
-	#			push_warning("UI_manager: Settings场景文件不存在，跳过实例化")
-	#			return null
+		UI_component.SETTINGS:
+			ui_instance = SETTINGS_SCENE.instantiate()
 	
 	if not ui_instance:
 		push_error("UI_manager: 无法实例化UI类型 %d" % ui_type)
@@ -195,7 +183,7 @@ func _apply_settings_shader(apply: bool):
 			# 创建shader material并应用
 			var shader_mat = ShaderMaterial.new()
 			shader_mat.shader = layer1_shader
-			# 这里可以设置shader参数
+			# 这里可以设置shader参数 !!
 			# shader_mat.set_shader_parameter("param_name", value)
 			
 			# 对layer1的子节点应用（需要根据实际节点类型调整）
@@ -229,3 +217,4 @@ func remove_ui(ui_type: UI_component):
 		ui.queue_free()
 		ui_instances.erase(ui_type)
 		print("UI_manager: 移除 UI类型 %d" % ui_type)
+		
