@@ -1,9 +1,9 @@
 [gd_scene load_steps=41 format=3 uid="uid://c008w284nsol8"]
 
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_dual.gd" id="1_qyjxg"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueResource.gd" id="2_ckqjn"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueTextResource.gd" id="3_aaaqr"]
-[ext_resource type="Shader" path="res://Effect/Shader/dialogue_dark/dialogue_dark.gdshader" id="4_tfgvc"]
+[ext_resource type="Script" uid="uid://bexxbx2sfo6tp" path="res://Scripts/system/interact/dialogue_dual.gd" id="1_qyjxg"]
+[ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/system/interact/dialogue_resource/DialogueResource.gd" id="2_ckqjn"]
+[ext_resource type="Script" uid="uid://4p4vcldhkkvo" path="res://Scripts/system/interact/dialogue_resource/DialogueTextResource.gd" id="3_aaaqr"]
+[ext_resource type="Shader" uid="uid://ci8ym7gk7b0i5" path="res://Effect/Shader/dialogue_dark/dialogue_dark.gdshader" id="4_tfgvc"]
 [ext_resource type="Texture2D" uid="uid://dv2p3c4p3uk8e" path="res://Assests/sprite/AX/dialogue/back_1.png" id="5_ac6ew"]
 [ext_resource type="Texture2D" uid="uid://bxngadho5jgwo" path="res://Assests/sprite/AX/dialogue/back_2.png" id="6_w2r3y"]
 [ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="7_dy21y"]
@@ -31,62 +31,25 @@
 [sub_resource type="Resource" id="Resource_amcn1"]
 script = ExtResource("3_aaaqr")
 speaker_entity = "Oni"
-sprite_animation_name = "idle"
 text = "A"
-text_speed = 8.0
-text_volume_db = 0
-text_volume_pitch_min = 0.85
-text_volume_pitch_max = 1.15
-camera_position = Vector2(999, 999)
-camera_transition_time = 1.0
 
 [sub_resource type="Resource" id="Resource_rjwwr"]
 script = ExtResource("3_aaaqr")
-speaker_entity = "AX"
-sprite_animation_name = "idle"
 text = "B"
-text_speed = 8.0
-text_volume_db = 0
-text_volume_pitch_min = 0.85
-text_volume_pitch_max = 1.15
-camera_position = Vector2(999, 999)
-camera_transition_time = 1.0
 
 [sub_resource type="Resource" id="Resource_rmcxa"]
 script = ExtResource("3_aaaqr")
 speaker_entity = "Oni"
-sprite_animation_name = "idle"
 text = "C"
-text_speed = 8.0
-text_volume_db = 0
-text_volume_pitch_min = 0.85
-text_volume_pitch_max = 1.15
-camera_position = Vector2(999, 999)
-camera_transition_time = 1.0
 
 [sub_resource type="Resource" id="Resource_x2soe"]
 script = ExtResource("3_aaaqr")
-speaker_entity = "AX"
-sprite_animation_name = "idle"
 text = "D"
-text_speed = 8.0
-text_volume_db = 0
-text_volume_pitch_min = 0.85
-text_volume_pitch_max = 1.15
-camera_position = Vector2(999, 999)
-camera_transition_time = 1.0
 
 [sub_resource type="Resource" id="Resource_n0tj6"]
 script = ExtResource("3_aaaqr")
 speaker_entity = "Oni"
-sprite_animation_name = "idle"
 text = "E"
-text_speed = 8.0
-text_volume_db = 0
-text_volume_pitch_min = 0.85
-text_volume_pitch_max = 1.15
-camera_position = Vector2(999, 999)
-camera_transition_time = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nu54m"]
 shader = ExtResource("4_tfgvc")

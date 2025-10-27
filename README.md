@@ -1,4 +1,14 @@
 # UPDATE
+## 25.10.27
+给 normal_demon 增加动画（暂用AX）发现没什么问题，不过可以给 LimboAI 增一个 idle 脚本。 <br>
+现有系统的 Docs 已经完成，有待完善。 <br>
+
+**11.18之前计划**（不做完自杀（在日本也可也做一点））（做完第一个demo就出来了！！） ： <br>
+1、 UI设计，基本上就是把 Toolbar 和 settings 的 style 整一下； <br>
+2、 NormalDemon设计 ， 设计稿 和 idle walk run 动画画完； <br>
+3、 第一版 SFX 确定一下，需要花点时间； <br>
+4、 找 tileset（实在不行直接通过shader风格化，学yumenikki）做一个小关卡。 <br>
+
 ## 25.10.26
 按Esc切换settings显示的功能完成。 <br>
 

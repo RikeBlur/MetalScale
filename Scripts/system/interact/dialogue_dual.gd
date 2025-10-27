@@ -92,19 +92,20 @@ func _process(_delta: float) -> void:
 				visible = false
 			else :
 				visible = true
-			_funtion_resource(which,i)
+			_funtion_resource(i)
 		elif i is DialogueChoice:
 			visible = true
-			_choice_resource(which,i)
-		elif i is DialogueText:	
+			_choice_resource(i)
+		elif i is DialogueText:
 			visible = true
-			_text_resource(which,i)	
+			_text_resource(i)	
 		else :
 			printerr("You accidentally added a DE resource")
 			current_dialogue_item += 1
 			next_item = true
+
 	
-func _funtion_resource(which: int, i: DialogueFunction) -> void :
+func _funtion_resource(i: DialogueFunction) -> void :
 	var target_node = get_node(i.target_path)
 	if target_node.has_method(i.function_name):
 		if i.function_arguments.size() == 0:
@@ -124,14 +125,10 @@ func _funtion_resource(which: int, i: DialogueFunction) -> void :
 	current_dialogue_item += 1
 	next_item = true
 	
-func _choice_resource(which: int, i: DialogueChoice) -> void :
+func _choice_resource(i: DialogueChoice) -> void :
 	dialogue_label[which].text = i.text
 	dialogue_label[which].visible_characters = -1
-	if i.sprite_animation_name:
-		speaker_sprite[which].visible = true
-		speaker_sprite[which].play(i.sprite_animation_name)
-	else :
-		speaker_sprite[which].visible = false
+
 	botton_container[which].visible = true
 	
 	for item in i.choice_text.size():
@@ -147,16 +144,16 @@ func _choice_resource(which: int, i: DialogueChoice) -> void :
 			if function_resource.hide_dialogue_box:
 				DialogueBottonVar.connect("pressed", hide, CONNECT_ONE_SHOT)
 			DialogueBottonVar.connect("pressed", 
-			_choice_botton_pressed.bind(which, get_node(function_resource.target_path), function_resource.wait_for_signal_to_continue),
+			_choice_botton_pressed.bind(get_node(function_resource.target_path), function_resource.wait_for_signal_to_continue),
 			CONNECT_ONE_SHOT)
 			
 		else:
-			DialogueBottonVar.connect("pressed", _choice_botton_pressed.bind(which, null, ""), CONNECT_ONE_SHOT)	
+			DialogueBottonVar.connect("pressed", _choice_botton_pressed.bind(null, ""), CONNECT_ONE_SHOT)	
 		
 		botton_container[which].add_child(DialogueBottonVar)
 		
 		
-func _choice_botton_pressed(which: int, target_node : Node, wait_for_signal_to_continue: String) -> void :
+func _choice_botton_pressed(target_node : Node, wait_for_signal_to_continue: String) -> void :
 	botton_container[which].visible = false
 	for i in botton_container[which].get_children():
 		i.queue_free()
@@ -175,22 +172,15 @@ func _choice_botton_pressed(which: int, target_node : Node, wait_for_signal_to_c
 	current_dialogue_item += 1
 	next_item = true
 	
-func _text_resource(which: int, i: DialogueText) -> void :
+func _text_resource(i: DialogueText) -> void :
 	text_sound[which].stream = i.text_sound
 	text_sound[which].volume_db = i.text_volume_db
-	var camera: Camera2D = get_viewport().get_camera_2d()
-	if camera and i.camera_position != Vector2(999.0, 999.0):
-		var camera_tween : Tween = create_tween().set_trans(Tween.TRANS_SINE)
-		camera_tween.tween_property(camera, "global_position", i.camera_position, i.camera_transition_time)
-			
-	if i.sprite_animation_name:
-		speaker_sprite[which].visible = true
-		speaker_sprite[which].play(i.sprite_animation_name)
-	else :
-		speaker_sprite[which].visible = false
+
+	speaker_sprite[which].play(i.sprite_animation_name)
 	
 	dialogue_label[which].visible_characters = 0
 	dialogue_label[which].text = i.text
+	
 	var text_without_square_brackets: String = _text_without_square_brackets(i.text)
 	var total_character: int = text_without_square_brackets.length()
 	var character_timer: float = 0.0
@@ -240,28 +230,28 @@ func _text_without_square_brackets(text: String) -> String:
 			
 	return result
 	
-func _get_into_dark(which : int) -> void:
+func _get_into_dark(index : int) -> void:
 	# z坐标下降（被另一个dialogue覆盖）
-	dialogue_node[which].z_index = 9
-	if which == 0 :
-		dialogue_node[which].global_position -= Vector2(50, -20)
+	dialogue_node[index].z_index = 9
+	if index == 0 :
+		dialogue_node[index].global_position -= Vector2(50, -20)
 	else :
-		dialogue_node[which].global_position += Vector2(50, 20)
+		dialogue_node[index].global_position += Vector2(50, 20)
 	
 	# RichTextLabel清空
-	if dialogue_label[which]:
-		dialogue_label[which].text = ""
-		dialogue_label[which].visible_characters = 0
+	if dialogue_label[index]:
+		dialogue_label[index].text = ""
+		dialogue_label[index].visible_characters = 0
 	
 	# 动画停止
-	if speaker_sprite[which]:
-		speaker_sprite[which].stop()
-		speaker_sprite[which].material.set_shader_parameter("brightness", 0.1)
-		speaker_sprite[which].material.set_shader_parameter("contrast", 0.99)
-	if back_sprite[which]:
-		back_sprite[which].stop()
-		back_sprite[which].material.set_shader_parameter("brightness", 0.1)
-		back_sprite[which].material.set_shader_parameter("contrast", 0.99)	
+	if speaker_sprite[index]:
+		speaker_sprite[index].stop()
+		speaker_sprite[index].material.set_shader_parameter("brightness", 0.1)
+		speaker_sprite[index].material.set_shader_parameter("contrast", 0.99)
+	if back_sprite[index]:
+		back_sprite[index].stop()
+		back_sprite[index].material.set_shader_parameter("brightness", 0.1)
+		back_sprite[index].material.set_shader_parameter("contrast", 0.99)	
 	
 	# 隐藏按钮容器
 	if botton_container:
@@ -270,27 +260,27 @@ func _get_into_dark(which : int) -> void:
 		for child in botton_container[which].get_children():
 			child.queue_free()
 
-func _back_to_light(which : int) -> void:
+func _back_to_light(index : int) -> void:
 	# 恢复正常处理模式
 	process_mode = Node.PROCESS_MODE_INHERIT
 	
 	# z坐标恢复正常
-	dialogue_node[which].z_index = 10
+	dialogue_node[index].z_index = 10
 	
 	# 恢复位置
-	if which == 0 :
-		dialogue_node[which].global_position += Vector2(50, -20)
+	if index == 0 :
+		dialogue_node[index].global_position += Vector2(50, -20)
 	else :
-		dialogue_node[which].global_position -= Vector2(50, 20)
+		dialogue_node[index].global_position -= Vector2(50, 20)
 	
 	# 动画停止
-	if speaker_sprite[which]:
-		speaker_sprite[which].play("idle")
-		speaker_sprite[which].material.set_shader_parameter("brightness", 1)
-		speaker_sprite[which].material.set_shader_parameter("contrast", 1)
-	if back_sprite[which]:
-		back_sprite[which].play()
-		back_sprite[which].material.set_shader_parameter("brightness", 1)
-		back_sprite[which].material.set_shader_parameter("contrast", 1)	
+	if speaker_sprite[index]:
+		speaker_sprite[index].play("idle")
+		speaker_sprite[index].material.set_shader_parameter("brightness", 1)
+		speaker_sprite[index].material.set_shader_parameter("contrast", 1)
+	if back_sprite[index]:
+		back_sprite[index].play()
+		back_sprite[index].material.set_shader_parameter("brightness", 1)
+		back_sprite[index].material.set_shader_parameter("contrast", 1)	
 
 	

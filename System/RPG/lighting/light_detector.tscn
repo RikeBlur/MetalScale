@@ -11,6 +11,7 @@ extension_length = 50.0
 debug_mode = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(1.37687e-05, 1.0252e-05)
 scale = Vector2(0.15625, 0.15625)
 texture = ExtResource("2_miots")

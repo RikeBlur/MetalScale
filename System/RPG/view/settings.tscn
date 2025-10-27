@@ -51,6 +51,7 @@ script = ExtResource("2_lev6s")
 
 [node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox1"]
 layout_mode = 2
+toggle_mode = true
 
 [node name="settingbox2" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings"]
 custom_minimum_size = Vector2(75, 75)
@@ -63,6 +64,7 @@ script = ExtResource("2_lev6s")
 
 [node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox2"]
 layout_mode = 2
+toggle_mode = true
 
 [node name="settingbox3" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings"]
 custom_minimum_size = Vector2(75, 75)
@@ -75,6 +77,7 @@ script = ExtResource("2_lev6s")
 
 [node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox3"]
 layout_mode = 2
+toggle_mode = true
 
 [node name="settingbox4" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings"]
 custom_minimum_size = Vector2(75, 75)
@@ -87,6 +90,7 @@ script = ExtResource("2_lev6s")
 
 [node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox4"]
 layout_mode = 2
+toggle_mode = true
 
 [node name="settingbox5" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" node_paths=PackedStringArray("button")]
 custom_minimum_size = Vector2(75, 75)
@@ -100,3 +104,4 @@ button = NodePath("Button")
 
 [node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox5"]
 layout_mode = 2
+toggle_mode = true

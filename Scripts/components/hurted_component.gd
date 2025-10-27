@@ -17,7 +17,6 @@ extends Node2D
 @export var die_audio: AudioStreamPlayer2D = null
 @export var die_effect: GPUParticles2D = null
 
-# 依附 Rigid
 @export var entity : CharacterBody2D = null
 # 当前血量
 var health_max : float = 100
@@ -38,7 +37,6 @@ func _ready() -> void:
 		health_bar._setup_health_bar(health)
 		# z_index设高，避免血条被盖住
 		health_bar.z_index = 2
-		
 		# 初始血条位置同步
 		_update_health_bar_position()
 
@@ -48,7 +46,7 @@ func _process(_delta: float) -> void:
 	if health_bar and not is_died :
 		_update_health_bar_position()
 	
-		
+	
 # 更新HealthBar位置
 func _update_health_bar_position() -> void:
 	# 计算health_bar应该在的全局位置

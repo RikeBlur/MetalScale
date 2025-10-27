@@ -21,6 +21,11 @@ glow_enabled = true
 [node name="TestForLighting" type="Node2D"]
 y_sort_enabled = true
 
+[node name="UI_layer1" type="CanvasLayer" parent="."]
+
+[node name="UI_layer2" type="CanvasLayer" parent="."]
+layer = 2
+
 [node name="terrian" type="Node2D" parent="."]
 
 [node name="D1" parent="terrian" instance=ExtResource("1_gpv0b")]
@@ -85,8 +90,3 @@ position = Vector2(-122, -140)
 
 [node name="NormalDemon" parent="." instance=ExtResource("7_417ta")]
 position = Vector2(917, 124)
-
-[node name="UI_layer1" type="CanvasLayer" parent="."]
-
-[node name="UI_layer2" type="CanvasLayer" parent="."]
-layer = 2

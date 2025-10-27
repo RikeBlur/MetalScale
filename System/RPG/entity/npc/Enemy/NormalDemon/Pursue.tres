@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=28 format=3 uid="uid://dw3ywrr6pnj8o"]
+[gd_resource type="BehaviorTree" load_steps=25 format=3 uid="uid://dw3ywrr6pnj8o"]
 
 [ext_resource type="Script" uid="uid://ruy6igvdnadx" path="res://Scripts/system/ai/tasks/get_first_in_group.gd" id="1_pk82o"]
 [ext_resource type="Script" uid="uid://cpgmrr2q5ku7l" path="res://Scripts/system/ai/tasks/get_target_distance.gd" id="2_y6ake"]
@@ -37,20 +37,6 @@ check_type = 3
 value = SubResource("BBVariant_tftqv")
 custom_name = "To Patrol"
 
-[sub_resource type="BBVariant" id="BBVariant_5t1gq"]
-type = 4
-saved_value = "pursue"
-resource_name = "pursue"
-
-[sub_resource type="BBNode" id="BBNode_h843t"]
-saved_value = NodePath("AnimatedSprite")
-resource_name = "AnimatedSprite"
-
-[sub_resource type="BTCallMethod" id="BTCallMethod_rxbbq"]
-node = SubResource("BBNode_h843t")
-method = &"play"
-args = Array[BBVariant]([SubResource("BBVariant_5t1gq")])
-
 [sub_resource type="BTCondition" id="BTCondition_7clef"]
 script = ExtResource("3_tftqv")
 required_frames = 3
@@ -76,7 +62,7 @@ last_time = 0.2
 
 [sub_resource type="BTSequence" id="BTSequence_ft3k3"]
 custom_name = "pursue"
-children = [SubResource("BTCallMethod_rxbbq"), SubResource("BTAlwaysSucceed_alxfv"), SubResource("BTAction_gu11r")]
+children = [SubResource("BTAlwaysSucceed_alxfv"), SubResource("BTAction_gu11r")]
 
 [sub_resource type="BTAlwaysFail" id="BTAlwaysFail_ec12m"]
 children = [SubResource("BTSequence_ft3k3")]

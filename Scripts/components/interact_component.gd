@@ -15,6 +15,6 @@ func _ready() -> void:
 		interact_rage.collision_layer = 7
 		interact_rage.collision_mask = 8
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("interact"):
 		interact.emit()

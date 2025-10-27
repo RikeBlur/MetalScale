@@ -1,15 +1,15 @@
 [gd_scene load_steps=7 format=3 uid="uid://eeygp0orpuvh"]
 
 [ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="1_7tegg"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_botton.gd" id="1_ntrdg"]
+[ext_resource type="Script" uid="uid://3ddaka0qhfp" path="res://Scripts/system/interact/dialogue_botton.gd" id="1_ntrdg"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1fpx6"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_urywg"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g7qih"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3w57a"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g7qih"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_urywg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1fpx6"]
 
 [node name="Button" type="Button"]
 offset_left = -58.0
@@ -18,15 +18,15 @@ offset_right = -19.0
 offset_bottom = -82.0
 scale = Vector2(3, 3)
 size_flags_horizontal = 3
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(0.5, 0.5, 0.5, 1)
-theme_override_colors/font_focus_color = Color(0.497474, 0.497474, 0.497474, 1)
 theme_override_colors/font_color = Color(0.737193, 0.737193, 0.737193, 1)
+theme_override_colors/font_focus_color = Color(0.497474, 0.497474, 0.497474, 1)
+theme_override_colors/font_pressed_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_7tegg")
 theme_override_font_sizes/font_size = 32
-theme_override_styles/focus = SubResource("StyleBoxEmpty_1fpx6")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_urywg")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_3w57a")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_g7qih")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3w57a")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_urywg")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_1fpx6")
 text = "是"
 script = ExtResource("1_ntrdg")
