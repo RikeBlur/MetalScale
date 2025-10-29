@@ -4,11 +4,13 @@ extends Node2D
 # UI组件枚举
 enum UI_component {
 	TOOLBAR,
-	SETTINGS
+	SETTINGS,
+	EXITWINDOWS
 }
 
 const TOOLBAR_SCENE = preload("res://System/RPG/tools/toolbar.tscn")
 const SETTINGS_SCENE = preload("res://System/RPG/view/settings.tscn")
+const EXITWINDOWS_SCENE = preload("res://System/RPG/view/exit_window.tscn")
 
 # UI配置：场景路径和目标layer
 const UI_CONFIG = {
@@ -19,6 +21,10 @@ const UI_CONFIG = {
 	UI_component.SETTINGS: {
 		"layer": 2,
 		"stage": -1  # 不在初始化时加载
+	},
+	UI_component.EXITWINDOWS:{
+		"layer": 3,
+		"stage": -1
 	}
 }
 
@@ -48,6 +54,62 @@ func _process(_delta):
 	# 检测退出键，弹出/隐藏 settings
 	if InputEvents.quit_once():
 		_toggle_settings()
+
+
+func instantiate_ui(ui_type: UI_component) -> Node:
+	"""实例化指定的UI组件"""
+	# 检查是否已经实例化
+	if ui_instances.has(ui_type):
+		push_warning("UI_manager: UI类型 %d 已经实例化" % ui_type)
+		return ui_instances[ui_type]
+	
+	var config = UI_CONFIG[ui_type]
+	var target_layer = layers.get(config.layer)
+	
+	if not target_layer:
+		push_error("UI_manager: 未找到layer %d" % config.layer)
+		return null
+	
+	# 根据UI类型获取场景并实例化
+	var ui_instance: Node = null
+	
+	match ui_type:
+		UI_component.TOOLBAR:
+			ui_instance = TOOLBAR_SCENE.instantiate()
+		UI_component.SETTINGS:
+			ui_instance = SETTINGS_SCENE.instantiate()
+		UI_component.EXITWINDOWS :
+			ui_instance = EXITWINDOWS_SCENE.instantiate()
+	
+	if not ui_instance:
+		push_error("UI_manager: 无法实例化UI类型 %d" % ui_type)
+		return null
+	
+	# 特殊处理：为toolbar设置player引用
+	if ui_type == UI_component.TOOLBAR and player_now:
+		if "player_now" in ui_instance:
+			ui_instance.player_now = player_now
+			
+	# 特殊处理：为setting设置own_manager引用
+	if ui_type == UI_component.SETTINGS :
+		if "own_manager" in ui_instance:
+			ui_instance.own_manager = self
+			
+	# 特殊处理：为exitwindow设置own_manager引用
+	if ui_type == UI_component.EXITWINDOWS :
+		if "own_manager" in ui_instance:
+			ui_instance.own_manager = self
+	
+	# 添加到对应layer
+	target_layer.add_child(ui_instance)
+	
+	# 存储实例
+	ui_instances[ui_type] = ui_instance
+	
+	print("UI_manager: 实例化 UI类型 %d 到 layer %d" % [ui_type, config.layer])
+	
+	return ui_instance
+
 
 func _initialize_layers():
 	"""初始化所有canvas layer引用"""
@@ -80,50 +142,11 @@ func _initialize_stage0_ui():
 	for ui_type in UI_CONFIG:
 		var config = UI_CONFIG[ui_type]
 		if config.stage == 0:
-			_instantiate_ui(ui_type)
+			instantiate_ui(ui_type)
 
-func _instantiate_ui(ui_type: UI_component) -> Node:
-	"""实例化指定的UI组件"""
-	# 检查是否已经实例化
-	if ui_instances.has(ui_type):
-		push_warning("UI_manager: UI类型 %d 已经实例化" % ui_type)
-		return ui_instances[ui_type]
-	
-	var config = UI_CONFIG[ui_type]
-	var target_layer = layers.get(config.layer)
-	
-	if not target_layer:
-		push_error("UI_manager: 未找到layer %d" % config.layer)
-		return null
-	
-	# 根据UI类型获取场景并实例化
-	var ui_instance: Node = null
-	
-	match ui_type:
-		UI_component.TOOLBAR:
-			ui_instance = TOOLBAR_SCENE.instantiate()
-		UI_component.SETTINGS:
-			ui_instance = SETTINGS_SCENE.instantiate()
-	
-	if not ui_instance:
-		push_error("UI_manager: 无法实例化UI类型 %d" % ui_type)
-		return null
-	
-	# 特殊处理：为toolbar设置player引用
-	if ui_type == UI_component.TOOLBAR and player_now:
-		if "player_now" in ui_instance:
-			ui_instance.player_now = player_now
-	
-	# 添加到对应layer
-	target_layer.add_child(ui_instance)
-	
-	# 存储实例
-	ui_instances[ui_type] = ui_instance
-	
-	print("UI_manager: 实例化 UI类型 %d 到 layer %d" % [ui_type, config.layer])
-	
-	return ui_instance
-
+# --------------------------------------------------------------------------------------------------
+# -------------------------------------------- ESC操作 ----------------------------------------------
+# --------------------------------------------------------------------------------------------------
 func _toggle_settings():
 	"""切换设置界面显示/隐藏"""
 	if not is_settings_showing:
@@ -137,7 +160,7 @@ func _show_settings():
 	"""显示设置界面"""
 	# 实例化settings（如果还未实例化）
 	if not ui_instances.has(UI_component.SETTINGS):
-		_instantiate_ui(UI_component.SETTINGS)
+		instantiate_ui(UI_component.SETTINGS)
 	else:
 		# 如果已存在，显示它
 		var settings = ui_instances[UI_component.SETTINGS]
@@ -203,6 +226,10 @@ func _apply_settings_shader(apply: bool):
 			# 这里需要根据实际游戏场景结构调整
 			# 可以对Camera2D或其他节点应用shader
 			pass
+# --------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------
+
 
 # ============ 工具函数 ============
 
@@ -214,7 +241,40 @@ func remove_ui(ui_type: UI_component):
 	"""移除UI实例"""
 	var ui = ui_instances.get(ui_type)
 	if ui:
-		ui.queue_free()
-		ui_instances.erase(ui_type)
-		print("UI_manager: 移除 UI类型 %d" % ui_type)
+		# 检查节点是否仍然有效
+		if is_instance_valid(ui):
+			# 直接从字典中移除引用，避免循环调用
+			ui_instances.erase(ui_type)
+			# 使用queue_free安全释放节点
+			ui.queue_free()
+			print("UI_manager: 移除 UI类型 %d" % ui_type)
+		else:
+			# 节点已无效，直接从字典中移除
+			ui_instances.erase(ui_type)
+			print("UI_manager: UI类型 %d 节点已无效，从字典中移除" % ui_type)
+	else:
+		print("UI_manager: UI类型 %d 不存在" % ui_type)
+
+func safe_remove_all_ui():
+	"""安全移除所有UI实例"""
+	print("UI_manager: 开始安全移除所有UI实例")
+	for ui_type in ui_instances.keys():
+		remove_ui(ui_type)
+	print("UI_manager: 完成移除所有UI实例")
+
+func safe_remove_self():
+	"""安全地释放UI_manager自身"""
+	print("UI_manager: 开始安全释放自身")
+	
+	# 先移除所有UI实例
+	safe_remove_all_ui()
+	
+	# 清理引用
+	layers.clear()
+	ui_instances.clear()
+	player_now = null
+	
+	# 使用queue_free()安全释放节点
+	queue_free()
+	print("UI_manager: 安全释放自身完成")
 		

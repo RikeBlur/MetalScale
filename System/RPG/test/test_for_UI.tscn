@@ -26,6 +26,9 @@ y_sort_enabled = true
 [node name="UI_layer2" type="CanvasLayer" parent="."]
 layer = 2
 
+[node name="UI_layer3" type="CanvasLayer" parent="."]
+layer = 3
+
 [node name="terrian" type="Node2D" parent="."]
 
 [node name="D1" parent="terrian" instance=ExtResource("1_gpv0b")]

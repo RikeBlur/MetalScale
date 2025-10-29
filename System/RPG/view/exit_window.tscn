@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://dw5ys7i10iu41"]
+[gd_scene load_steps=2 format=3 uid="uid://dw5ys7i10iu41"]
+
+[ext_resource type="Script" uid="uid://cf17nnf6t4iuf" path="res://Scripts/system/view/UI/settings/exit_window.gd" id="1_wpfag"]
 
 [node name="ExitWindow" type="Control"]
 layout_mode = 3
@@ -11,6 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+script = ExtResource("1_wpfag")
 
 [node name="Panel" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -54,10 +57,13 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 50
 
-[node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/choices"]
+[node name="yes" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/choices"]
 layout_mode = 2
 text = "是"
 
-[node name="Button2" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/choices"]
+[node name="no" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/choices"]
 layout_mode = 2
 text = "否"
+
+[connection signal="pressed" from="Panel/Container/MarginContainer/VBoxContainer/choices/yes" to="." method="_on_yes_pressed"]
+[connection signal="pressed" from="Panel/Container/MarginContainer/VBoxContainer/choices/no" to="." method="_on_no_pressed"]

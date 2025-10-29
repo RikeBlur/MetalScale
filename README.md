@@ -1,4 +1,7 @@
 # UPDATE
+## 25.10.29
+完成了exit_window
+
 ## 25.10.27
 给 normal_demon 增加动画（暂用AX）发现没什么问题，不过可以给 LimboAI 增一个 idle 脚本。 <br>
 现有系统的 Docs 已经完成，有待完善。 <br>

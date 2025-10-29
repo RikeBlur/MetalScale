@@ -6,7 +6,10 @@ extends Control
 
 var setting_boxes: Array = []
 
+var own_manager: UI_manager = null
+
 func _ready():
+	# 初始化所有容纳button的settingbox
 	_initialize_setting_boxes()
 	# 连接所有settingbox的按钮信号
 	_connect_setting_signals()
@@ -82,7 +85,7 @@ func _on_setting_4_pressed():
 	"""设置项 4 的处理函数"""
 	print("执行设置项 4")
 	# 在这里添加具体的功能实现
-	quit_game()
+	try_to_quit_game()
 
 # ============ 工具函数 ============
 
@@ -97,7 +100,5 @@ func refresh_settings():
 	_initialize_setting_boxes()
 	_connect_setting_signals()
 	
-func quit_game() -> void:
-	"""强制退出游戏（不保存数据）"""
-	print("强制退出游戏...")
-	get_tree().quit()
+func try_to_quit_game() -> void:
+	own_manager.instantiate_ui(UI_manager.UI_component.EXITWINDOWS)

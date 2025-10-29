@@ -1,7 +1,10 @@
 # Interact System
 广义的交互类，指所有 玩家 和 其他实体（NPC、场景）的相互影响。 <br>
+
 所有 interct 相关的组件 component 都要一个 area2d 作为碰撞箱（利用 _on_area_entered 信号）。 <br>
+
 INTERACT/INTERACTED ： 当 area2d 的子节点 <br>
+
 HURTED/DAMAGE ： 当 area2d 的父节点 <br>
 
 ## 1. 基本组件 INTERACT/INTERACTED
