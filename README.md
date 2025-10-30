@@ -1,4 +1,7 @@
 # UPDATE
+## 25.10.30
+完成 normal_demon 的动画
+
 ## 25.10.29
 完成了exit_window
 

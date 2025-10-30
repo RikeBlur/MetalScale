@@ -60,14 +60,18 @@ player_run_speed_max = 500
 player_walk_speed_min = 20
 
 [node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
-position = Vector2(572, 326)
+position = Vector2(572, 331)
+limit_enabled = false
+limit_left = 0
+limit_top = 0
+limit_right = 1152
+limit_bottom = 648
 script = ExtResource("4_vfmcm")
 target = NodePath("../Player_Oni")
 edge_margin_left = 0.4
 edge_margin_right = 0.4
 edge_margin_top = 0.4
 edge_margin_bottom = 0.4
-y_offset = 0.0
 use_y_offset = false
 
 [node name="Dark" type="CanvasModulate" parent="."]

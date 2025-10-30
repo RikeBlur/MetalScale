@@ -35,7 +35,7 @@ func _enter() -> void:
 	# 进入任务时重新选择方向
 	Animated_Sprite = agent.animated_sprite
 	choose_random_direction()
-	_play_run_animation(_move_direction)
+	_play_walk_animation(_move_direction)
 	_move_timer = 0.0
 
 func _tick(delta: float) -> Status:
@@ -57,20 +57,20 @@ func choose_random_direction() -> void:
 	var dirs = HANGOUT_DIRECTION.values()
 	_move_direction = dirs[randi() % dirs.size()]
 
-func _play_run_animation(anim_direction: Vector2) -> void:
+func _play_walk_animation(anim_direction: Vector2) -> void:
 	if anim_direction == Vector2.DOWN:
-		Animated_Sprite.play("run_front")
+		Animated_Sprite.play("walk_front")
 	elif anim_direction == Vector2.UP:
-		Animated_Sprite.play("run_back")
+		Animated_Sprite.play("walk_back")
 	elif anim_direction == Vector2.LEFT:
-		Animated_Sprite.play("run_left")
+		Animated_Sprite.play("walk_left")
 	elif anim_direction == Vector2.RIGHT:
-		Animated_Sprite.play("run_right")
+		Animated_Sprite.play("walk_right")
 	elif anim_direction.x > 0 and anim_direction.y > 0:
-		Animated_Sprite.play("run_front_right")
+		Animated_Sprite.play("walk_front_right")
 	elif anim_direction.x > 0 and anim_direction.y < 0:
-		Animated_Sprite.play("run_back_right")
+		Animated_Sprite.play("walk_back_right")
 	elif anim_direction.x < 0 and anim_direction.y > 0:
-		Animated_Sprite.play("run_front_left")
+		Animated_Sprite.play("walk_front_left")
 	elif anim_direction.x < 0 and anim_direction.y < 0:
-		Animated_Sprite.play("run_back_left")
+		Animated_Sprite.play("walk_back_left")

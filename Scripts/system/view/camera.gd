@@ -13,12 +13,18 @@ extends Camera2D
 @export_range(0.0, 0.5) var edge_margin_bottom: float = 0.3  # 下边缘触发区域（屏幕高度的比例）
 
 # Y轴偏移设置（正值使角色位于屏幕下方）
-@export var y_offset: float = 20.0
+@export var y_offset: float = 0
 
 # 是否在X轴居中
 @export var center_x: bool = true
 # 是否使用Y轴偏移
 @export var use_y_offset: bool = true
+
+# 摄像机晃动
+var cameraShakeNoise : FastNoiseLite #用于采样噪声
+var max_shake_intensity : float = 5.0 
+var min_shake_intensity : float = 1.0
+var shake_time : float = 0.5 #摄像机震动时间
 
 # 内部变量
 var _screen_size: Vector2
@@ -50,10 +56,16 @@ func _ready() -> void:
 	# 计算边界区域
 	_update_screen_size()
 	get_viewport().size_changed.connect(_update_screen_size)
+	
+	# player 受伤时触发摄像机震动
+	cameraShakeNoise = FastNoiseLite.new()
+	target.player_hurted.connect(camera_shake)
+
 
 func _update_screen_size() -> void:
 	_screen_size = get_viewport_rect().size / zoom
 	_calculate_bounds()
+
 
 func _calculate_bounds() -> void:
 	# 计算边界触发区域
@@ -62,7 +74,12 @@ func _calculate_bounds() -> void:
 	_top_bound = global_position.y - _screen_size.y * 0.5 + _screen_size.y * edge_margin_top
 	_bottom_bound = global_position.y + _screen_size.y * 0.5 - _screen_size.y * edge_margin_bottom
 
-func _physics_process(delta: float) -> void:
+
+func _physics_process(_delta: float) -> void:
+	_boundary_check()
+
+
+func _boundary_check() -> void:
 	if not target:
 		return
 	
@@ -101,12 +118,23 @@ func _physics_process(delta: float) -> void:
 	if limit_left != 0 || limit_right != 0 || limit_top != 0 || limit_bottom != 0:
 		force_update_scroll()
 
+
+func camera_shake() -> void:
+	print("SHAKE!!")
+	var camera_tween = get_tree().create_tween()
+	camera_tween.tween_method(StartCameraShake, max_shake_intensity, min_shake_intensity, shake_time)
+
+func StartCameraShake(intensity : float):
+	var cameraOffset = cameraShakeNoise.get_noise_1d(Time.get_ticks_msec()) * intensity # 获取时间相关的随机偏移量
+	self.offset.x = cameraOffset
+	self.offset.y = cameraOffset
+
+
 # 重置相机位置（场景切换或需要重置时调用）
 func reset_camera() -> void:
 	if target:
 		var reset_pos = target.global_position
 		if use_y_offset:
 			reset_pos.y -= y_offset
-		
 		global_position = reset_pos
 		_calculate_bounds()

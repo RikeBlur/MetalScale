@@ -79,7 +79,7 @@ func _on_hurt(amount : float) -> void:
 		hit_flash_player.play("hit")
 		# 或者使用以下方式强制播放
 		 #hit_flash_player.play("hit", -1, 1.0, true)
-
+	entity.player_hurted.emit()
 		
 # 死亡处理
 func on_died() -> void:
