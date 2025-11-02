@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6qt6aci4g44h"
-path="res://.godot/imported/Adrenaline_icon.png-10e035aa5af536d2db8ef2aef3181474.ctex"
+uid="uid://cprciedwjloep"
+path="res://.godot/imported/back-Sheet.png-2399731e9a5ff9cf0bd03f62a6a8897b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assests/sprite/icon/Adrenaline_icon.png"
-dest_files=["res://.godot/imported/Adrenaline_icon.png-10e035aa5af536d2db8ef2aef3181474.ctex"]
+source_file="res://Assests/sprite/normal_demon/run/back-Sheet.png"
+dest_files=["res://.godot/imported/back-Sheet.png-2399731e9a5ff9cf0bd03f62a6a8897b.ctex"]
 
 [params]
 

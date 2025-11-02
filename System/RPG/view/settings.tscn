@@ -1,7 +1,1026 @@
-[gd_scene load_steps=3 format=3 uid="uid://cr1cfwpuoqd8k"]
+[gd_scene load_steps=131 format=3 uid="uid://cr1cfwpuoqd8k"]
 
 [ext_resource type="Script" uid="uid://pyq368xualgt" path="res://Scripts/system/view/UI/settings/settings.gd" id="1_oaby7"]
 [ext_resource type="Script" uid="uid://cd3nl1ac0hn2c" path="res://Scripts/system/view/UI/settings/settingbox.gd" id="2_lev6s"]
+[ext_resource type="Texture2D" uid="uid://bx2xw7be6d71" path="res://Assests/sprite/UI/setting_icon/config-icon.png" id="3_cqwn0"]
+[ext_resource type="Texture2D" uid="uid://cmytx23sai36c" path="res://Assests/sprite/UI/setting_icon/save-game-icon.png" id="3_eqabb"]
+[ext_resource type="Texture2D" uid="uid://cd0noiyrtc72j" path="res://Assests/sprite/UI/setting_icon/unknown-icon.png" id="3_l7f6u"]
+[ext_resource type="Texture2D" uid="uid://dnq0cimi255na" path="res://Assests/sprite/UI/settingbox/settingbox-exit.png" id="3_lev6s"]
+[ext_resource type="Texture2D" uid="uid://dhkpib5ppp6n6" path="res://Assests/sprite/UI/setting_icon/player-state-icon.png" id="3_uswx7"]
+[ext_resource type="Texture2D" uid="uid://c8cn4c6s3gqfc" path="res://Assests/sprite/UI/setting_icon/exit-icon.png" id="4_adcln"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1bjeo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ixif"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lmrmh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b2ftq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qlhl8"]
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_romha"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_88ifu"]
+input_name = "screen_uv"
+
+[sub_resource type="VisualShaderNodeIf" id="VisualShaderNodeIf_xsxjg"]
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_bkyj5"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.5, 0.5, 0.5)]
+op_type = 3
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_mki7e"]
+constant = Color(0.65, 0.052, 0.0619665, 1)
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_1bjeo"]
+default_input_values = [0, 0.0, 1, 0.1]
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_7ixif"]
+parameter_name = "Noise"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_b2ftq"]
+source = 5
+
+[sub_resource type="VisualShaderNodeIf" id="VisualShaderNodeIf_qlhl8"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_g1r1r"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_xrcs5"]
+constant = 1.0
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_stqnu"]
+parameter_name = "DissolveValue"
+hint = 1
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_n3i2n"]
+input_name = "texture"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_6st2v"]
+expanded_output_ports = [0]
+source = 5
+
+[sub_resource type="VisualShader" id="VisualShader_hp7d5"]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+uniform sampler2D Noise;
+uniform float DissolveValue : hint_range(0.0, 1.0);
+
+
+
+void fragment() {
+// ColorConstant:14
+	vec4 n_out14p0 = vec4(0.650000, 0.052000, 0.061967, 1.000000);
+
+
+	vec4 n_out9p0;
+// Texture2D:9
+	n_out9p0 = texture(TEXTURE, UV);
+	float n_out9p4 = n_out9p0.a;
+
+
+// Input:11
+	vec2 n_out11p0 = SCREEN_UV;
+
+
+	vec4 n_out3p0;
+// Texture2D:3
+	n_out3p0 = texture(Noise, n_out11p0);
+
+
+// FloatParameter:7
+	float n_out7p0 = DissolveValue;
+
+
+// FloatConstant:5
+	float n_out5p0 = 0.000000;
+
+
+// FloatConstant:6
+	float n_out6p0 = 1.000000;
+
+
+	vec3 n_out12p0;
+// If:12
+	float n_in12p2 = 0.00001;
+	vec3 n_in12p3 = vec3(0.00000, 0.00000, 0.00000);
+	if(abs(n_out3p0.x - n_out7p0) < n_in12p2)
+	{
+		n_out12p0 = n_in12p3;
+	}
+	else if(n_out3p0.x < n_out7p0)
+	{
+		n_out12p0 = vec3(n_out6p0);
+	}
+	else
+	{
+		n_out12p0 = vec3(n_out5p0);
+	}
+
+
+// Mix:13
+	vec3 n_out13p0 = mix(vec3(n_out14p0.xyz), vec3(n_out9p0.xyz), n_out12p0);
+
+
+// FloatOp:15
+	float n_in15p1 = 0.10000;
+	float n_out15p0 = n_out7p0 + n_in15p1;
+
+
+	vec3 n_out4p0;
+// If:4
+	float n_in4p2 = 0.00001;
+	vec3 n_in4p3 = vec3(0.00000, 0.00000, 0.00000);
+	if(abs(n_out3p0.x - n_out15p0) < n_in4p2)
+	{
+		n_out4p0 = n_in4p3;
+	}
+	else if(n_out3p0.x < n_out15p0)
+	{
+		n_out4p0 = vec3(n_out6p0);
+	}
+	else
+	{
+		n_out4p0 = vec3(n_out5p0);
+	}
+
+
+// Mix:10
+	float n_in10p0 = 0.00000;
+	float n_out10p0 = mix(n_in10p0, n_out4p0.x, n_out9p4);
+
+
+// Output:0
+	COLOR.rgb = n_out13p0;
+	COLOR.a = n_out10p0;
+
+
+}
+"
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(1500, 200)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture2DParameter_7ixif")
+nodes/fragment/2/position = Vector2(-420, -100)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_b2ftq")
+nodes/fragment/3/position = Vector2(-100, -200)
+nodes/fragment/4/node = SubResource("VisualShaderNodeIf_qlhl8")
+nodes/fragment/4/position = Vector2(560, 20)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatConstant_g1r1r")
+nodes/fragment/5/position = Vector2(0, 380)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatConstant_xrcs5")
+nodes/fragment/6/position = Vector2(0, 480)
+nodes/fragment/7/node = SubResource("VisualShaderNodeFloatParameter_stqnu")
+nodes/fragment/7/position = Vector2(-60, 100)
+nodes/fragment/8/node = SubResource("VisualShaderNodeInput_n3i2n")
+nodes/fragment/8/position = Vector2(600, 420)
+nodes/fragment/9/node = SubResource("VisualShaderNodeTexture_6st2v")
+nodes/fragment/9/position = Vector2(880, 340)
+nodes/fragment/10/node = SubResource("VisualShaderNodeMix_romha")
+nodes/fragment/10/position = Vector2(1180, 200)
+nodes/fragment/11/node = SubResource("VisualShaderNodeInput_88ifu")
+nodes/fragment/11/position = Vector2(-420, -260)
+nodes/fragment/12/node = SubResource("VisualShaderNodeIf_xsxjg")
+nodes/fragment/12/position = Vector2(580, -400)
+nodes/fragment/13/node = SubResource("VisualShaderNodeMix_bkyj5")
+nodes/fragment/13/position = Vector2(1100, -260)
+nodes/fragment/14/node = SubResource("VisualShaderNodeColorConstant_mki7e")
+nodes/fragment/14/position = Vector2(740, -120)
+nodes/fragment/15/node = SubResource("VisualShaderNodeFloatOp_1bjeo")
+nodes/fragment/15/position = Vector2(360, 120)
+nodes/fragment/connections = PackedInt32Array(2, 0, 3, 2, 3, 0, 4, 0, 6, 0, 4, 5, 5, 0, 4, 4, 8, 0, 9, 2, 4, 0, 10, 1, 9, 4, 10, 2, 10, 0, 0, 1, 11, 0, 3, 0, 3, 0, 12, 0, 7, 0, 12, 1, 6, 0, 12, 5, 9, 0, 13, 1, 12, 0, 13, 2, 14, 0, 13, 0, 13, 0, 0, 0, 5, 0, 12, 4, 7, 0, 15, 0, 15, 0, 4, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_312ju"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vi1l7"]
+noise = SubResource("FastNoiseLite_312ju")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mhe76"]
+resource_local_to_scene = true
+shader = SubResource("VisualShader_hp7d5")
+shader_parameter/Noise = SubResource("NoiseTexture2D_vi1l7")
+shader_parameter/DissolveValue = 0.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2hqe3"]
+load_path = "res://.godot/imported/settingbox-exit.png-1b1c14d433ad0b33d0df6123af682b36.ctex"
+
+[sub_resource type="Animation" id="Animation_eqabb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/DissolveValue")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_adcln"]
+resource_name = "dissolve_appear"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/DissolveValue")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.800000038, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cqwn0"]
+_data = {
+&"RESET": SubResource("Animation_eqabb"),
+&"dissolve_appear": SubResource("Animation_adcln")
+}
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g1r1r"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xrcs5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_stqnu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n3i2n"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6st2v"]
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_qyx3p"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_romha"]
+input_name = "screen_uv"
+
+[sub_resource type="VisualShaderNodeIf" id="VisualShaderNodeIf_88ifu"]
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_i4d30"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.5, 0.5, 0.5)]
+op_type = 3
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_agof2"]
+constant = Color(0.65, 0.052, 0.0619665, 1)
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_xsxjg"]
+default_input_values = [0, 0.0, 1, 0.1]
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_bkyj5"]
+parameter_name = "Noise"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_mki7e"]
+source = 5
+
+[sub_resource type="VisualShaderNodeIf" id="VisualShaderNodeIf_1bjeo"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_7ixif"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_lmrmh"]
+constant = 1.0
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_b2ftq"]
+parameter_name = "DissolveValue"
+hint = 1
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_qlhl8"]
+input_name = "texture"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_g1r1r"]
+expanded_output_ports = [0]
+source = 5
+
+[sub_resource type="VisualShader" id="VisualShader_xrcs5"]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+uniform sampler2D Noise;
+uniform float DissolveValue : hint_range(0.0, 1.0);
+
+
+
+void fragment() {
+// ColorConstant:14
+	vec4 n_out14p0 = vec4(0.650000, 0.052000, 0.061967, 1.000000);
+
+
+	vec4 n_out9p0;
+// Texture2D:9
+	n_out9p0 = texture(TEXTURE, UV);
+	float n_out9p4 = n_out9p0.a;
+
+
+// Input:11
+	vec2 n_out11p0 = SCREEN_UV;
+
+
+	vec4 n_out3p0;
+// Texture2D:3
+	n_out3p0 = texture(Noise, n_out11p0);
+
+
+// FloatParameter:7
+	float n_out7p0 = DissolveValue;
+
+
+// FloatConstant:5
+	float n_out5p0 = 0.000000;
+
+
+// FloatConstant:6
+	float n_out6p0 = 1.000000;
+
+
+	vec3 n_out12p0;
+// If:12
+	float n_in12p2 = 0.00001;
+	vec3 n_in12p3 = vec3(0.00000, 0.00000, 0.00000);
+	if(abs(n_out3p0.x - n_out7p0) < n_in12p2)
+	{
+		n_out12p0 = n_in12p3;
+	}
+	else if(n_out3p0.x < n_out7p0)
+	{
+		n_out12p0 = vec3(n_out6p0);
+	}
+	else
+	{
+		n_out12p0 = vec3(n_out5p0);
+	}
+
+
+// Mix:13
+	vec3 n_out13p0 = mix(vec3(n_out14p0.xyz), vec3(n_out9p0.xyz), n_out12p0);
+
+
+// FloatOp:15
+	float n_in15p1 = 0.10000;
+	float n_out15p0 = n_out7p0 + n_in15p1;
+
+
+	vec3 n_out4p0;
+// If:4
+	float n_in4p2 = 0.00001;
+	vec3 n_in4p3 = vec3(0.00000, 0.00000, 0.00000);
+	if(abs(n_out3p0.x - n_out15p0) < n_in4p2)
+	{
+		n_out4p0 = n_in4p3;
+	}
+	else if(n_out3p0.x < n_out15p0)
+	{
+		n_out4p0 = vec3(n_out6p0);
+	}
+	else
+	{
+		n_out4p0 = vec3(n_out5p0);
+	}
+
+
+// Mix:10
+	float n_in10p0 = 0.00000;
+	float n_out10p0 = mix(n_in10p0, n_out4p0.x, n_out9p4);
+
+
+// Output:0
+	COLOR.rgb = n_out13p0;
+	COLOR.a = n_out10p0;
+
+
+}
+"
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(1500, 200)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture2DParameter_bkyj5")
+nodes/fragment/2/position = Vector2(-420, -100)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_mki7e")
+nodes/fragment/3/position = Vector2(-100, -200)
+nodes/fragment/4/node = SubResource("VisualShaderNodeIf_1bjeo")
+nodes/fragment/4/position = Vector2(560, 20)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatConstant_7ixif")
+nodes/fragment/5/position = Vector2(0, 380)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatConstant_lmrmh")
+nodes/fragment/6/position = Vector2(0, 480)
+nodes/fragment/7/node = SubResource("VisualShaderNodeFloatParameter_b2ftq")
+nodes/fragment/7/position = Vector2(-60, 100)
+nodes/fragment/8/node = SubResource("VisualShaderNodeInput_qlhl8")
+nodes/fragment/8/position = Vector2(600, 420)
+nodes/fragment/9/node = SubResource("VisualShaderNodeTexture_g1r1r")
+nodes/fragment/9/position = Vector2(880, 340)
+nodes/fragment/10/node = SubResource("VisualShaderNodeMix_qyx3p")
+nodes/fragment/10/position = Vector2(1180, 200)
+nodes/fragment/11/node = SubResource("VisualShaderNodeInput_romha")
+nodes/fragment/11/position = Vector2(-420, -260)
+nodes/fragment/12/node = SubResource("VisualShaderNodeIf_88ifu")
+nodes/fragment/12/position = Vector2(580, -400)
+nodes/fragment/13/node = SubResource("VisualShaderNodeMix_i4d30")
+nodes/fragment/13/position = Vector2(1100, -260)
+nodes/fragment/14/node = SubResource("VisualShaderNodeColorConstant_agof2")
+nodes/fragment/14/position = Vector2(740, -120)
+nodes/fragment/15/node = SubResource("VisualShaderNodeFloatOp_xsxjg")
+nodes/fragment/15/position = Vector2(360, 120)
+nodes/fragment/connections = PackedInt32Array(2, 0, 3, 2, 3, 0, 4, 0, 6, 0, 4, 5, 5, 0, 4, 4, 8, 0, 9, 2, 4, 0, 10, 1, 9, 4, 10, 2, 10, 0, 0, 1, 11, 0, 3, 0, 3, 0, 12, 0, 7, 0, 12, 1, 6, 0, 12, 5, 9, 0, 13, 1, 12, 0, 13, 2, 14, 0, 13, 0, 13, 0, 0, 0, 5, 0, 12, 4, 7, 0, 15, 0, 15, 0, 4, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_stqnu"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n3i2n"]
+noise = SubResource("FastNoiseLite_stqnu")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6st2v"]
+resource_local_to_scene = true
+shader = SubResource("VisualShader_xrcs5")
+shader_parameter/Noise = SubResource("NoiseTexture2D_n3i2n")
+shader_parameter/DissolveValue = 0.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hp7d5"]
+load_path = "res://.godot/imported/settingbox-exit.png-1b1c14d433ad0b33d0df6123af682b36.ctex"
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i4d30"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_agof2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xsxjg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bkyj5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mki7e"]
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_1bjeo"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_lmrmh"]
+input_name = "screen_uv"
+
+[sub_resource type="VisualShaderNodeIf" id="VisualShaderNodeIf_b2ftq"]
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_qlhl8"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.5, 0.5, 0.5)]
+op_type = 3
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_g1r1r"]
+constant = Color(0.65, 0.052, 0.0619665, 1)
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_xrcs5"]
+default_input_values = [0, 0.0, 1, 0.1]
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_stqnu"]
+parameter_name = "Noise"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_n3i2n"]
+source = 5
+
+[sub_resource type="VisualShaderNodeIf" id="VisualShaderNodeIf_6st2v"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_hp7d5"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_312ju"]
+constant = 1.0
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_vi1l7"]
+parameter_name = "DissolveValue"
+hint = 1
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_mhe76"]
+input_name = "texture"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_2hqe3"]
+expanded_output_ports = [0]
+source = 5
+
+[sub_resource type="VisualShader" id="VisualShader_l46qb"]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+uniform sampler2D Noise;
+uniform float DissolveValue : hint_range(0.0, 1.0);
+
+
+
+void fragment() {
+// ColorConstant:14
+	vec4 n_out14p0 = vec4(0.650000, 0.052000, 0.061967, 1.000000);
+
+
+	vec4 n_out9p0;
+// Texture2D:9
+	n_out9p0 = texture(TEXTURE, UV);
+	float n_out9p4 = n_out9p0.a;
+
+
+// Input:11
+	vec2 n_out11p0 = SCREEN_UV;
+
+
+	vec4 n_out3p0;
+// Texture2D:3
+	n_out3p0 = texture(Noise, n_out11p0);
+
+
+// FloatParameter:7
+	float n_out7p0 = DissolveValue;
+
+
+// FloatConstant:5
+	float n_out5p0 = 0.000000;
+
+
+// FloatConstant:6
+	float n_out6p0 = 1.000000;
+
+
+	vec3 n_out12p0;
+// If:12
+	float n_in12p2 = 0.00001;
+	vec3 n_in12p3 = vec3(0.00000, 0.00000, 0.00000);
+	if(abs(n_out3p0.x - n_out7p0) < n_in12p2)
+	{
+		n_out12p0 = n_in12p3;
+	}
+	else if(n_out3p0.x < n_out7p0)
+	{
+		n_out12p0 = vec3(n_out6p0);
+	}
+	else
+	{
+		n_out12p0 = vec3(n_out5p0);
+	}
+
+
+// Mix:13
+	vec3 n_out13p0 = mix(vec3(n_out14p0.xyz), vec3(n_out9p0.xyz), n_out12p0);
+
+
+// FloatOp:15
+	float n_in15p1 = 0.10000;
+	float n_out15p0 = n_out7p0 + n_in15p1;
+
+
+	vec3 n_out4p0;
+// If:4
+	float n_in4p2 = 0.00001;
+	vec3 n_in4p3 = vec3(0.00000, 0.00000, 0.00000);
+	if(abs(n_out3p0.x - n_out15p0) < n_in4p2)
+	{
+		n_out4p0 = n_in4p3;
+	}
+	else if(n_out3p0.x < n_out15p0)
+	{
+		n_out4p0 = vec3(n_out6p0);
+	}
+	else
+	{
+		n_out4p0 = vec3(n_out5p0);
+	}
+
+
+// Mix:10
+	float n_in10p0 = 0.00000;
+	float n_out10p0 = mix(n_in10p0, n_out4p0.x, n_out9p4);
+
+
+// Output:0
+	COLOR.rgb = n_out13p0;
+	COLOR.a = n_out10p0;
+
+
+}
+"
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(1500, 200)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture2DParameter_stqnu")
+nodes/fragment/2/position = Vector2(-420, -100)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_n3i2n")
+nodes/fragment/3/position = Vector2(-100, -200)
+nodes/fragment/4/node = SubResource("VisualShaderNodeIf_6st2v")
+nodes/fragment/4/position = Vector2(560, 20)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatConstant_hp7d5")
+nodes/fragment/5/position = Vector2(0, 380)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatConstant_312ju")
+nodes/fragment/6/position = Vector2(0, 480)
+nodes/fragment/7/node = SubResource("VisualShaderNodeFloatParameter_vi1l7")
+nodes/fragment/7/position = Vector2(-60, 100)
+nodes/fragment/8/node = SubResource("VisualShaderNodeInput_mhe76")
+nodes/fragment/8/position = Vector2(600, 420)
+nodes/fragment/9/node = SubResource("VisualShaderNodeTexture_2hqe3")
+nodes/fragment/9/position = Vector2(880, 340)
+nodes/fragment/10/node = SubResource("VisualShaderNodeMix_1bjeo")
+nodes/fragment/10/position = Vector2(1180, 200)
+nodes/fragment/11/node = SubResource("VisualShaderNodeInput_lmrmh")
+nodes/fragment/11/position = Vector2(-420, -260)
+nodes/fragment/12/node = SubResource("VisualShaderNodeIf_b2ftq")
+nodes/fragment/12/position = Vector2(580, -400)
+nodes/fragment/13/node = SubResource("VisualShaderNodeMix_qlhl8")
+nodes/fragment/13/position = Vector2(1100, -260)
+nodes/fragment/14/node = SubResource("VisualShaderNodeColorConstant_g1r1r")
+nodes/fragment/14/position = Vector2(740, -120)
+nodes/fragment/15/node = SubResource("VisualShaderNodeFloatOp_xrcs5")
+nodes/fragment/15/position = Vector2(360, 120)
+nodes/fragment/connections = PackedInt32Array(2, 0, 3, 2, 3, 0, 4, 0, 6, 0, 4, 5, 5, 0, 4, 4, 8, 0, 9, 2, 4, 0, 10, 1, 9, 4, 10, 2, 10, 0, 0, 1, 11, 0, 3, 0, 3, 0, 12, 0, 7, 0, 12, 1, 6, 0, 12, 5, 9, 0, 13, 1, 12, 0, 13, 2, 14, 0, 13, 0, 13, 0, 0, 0, 5, 0, 12, 4, 7, 0, 15, 0, 15, 0, 4, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_yx0jo"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ix6am"]
+noise = SubResource("FastNoiseLite_yx0jo")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v0wb1"]
+resource_local_to_scene = true
+shader = SubResource("VisualShader_l46qb")
+shader_parameter/Noise = SubResource("NoiseTexture2D_ix6am")
+shader_parameter/DissolveValue = 0.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3unt8"]
+load_path = "res://.godot/imported/settingbox-exit.png-1b1c14d433ad0b33d0df6123af682b36.ctex"
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l7f6u"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uswx7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qyx3p"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_romha"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_88ifu"]
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_eqabb"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_cqwn0"]
+input_name = "screen_uv"
+
+[sub_resource type="VisualShaderNodeIf" id="VisualShaderNodeIf_l7f6u"]
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_uswx7"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.5, 0.5, 0.5)]
+op_type = 3
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_qyx3p"]
+constant = Color(0.65, 0.052, 0.0619665, 1)
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_romha"]
+default_input_values = [0, 0.0, 1, 0.1]
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_88ifu"]
+parameter_name = "Noise"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_i4d30"]
+source = 5
+
+[sub_resource type="VisualShaderNodeIf" id="VisualShaderNodeIf_agof2"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_bkyj5"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_mki7e"]
+constant = 1.0
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_1bjeo"]
+parameter_name = "DissolveValue"
+hint = 1
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_7ixif"]
+input_name = "texture"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_lmrmh"]
+expanded_output_ports = [0]
+source = 5
+
+[sub_resource type="VisualShader" id="VisualShader_b2ftq"]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+uniform sampler2D Noise;
+uniform float DissolveValue : hint_range(0.0, 1.0);
+
+
+
+void fragment() {
+// ColorConstant:14
+	vec4 n_out14p0 = vec4(0.650000, 0.052000, 0.061967, 1.000000);
+
+
+	vec4 n_out9p0;
+// Texture2D:9
+	n_out9p0 = texture(TEXTURE, UV);
+	float n_out9p4 = n_out9p0.a;
+
+
+// Input:11
+	vec2 n_out11p0 = SCREEN_UV;
+
+
+	vec4 n_out3p0;
+// Texture2D:3
+	n_out3p0 = texture(Noise, n_out11p0);
+
+
+// FloatParameter:7
+	float n_out7p0 = DissolveValue;
+
+
+// FloatConstant:5
+	float n_out5p0 = 0.000000;
+
+
+// FloatConstant:6
+	float n_out6p0 = 1.000000;
+
+
+	vec3 n_out12p0;
+// If:12
+	float n_in12p2 = 0.00001;
+	vec3 n_in12p3 = vec3(0.00000, 0.00000, 0.00000);
+	if(abs(n_out3p0.x - n_out7p0) < n_in12p2)
+	{
+		n_out12p0 = n_in12p3;
+	}
+	else if(n_out3p0.x < n_out7p0)
+	{
+		n_out12p0 = vec3(n_out6p0);
+	}
+	else
+	{
+		n_out12p0 = vec3(n_out5p0);
+	}
+
+
+// Mix:13
+	vec3 n_out13p0 = mix(vec3(n_out14p0.xyz), vec3(n_out9p0.xyz), n_out12p0);
+
+
+// FloatOp:15
+	float n_in15p1 = 0.10000;
+	float n_out15p0 = n_out7p0 + n_in15p1;
+
+
+	vec3 n_out4p0;
+// If:4
+	float n_in4p2 = 0.00001;
+	vec3 n_in4p3 = vec3(0.00000, 0.00000, 0.00000);
+	if(abs(n_out3p0.x - n_out15p0) < n_in4p2)
+	{
+		n_out4p0 = n_in4p3;
+	}
+	else if(n_out3p0.x < n_out15p0)
+	{
+		n_out4p0 = vec3(n_out6p0);
+	}
+	else
+	{
+		n_out4p0 = vec3(n_out5p0);
+	}
+
+
+// Mix:10
+	float n_in10p0 = 0.00000;
+	float n_out10p0 = mix(n_in10p0, n_out4p0.x, n_out9p4);
+
+
+// Output:0
+	COLOR.rgb = n_out13p0;
+	COLOR.a = n_out10p0;
+
+
+}
+"
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(1500, 200)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture2DParameter_88ifu")
+nodes/fragment/2/position = Vector2(-420, -100)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_i4d30")
+nodes/fragment/3/position = Vector2(-100, -200)
+nodes/fragment/4/node = SubResource("VisualShaderNodeIf_agof2")
+nodes/fragment/4/position = Vector2(560, 20)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatConstant_bkyj5")
+nodes/fragment/5/position = Vector2(0, 380)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatConstant_mki7e")
+nodes/fragment/6/position = Vector2(0, 480)
+nodes/fragment/7/node = SubResource("VisualShaderNodeFloatParameter_1bjeo")
+nodes/fragment/7/position = Vector2(-60, 100)
+nodes/fragment/8/node = SubResource("VisualShaderNodeInput_7ixif")
+nodes/fragment/8/position = Vector2(600, 420)
+nodes/fragment/9/node = SubResource("VisualShaderNodeTexture_lmrmh")
+nodes/fragment/9/position = Vector2(880, 340)
+nodes/fragment/10/node = SubResource("VisualShaderNodeMix_eqabb")
+nodes/fragment/10/position = Vector2(1180, 200)
+nodes/fragment/11/node = SubResource("VisualShaderNodeInput_cqwn0")
+nodes/fragment/11/position = Vector2(-420, -260)
+nodes/fragment/12/node = SubResource("VisualShaderNodeIf_l7f6u")
+nodes/fragment/12/position = Vector2(580, -400)
+nodes/fragment/13/node = SubResource("VisualShaderNodeMix_uswx7")
+nodes/fragment/13/position = Vector2(1100, -260)
+nodes/fragment/14/node = SubResource("VisualShaderNodeColorConstant_qyx3p")
+nodes/fragment/14/position = Vector2(740, -120)
+nodes/fragment/15/node = SubResource("VisualShaderNodeFloatOp_romha")
+nodes/fragment/15/position = Vector2(360, 120)
+nodes/fragment/connections = PackedInt32Array(2, 0, 3, 2, 3, 0, 4, 0, 6, 0, 4, 5, 5, 0, 4, 4, 8, 0, 9, 2, 4, 0, 10, 1, 9, 4, 10, 2, 10, 0, 0, 1, 11, 0, 3, 0, 3, 0, 12, 0, 7, 0, 12, 1, 6, 0, 12, 5, 9, 0, 13, 1, 12, 0, 13, 2, 14, 0, 13, 0, 13, 0, 0, 0, 5, 0, 12, 4, 7, 0, 15, 0, 15, 0, 4, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_qlhl8"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_g1r1r"]
+noise = SubResource("FastNoiseLite_qlhl8")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xrcs5"]
+resource_local_to_scene = true
+shader = SubResource("VisualShader_b2ftq")
+shader_parameter/Noise = SubResource("NoiseTexture2D_g1r1r")
+shader_parameter/DissolveValue = 0.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cqwn0"]
+load_path = "res://.godot/imported/settingbox-exit.png-1b1c14d433ad0b33d0df6123af682b36.ctex"
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oaby7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lev6s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_adcln"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eqabb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cqwn0"]
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_adcln"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_eqabb"]
+input_name = "screen_uv"
+
+[sub_resource type="VisualShaderNodeIf" id="VisualShaderNodeIf_cqwn0"]
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_l7f6u"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.5, 0.5, 0.5)]
+op_type = 3
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_uswx7"]
+constant = Color(0.65, 0.052, 0.0619665, 1)
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_qyx3p"]
+default_input_values = [0, 0.0, 1, 0.1]
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_romha"]
+parameter_name = "Noise"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_88ifu"]
+source = 5
+
+[sub_resource type="VisualShaderNodeIf" id="VisualShaderNodeIf_i4d30"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_agof2"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_xsxjg"]
+constant = 1.0
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_bkyj5"]
+parameter_name = "DissolveValue"
+hint = 1
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_mki7e"]
+input_name = "texture"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_1bjeo"]
+expanded_output_ports = [0]
+source = 5
+
+[sub_resource type="VisualShader" id="VisualShader_7ixif"]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+uniform sampler2D Noise;
+uniform float DissolveValue : hint_range(0.0, 1.0);
+
+
+
+void fragment() {
+// ColorConstant:14
+	vec4 n_out14p0 = vec4(0.650000, 0.052000, 0.061967, 1.000000);
+
+
+	vec4 n_out9p0;
+// Texture2D:9
+	n_out9p0 = texture(TEXTURE, UV);
+	float n_out9p4 = n_out9p0.a;
+
+
+// Input:11
+	vec2 n_out11p0 = SCREEN_UV;
+
+
+	vec4 n_out3p0;
+// Texture2D:3
+	n_out3p0 = texture(Noise, n_out11p0);
+
+
+// FloatParameter:7
+	float n_out7p0 = DissolveValue;
+
+
+// FloatConstant:5
+	float n_out5p0 = 0.000000;
+
+
+// FloatConstant:6
+	float n_out6p0 = 1.000000;
+
+
+	vec3 n_out12p0;
+// If:12
+	float n_in12p2 = 0.00001;
+	vec3 n_in12p3 = vec3(0.00000, 0.00000, 0.00000);
+	if(abs(n_out3p0.x - n_out7p0) < n_in12p2)
+	{
+		n_out12p0 = n_in12p3;
+	}
+	else if(n_out3p0.x < n_out7p0)
+	{
+		n_out12p0 = vec3(n_out6p0);
+	}
+	else
+	{
+		n_out12p0 = vec3(n_out5p0);
+	}
+
+
+// Mix:13
+	vec3 n_out13p0 = mix(vec3(n_out14p0.xyz), vec3(n_out9p0.xyz), n_out12p0);
+
+
+// FloatOp:15
+	float n_in15p1 = 0.10000;
+	float n_out15p0 = n_out7p0 + n_in15p1;
+
+
+	vec3 n_out4p0;
+// If:4
+	float n_in4p2 = 0.00001;
+	vec3 n_in4p3 = vec3(0.00000, 0.00000, 0.00000);
+	if(abs(n_out3p0.x - n_out15p0) < n_in4p2)
+	{
+		n_out4p0 = n_in4p3;
+	}
+	else if(n_out3p0.x < n_out15p0)
+	{
+		n_out4p0 = vec3(n_out6p0);
+	}
+	else
+	{
+		n_out4p0 = vec3(n_out5p0);
+	}
+
+
+// Mix:10
+	float n_in10p0 = 0.00000;
+	float n_out10p0 = mix(n_in10p0, n_out4p0.x, n_out9p4);
+
+
+// Output:0
+	COLOR.rgb = n_out13p0;
+	COLOR.a = n_out10p0;
+
+
+}
+"
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(1500, 200)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture2DParameter_romha")
+nodes/fragment/2/position = Vector2(-420, -100)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_88ifu")
+nodes/fragment/3/position = Vector2(-100, -200)
+nodes/fragment/4/node = SubResource("VisualShaderNodeIf_i4d30")
+nodes/fragment/4/position = Vector2(560, 20)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatConstant_agof2")
+nodes/fragment/5/position = Vector2(0, 380)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatConstant_xsxjg")
+nodes/fragment/6/position = Vector2(0, 480)
+nodes/fragment/7/node = SubResource("VisualShaderNodeFloatParameter_bkyj5")
+nodes/fragment/7/position = Vector2(-60, 100)
+nodes/fragment/8/node = SubResource("VisualShaderNodeInput_mki7e")
+nodes/fragment/8/position = Vector2(600, 420)
+nodes/fragment/9/node = SubResource("VisualShaderNodeTexture_1bjeo")
+nodes/fragment/9/position = Vector2(880, 340)
+nodes/fragment/10/node = SubResource("VisualShaderNodeMix_adcln")
+nodes/fragment/10/position = Vector2(1180, 200)
+nodes/fragment/11/node = SubResource("VisualShaderNodeInput_eqabb")
+nodes/fragment/11/position = Vector2(-420, -260)
+nodes/fragment/12/node = SubResource("VisualShaderNodeIf_cqwn0")
+nodes/fragment/12/position = Vector2(580, -400)
+nodes/fragment/13/node = SubResource("VisualShaderNodeMix_l7f6u")
+nodes/fragment/13/position = Vector2(1100, -260)
+nodes/fragment/14/node = SubResource("VisualShaderNodeColorConstant_uswx7")
+nodes/fragment/14/position = Vector2(740, -120)
+nodes/fragment/15/node = SubResource("VisualShaderNodeFloatOp_qyx3p")
+nodes/fragment/15/position = Vector2(360, 120)
+nodes/fragment/connections = PackedInt32Array(2, 0, 3, 2, 3, 0, 4, 0, 6, 0, 4, 5, 5, 0, 4, 4, 8, 0, 9, 2, 4, 0, 10, 1, 9, 4, 10, 2, 10, 0, 0, 1, 11, 0, 3, 0, 3, 0, 12, 0, 7, 0, 12, 1, 6, 0, 12, 5, 9, 0, 13, 1, 12, 0, 13, 2, 14, 0, 13, 0, 13, 0, 0, 0, 5, 0, 12, 4, 7, 0, 15, 0, 15, 0, 4, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lmrmh"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_b2ftq"]
+noise = SubResource("FastNoiseLite_lmrmh")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qlhl8"]
+resource_local_to_scene = true
+shader = SubResource("VisualShader_7ixif")
+shader_parameter/Noise = SubResource("NoiseTexture2D_b2ftq")
+shader_parameter/DissolveValue = 0.0
 
 [node name="settings" type="Control"]
 layout_mode = 3
@@ -40,59 +1059,7 @@ theme_override_constants/margin_bottom = 3
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="settingbox1" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings"]
-custom_minimum_size = Vector2(75, 75)
-layout_mode = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-script = ExtResource("2_lev6s")
-
-[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox1"]
-layout_mode = 2
-toggle_mode = true
-
-[node name="settingbox2" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings"]
-custom_minimum_size = Vector2(75, 75)
-layout_mode = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-script = ExtResource("2_lev6s")
-
-[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox2"]
-layout_mode = 2
-toggle_mode = true
-
-[node name="settingbox3" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings"]
-custom_minimum_size = Vector2(75, 75)
-layout_mode = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-script = ExtResource("2_lev6s")
-
-[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox3"]
-layout_mode = 2
-toggle_mode = true
-
-[node name="settingbox4" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings"]
-custom_minimum_size = Vector2(75, 75)
-layout_mode = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-script = ExtResource("2_lev6s")
-
-[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox4"]
-layout_mode = 2
-toggle_mode = true
-
-[node name="settingbox5" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" node_paths=PackedStringArray("button")]
+[node name="settingbox1" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" node_paths=PackedStringArray("button", "back", "front")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 theme_override_constants/margin_left = 5
@@ -101,7 +1068,195 @@ theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 script = ExtResource("2_lev6s")
 button = NodePath("Button")
+back = NodePath("back")
+front = NodePath("front")
+normal_scale = Vector2(1.3, 1.3)
+bigger_scale = Vector2(1.5, 1.5)
+smaller_scale = Vector2(1.2, 1.2)
+
+[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox1"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_1bjeo")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_7ixif")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_lmrmh")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_b2ftq")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qlhl8")
+toggle_mode = true
+
+[node name="back" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox1"]
+material = SubResource("ShaderMaterial_mhe76")
+position = Vector2(35.5, 39)
+scale = Vector2(0.25, 0.25)
+texture = SubResource("CompressedTexture2D_2hqe3")
+
+[node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox1/back"]
+libraries = {
+&"": SubResource("AnimationLibrary_cqwn0")
+}
+
+[node name="front" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox1"]
+modulate = Color(0.5372549, 0.5372549, 0.5372549, 1)
+position = Vector2(32.5, 35)
+scale = Vector2(2, 2)
+texture = ExtResource("3_uswx7")
+
+[node name="settingbox2" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" node_paths=PackedStringArray("button", "back", "front")]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("2_lev6s")
+button = NodePath("Button")
+back = NodePath("back")
+front = NodePath("front")
+normal_scale = Vector2(1.3, 1.3)
+bigger_scale = Vector2(1.5, 1.5)
+smaller_scale = Vector2(1.2, 1.2)
+
+[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox2"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_g1r1r")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_xrcs5")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_stqnu")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_n3i2n")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6st2v")
+toggle_mode = true
+
+[node name="back" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox2"]
+material = SubResource("ShaderMaterial_6st2v")
+position = Vector2(35.5, 39)
+scale = Vector2(0.25, 0.25)
+texture = SubResource("CompressedTexture2D_hp7d5")
+
+[node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox2/back"]
+libraries = {
+&"": SubResource("AnimationLibrary_cqwn0")
+}
+
+[node name="front" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox2"]
+modulate = Color(0.5372549, 0.5372549, 0.5372549, 1)
+position = Vector2(32.5, 35)
+scale = Vector2(2, 2)
+texture = ExtResource("3_l7f6u")
+
+[node name="settingbox3" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" node_paths=PackedStringArray("button", "back", "front")]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("2_lev6s")
+button = NodePath("Button")
+back = NodePath("back")
+front = NodePath("front")
+normal_scale = Vector2(1.3, 1.3)
+bigger_scale = Vector2(1.5, 1.5)
+smaller_scale = Vector2(1.2, 1.2)
+
+[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox3"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_i4d30")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_agof2")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_xsxjg")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_bkyj5")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mki7e")
+toggle_mode = true
+
+[node name="back" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox3"]
+material = SubResource("ShaderMaterial_v0wb1")
+position = Vector2(35.5, 39)
+scale = Vector2(0.25, 0.25)
+texture = SubResource("CompressedTexture2D_3unt8")
+
+[node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox3/back"]
+libraries = {
+&"": SubResource("AnimationLibrary_cqwn0")
+}
+
+[node name="front" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox3"]
+modulate = Color(0.5372549, 0.5372549, 0.5372549, 1)
+position = Vector2(32.5, 35)
+scale = Vector2(2, 2)
+texture = ExtResource("3_cqwn0")
+
+[node name="settingbox4" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" node_paths=PackedStringArray("button", "back", "front")]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("2_lev6s")
+button = NodePath("Button")
+back = NodePath("back")
+front = NodePath("front")
+normal_scale = Vector2(1.3, 1.3)
+bigger_scale = Vector2(1.5, 1.5)
+smaller_scale = Vector2(1.2, 1.2)
+
+[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox4"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_l7f6u")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_uswx7")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_qyx3p")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_romha")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_88ifu")
+toggle_mode = true
+
+[node name="back" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox4"]
+material = SubResource("ShaderMaterial_xrcs5")
+position = Vector2(35.5, 39)
+scale = Vector2(0.25, 0.25)
+texture = SubResource("CompressedTexture2D_cqwn0")
+
+[node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox4/back"]
+libraries = {
+&"": SubResource("AnimationLibrary_cqwn0")
+}
+
+[node name="front" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox4"]
+modulate = Color(0.5372549, 0.5372549, 0.5372549, 1)
+position = Vector2(32.5, 35)
+scale = Vector2(2, 2)
+texture = ExtResource("3_eqabb")
+
+[node name="settingbox5" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" node_paths=PackedStringArray("button", "back", "front")]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("2_lev6s")
+button = NodePath("Button")
+back = NodePath("back")
+front = NodePath("front")
 
 [node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox5"]
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_oaby7")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_lev6s")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_adcln")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_eqabb")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_cqwn0")
 toggle_mode = true
+
+[node name="back" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox5"]
+material = SubResource("ShaderMaterial_qlhl8")
+position = Vector2(35.5, 39)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_lev6s")
+
+[node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox5/back"]
+libraries = {
+&"": SubResource("AnimationLibrary_cqwn0")
+}
+
+[node name="front" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox5"]
+modulate = Color(0.5372549, 0.5372549, 0.5372549, 1)
+position = Vector2(32.5, 35)
+scale = Vector2(2, 2)
+texture = ExtResource("4_adcln")

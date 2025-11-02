@@ -1,9 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://c0gy0lorihy17"]
+[gd_scene load_steps=4 format=3 uid="uid://c0gy0lorihy17"]
 
 [ext_resource type="Script" uid="uid://1tmjkabys6o4" path="res://Scripts/system/view/UI/toolbar/durability_process_bar.gd" id="1_rce4t"]
 
-[node name="DurabilityBar" type="ProgressBar"]
-custom_minimum_size = Vector2(5, 50)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_myf3w"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7md7g"]
+bg_color = Color(0.6, 0.6, 0.6, 0.28235295)
+
+[node name="ProgressBar" type="ProgressBar"]
+custom_minimum_size = Vector2(75, 75)
+theme_override_styles/background = SubResource("StyleBoxEmpty_myf3w")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7md7g")
 fill_mode = 3
 show_percentage = false
 script = ExtResource("1_rce4t")
+bar_color = Color(0.55, 0.55, 0.55, 0.39215687)
+low_color = Color(0.84, 0.84, 0.6216, 0.39215687)
+critical_color = Color(0.83, 0.4648, 0.4648, 0.39215687)

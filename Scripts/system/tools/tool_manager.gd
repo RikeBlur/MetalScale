@@ -41,8 +41,8 @@ var consumption = {
 @export var failure_sfx: AudioStreamPlayer2D
 
 func _ready():
-	current_tool = player_now.tool_available[0]
-	player_now.tool = 0
+	current_tool = Tool.NONE
+	player_now.tool = -1
 	_on_tool_changed()
 	
 

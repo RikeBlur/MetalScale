@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://x5b7hlnm4ojo"
-path="res://.godot/imported/EmergenceLight_icon.png-1862c76a13e15e8b213f115638e4935b.ctex"
+uid="uid://bfvtwhxhgr0o3"
+path="res://.godot/imported/right-Sheet.png-55d3e97b03b8d96e2c60032875321bc0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assests/sprite/icon/EmergenceLight_icon.png"
-dest_files=["res://.godot/imported/EmergenceLight_icon.png-1862c76a13e15e8b213f115638e4935b.ctex"]
+source_file="res://Assests/sprite/normal_demon/run/right-Sheet.png"
+dest_files=["res://.godot/imported/right-Sheet.png-55d3e97b03b8d96e2c60032875321bc0.ctex"]
 
 [params]
 

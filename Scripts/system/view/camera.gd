@@ -22,8 +22,8 @@ extends Camera2D
 
 # 摄像机晃动
 var cameraShakeNoise : FastNoiseLite #用于采样噪声
-var max_shake_intensity : float = 5.0 
-var min_shake_intensity : float = 1.0
+var max_shake_intensity : float = 10.0 
+var min_shake_intensity : float = 5.0
 var shake_time : float = 0.5 #摄像机震动时间
 
 # 内部变量

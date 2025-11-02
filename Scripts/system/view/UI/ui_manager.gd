@@ -20,7 +20,7 @@ const UI_CONFIG = {
 	},
 	UI_component.SETTINGS: {
 		"layer": 2,
-		"stage": -1  # 不在初始化时加载
+		"stage": 0  # 不在初始化时加载
 	},
 	UI_component.EXITWINDOWS:{
 		"layer": 3,
@@ -37,7 +37,11 @@ var ui_instances: Dictionary = {}
 # Settings相关状态
 var is_settings_showing: bool = false
 
+# Toolbar相关状态
+var is_toolbar_showing: bool = true  # toolbar默认显示
+
 # Shader资源（需要时可以预加载）
+@export var ui_layers : Node
 @export var layer1_shader: Shader
 @export var game_scene_shader: Shader
 
@@ -45,23 +49,45 @@ var is_settings_showing: bool = false
 @export var player_now: CharacterBody2D
 
 func _ready():
+	refresh_ui_manager()
+	
+func refresh_ui_manager() -> void:
+	# 自动读取UI_LAYERS节点
+	if not ui_layers:
+		ui_layers = get_tree().current_scene.get_node_or_null("UI_LAYERS")
+	# 自动从GlobalFunction读取player
+	if not player_now:
+		player_now = GlobalFunction.get_player()
 	# 初始化canvas layers
 	_initialize_layers()
 	# 初始化stage0的UI
 	_initialize_stage0_ui()
+	# 隐藏
+	_hide_settings()
+	_hide_toolbar()
 
 func _process(_delta):
 	# 检测退出键，弹出/隐藏 settings
 	if InputEvents.quit_once():
 		_toggle_settings()
+	
+	# 检测Tab键，切换toolbar显示/隐藏
+	if Input.is_action_just_pressed("tab"):
+		_toggle_toolbar()
 
 
 func instantiate_ui(ui_type: UI_component) -> Node:
 	"""实例化指定的UI组件"""
-	# 检查是否已经实例化
+	# 检查是否已经实例化且实例仍然有效
 	if ui_instances.has(ui_type):
-		push_warning("UI_manager: UI类型 %d 已经实例化" % ui_type)
-		return ui_instances[ui_type]
+		var existing_instance = ui_instances[ui_type]
+		if is_instance_valid(existing_instance):
+			push_warning("UI_manager: UI类型 %d 已经实例化" % ui_type)
+			return existing_instance
+		else:
+			# 实例已失效，从字典中移除
+			ui_instances.erase(ui_type)
+			print("UI_manager: UI类型 %d 的旧实例已失效，将重新实例化" % ui_type)
 	
 	var config = UI_CONFIG[ui_type]
 	var target_layer = layers.get(config.layer)
@@ -114,23 +140,8 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 func _initialize_layers():
 	"""初始化所有canvas layer引用"""
 	layers.clear()
-	# 获取场景根节点
-	# 方法1：通过owner获取（如果UI_manager是场景的一部分）
-	var root = owner
-	# 方法2：如果owner为空，尝试通过父节点链向上查找
-	if not root:
-		root = get_parent()
-		while root and root.get_parent():
-			var parent = root.get_parent()
-			# 如果父节点是SceneTree的root，说明当前节点就是场景根节点
-			if parent == get_tree().root:
-				break
-			root = parent
-	if not root:
-		push_warning("UI_manager: 无法获取场景根节点")
-		return
 	# 遍历场景根节点的所有子节点，查找CanvasLayer
-	for child in root.get_children():
+	for child in ui_layers.get_children():
 		if child is CanvasLayer:
 			# 根据layer属性存储
 			var layer_id = child.layer if child.layer > 0 else 1
@@ -158,19 +169,18 @@ func _toggle_settings():
 
 func _show_settings():
 	"""显示设置界面"""
-	# 实例化settings（如果还未实例化）
-	if not ui_instances.has(UI_component.SETTINGS):
+	# 实例化settings（如果还未实例化或实例已失效）
+	if not ui_instances.has(UI_component.SETTINGS) or not is_instance_valid(ui_instances.get(UI_component.SETTINGS)):
 		instantiate_ui(UI_component.SETTINGS)
 	else:
-		# 如果已存在，显示它
+		# 如果已存在且有效，显示它
 		var settings = ui_instances[UI_component.SETTINGS]
-		if settings:
-			settings.show()  # 使用 show() 方法
-			# 确保可以接收输入
-			if settings is Control:
-				settings.mouse_filter = Control.MOUSE_FILTER_STOP
-			# 启用处理
-			settings.process_mode = Node.PROCESS_MODE_INHERIT
+		settings.show()  # 使用 show() 方法
+		# 确保可以接收输入
+		if settings is Control:
+			settings.mouse_filter = Control.MOUSE_FILTER_STOP
+		# 启用处理
+		settings.process_mode = Node.PROCESS_MODE_INHERIT
 	
 	is_settings_showing = true
 	
@@ -182,7 +192,7 @@ func _show_settings():
 func _hide_settings():
 	"""隐藏设置界面"""
 	var settings = ui_instances.get(UI_component.SETTINGS)
-	if settings:
+	if settings and is_instance_valid(settings):
 		settings.hide()  # 使用 hide() 方法
 		# 确保不接收任何输入（多重保护）
 		if settings is Control:
@@ -226,6 +236,45 @@ func _apply_settings_shader(apply: bool):
 			# 这里需要根据实际游戏场景结构调整
 			# 可以对Camera2D或其他节点应用shader
 			pass
+# --------------------------------------------------------------------------------------------------
+# -------------------------------------------- TAB操作 ----------------------------------------------
+# --------------------------------------------------------------------------------------------------
+func _toggle_toolbar():
+	"""切换工具栏显示/隐藏"""
+	if not is_toolbar_showing:
+		# 显示toolbar
+		_show_toolbar()
+	else:
+		# 隐藏toolbar
+		_hide_toolbar()
+
+func _show_toolbar():
+	"""显示工具栏"""
+	var toolbar = ui_instances.get(UI_component.TOOLBAR)
+	if toolbar and is_instance_valid(toolbar):
+		toolbar.show()  # 使用 show() 方法
+		# 确保可以接收输入
+		if toolbar is Control:
+			toolbar.mouse_filter = Control.MOUSE_FILTER_STOP
+		# 保持处理模式（不修改process_mode）
+	
+	is_toolbar_showing = true
+	
+	print("UI_manager: 显示工具栏")
+
+func _hide_toolbar():
+	"""隐藏工具栏"""
+	var toolbar = ui_instances.get(UI_component.TOOLBAR)
+	if toolbar and is_instance_valid(toolbar):
+		toolbar.hide()  # 使用 hide() 方法
+		# 确保不接收任何输入（只设置mouse_filter，不修改process_mode）
+		if toolbar is Control:
+			toolbar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		# 注意：不修改process_mode，保持toolbar的处理过程
+	
+	is_toolbar_showing = false
+	
+	print("UI_manager: 隐藏工具栏")
 # --------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------

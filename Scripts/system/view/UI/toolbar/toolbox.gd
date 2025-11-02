@@ -1,5 +1,5 @@
 class_name Toolbox
-extends HBoxContainer
+extends Container
 
 var state : int = 0 #0未激活 1激活 2不可使用
 var tool : ToolManager.Tool = ToolManager.Tool.NONE
@@ -11,6 +11,7 @@ var config : int = 0:
 
 @export var icon : TextureRect = null
 @export var durability : ProgressBar = null
+@export var back : TextureRect = null
 
 const DURABILITY_BAR_SCENE = preload("res://System/RPG/tools/durability_bar.tscn")
 
@@ -27,7 +28,7 @@ func _apply_config() -> void:
 		0:
 			# config=0: 清除除Icon外的所有子节点
 			for child in get_children():
-				if child != icon:
+				if child != icon and child != back:
 					child.queue_free()
 			durability = null
 			
@@ -40,17 +41,19 @@ func _apply_config() -> void:
 				durability_bar_node = DURABILITY_BAR_SCENE.instantiate()
 				durability_bar_node.name = "DurabilityBar"
 				add_child(durability_bar_node)
+				# 确保是第一个子节点
+				move_child(durability_bar_node, 0)
 			
 			# 更新引用
 			durability = durability_bar_node
 			
 			# 清除除了Icon和DurabilityBar外的所有子节点
 			for child in get_children():
-				if child != icon and child != durability_bar_node:
+				if child != icon and child != durability_bar_node and child != back:
 					child.queue_free()
 		2:
 			# config=2: 清除除Icon外的所有子节点
 			for child in get_children():
-				if child != icon:
+				if child != icon and child != back:
 					child.queue_free()
 			durability = null

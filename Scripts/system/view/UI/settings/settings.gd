@@ -85,7 +85,7 @@ func _on_setting_4_pressed():
 	"""设置项 4 的处理函数"""
 	print("执行设置项 4")
 	# 在这里添加具体的功能实现
-	try_to_quit_game()
+	call_deferred("try_to_quit_game")
 
 # ============ 工具函数 ============
 

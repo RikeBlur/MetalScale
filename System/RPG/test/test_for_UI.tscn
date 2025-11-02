@@ -21,12 +21,14 @@ glow_enabled = true
 [node name="TestForLighting" type="Node2D"]
 y_sort_enabled = true
 
-[node name="UI_layer1" type="CanvasLayer" parent="."]
+[node name="UI_LAYERS" type="Node" parent="."]
 
-[node name="UI_layer2" type="CanvasLayer" parent="."]
+[node name="UI_layer1" type="CanvasLayer" parent="UI_LAYERS"]
+
+[node name="UI_layer2" type="CanvasLayer" parent="UI_LAYERS"]
 layer = 2
 
-[node name="UI_layer3" type="CanvasLayer" parent="."]
+[node name="UI_layer3" type="CanvasLayer" parent="UI_LAYERS"]
 layer = 3
 
 [node name="terrian" type="Node2D" parent="."]
@@ -58,9 +60,11 @@ position = Vector2(410, 410)
 player_walk_speed_max = 120
 player_run_speed_max = 500
 player_walk_speed_min = 20
+tool_available = Array[int]([2, 1, 0, 0, 0, 0])
 
 [node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
 position = Vector2(572, 331)
+zoom = Vector2(2, 2)
 limit_enabled = false
 limit_left = 0
 limit_top = 0
@@ -85,9 +89,8 @@ detecte_offset = 50.0
 update_rate = 0.1
 grid_size = 20.0
 
-[node name="UI_manager" type="Node2D" parent="manager_manager" node_paths=PackedStringArray("player_now")]
+[node name="UI_manager" type="Node2D" parent="manager_manager"]
 script = ExtResource("6_onaed")
-player_now = NodePath("../../Player_Oni")
 
 [node name="WorldOfWonder" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_c6vp4")

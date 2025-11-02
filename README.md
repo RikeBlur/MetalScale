@@ -1,9 +1,21 @@
 # UPDATE
+
+## 25.11.03
+UI优化中。。。 <br>
+暂时使用 test_tileset_3 制作场景 <br>
+完成 BaseLevel 类 ： 游戏有多个场景组成，每个配置节点 BaseLevel，记录玩家被加载时的位置和朝向 <br>
+GLOBAL_FUNCTION : 游戏全局信息和方法，比如场景切换、存储玩家节点。后续可能考虑分到多个脚本 <br>
+优先级：构建多level游戏；学习完整架构；做opening <br>
+
+## 25.11.01
+优化UI中。。。 <br>
+优先级：找tileset；学习完整架构；做opening <br>
+
 ## 25.10.30
-完成 normal_demon 的动画
+完成 normal_demon 的动画 <br>
 
 ## 25.10.29
-完成了exit_window
+完成了exit_window <br>
 
 ## 25.10.27
 给 normal_demon 增加动画（暂用AX）发现没什么问题，不过可以给 LimboAI 增一个 idle 脚本。 <br>

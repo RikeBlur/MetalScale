@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=3 uid="uid://vp6soyihnvap"]
+
+[ext_resource type="Script" uid="uid://bm3bxm1wuunvx" path="res://Scripts/system/level.gd" id="1_wg240"]
+[ext_resource type="PackedScene" uid="uid://ds14l74hq1t3s" path="res://System/RPG/entity/controllable/player_Oni.tscn" id="2_q033t"]
+[ext_resource type="Script" uid="uid://dw4hvyigndglp" path="res://Scripts/system/view/camera.gd" id="3_3glc6"]
+[ext_resource type="Script" uid="uid://uwv8fcsy86kg" path="res://Scripts/system/interact/door.gd" id="4_2psln"]
+[ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="4_3glc6"]
+[ext_resource type="Texture2D" uid="uid://bdutmm8j37wyd" path="res://icon.svg" id="6_4c0s6"]
+
+[sub_resource type="Environment" id="Environment_2psln"]
+ssao_enabled = true
+glow_enabled = true
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2psln"]
+
+[node name="Level0" type="Node2D"]
+script = ExtResource("1_wg240")
+
+[node name="UI_LAYERS" type="Node" parent="."]
+
+[node name="UI_layer1" type="CanvasLayer" parent="UI_LAYERS"]
+
+[node name="UI_layer2" type="CanvasLayer" parent="UI_LAYERS"]
+layer = 2
+
+[node name="UI_layer3" type="CanvasLayer" parent="UI_LAYERS"]
+layer = 3
+
+[node name="WorldOfWonder" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_2psln")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="WorldOfWonder"]
+color = Color(0.5, 0.375, 0.375, 1)
+
+[node name="Player_Oni" parent="." instance=ExtResource("2_q033t")]
+y_sort_enabled = true
+player_walk_speed_max = 120
+player_run_speed_max = 500
+player_walk_speed_min = 20
+tool_available = Array[int]([2, 1, 0, 0, 0, 0])
+
+[node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
+zoom = Vector2(1.5, 1.5)
+script = ExtResource("3_3glc6")
+target = NodePath("")
+edge_margin_left = 0.4
+edge_margin_right = 0.4
+edge_margin_top = 0.4
+edge_margin_bottom = 0.4
+
+[node name="door" type="Area2D" parent="."]
+script = ExtResource("4_2psln")
+scene_from = "uid://vp6soyihnvap"
+scene_to = "uid://itc8wfv45jeo"
+
+[node name="InteractedComponent" parent="door" node_paths=PackedStringArray("interacted_rage") instance=ExtResource("4_3glc6")]
+interacted_rage = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="door"]
+shape = SubResource("CapsuleShape2D_2psln")
+
+[node name="Sprite2D" type="Sprite2D" parent="door"]
+position = Vector2(-1, -2.0000038)
+scale = Vector2(0.1640625, 0.234375)
+texture = ExtResource("6_4c0s6")

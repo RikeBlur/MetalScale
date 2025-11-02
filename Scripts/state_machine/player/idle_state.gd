@@ -12,7 +12,7 @@ static var timer : float = 0
 func _on_process(_delta : float) -> void:
 	pass
 
-func _on_physics_process(delta : float) -> void:
+func _on_physics_process(_delta : float) -> void:
 	direction = Character_body.player_direction
 	last_direction = Character_body.player_last_direction
 	# 播放动画（只在移动时播放 last_direction）

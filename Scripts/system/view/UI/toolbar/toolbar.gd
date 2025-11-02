@@ -3,9 +3,9 @@ extends Control
 
 const TOOL_ICONS = {
 	ToolManager.Tool.NONE: null,
-	ToolManager.Tool.EMERGENCELIGHT: preload("res://Assests/sprite/icon/EmergenceLight_icon.png"),
-	ToolManager.Tool.FLASHLIGHT: preload("res://Assests/sprite/icon/FlashLight_icon.png"),
-	ToolManager.Tool.ADRENALINE: preload("res://Assests/sprite/icon/Adrenaline_icon.png")
+	ToolManager.Tool.EMERGENCELIGHT: preload("res://Assests/sprite/UI/tool_icon/EmergenceLight_icon.png"),
+	ToolManager.Tool.FLASHLIGHT: preload("res://Assests/sprite/UI/tool_icon/FlashLight_icon.png"),
+	ToolManager.Tool.ADRENALINE: preload("res://Assests/sprite/UI/tool_icon/Adrenaline_icon.png")
 } 
 
 const TOOL_CONFIG = {
@@ -85,13 +85,6 @@ func _update_toolbar():
 		
 		# 同步更新状态
 		tool_boxes[i].state = new_state
-		
-		# 确保 icon 有 ShaderMaterial，然后设置状态
-		if not icon.material:
-			# 如果没有材质，创建一个 ShaderMaterial
-			var shader_material = ShaderMaterial.new()
-			shader_material.shader = preload("res://Effect/Shader/toolbox/toolbox.gdshader")
-			icon.material = shader_material
 		
 		# 设置 shader 参数
 		icon.material.set_shader_parameter("state", new_state)
