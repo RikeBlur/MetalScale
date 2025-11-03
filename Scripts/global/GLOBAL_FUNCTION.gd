@@ -84,6 +84,18 @@ func change_scene(scene_path: String) -> void:
 		push_error("GlobalFunction: 无法切换场景，camera节点不存在")
 		return
 	
+	# 禁用玩家移动
+	current_player.can_move = false
+	
+	# 播放当前场景的转场结束动画
+	var current_scene = get_tree().current_scene
+	var current_transition_player = _find_transition_player(current_scene)
+	if current_transition_player:
+		if current_transition_player.has_animation("transition_end"):
+			current_transition_player.play("transition_end")
+			await current_transition_player.animation_finished
+			print("GlobalFunction: 转场结束动画播放完成")
+	
 	# 从当前父节点移除player和camera（保留它们）
 	var player_parent = current_player.get_parent()
 	var camera_parent = current_camera.get_parent()
@@ -135,6 +147,18 @@ func change_scene(scene_path: String) -> void:
 	current_camera.reset_camera()
 	
 	print("GlobalFunction: 已添加camera到新场景并设置target为player")
+	
+	# 播放新场景的转场开始动画
+	var new_transition_player = _find_transition_player(new_scene)
+	if new_transition_player:
+		if new_transition_player.has_animation("transition_begin"):
+			new_transition_player.play("transition_begin")
+			await new_transition_player.animation_finished
+			print("GlobalFunction: 转场开始动画播放完成")
+	
+	# 恢复玩家移动
+	current_player.can_move = true
+	
 	print("GlobalFunction: 场景切换完成")
 
 func _find_base_level(node: Node) -> BaseLevel:
@@ -144,6 +168,28 @@ func _find_base_level(node: Node) -> BaseLevel:
 	
 	for child in node.get_children():
 		var result = _find_base_level(child)
+		if result:
+			return result
+	
+	return null
+
+func _find_transition_player(node: Node) -> AnimationPlayer:
+	"""查找名为transition_player的AnimationPlayer节点"""
+	# 优先通过名称直接查找
+	var transition_player = node.get_node_or_null("transition_player")
+	if transition_player and transition_player is AnimationPlayer:
+		return transition_player
+	
+	# 如果直接查找失败，递归查找
+	return _find_transition_player_recursive(node)
+
+func _find_transition_player_recursive(node: Node) -> AnimationPlayer:
+	"""递归查找transition_player"""
+	if node.name == "transition_player" and node is AnimationPlayer:
+		return node
+	
+	for child in node.get_children():
+		var result = _find_transition_player_recursive(child)
 		if result:
 			return result
 	

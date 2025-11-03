@@ -10,6 +10,10 @@ extends Node2D
 # 玩家节点引用（可选，如果场景中已有player节点可指定）
 @export var player_node: player = null
 
+# 转产动画
+@export var transition_player : AnimationPlayer = null
+
+
 func _ready():
 	player_node = GlobalFunction.stored_player
 	

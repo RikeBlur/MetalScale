@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://vp6soyihnvap"]
+[gd_scene load_steps=16 format=3 uid="uid://vp6soyihnvap"]
 
 [ext_resource type="Script" uid="uid://bm3bxm1wuunvx" path="res://Scripts/system/level.gd" id="1_wg240"]
 [ext_resource type="PackedScene" uid="uid://ds14l74hq1t3s" path="res://System/RPG/entity/controllable/player_Oni.tscn" id="2_q033t"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" uid="uid://uwv8fcsy86kg" path="res://Scripts/system/interact/door.gd" id="4_2psln"]
 [ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="4_3glc6"]
 [ext_resource type="Texture2D" uid="uid://bdutmm8j37wyd" path="res://icon.svg" id="6_4c0s6"]
+[ext_resource type="Shader" uid="uid://dnmsgg8u8kvwd" path="res://Effect/Shader/level_transition/transition.gdshader" id="7_a6qxt"]
+[ext_resource type="Texture2D" uid="uid://ds0rnye51axgi" path="res://Assests/sprite/Bayer8.png" id="8_no0wd"]
 
 [sub_resource type="Environment" id="Environment_2psln"]
 ssao_enabled = true
@@ -13,8 +15,69 @@ glow_enabled = true
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2psln"]
 
-[node name="Level0" type="Node2D"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_no0wd"]
+shader = ExtResource("7_a6qxt")
+shader_parameter/progress = 1.0
+shader_parameter/noise_texture = ExtResource("8_no0wd")
+shader_parameter/noise_scale = Vector2(1, 1)
+shader_parameter/edge_softness = 0.1
+shader_parameter/transition_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_l4uji"]
+resource_name = "transition_end"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 0.29730183),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_r0bel"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_w0pi3"]
+resource_name = "transition_begin"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 0.40612632),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_w0pi3"]
+_data = {
+&"RESET": SubResource("Animation_r0bel"),
+&"transition_begin": SubResource("Animation_w0pi3"),
+&"transition_end": SubResource("Animation_l4uji")
+}
+
+[node name="Level0" type="Node2D" node_paths=PackedStringArray("transition_player")]
 script = ExtResource("1_wg240")
+transition_player = NodePath("transition/transition_player")
 
 [node name="UI_LAYERS" type="Node" parent="."]
 
@@ -39,10 +102,9 @@ player_run_speed_max = 500
 player_walk_speed_min = 20
 tool_available = Array[int]([2, 1, 0, 0, 0, 0])
 
-[node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
+[node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(1.5, 1.5)
 script = ExtResource("3_3glc6")
-target = NodePath("")
 edge_margin_left = 0.4
 edge_margin_right = 0.4
 edge_margin_top = 0.4
@@ -63,3 +125,18 @@ shape = SubResource("CapsuleShape2D_2psln")
 position = Vector2(-1, -2.0000038)
 scale = Vector2(0.1640625, 0.234375)
 texture = ExtResource("6_4c0s6")
+
+[node name="transition" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="transition"]
+material = SubResource("ShaderMaterial_no0wd")
+offset_left = -20.0
+offset_top = -16.0
+offset_right = 1194.0
+offset_bottom = 686.0
+
+[node name="transition_player" type="AnimationPlayer" parent="transition"]
+root_node = NodePath("../ColorRect")
+libraries = {
+&"": SubResource("AnimationLibrary_w0pi3")
+}
