@@ -7,7 +7,9 @@ extends CharacterBody2D
 @export var player_run_speed_min : int = 200
 @export var player_walk_acceleration : int = 10
 @export var player_run_acceleration : int = 30
+
 var can_move : bool = true
+var can_interact : bool = true
 
 @export var character : String = "Oni"
 

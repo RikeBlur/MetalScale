@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://b53iiq3eyf2kl"]
+
+[ext_resource type="Script" uid="uid://uwv8fcsy86kg" path="res://Scripts/system/interact/door.gd" id="1_chdcv"]
+[ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="2_boxjb"]
+[ext_resource type="Texture2D" uid="uid://bdutmm8j37wyd" path="res://icon.svg" id="3_biihn"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2psln"]
+
+[node name="door" type="Area2D"]
+script = ExtResource("1_chdcv")
+scene_from = "uid://vp6soyihnvap"
+scene_to = "uid://itc8wfv45jeo"
+
+[node name="InteractedComponent" parent="." node_paths=PackedStringArray("interacted_rage") instance=ExtResource("2_boxjb")]
+interacted_rage = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_2psln")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1640625, 0.234375)
+texture = ExtResource("3_biihn")

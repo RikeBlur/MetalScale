@@ -23,7 +23,7 @@ func _ready() -> void:
 	
 func _inter_com_get_in(area: Area2D) -> void:
 	var intercom = area.get_child(0)
-	if intercom is interact_component :
+	if intercom is interact_component and is_instance_valid(intercom):
 		inter_com = intercom
 		inter_com.connect("interact", Callable(self, "_on_interact"))
 		be_interactable.emit()
@@ -34,7 +34,7 @@ func _inter_com_get_in(area: Area2D) -> void:
 
 func _inter_com_get_out(area: Area2D) -> void:
 	var intercom = area.get_child(0)
-	if intercom is interact_component :
+	if intercom is interact_component and is_instance_valid(inter_com) :
 		inter_com.disconnect("interact", Callable(self, "_on_interact"))
 		inter_com = null
 		print("interact component get out")

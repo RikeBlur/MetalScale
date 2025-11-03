@@ -44,4 +44,5 @@ animations = [{
 z_index = 2
 scale = Vector2(0.25, 0.25)
 sprite_frames = SubResource("SpriteFrames_v8cwd")
-frame_progress = 0.561006
+frame = 3
+frame_progress = 0.470458

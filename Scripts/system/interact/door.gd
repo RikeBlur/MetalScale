@@ -12,7 +12,7 @@ extends Node2D
 var interacted_component_node: interacted_component = null
 
 # Reminder预加载和实例存储
-var dialogue_reminder = preload("res://System/RPG/interact/dialogue/dialogue_reminder.tscn")
+var can_open_reminder = preload("res://System/RPG/interact/dialogue/dialogue_reminder.tscn")
 var reminder_instance: Node = null
 
 func _ready() -> void:
@@ -69,14 +69,14 @@ func _spawn_reminder() -> void:
 		_destroy_reminder()
 	
 	# 实例化reminder
-	reminder_instance = dialogue_reminder.instantiate()
-	
-	# 设置位置偏移
-	var offset = Vector2(50, -150)
-	reminder_instance.global_position = global_position + offset
+	reminder_instance = can_open_reminder.instantiate()
 	
 	# 添加到场景树
 	add_child(reminder_instance)
+	
+	# 设置位置偏移（相对于door的位置）
+	var offset = Vector2(50, -80)  # 向上偏移100像素
+	reminder_instance.position = offset
 	
 	# 播放动画
 	var animated_sprite = reminder_instance.get_node("AnimatedSprite2D")

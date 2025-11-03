@@ -9,8 +9,8 @@ enum UI_component {
 }
 
 const TOOLBAR_SCENE = preload("res://System/RPG/tools/toolbar.tscn")
-const SETTINGS_SCENE = preload("res://System/RPG/view/settings.tscn")
-const EXITWINDOWS_SCENE = preload("res://System/RPG/view/exit_window.tscn")
+const SETTINGS_SCENE = preload("res://System/RPG/UI/settings.tscn")
+const EXITWINDOWS_SCENE = preload("res://System/RPG/UI/exit_window.tscn")
 
 # UI配置：场景路径和目标layer
 const UI_CONFIG = {
