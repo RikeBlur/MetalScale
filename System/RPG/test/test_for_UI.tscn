@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://ds14l74hq1t3s" path="res://System/RPG/entity/controllable/player_Oni.tscn" id="3_m3v0i"]
 [ext_resource type="Script" uid="uid://dw4hvyigndglp" path="res://Scripts/system/view/camera.gd" id="4_vfmcm"]
 [ext_resource type="Script" uid="uid://b3v26rgbib2s4" path="res://Scripts/system/lighting/lighting_manager.gd" id="5_1e3w4"]
-[ext_resource type="Script" uid="uid://0rro0wuoi7bn" path="res://Scripts/system/view/UI/ui_manager.gd" id="6_onaed"]
+[ext_resource type="Script" uid="uid://0rro0wuoi7bn" path="res://Scripts/global/ui_manager.gd" id="6_onaed"]
 [ext_resource type="PackedScene" uid="uid://ctcr1sh6whs5s" path="res://System/RPG/entity/npc/Enemy/NormalDemon/NormalDemon.tscn" id="7_417ta"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8b8tj"]

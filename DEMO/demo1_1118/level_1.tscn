@@ -90,8 +90,8 @@ tile_set = ExtResource("2_shyo2")
 
 [node name="door" parent="terrian/door" instance=ExtResource("5_r0bel")]
 position = Vector2(440, 252)
-scene_from = "uid://itc8wfv45jeo"
-scene_to = "uid://vp6soyihnvap"
+scene_from = "level_1_2"
+scene_to = "level_1_1"
 
 [node name="WorldOfWonder" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_shyo2")

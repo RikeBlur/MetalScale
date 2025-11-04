@@ -5,8 +5,8 @@ extends Node2D
 @export_enum("可打开", "上锁", "不可从此侧打开") var state: int = 0
 
 # 场景路径
-@export_file("*.tscn") var scene_from: String = ""
-@export_file("*.tscn") var scene_to: String = ""
+@export var scene_from: String = ""
+@export var scene_to: String = ""
 
 # InteractedComponent引用
 var interacted_component_node: interacted_component = null
@@ -128,7 +128,7 @@ func _open_door() -> void:
 	print("BaseDoor: 打开门，切换到场景: %s" % scene_to)
 	
 	# 调用GlobalFunction的场景切换
-	GlobalFunction.change_scene(scene_to)
+	SceneManager.change_scene(scene_to)
 
 # ============ 工具函数 ============
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://vp6soyihnvap"]
+[gd_scene load_steps=11 format=3 uid="uid://vp6soyihnvap"]
 
 [ext_resource type="Script" uid="uid://bm3bxm1wuunvx" path="res://Scripts/system/level.gd" id="1_wg240"]
+[ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="2_no0wd"]
 [ext_resource type="PackedScene" uid="uid://ds14l74hq1t3s" path="res://System/RPG/entity/controllable/player_Oni.tscn" id="2_q033t"]
 [ext_resource type="Script" uid="uid://dw4hvyigndglp" path="res://Scripts/system/view/camera.gd" id="3_3glc6"]
 [ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/entity/door_base.tscn" id="4_a6qxt"]
@@ -33,6 +34,11 @@ layer = 2
 [node name="UI_layer3" type="CanvasLayer" parent="UI_LAYERS"]
 layer = 3
 
+[node name="Terrain" type="Node2D" parent="."]
+
+[node name="D1" parent="Terrain" instance=ExtResource("2_no0wd")]
+position = Vector2(3.000061, 1.0000305)
+
 [node name="WorldOfWonder" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_2psln")
 
@@ -55,6 +61,9 @@ edge_margin_top = 0.4
 edge_margin_bottom = 0.4
 
 [node name="door" parent="." instance=ExtResource("4_a6qxt")]
+position = Vector2(0, 1)
+scene_from = "level_1_1"
+scene_to = "level_1_2"
 
 [node name="transition" type="CanvasLayer" parent="."]
 

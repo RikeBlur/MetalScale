@@ -20,7 +20,9 @@ config/icon="res://icon.svg"
 RPGInputEvents="*res://Scripts/global/game_input_events.gd"
 RPGTimeManager="*res://Scripts/global/time_manager.gd"
 GlobalFunction="*res://Scripts/global/GLOBAL_FUNCTION.gd"
-UIManager="*res://Scripts/system/view/UI/ui_manager.gd"
+UIManager="*res://Scripts/global/ui_manager.gd"
+SceneManager="*res://Scripts/global/scene_manager.gd"
+ArchiveManager="*res://Scripts/global/archive_manager.gd"
 
 [dialogic]
 

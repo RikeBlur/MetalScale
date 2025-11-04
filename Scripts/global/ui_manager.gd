@@ -5,12 +5,14 @@ extends Node2D
 enum UI_component {
 	TOOLBAR,
 	SETTINGS,
-	EXITWINDOWS
+	EXITWINDOW,
+	SAVEGAMEWINDOW
 }
 
 const TOOLBAR_SCENE = preload("res://System/RPG/tools/toolbar.tscn")
 const SETTINGS_SCENE = preload("res://System/RPG/UI/settings.tscn")
 const EXITWINDOWS_SCENE = preload("res://System/RPG/UI/exit_window.tscn")
+const SAVEGAMEWINDOW_SCENE = preload("res://System/RPG/UI/save_game.tscn")
 
 # UI配置：场景路径和目标layer
 const UI_CONFIG = {
@@ -20,9 +22,13 @@ const UI_CONFIG = {
 	},
 	UI_component.SETTINGS: {
 		"layer": 2,
-		"stage": 0  # 不在初始化时加载
+		"stage": 0 
 	},
-	UI_component.EXITWINDOWS:{
+	UI_component.EXITWINDOW:{
+		"layer": 3,
+		"stage": -1
+	},
+	UI_component.SAVEGAMEWINDOW:{
 		"layer": 3,
 		"stage": -1
 	}
@@ -104,8 +110,10 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 			ui_instance = TOOLBAR_SCENE.instantiate()
 		UI_component.SETTINGS:
 			ui_instance = SETTINGS_SCENE.instantiate()
-		UI_component.EXITWINDOWS :
+		UI_component.EXITWINDOW :
 			ui_instance = EXITWINDOWS_SCENE.instantiate()
+		UI_component.SAVEGAMEWINDOW:
+			ui_instance = SAVEGAMEWINDOW_SCENE.instantiate()
 	
 	if not ui_instance:
 		push_error("UI_manager: 无法实例化UI类型 %d" % ui_type)
@@ -122,7 +130,12 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 			ui_instance.own_manager = self
 			
 	# 特殊处理：为exitwindow设置own_manager引用
-	if ui_type == UI_component.EXITWINDOWS :
+	if ui_type == UI_component.EXITWINDOW :
+		if "own_manager" in ui_instance:
+			ui_instance.own_manager = self
+			
+	# 特殊处理：为exitwindow设置own_manager引用
+	if ui_type == UI_component.SAVEGAMEWINDOW :
 		if "own_manager" in ui_instance:
 			ui_instance.own_manager = self
 	

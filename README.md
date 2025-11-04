@@ -1,8 +1,23 @@
 # UPDATE
 
+## 25.11.05
+完成 存档系统（ArchiveManager） 保存三种数据： <br>
+1. 玩家信息：@player.gd 中的每个变量 <br>
+2. 场景信息：当前场景的 key（scene_now） ，以及每个SceneManager中每个场景的 SceneData <br>
+3. NPC信息：这个暂时空着，没想好 <br>
+
+目前只能快速存档和读档，三种数据的序列化和反序列化，保存的数据格式为 JSON 。 <br>
+
+完成场景管理器（SceneManager） <br>
+每个场景（Scene）对应一个 Resource 类 SceneData 变量，记录场景信息 <br>
+切换场景方法。 <br>
+
+优先级：构建多level游戏；做opening；做死亡画面；整理项目
+
 ## 25.11.04
-转场动画完成。存档系统设计。
-优先级：构建多level游戏；做opening；做死亡画面；做存档读档系统；整理项目
+转场动画完成。存档系统设计。 <br>
+
+优先级：构建多level游戏；做opening；做死亡画面；做存档读档系统；整理项目 <br>
 
 ## 25.11.03
 UI优化中。。。 <br>
