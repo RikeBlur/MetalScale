@@ -23,6 +23,7 @@ GlobalFunction="*res://Scripts/global/GLOBAL_FUNCTION.gd"
 UIManager="*res://Scripts/global/ui_manager.gd"
 SceneManager="*res://Scripts/global/scene_manager.gd"
 ArchiveManager="*res://Scripts/global/archive_manager.gd"
+GameManager="*res://Scripts/global/game_manager.gd"
 
 [dialogic]
 

@@ -1,3 +1,78 @@
-[gd_scene format=3 uid="uid://brremcem2ll0b"]
+[gd_scene load_steps=3 format=3 uid="uid://brremcem2ll0b"]
+
+[ext_resource type="Script" uid="uid://bblgeyqp4cqel" path="res://Scripts/system/view/UI/opening.gd" id="1_epbi8"]
+[ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="2_x55rs"]
 
 [node name="Opening" type="Node2D"]
+script = ExtResource("1_epbi8")
+
+[node name="D1" parent="." instance=ExtResource("2_x55rs")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="opening_meun" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/opening_meun"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -323.0
+offset_right = 1010.0
+offset_bottom = 333.0
+grow_vertical = 2
+
+[node name="button4" type="HBoxContainer" parent="CanvasLayer/opening_meun/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="left" type="VBoxContainer" parent="CanvasLayer/opening_meun/MarginContainer/button4"]
+layout_mode = 2
+size_flags_horizontal = 6
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/opening_meun/MarginContainer/button4/left"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="STARTNEWGAME" type="Button" parent="CanvasLayer/opening_meun/MarginContainer/button4/left/MarginContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/opening_meun/MarginContainer/button4/left"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+
+[node name="CONFIGS" type="Button" parent="CanvasLayer/opening_meun/MarginContainer/button4/left/MarginContainer2"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="right" type="VBoxContainer" parent="CanvasLayer/opening_meun/MarginContainer/button4"]
+layout_mode = 2
+size_flags_horizontal = 6
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/opening_meun/MarginContainer/button4/right"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="LOADARCHIVE" type="Button" parent="CanvasLayer/opening_meun/MarginContainer/button4/right/MarginContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/opening_meun/MarginContainer/button4/right"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="QUITGAME" type="Button" parent="CanvasLayer/opening_meun/MarginContainer/button4/right/MarginContainer2"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2

@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://j77rmr5mxlqk"]
+
+[ext_resource type="Script" uid="uid://dw4hvyigndglp" path="res://Scripts/system/view/camera.gd" id="1_g4464"]
+
+[node name="Camera" type="Camera2D"]
+zoom = Vector2(1.5, 1.5)
+limit_enabled = false
+limit_left = 0
+limit_top = 0
+limit_right = 1152
+limit_bottom = 648
+script = ExtResource("1_g4464")
+edge_margin_left = 0.4
+edge_margin_right = 0.4
+edge_margin_top = 0.4
+edge_margin_bottom = 0.4
+use_y_offset = false

@@ -9,7 +9,7 @@ func _on_yes_pressed() -> void:
 	# 安全释放自身
 	safe_remove_self()
 	# 退出游戏
-	get_tree().quit()
+	GameManager.quit_game()
 
 func _on_no_pressed() -> void:
 	"""取消退出，关闭退出窗口"""

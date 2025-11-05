@@ -54,8 +54,6 @@ var is_toolbar_showing: bool = true  # toolbar默认显示
 # 对玩家的引用（用于传递给toolbar等UI）
 @export var player_now: CharacterBody2D
 
-func _ready():
-	refresh_ui_manager()
 	
 func refresh_ui_manager() -> void:
 	# 自动读取UI_LAYERS节点
@@ -154,6 +152,7 @@ func _initialize_layers():
 	"""初始化所有canvas layer引用"""
 	layers.clear()
 	# 遍历场景根节点的所有子节点，查找CanvasLayer
+	if !ui_layers : return
 	for child in ui_layers.get_children():
 		if child is CanvasLayer:
 			# 根据layer属性存储

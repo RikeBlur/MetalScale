@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_gpv0b"]
 [ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/qa/矩形 1.png" id="2_wi8aj"]
 [ext_resource type="PackedScene" uid="uid://ds14l74hq1t3s" path="res://System/RPG/entity/controllable/player_Oni.tscn" id="3_m3v0i"]
-[ext_resource type="Script" uid="uid://dw4hvyigndglp" path="res://Scripts/system/view/camera.gd" id="4_vfmcm"]
+[ext_resource type="PackedScene" uid="uid://j77rmr5mxlqk" path="res://System/RPG/entity/camera.tscn" id="4_whkds"]
 [ext_resource type="Script" uid="uid://b3v26rgbib2s4" path="res://Scripts/system/lighting/lighting_manager.gd" id="5_1e3w4"]
 [ext_resource type="Script" uid="uid://0rro0wuoi7bn" path="res://Scripts/global/ui_manager.gd" id="6_onaed"]
 [ext_resource type="PackedScene" uid="uid://ctcr1sh6whs5s" path="res://System/RPG/entity/npc/Enemy/NormalDemon/NormalDemon.tscn" id="7_417ta"]
@@ -62,21 +62,8 @@ player_run_speed_max = 500
 player_walk_speed_min = 20
 tool_available = Array[int]([2, 1, 0, 0, 0, 0])
 
-[node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
+[node name="Camera" parent="." instance=ExtResource("4_whkds")]
 position = Vector2(572, 331)
-zoom = Vector2(2, 2)
-limit_enabled = false
-limit_left = 0
-limit_top = 0
-limit_right = 1152
-limit_bottom = 648
-script = ExtResource("4_vfmcm")
-target = NodePath("../Player_Oni")
-edge_margin_left = 0.4
-edge_margin_right = 0.4
-edge_margin_top = 0.4
-edge_margin_bottom = 0.4
-use_y_offset = false
 
 [node name="Dark" type="CanvasModulate" parent="."]
 color = Color(0.38431373, 0.3764706, 0.5019608, 1)

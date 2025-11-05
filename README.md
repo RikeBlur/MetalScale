@@ -1,5 +1,11 @@
 # UPDATE
 
+## 25.11.06
+开始制作 OPENING <br>
+全局游戏管理器 ： GameManager <br>
+
+优先级：构建多level游戏；做opening；做死亡画面；整理项目
+
 ## 25.11.05
 完成 存档系统（ArchiveManager） 保存三种数据： <br>
 1. 玩家信息：@player.gd 中的每个变量 <br>
