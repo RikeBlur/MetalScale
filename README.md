@@ -1,7 +1,8 @@
 # UPDATE
 
 ## 25.11.06
-开始制作 OPENING <br>
+开始制作 OPENING  进行中...<br>
+
 全局游戏管理器 ： GameManager <br>
 
 优先级：构建多level游戏；做opening；做死亡画面；整理项目
