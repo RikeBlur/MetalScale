@@ -16,9 +16,6 @@ extends Node2D
 
 func _ready():
 	player_node = GlobalFunction.stored_player
-	
-	call_deferred("apply_initial_values_to_player", player_node)
-	
 	UIManager.refresh_ui_manager()
 
 

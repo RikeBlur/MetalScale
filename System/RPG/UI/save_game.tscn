@@ -1,8 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://g7w5witcbpjv"]
+[gd_scene load_steps=3 format=3 uid="uid://g7w5witcbpjv"]
 
 [ext_resource type="Script" uid="uid://d2w8ul5ovgnk0" path="res://Scripts/system/view/UI/settings/save_game_window.gd" id="1_7i35i"]
+[ext_resource type="Script" uid="uid://dvmrauxiebvon" path="res://Scripts/system/view/UI/savebox.gd" id="2_kbrha"]
 
-[node name="SaveGame" type="Control"]
+[node name="SaveGame" type="Control" node_paths=PackedStringArray("saveboxes")]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -12,6 +13,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_7i35i")
+saveboxes = [NodePath("Panel/Container/MarginContainer/VBoxContainer/archive/save0"), NodePath("Panel/Container/MarginContainer/VBoxContainer/archive/save1"), NodePath("Panel/Container/MarginContainer/VBoxContainer/archive/save2"), NodePath("Panel/Container/MarginContainer/VBoxContainer/archive/save3"), NodePath("Panel/Container/MarginContainer/VBoxContainer/archive/save4"), NodePath("Panel/Container/MarginContainer/VBoxContainer/archive/save5")]
 
 [node name="Panel" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -51,6 +53,66 @@ text = "保存游戏"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="archive" type="HBoxContainer" parent="Panel/Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 50
+
+[node name="save0" type="MarginContainer" parent="Panel/Container/MarginContainer/VBoxContainer/archive"]
+custom_minimum_size = Vector2(100, 200)
+layout_mode = 2
+script = ExtResource("2_kbrha")
+
+[node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save0"]
+layout_mode = 2
+toggle_mode = true
+
+[node name="save1" type="MarginContainer" parent="Panel/Container/MarginContainer/VBoxContainer/archive"]
+custom_minimum_size = Vector2(100, 200)
+layout_mode = 2
+script = ExtResource("2_kbrha")
+
+[node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save1"]
+layout_mode = 2
+toggle_mode = true
+
+[node name="save2" type="MarginContainer" parent="Panel/Container/MarginContainer/VBoxContainer/archive"]
+custom_minimum_size = Vector2(100, 200)
+layout_mode = 2
+script = ExtResource("2_kbrha")
+
+[node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save2"]
+layout_mode = 2
+toggle_mode = true
+
+[node name="save3" type="MarginContainer" parent="Panel/Container/MarginContainer/VBoxContainer/archive"]
+custom_minimum_size = Vector2(100, 200)
+layout_mode = 2
+script = ExtResource("2_kbrha")
+
+[node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save3"]
+layout_mode = 2
+toggle_mode = true
+
+[node name="save4" type="MarginContainer" parent="Panel/Container/MarginContainer/VBoxContainer/archive"]
+custom_minimum_size = Vector2(100, 200)
+layout_mode = 2
+script = ExtResource("2_kbrha")
+
+[node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save4"]
+layout_mode = 2
+toggle_mode = true
+
+[node name="save5" type="MarginContainer" parent="Panel/Container/MarginContainer/VBoxContainer/archive"]
+custom_minimum_size = Vector2(100, 200)
+layout_mode = 2
+script = ExtResource("2_kbrha")
+
+[node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save5"]
+layout_mode = 2
+toggle_mode = true
+
 [node name="choices" type="HBoxContainer" parent="Panel/Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -65,5 +127,11 @@ text = "SAVE"
 layout_mode = 2
 text = "LOAD"
 
+[node name="delete" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/choices"]
+layout_mode = 2
+text = "DELETE
+"
+
 [connection signal="pressed" from="Panel/Container/MarginContainer/VBoxContainer/choices/save" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="Panel/Container/MarginContainer/VBoxContainer/choices/load" to="." method="_on_load_pressed"]
+[connection signal="pressed" from="Panel/Container/MarginContainer/VBoxContainer/choices/delete" to="." method="_on_delete_pressed"]
