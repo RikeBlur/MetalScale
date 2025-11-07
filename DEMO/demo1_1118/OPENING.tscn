@@ -786,20 +786,6 @@ shader = SubResource("VisualShader_101sh")
 shader_parameter/Noise = SubResource("NoiseTexture2D_1cyab")
 shader_parameter/DissolveValue = 0.0
 
-[sub_resource type="Animation" id="Animation_5n38v"]
-resource_name = "slide"
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:offset:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 2),
-"points": PackedFloat32Array(0, -0.25, 0, 0.9, -1, -1200, -0.16666667, 200, 0, 0),
-"times": PackedFloat32Array(0, 1)
-}
-
 [sub_resource type="Animation" id="Animation_7ivyh"]
 length = 0.001
 tracks/0/type = "bezier"
@@ -823,6 +809,20 @@ tracks/1/keys = {
 "handle_modes": PackedInt32Array(0),
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_5n38v"]
+resource_name = "slide"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.9, -1, -1200, -0.16666667, 200, 0, 0),
+"times": PackedFloat32Array(0, 1)
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jos7r"]

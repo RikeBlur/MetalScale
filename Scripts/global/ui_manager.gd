@@ -40,6 +40,10 @@ var layers: Dictionary = {}
 # UI实例存储
 var ui_instances: Dictionary = {}
 
+# 每个layer当前显示的UI组件（只有visible的才算显示）
+# 格式: layer_id -> Array[UI_component]
+var layer_visible_uis: Dictionary = {}
+
 # Settings相关状态
 var is_settings_showing: bool = false
 
@@ -73,7 +77,11 @@ func refresh_ui_manager() -> void:
 func _process(_delta):
 	# 检测退出键，弹出/隐藏 settings
 	if InputEvents.quit_once():
-		_toggle_settings()
+		if get_visible_uis_in_layer(3):
+			for i in get_visible_uis_in_layer(3):
+				remove_ui(i)
+		else:
+			_toggle_settings()
 	
 	# 检测Tab键，切换toolbar显示/隐藏
 	if Input.is_action_just_pressed("tab"):
@@ -131,11 +139,13 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 	if ui_type == UI_component.EXITWINDOW :
 		if "own_manager" in ui_instance:
 			ui_instance.own_manager = self
+		_add_ui_to_visible_list(UI_component.EXITWINDOW)
 			
 	# 特殊处理：为exitwindow设置own_manager引用
 	if ui_type == UI_component.SAVEGAMEWINDOW :
 		if "own_manager" in ui_instance:
 			ui_instance.own_manager = self
+		_add_ui_to_visible_list(UI_component.SAVEGAMEWINDOW)
 	
 	# 添加到对应layer
 	target_layer.add_child(ui_instance)
@@ -151,6 +161,8 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 func _initialize_layers():
 	"""初始化所有canvas layer引用"""
 	layers.clear()
+	layer_visible_uis.clear()
+	
 	# 遍历场景根节点的所有子节点，查找CanvasLayer
 	if !ui_layers : return
 	for child in ui_layers.get_children():
@@ -158,6 +170,8 @@ func _initialize_layers():
 			# 根据layer属性存储
 			var layer_id = child.layer if child.layer > 0 else 1
 			layers[layer_id] = child
+			# 初始化该layer的显示UI列表
+			layer_visible_uis[layer_id] = []
 			print("UI_manager: 找到 layer %d - %s" % [layer_id, child.name])
 
 func _initialize_stage0_ui():
@@ -196,6 +210,9 @@ func _show_settings():
 	
 	is_settings_showing = true
 	
+	# 添加到显示列表
+	_add_ui_to_visible_list(UI_component.SETTINGS)
+	
 	# 应用shader效果
 	_apply_settings_shader(true)
 	
@@ -213,6 +230,9 @@ func _hide_settings():
 		settings.process_mode = Node.PROCESS_MODE_DISABLED
 	
 	is_settings_showing = false
+	
+	# 从显示列表移除
+	_remove_ui_from_visible_list(UI_component.SETTINGS)
 	
 	# 移除shader效果
 	_apply_settings_shader(false)
@@ -272,6 +292,9 @@ func _show_toolbar():
 	
 	is_toolbar_showing = true
 	
+	# 添加到显示列表
+	_add_ui_to_visible_list(UI_component.TOOLBAR)
+	
 	print("UI_manager: 显示工具栏")
 
 func _hide_toolbar():
@@ -286,6 +309,9 @@ func _hide_toolbar():
 	
 	is_toolbar_showing = false
 	
+	# 从显示列表移除
+	_remove_ui_from_visible_list(UI_component.TOOLBAR)
+	
 	print("UI_manager: 隐藏工具栏")
 # --------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------------
@@ -293,6 +319,72 @@ func _hide_toolbar():
 
 
 # ============ 工具函数 ============
+
+func _add_ui_to_visible_list(ui_type: UI_component) -> void:
+	"""将UI添加到其layer的可见列表中"""
+	var config = UI_CONFIG.get(ui_type)
+	if not config:
+		return
+	
+	var layer_id = config.layer
+	
+	# 确保该layer的列表存在
+	if not layer_visible_uis.has(layer_id):
+		layer_visible_uis[layer_id] = []
+	
+	# 如果UI不在列表中，添加它
+	var visible_list = layer_visible_uis[layer_id]
+	if not visible_list.has(ui_type):
+		visible_list.append(ui_type)
+		print("UI_manager: UI类型 %d 添加到 layer %d 的显示列表" % [ui_type, layer_id])
+
+func _remove_ui_from_visible_list(ui_type: UI_component) -> void:
+	"""将UI从其layer的可见列表中移除"""
+	var config = UI_CONFIG.get(ui_type)
+	if not config:
+		return
+	
+	var layer_id = config.layer
+	
+	# 如果该layer的列表存在，从中移除UI
+	if layer_visible_uis.has(layer_id):
+		var visible_list = layer_visible_uis[layer_id]
+		var index = visible_list.find(ui_type)
+		if index >= 0:
+			visible_list.erase(ui_type)
+			print("UI_manager: UI类型 %d 从 layer %d 的显示列表移除" % [ui_type, layer_id])
+
+func get_visible_uis_in_layer(layer_id: int) -> Array:
+	"""
+	获取指定layer当前显示的所有UI组件
+	
+	参数:
+		layer_id: layer的ID
+	
+	返回:
+		该layer当前显示的UI_component数组
+	"""
+	return layer_visible_uis.get(layer_id, []).duplicate()
+
+func is_ui_visible(ui_type: UI_component) -> bool:
+	"""
+	检查指定UI是否当前显示（visible）
+	
+	参数:
+		ui_type: UI组件类型
+	
+	返回:
+		true表示UI当前显示，false表示隐藏或不存在
+	"""
+	var config = UI_CONFIG.get(ui_type)
+	if not config:
+		return false
+	
+	var layer_id = config.layer
+	if not layer_visible_uis.has(layer_id):
+		return false
+	
+	return layer_visible_uis[layer_id].has(ui_type)
 
 func get_ui_instance(ui_type: UI_component) -> Node:
 	"""获取UI实例"""
@@ -304,6 +396,9 @@ func remove_ui(ui_type: UI_component):
 	if ui:
 		# 检查节点是否仍然有效
 		if is_instance_valid(ui):
+			# 从显示列表移除
+			_remove_ui_from_visible_list(ui_type)
+			
 			# 直接从字典中移除引用，避免循环调用
 			ui_instances.erase(ui_type)
 			# 使用queue_free安全释放节点
@@ -311,6 +406,7 @@ func remove_ui(ui_type: UI_component):
 			print("UI_manager: 移除 UI类型 %d" % ui_type)
 		else:
 			# 节点已无效，直接从字典中移除
+			_remove_ui_from_visible_list(ui_type)
 			ui_instances.erase(ui_type)
 			print("UI_manager: UI类型 %d 节点已无效，从字典中移除" % ui_type)
 	else:
@@ -321,6 +417,8 @@ func safe_remove_all_ui():
 	print("UI_manager: 开始安全移除所有UI实例")
 	for ui_type in ui_instances.keys():
 		remove_ui(ui_type)
+	# 清空显示列表
+	layer_visible_uis.clear()
 	print("UI_manager: 完成移除所有UI实例")
 
 func safe_remove_self():

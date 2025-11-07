@@ -66,7 +66,13 @@ script = ExtResource("2_kbrha")
 
 [node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save0"]
 layout_mode = 2
-toggle_mode = true
+
+[node name="Label" type="Label" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save0"]
+layout_mode = 2
+text = "空存档
+
+0"
+horizontal_alignment = 1
 
 [node name="save1" type="MarginContainer" parent="Panel/Container/MarginContainer/VBoxContainer/archive"]
 custom_minimum_size = Vector2(100, 200)
@@ -75,7 +81,13 @@ script = ExtResource("2_kbrha")
 
 [node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save1"]
 layout_mode = 2
-toggle_mode = true
+
+[node name="Label" type="Label" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save1"]
+layout_mode = 2
+text = "空存档
+
+1"
+horizontal_alignment = 1
 
 [node name="save2" type="MarginContainer" parent="Panel/Container/MarginContainer/VBoxContainer/archive"]
 custom_minimum_size = Vector2(100, 200)
@@ -84,7 +96,13 @@ script = ExtResource("2_kbrha")
 
 [node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save2"]
 layout_mode = 2
-toggle_mode = true
+
+[node name="Label" type="Label" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save2"]
+layout_mode = 2
+text = "空存档
+
+2"
+horizontal_alignment = 1
 
 [node name="save3" type="MarginContainer" parent="Panel/Container/MarginContainer/VBoxContainer/archive"]
 custom_minimum_size = Vector2(100, 200)
@@ -93,7 +111,13 @@ script = ExtResource("2_kbrha")
 
 [node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save3"]
 layout_mode = 2
-toggle_mode = true
+
+[node name="Label" type="Label" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save3"]
+layout_mode = 2
+text = "空存档
+
+3"
+horizontal_alignment = 1
 
 [node name="save4" type="MarginContainer" parent="Panel/Container/MarginContainer/VBoxContainer/archive"]
 custom_minimum_size = Vector2(100, 200)
@@ -102,7 +126,13 @@ script = ExtResource("2_kbrha")
 
 [node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save4"]
 layout_mode = 2
-toggle_mode = true
+
+[node name="Label" type="Label" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save4"]
+layout_mode = 2
+text = "空存档
+
+4"
+horizontal_alignment = 1
 
 [node name="save5" type="MarginContainer" parent="Panel/Container/MarginContainer/VBoxContainer/archive"]
 custom_minimum_size = Vector2(100, 200)
@@ -111,7 +141,13 @@ script = ExtResource("2_kbrha")
 
 [node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save5"]
 layout_mode = 2
-toggle_mode = true
+
+[node name="Label" type="Label" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save5"]
+layout_mode = 2
+text = "空存档
+
+5"
+horizontal_alignment = 1
 
 [node name="choices" type="HBoxContainer" parent="Panel/Container/MarginContainer/VBoxContainer"]
 layout_mode = 2

@@ -21,6 +21,7 @@ var stored_player: player = null
 # 存储的camera节点引用
 var stored_camera: AdvancedCamera = null
 
+signal player_reseted
 # ====================================================================================================
 # ====================================== 读取并存储节点（全局、场景） =====================================
 # ====================================================================================================
@@ -226,6 +227,9 @@ func change_scene(scene_key: String) -> void:
 	
 	# 重置camera位置
 	current_camera.reset_camera()
+	
+	# 玩家位置设置好之后发送该信号
+	player_reseted.emit()
 	
 	print("SceneManager: 已添加camera到新场景并设置target为player")
 	
