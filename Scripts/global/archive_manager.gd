@@ -373,7 +373,7 @@ func game_load(index : int) -> bool:
 	else:
 		# 已有场景和player - 使用change_scene切换
 		print("ArchiveManager: 使用change_scene切换场景")
-		scene_mgr.change_scene(scene_now)
+		scene_mgr.change_scene(scene_now, 0)
 		
 		# 等待player_reseted信号发出（表示玩家位置已设置好）
 		await scene_mgr.player_reseted

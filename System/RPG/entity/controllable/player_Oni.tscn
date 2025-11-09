@@ -36,8 +36,8 @@
 [ext_resource type="Script" uid="uid://bwj03sov6w1te" path="res://Scripts/components/hurted_component.gd" id="33_qhkxi"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_blmno"]
-radius = 17.0
-height = 64.0
+radius = 16.0
+height = 50.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_axk6g"]
 shader = ExtResource("6_lnjpj")
@@ -1789,7 +1789,7 @@ player_run_acceleration = 300
 tool_available = Array[int]([0, 1, 2, 3, 0, 0])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -31)
+position = Vector2(0, -25)
 shape = SubResource("CapsuleShape2D_blmno")
 
 [node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("initial_node_state", "entity")]

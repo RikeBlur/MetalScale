@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://vp6soyihnvap"]
+
+[ext_resource type="Script" uid="uid://bm3bxm1wuunvx" path="res://Scripts/system/level.gd" id="1_o2mtp"]
+[ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="2_2ypee"]
+[ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/entity/door_front.tscn" id="3_ghmpy"]
+[ext_resource type="Shader" uid="uid://dnmsgg8u8kvwd" path="res://Effect/Shader/level_transition/transition.gdshader" id="4_aul4p"]
+[ext_resource type="Texture2D" uid="uid://ds0rnye51axgi" path="res://Assests/sprite/Bayer8.png" id="5_o3m7g"]
+[ext_resource type="PackedScene" uid="uid://bdgt4t7dtg58f" path="res://System/RPG/view/transition_player.tscn" id="6_5blt3"]
+
+[sub_resource type="Environment" id="Environment_2psln"]
+ssao_enabled = true
+glow_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_no0wd"]
+shader = ExtResource("4_aul4p")
+shader_parameter/progress = 0.0
+shader_parameter/noise_texture = ExtResource("5_o3m7g")
+shader_parameter/noise_scale = Vector2(1, 1)
+shader_parameter/edge_softness = 0.1
+shader_parameter/transition_color = Color(0, 0, 0, 1)
+
+[node name="Level0" type="Node2D"]
+script = ExtResource("1_o2mtp")
+player_initial_position = Array[Vector2]([Vector2(0, -100)])
+player_initial_direction = Array[Vector2]([Vector2(0, 1)])
+
+[node name="UI_LAYERS" type="Node" parent="."]
+
+[node name="UI_layer1" type="CanvasLayer" parent="UI_LAYERS"]
+
+[node name="UI_layer2" type="CanvasLayer" parent="UI_LAYERS"]
+layer = 2
+
+[node name="UI_layer3" type="CanvasLayer" parent="UI_LAYERS"]
+layer = 3
+
+[node name="Terrain" type="Node2D" parent="."]
+
+[node name="D1" parent="Terrain" instance=ExtResource("2_2ypee")]
+position = Vector2(3.000061, 1.0000305)
+
+[node name="WorldOfWonder" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_2psln")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="WorldOfWonder"]
+color = Color(0.5, 0.375, 0.375, 1)
+
+[node name="door" parent="." instance=ExtResource("3_ghmpy")]
+position = Vector2(0, 1)
+scene_from = "level_1_1"
+scene_to = "level_1_2"
+
+[node name="transition" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="transition"]
+material = SubResource("ShaderMaterial_no0wd")
+offset_left = -20.0
+offset_top = -16.0
+offset_right = 1194.0
+offset_bottom = 686.0
+
+[node name="transition_player" parent="transition" instance=ExtResource("6_5blt3")]

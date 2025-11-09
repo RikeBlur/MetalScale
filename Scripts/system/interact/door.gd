@@ -7,6 +7,7 @@ extends Node2D
 # 场景路径
 @export var scene_from: String = ""
 @export var scene_to: String = ""
+@export var scene_to_index: int 
 
 # InteractedComponent引用
 var interacted_component_node: interacted_component = null
@@ -127,8 +128,8 @@ func _open_door() -> void:
 	
 	print("BaseDoor: 打开门，切换到场景: %s" % scene_to)
 	
-	# 调用GlobalFunction的场景切换
-	SceneManager.change_scene(scene_to)
+	# 调用GlobalFunction的场景切换， 通过 index 确认场景初始落点
+	SceneManager.change_scene(scene_to, scene_to_index)
 
 # ============ 工具函数 ============
 

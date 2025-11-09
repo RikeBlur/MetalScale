@@ -7,9 +7,9 @@ extends Node
 
 # 场景数据字典，key为场景名，value为SceneData资源
 var scene_dict: Dictionary = {
-	"level_1_1": SceneData.new("res://DEMO/demo1_1118/level_0.tscn", "关卡 1-1"),
-	"level_1_2": SceneData.new("res://DEMO/demo1_1118/level_1.tscn", "关卡 1-2"),
-	# 在这里添加更多场景...
+	"level_1_1": SceneData.new("res://DEMO/demo1_1118/level_1_1.tscn", "关卡 1-1"),
+	"level_1_2": SceneData.new("res://DEMO/demo1_1118/level_1_2.tscn", "关卡 1-2"),
+	"level_2_1": SceneData.new("res://DEMO/demo1_1118/level_2_1.tscn", "关卡 2-1")
 }
 
 # 当前场景的key
@@ -136,7 +136,7 @@ func save_current_scene_as_packed() -> PackedScene:
 # ============================================ 场景切换 ================================================
 # ====================================================================================================
 
-func change_scene(scene_key: String) -> void:
+func change_scene(scene_key: String, scene_to_index: int) -> void:
 	"""
 	根据场景key切换场景
 	自动在场景中重新添加player和camera
@@ -213,7 +213,7 @@ func change_scene(scene_key: String) -> void:
 	# 检查新场景是否有BaseLevel并应用初始位置和朝向
 	var base_level = _find_base_level(new_scene)
 	if base_level:
-		base_level.apply_initial_values_to_player(current_player)
+		base_level.apply_initial_values_to_player(current_player, scene_to_index)
 	else:
 		# 如果没有BaseLevel，设置默认位置
 		current_player.global_position = Vector2.ZERO

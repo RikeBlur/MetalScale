@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://8kmirqega10u"]
+
+[ext_resource type="Script" uid="uid://uwv8fcsy86kg" path="res://Scripts/system/interact/door.gd" id="1_jn4o2"]
+[ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="2_4cixi"]
+[ext_resource type="Texture2D" uid="uid://br0ohe6coh38p" path="res://Assests/door.png" id="3_jn4o2"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2psln"]
+radius = 8.0
+height = 40.49666
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4cixi"]
+atlas = ExtResource("3_jn4o2")
+region = Rect2(0, 0, 50, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jn4o2"]
+size = Vector2(52, 7)
+
+[node name="door" type="Area2D"]
+script = ExtResource("1_jn4o2")
+scene_from = "uid://vp6soyihnvap"
+scene_to = "uid://itc8wfv45jeo"
+
+[node name="InteractedComponent" parent="." node_paths=PackedStringArray("interacted_rage") instance=ExtResource("2_4cixi")]
+interacted_rage = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_2psln")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -3)
+texture = SubResource("AtlasTexture_4cixi")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -3.5)
+shape = SubResource("RectangleShape2D_jn4o2")

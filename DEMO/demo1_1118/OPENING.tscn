@@ -1,4 +1,4 @@
-[gd_scene load_steps=91 format=3 uid="uid://brremcem2ll0b"]
+[gd_scene load_steps=92 format=3 uid="uid://brremcem2ll0b"]
 
 [ext_resource type="Script" uid="uid://bblgeyqp4cqel" path="res://Scripts/system/view/UI/opening.gd" id="1_epbi8"]
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="2_x55rs"]
@@ -7,6 +7,7 @@
 [ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Bin/demo/assets/ui.theme" id="3_x55rs"]
 [ext_resource type="Script" uid="uid://bgd3mrxh1v1hq" path="res://Scripts/system/view/UI/normal_UI_button.gd" id="4_ohyvh"]
 [ext_resource type="Texture2D" uid="uid://c12btrr34yv1l" path="res://Assests/sprite/normaluibutton.png" id="6_5n38v"]
+[ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/entity/door_front.tscn" id="8_7ivyh"]
 
 [sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_ohyvh"]
 
@@ -1012,3 +1013,9 @@ text = "退 出"
 libraries = {
 &"": SubResource("AnimationLibrary_jos7r")
 }
+
+[node name="door" parent="." instance=ExtResource("8_7ivyh")]
+position = Vector2(0, -123)
+state = null
+scene_from = null
+scene_to = "level_1_2"

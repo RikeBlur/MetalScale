@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="2_u62yj"]
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="3_g3n3r"]
 [ext_resource type="Shader" uid="uid://dnmsgg8u8kvwd" path="res://Effect/Shader/level_transition/transition.gdshader" id="5_g3n3r"]
-[ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/entity/door_base.tscn" id="5_r0bel"]
+[ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/entity/door_front.tscn" id="5_r0bel"]
 [ext_resource type="Texture2D" uid="uid://ds0rnye51axgi" path="res://Assests/sprite/Bayer8.png" id="6_l4uji"]
 [ext_resource type="PackedScene" uid="uid://bdgt4t7dtg58f" path="res://System/RPG/view/transition_player.tscn" id="8_w0pi3"]
 
@@ -48,8 +48,8 @@ shader_parameter/transition_color = Color(0, 0, 0, 1)
 
 [node name="Level1" type="Node2D"]
 script = ExtResource("1_05sdx")
-player_initial_position = Vector2(1200, 400)
-player_initial_direction = Vector2(0, -1)
+player_initial_position = Array[Vector2]([Vector2(1200, 400), Vector2(1150, 300), Vector2(440, 280)])
+player_initial_direction = Array[Vector2]([Vector2(0, -1), Vector2(0, 1), Vector2(0, 1)])
 
 [node name="UI_LAYERS" type="Node" parent="."]
 
@@ -87,10 +87,19 @@ tile_set = ExtResource("2_shyo2")
 
 [node name="door" type="Node2D" parent="terrian"]
 
-[node name="door" parent="terrian/door" instance=ExtResource("5_r0bel")]
+[node name="door3" parent="terrian/door" instance=ExtResource("5_r0bel")]
 position = Vector2(440, 256)
+state = null
 scene_from = "level_1_2"
 scene_to = "level_1_1"
+scene_to_index = null
+
+[node name="door2" parent="terrian/door" instance=ExtResource("5_r0bel")]
+position = Vector2(1143, 256)
+state = null
+scene_from = "level_1_2"
+scene_to = "level_2_1"
+scene_to_index = null
 
 [node name="WorldOfWonder" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_shyo2")
