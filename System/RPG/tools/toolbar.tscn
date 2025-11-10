@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://c5cyjie74vwbm" path="res://Scripts/system/view/UI/toolbar/toolbar.gd" id="1_vcotx"]
 [ext_resource type="Theme" uid="uid://beojeuc7ptq0g" path="res://Style/theme_tool_bar.tres" id="2_tm3ea"]
-[ext_resource type="Texture2D" uid="uid://cyuwm8vgi03tv" path="res://Assests/sprite/UI/toolbox/bb.png" id="3_1swob"]
+[ext_resource type="Texture2D" uid="uid://cyuwm8vgi03tv" path="res://Assests/sprite/UI/TOOLBAR/toolbox/bb.png" id="3_1swob"]
 [ext_resource type="Script" uid="uid://dkl6ikqd5fda4" path="res://Scripts/system/view/UI/toolbar/toolbox.gd" id="3_8deqn"]
-[ext_resource type="Texture2D" uid="uid://snuljwyie8pe" path="res://Assests/sprite/UI/toolbox/toobox-1.png" id="4_8deqn"]
+[ext_resource type="Texture2D" uid="uid://snuljwyie8pe" path="res://Assests/sprite/UI/TOOLBAR/toolbox/toobox-1.png" id="4_8deqn"]
 [ext_resource type="Shader" uid="uid://dlce8kpjbo146" path="res://Effect/Shader/toolbox/toolbox.gdshader" id="6_teogu"]
-[ext_resource type="Texture2D" uid="uid://x3bn0gbxu1u7" path="res://Assests/sprite/UI/tool_icon/EmergenceLight_icon.png" id="7_myf3w"]
+[ext_resource type="Texture2D" uid="uid://x3bn0gbxu1u7" path="res://Assests/sprite/UI/TOOLBAR/toolicon/EmergenceLight_icon.png" id="7_myf3w"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vcotx"]
 

@@ -1,15 +1,15 @@
 [gd_scene load_steps=20 format=3 uid="uid://c43anvcd4fnwh"]
 
-[ext_resource type="Script" path="res://Scripts/system/QA/slide_component/slide_component_2.gd" id="1_poajf"]
+[ext_resource type="Script" uid="uid://ml1nuufqfx7j" path="res://Scripts/bin/QA/slide_component/slide_component_2.gd" id="1_poajf"]
 [ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/qa/矩形 1.png" id="2_tcunk"]
-[ext_resource type="Script" path="res://Scripts/system/QA/static_back.gd" id="3_joglm"]
+[ext_resource type="Script" uid="uid://dno7wmq8mc6l7" path="res://Scripts/bin/QA/static_back.gd" id="3_joglm"]
 [ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="4_th1id"]
 [ext_resource type="Theme" uid="uid://d2uhxdy50yhsv" path="res://Style/theme_01.tres" id="5_07tlp"]
-[ext_resource type="Shader" path="res://Effect/Shader/glowing_text/glowing_text.gdshader" id="6_dbcb2"]
-[ext_resource type="Script" path="res://Scripts/system/interact/interactabel_label_component.gd" id="7_govhq"]
+[ext_resource type="Shader" uid="uid://cmodgqljq75v6" path="res://Effect/Shader/glowing_text/glowing_text.gdshader" id="6_dbcb2"]
+[ext_resource type="Script" uid="uid://cm86kwuam14hn" path="res://Scripts/bin/interactabel_label_component.gd" id="7_govhq"]
 [ext_resource type="Material" uid="uid://dolw1jajraj15" path="res://Effect/Shader/glowing_text/glowing_text.tres" id="8_goyfo"]
 [ext_resource type="AudioStream" uid="uid://cc2ppqru4b47t" path="res://Assests/SFX/interact/Fruit collect 1.wav" id="8_hqvr4"]
-[ext_resource type="Script" path="res://Scripts/system/interact/botton_component.gd" id="9_ub2y6"]
+[ext_resource type="Script" uid="uid://d3pe8aywkxyk4" path="res://Scripts/bin/botton_component.gd" id="9_ub2y6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nbx1y"]
 shader = ExtResource("6_dbcb2")

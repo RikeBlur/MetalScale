@@ -19,7 +19,7 @@ static var timer : float = 0
 func _on_physics_process(delta : float) -> void:
 	direction = InputEvents.movement_input()
 	last_direction = InputEvents.get_last_valid_direction()
-	speed = clamp(speed+delta*accelaration, speed_min, speed_max) * RPGTimeManager.time_scale
+	speed = clamp(speed+delta*accelaration, speed_min, speed_max)
 	if direction != Vector2.ZERO:
 		Character_body.player_direction = direction
 		Character_body.player_last_direction = last_direction

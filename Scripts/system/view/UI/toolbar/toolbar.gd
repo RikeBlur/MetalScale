@@ -3,9 +3,9 @@ extends Control
 
 const TOOL_ICONS = {
 	ToolManager.Tool.NONE: null,
-	ToolManager.Tool.EMERGENCELIGHT: preload("res://Assests/sprite/UI/tool_icon/EmergenceLight_icon.png"),
-	ToolManager.Tool.FLASHLIGHT: preload("res://Assests/sprite/UI/tool_icon/FlashLight_icon.png"),
-	ToolManager.Tool.ADRENALINE: preload("res://Assests/sprite/UI/tool_icon/Adrenaline_icon.png")
+	ToolManager.Tool.EMERGENCELIGHT: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/EmergenceLight_icon.png"),
+	ToolManager.Tool.FLASHLIGHT: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/FlashLight_icon.png"),
+	ToolManager.Tool.ADRENALINE: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/Adrenaline_icon.png")
 } 
 
 const TOOL_CONFIG = {

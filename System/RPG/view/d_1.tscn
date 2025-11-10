@@ -2,7 +2,7 @@
 
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="1_tgsc5"]
 [ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/qa/矩形 1.png" id="2_2dcrh"]
-[ext_resource type="Script" uid="uid://deq2faofx0hut" path="res://Scripts/system/QA/waving_back.gd" id="3_8dse6"]
+[ext_resource type="Script" uid="uid://deq2faofx0hut" path="res://Scripts/bin/QA/waving_back.gd" id="3_8dse6"]
 
 [sub_resource type="Gradient" id="Gradient_2o8x6"]
 offsets = PackedFloat32Array(0, 0.993506)

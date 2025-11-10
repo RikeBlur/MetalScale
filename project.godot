@@ -18,7 +18,6 @@ config/icon="res://icon.svg"
 [autoload]
 
 RPGInputEvents="*res://Scripts/global/game_input_events.gd"
-RPGTimeManager="*res://Scripts/global/time_manager.gd"
 GlobalFunction="*res://Scripts/global/GLOBAL_FUNCTION.gd"
 UIManager="*res://Scripts/global/ui_manager.gd"
 SceneManager="*res://Scripts/global/scene_manager.gd"

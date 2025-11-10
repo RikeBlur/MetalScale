@@ -1,8 +1,8 @@
 [gd_scene load_steps=41 format=3 uid="uid://c008w284nsol8"]
 
-[ext_resource type="Script" uid="uid://bexxbx2sfo6tp" path="res://Scripts/system/interact/dialogue_dual.gd" id="1_qyjxg"]
-[ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/system/interact/dialogue_resource/DialogueResource.gd" id="2_ckqjn"]
-[ext_resource type="Script" uid="uid://4p4vcldhkkvo" path="res://Scripts/system/interact/dialogue_resource/DialogueTextResource.gd" id="3_aaaqr"]
+[ext_resource type="Script" uid="uid://bexxbx2sfo6tp" path="res://Scripts/system/interact/dialogue/dialogue_dual.gd" id="1_qyjxg"]
+[ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/data/dialogue_resource/DialogueResource.gd" id="2_ckqjn"]
+[ext_resource type="Script" uid="uid://4p4vcldhkkvo" path="res://Scripts/data/dialogue_resource/DialogueTextResource.gd" id="3_aaaqr"]
 [ext_resource type="Shader" uid="uid://ci8ym7gk7b0i5" path="res://Effect/Shader/dialogue_dark/dialogue_dark.gdshader" id="4_tfgvc"]
 [ext_resource type="Texture2D" uid="uid://dv2p3c4p3uk8e" path="res://Assests/sprite/AX/dialogue/back_1.png" id="5_ac6ew"]
 [ext_resource type="Texture2D" uid="uid://bxngadho5jgwo" path="res://Assests/sprite/AX/dialogue/back_2.png" id="6_w2r3y"]

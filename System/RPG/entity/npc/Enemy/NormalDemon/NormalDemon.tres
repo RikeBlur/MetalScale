@@ -1,10 +1,10 @@
 [gd_resource type="BehaviorTree" load_steps=22 format=3 uid="uid://kdala1awrcuk"]
 
-[ext_resource type="Script" uid="uid://ccr43pgd4488l" path="res://Bin/demo/ai/tasks/get_first_in_group.gd" id="1_hhdfo"]
-[ext_resource type="Script" uid="uid://dcjgktglb1slf" path="res://Bin/demo/ai/tasks/pursue.gd" id="2_saw5f"]
-[ext_resource type="Script" uid="uid://clkuwbm2txnvv" path="res://Bin/demo/ai/tasks/IsCaughtByLight.gd" id="2_t2f2i"]
-[ext_resource type="Script" uid="uid://dgoub1ru4k1k7" path="res://Bin/demo/ai/tasks/get_detector.gd" id="2_yroe1"]
-[ext_resource type="Script" uid="uid://cgwnandapnw0h" path="res://Bin/demo/ai/tasks/flee_from_light.gd" id="5_24cx0"]
+[ext_resource type="Script" uid="uid://ccr43pgd4488l" path="res://DEMO/Bin/demo/ai/tasks/get_first_in_group.gd" id="1_hhdfo"]
+[ext_resource type="Script" uid="uid://dcjgktglb1slf" path="res://DEMO/Bin/demo/ai/tasks/pursue.gd" id="2_saw5f"]
+[ext_resource type="Script" uid="uid://clkuwbm2txnvv" path="res://DEMO/Bin/demo/ai/tasks/IsCaughtByLight.gd" id="2_t2f2i"]
+[ext_resource type="Script" uid="uid://dgoub1ru4k1k7" path="res://DEMO/Bin/demo/ai/tasks/get_detector.gd" id="2_yroe1"]
+[ext_resource type="Script" uid="uid://cgwnandapnw0h" path="res://DEMO/Bin/demo/ai/tasks/flee_from_light.gd" id="5_24cx0"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_5x6x3"]
 var/speed/name = &"speed"

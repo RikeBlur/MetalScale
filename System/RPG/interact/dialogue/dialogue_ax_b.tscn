@@ -1,8 +1,8 @@
 [gd_scene load_steps=26 format=3 uid="uid://q502awmo8ato"]
 
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_base.gd" id="1_iykbl"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueResource.gd" id="2_ho6e1"]
-[ext_resource type="Script" path="res://Scripts/system/interact/dialogue_resource/DialogueTextResource.gd" id="3_v7av7"]
+[ext_resource type="Script" uid="uid://bxkh0l3yjdpl3" path="res://Scripts/system/interact/dialogue/dialogue_base.gd" id="1_iykbl"]
+[ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/data/dialogue_resource/DialogueResource.gd" id="2_ho6e1"]
+[ext_resource type="Script" uid="uid://4p4vcldhkkvo" path="res://Scripts/data/dialogue_resource/DialogueTextResource.gd" id="3_v7av7"]
 [ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="4_i5od8"]
 [ext_resource type="Texture2D" uid="uid://dv2p3c4p3uk8e" path="res://Assests/sprite/AX/dialogue/back_1.png" id="5_qkr5h"]
 [ext_resource type="Texture2D" uid="uid://bxngadho5jgwo" path="res://Assests/sprite/AX/dialogue/back_2.png" id="6_sbg1f"]

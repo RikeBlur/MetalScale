@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://g7w5witcbpjv"]
 
 [ext_resource type="Script" uid="uid://d2w8ul5ovgnk0" path="res://Scripts/system/view/UI/settings/save_game_window.gd" id="1_7i35i"]
-[ext_resource type="Script" uid="uid://dvmrauxiebvon" path="res://Scripts/system/view/UI/savebox.gd" id="2_kbrha"]
+[ext_resource type="Script" uid="uid://dvmrauxiebvon" path="res://Scripts/system/view/UI/settings/savebox.gd" id="2_kbrha"]
 
 [node name="SaveGame" type="Control" node_paths=PackedStringArray("saveboxes")]
 layout_mode = 3

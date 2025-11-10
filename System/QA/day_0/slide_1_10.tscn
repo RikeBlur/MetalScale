@@ -1,16 +1,16 @@
 [gd_scene load_steps=19 format=3 uid="uid://dxca3gb4mj266"]
 
-[ext_resource type="Script" path="res://Scripts/system/QA/slide_component/slide_component_1.gd" id="1_hmq75"]
+[ext_resource type="Script" uid="uid://d37820efuql2k" path="res://Scripts/bin/QA/slide_component/slide_component_1.gd" id="1_hmq75"]
 [ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/qa/矩形 1.png" id="3_ncq20"]
-[ext_resource type="Script" path="res://Scripts/system/QA/static_back.gd" id="5_l5r08"]
+[ext_resource type="Script" uid="uid://dno7wmq8mc6l7" path="res://Scripts/bin/QA/static_back.gd" id="5_l5r08"]
 [ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="6_2nxfy"]
 [ext_resource type="Theme" uid="uid://d2uhxdy50yhsv" path="res://Style/theme_01.tres" id="7_6tkih"]
 [ext_resource type="Material" uid="uid://dolw1jajraj15" path="res://Effect/Shader/glowing_text/glowing_text.tres" id="8_53dal"]
 [ext_resource type="AudioStream" uid="uid://cc2ppqru4b47t" path="res://Assests/SFX/interact/Fruit collect 1.wav" id="8_yojxx"]
 [ext_resource type="AudioStream" uid="uid://b3kvbcaav4a8d" path="res://Assests/SFX/horror/Gore_Wet_4.wav" id="9_2qhw6"]
-[ext_resource type="Script" path="res://Scripts/system/interact/interactabel_label_component.gd" id="9_uiog4"]
-[ext_resource type="Shader" path="res://Effect/Shader/glowing_text/glowing_text.gdshader" id="10_m2j8i"]
-[ext_resource type="Script" path="res://Scripts/system/interact/botton_component.gd" id="11_uiaqk"]
+[ext_resource type="Script" uid="uid://cm86kwuam14hn" path="res://Scripts/bin/interactabel_label_component.gd" id="9_uiog4"]
+[ext_resource type="Shader" uid="uid://cmodgqljq75v6" path="res://Effect/Shader/glowing_text/glowing_text.gdshader" id="10_m2j8i"]
+[ext_resource type="Script" uid="uid://d3pe8aywkxyk4" path="res://Scripts/bin/botton_component.gd" id="11_uiaqk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nbx1y"]
 shader = ExtResource("10_m2j8i")

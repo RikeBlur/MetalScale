@@ -7,9 +7,9 @@ extends Node
 
 # 场景数据字典，key为场景名，value为SceneData资源
 var scene_dict: Dictionary = {
-	"level_1_1": SceneData.new("res://DEMO/demo1_1118/level_1_1.tscn", "关卡 1-1"),
-	"level_1_2": SceneData.new("res://DEMO/demo1_1118/level_1_2.tscn", "关卡 1-2"),
-	"level_2_1": SceneData.new("res://DEMO/demo1_1118/level_2_1.tscn", "关卡 2-1")
+	"level_1_1": SceneData.new("res://DEMO/demo1_1118/levels/level_1_1.tscn", "关卡 1-1"),
+	"level_1_2": SceneData.new("res://DEMO/demo1_1118/levels/level_1_2.tscn", "关卡 1-2"),
+	"level_2_1": SceneData.new("res://DEMO/demo1_1118/levels/level_2_1.tscn", "关卡 2-1")
 }
 
 # 当前场景的key

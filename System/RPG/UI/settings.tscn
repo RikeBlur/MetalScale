@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://pyq368xualgt" path="res://Scripts/system/view/UI/settings/settings.gd" id="1_oaby7"]
 [ext_resource type="Script" uid="uid://cd3nl1ac0hn2c" path="res://Scripts/system/view/UI/settings/settingbox.gd" id="2_lev6s"]
-[ext_resource type="Texture2D" uid="uid://bx2xw7be6d71" path="res://Assests/sprite/UI/setting_icon/config-icon.png" id="3_cqwn0"]
-[ext_resource type="Texture2D" uid="uid://cmytx23sai36c" path="res://Assests/sprite/UI/setting_icon/save-game-icon.png" id="3_eqabb"]
-[ext_resource type="Texture2D" uid="uid://cd0noiyrtc72j" path="res://Assests/sprite/UI/setting_icon/unknown-icon.png" id="3_l7f6u"]
-[ext_resource type="Texture2D" uid="uid://dnq0cimi255na" path="res://Assests/sprite/UI/settingbox/settingbox-exit.png" id="3_lev6s"]
-[ext_resource type="Texture2D" uid="uid://dhkpib5ppp6n6" path="res://Assests/sprite/UI/setting_icon/player-state-icon.png" id="3_uswx7"]
-[ext_resource type="Texture2D" uid="uid://c8cn4c6s3gqfc" path="res://Assests/sprite/UI/setting_icon/exit-icon.png" id="4_adcln"]
+[ext_resource type="Texture2D" uid="uid://bx2xw7be6d71" path="res://Assests/sprite/UI/SETTINGS/settingicon/config-icon.png" id="3_cqwn0"]
+[ext_resource type="Texture2D" uid="uid://cmytx23sai36c" path="res://Assests/sprite/UI/SETTINGS/settingicon/save-game-icon.png" id="3_eqabb"]
+[ext_resource type="Texture2D" uid="uid://cd0noiyrtc72j" path="res://Assests/sprite/UI/SETTINGS/settingicon/unknown-icon.png" id="3_l7f6u"]
+[ext_resource type="Texture2D" uid="uid://dnq0cimi255na" path="res://Assests/sprite/UI/SETTINGS/settingbox/settingbox-exit.png" id="3_lev6s"]
+[ext_resource type="Texture2D" uid="uid://dhkpib5ppp6n6" path="res://Assests/sprite/UI/SETTINGS/settingicon/player-state-icon.png" id="3_uswx7"]
+[ext_resource type="Texture2D" uid="uid://c8cn4c6s3gqfc" path="res://Assests/sprite/UI/SETTINGS/settingicon/exit-icon.png" id="4_adcln"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1bjeo"]
 
