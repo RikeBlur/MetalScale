@@ -9,10 +9,10 @@ extends Node
 # 游戏状态枚举
 enum GameState {
 	MENU,           # 主菜单状态
-	RUNNING,        # 游戏运行中
-	PAUSED,         # 游戏暂停
+	STAGE0,        # 游戏初始化
+	STAGE1,         # 游戏进行中
 	LOADING,        # 加载中
-	GAME_OVER       # 游戏结束
+	OVER       # 游戏结束
 }
 
 # 当前游戏状态
@@ -164,7 +164,7 @@ func start_new_game() -> void:
 			print("GameManager: 使用默认起始位置: %s" % start_position)
 	
 	# 更新游戏状态为运行中
-	current_state = GameState.RUNNING
+	current_state = GameState.STAGE0
 	print("GameManager: 新游戏启动完成，当前状态: RUNNING")
 
 
@@ -198,16 +198,6 @@ func get_game_state() -> GameState:
 		当前的游戏状态
 	"""
 	return current_state
-
-
-func is_game_running() -> bool:
-	"""
-	检查游戏是否正在运行
-	
-	返回:
-		true 表示游戏正在运行，false 表示不在运行
-	"""
-	return current_state == GameState.RUNNING
 
 # ====================================================================================================
 # ====================================================================================================

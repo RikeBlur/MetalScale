@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://b3ae14mc2ty3y"]
 
 [ext_resource type="Script" uid="uid://qpj1dk7ugnja" path="res://DEMO/Bin/demo/scenes/showcase.gd" id="1_l12ql"]
-[ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://DEMO/Bin/demo/assets/ui.theme" id="2_3d7dj"]
+[ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="2_3d7dj"]
 [ext_resource type="FontFile" uid="uid://d25vkmce7mhlt" path="res://DEMO/Bin/demo/assets/fonts/knewave_regular.ttf" id="3_7vli5"]
 [ext_resource type="FontFile" uid="uid://n231m6uqsq6x" path="res://DEMO/Bin/demo/assets/fonts/junction_bold.otf" id="4_7ubu6"]
 [ext_resource type="Texture2D" uid="uid://dc1wu244fnetf" path="res://DEMO/Bin/demo/assets/arrow_left.png" id="5_bvrtp"]

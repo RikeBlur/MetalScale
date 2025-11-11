@@ -25,4 +25,3 @@ func _init(p_path: String = "", p_display_name: String = ""):
 	"""
 	path = p_path
 	display_name = p_display_name
-

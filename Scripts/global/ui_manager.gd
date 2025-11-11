@@ -9,6 +9,7 @@ enum UI_component {
 	SAVEGAMEWINDOW
 }
 
+# UI场景
 const TOOLBAR_SCENE = preload("res://System/RPG/tools/toolbar.tscn")
 const SETTINGS_SCENE = preload("res://System/RPG/UI/settings.tscn")
 const EXITWINDOWS_SCENE = preload("res://System/RPG/UI/exit_window.tscn")

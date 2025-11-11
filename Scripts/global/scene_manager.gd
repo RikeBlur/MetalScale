@@ -15,13 +15,8 @@ var scene_dict: Dictionary = {
 # 当前场景的key
 var current_scene_key: String = ""
 
-# 存储的player节点引用
-var stored_player: player = null
-
-# 存储的camera节点引用
-var stored_camera: AdvancedCamera = null
-
 signal player_reseted
+
 # ====================================================================================================
 # ====================================== 读取并存储节点（全局、场景） =====================================
 # ====================================================================================================
@@ -186,7 +181,7 @@ func change_scene(scene_key: String, scene_to_index: int) -> void:
 	
 	print("SceneManager: 开始切换场景到 %s (%s)" % [scene_key, scene_path])
 	
-	# 加载新场景
+	# 加载新场景!!
 	var result = get_tree().change_scene_to_file(scene_path)
 	
 	if result != OK:

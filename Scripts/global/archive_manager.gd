@@ -11,6 +11,7 @@ const QUICK_SAVE_PATH: String = "user://quick_save.json"
 # 存档根目录
 const ROOT_DIR: String = "user://"
 
+# 存档文件名字典
 var save_path_dict: Dictionary = {
 	0: "save_0.json",
 	1: "save_1.json",
@@ -20,6 +21,7 @@ var save_path_dict: Dictionary = {
 	5: "save_5.json"
 }
 
+# 存档状态字典
 var save_state_dict: Dictionary = {
 	0: false,
 	1: false,
@@ -32,8 +34,6 @@ var save_state_dict: Dictionary = {
 # ====================================================================================================
 # ====================================================================================================
 # ====================================================================================================
-func _ready() -> void:
-	call_deferred("check_save_state")
 
 func check_save_state() -> void:
 	"""

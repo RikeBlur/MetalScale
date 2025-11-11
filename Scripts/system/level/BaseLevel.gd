@@ -8,14 +8,14 @@ extends Node2D
 @export var player_initial_direction: Array[Vector2]
 
 # 玩家节点引用（可选，如果场景中已有player节点可指定）
-@export var player_node: player = null
+#@export var player_node: player = null
 
 # 转产动画
 @export var transition_player : AnimationPlayer = null
 
 
 func _ready():
-	player_node = GlobalFunction.stored_player
+	# 加载新场景后初始化一次 UI系统
 	UIManager.refresh_ui_manager()
 
 

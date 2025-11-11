@@ -4,10 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="2_x55rs"]
 [ext_resource type="Texture2D" uid="uid://dx7xwoser0w35" path="res://Assests/sprite/UI/NORMALUI/opening_bb.png" id="3_hyq4k"]
 [ext_resource type="Script" uid="uid://bcymdpg7pp327" path="res://Scripts/system/view/UI/NormalUI/opening_meun.gd" id="3_pd41b"]
-[ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://DEMO/Bin/demo/assets/ui.theme" id="3_x55rs"]
+[ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="3_x55rs"]
 [ext_resource type="Script" uid="uid://bgd3mrxh1v1hq" path="res://Scripts/system/view/UI/NormalUI/normal_UI_button.gd" id="4_ohyvh"]
 [ext_resource type="Texture2D" uid="uid://c12btrr34yv1l" path="res://Assests/sprite/UI/NORMALUI/normaluibutton.png" id="6_5n38v"]
-[ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/entity/door_front.tscn" id="8_7ivyh"]
+[ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/interact/door/door_front.tscn" id="8_7ivyh"]
 
 [sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_ohyvh"]
 
@@ -854,6 +854,7 @@ offset_top = -20.0
 offset_right = 40.0
 offset_bottom = 20.0
 grow_vertical = 2
+theme = ExtResource("3_x55rs")
 script = ExtResource("3_pd41b")
 menu_buttons = [NodePath("MarginContainer/button4/left/up"), NodePath("MarginContainer/button4/right/up"), NodePath("MarginContainer/button4/left/down"), NodePath("MarginContainer/button4/right/down")]
 canvas_animation_player = NodePath("../CanvasSlidePlayer")

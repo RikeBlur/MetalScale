@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="2_o08m6"]
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="3_imylb"]
 [ext_resource type="TileSet" uid="uid://bjvk2df6c3c1j" path="res://Style/tilesets/test_assest_3.tres" id="4_8h551"]
-[ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/entity/door_back.tscn" id="5_w2n4f"]
+[ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/door_back.tscn" id="5_w2n4f"]
 [ext_resource type="Shader" uid="uid://dnmsgg8u8kvwd" path="res://Effect/Shader/level_transition/transition.gdshader" id="6_0eyh4"]
 [ext_resource type="Texture2D" uid="uid://ds0rnye51axgi" path="res://Assests/sprite/effect/Bayer8.png" id="7_bvdh2"]
 [ext_resource type="PackedScene" uid="uid://bdgt4t7dtg58f" path="res://System/RPG/view/transition_player.tscn" id="8_xn52a"]

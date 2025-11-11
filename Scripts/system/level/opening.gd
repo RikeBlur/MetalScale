@@ -24,3 +24,6 @@ func _ready() -> void:
 		print("Opening: Camera 场景已加载并传递给 GameManager")
 	else:
 		push_error("Opening: 无法加载 Camera 场景")
+		
+	# 确认存档状态
+	ArchiveManager.check_save_state()
