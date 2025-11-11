@@ -71,26 +71,12 @@ func _serialize_player_data(player_node: player) -> Dictionary:
 	if not player_node:
 		return {}
 	
-	var data = {
-		"player_walk_speed_max": player_node.player_walk_speed_max,
-		"player_run_speed_max": player_node.player_run_speed_max,
-		"player_walk_speed_min": player_node.player_walk_speed_min,
-		"player_run_speed_min": player_node.player_run_speed_min,
-		"player_walk_acceleration": player_node.player_walk_acceleration,
-		"player_run_acceleration": player_node.player_run_acceleration,
-		"can_move": player_node.can_move,
-		"can_interact": player_node.can_interact,
-		"character": player_node.character,
-		"player_direction": {"x": player_node.player_direction.x, "y": player_node.player_direction.y},
-		"player_last_direction": {"x": player_node.player_last_direction.x, "y": player_node.player_last_direction.y},
-		"tool": player_node.tool,
-		"health_max": player_node.health_max,
-		"health_now": player_node.health_now,
-		"is_died": player_node.is_died,
-		"global_position": {"x": player_node.global_position.x, "y": player_node.global_position.y}
-	}
+	# 创建PlayerData实例并从player节点读取数据
+	var player_data = PlayerData.new()
+	player_data.from_player_node(player_node)
 	
-	return data
+	# 使用PlayerData的to_dict方法序列化
+	return player_data.to_dict()
 
 func _deserialize_player_data(player_node: player, data: Dictionary) -> void:
 	"""
@@ -103,39 +89,12 @@ func _deserialize_player_data(player_node: player, data: Dictionary) -> void:
 	if not player_node or data.is_empty():
 		return
 	
-	# 恢复所有变量
-	if data.has("player_walk_speed_max"):
-		player_node.player_walk_speed_max = data["player_walk_speed_max"]
-	if data.has("player_run_speed_max"):
-		player_node.player_run_speed_max = data["player_run_speed_max"]
-	if data.has("player_walk_speed_min"):
-		player_node.player_walk_speed_min = data["player_walk_speed_min"]
-	if data.has("player_run_speed_min"):
-		player_node.player_run_speed_min = data["player_run_speed_min"]
-	if data.has("player_walk_acceleration"):
-		player_node.player_walk_acceleration = data["player_walk_acceleration"]
-	if data.has("player_run_acceleration"):
-		player_node.player_run_acceleration = data["player_run_acceleration"]
-	if data.has("can_move"):
-		player_node.can_move = data["can_move"]
-	if data.has("can_interact"):
-		player_node.can_interact = data["can_interact"]
-	if data.has("character"):
-		player_node.character = data["character"]
-	if data.has("player_direction"):
-		player_node.player_direction = Vector2(data["player_direction"]["x"], data["player_direction"]["y"])
-	if data.has("player_last_direction"):
-		player_node.player_last_direction = Vector2(data["player_last_direction"]["x"], data["player_last_direction"]["y"])
-	if data.has("tool"):
-		player_node.tool = data["tool"]
-	if data.has("health_max"):
-		player_node.health_max = data["health_max"]
-	if data.has("health_now"):
-		player_node.health_now = data["health_now"]
-	if data.has("is_died"):
-		player_node.is_died = data["is_died"]
-	if data.has("global_position"):
-		player_node.global_position = Vector2(data["global_position"]["x"], data["global_position"]["y"])
+	# 创建PlayerData实例并从字典加载数据
+	var player_data = PlayerData.new()
+	player_data.from_dict(data)
+	
+	# 使用PlayerData的apply_to_player_node方法应用到player节点
+	player_data.apply_to_player_node(player_node)
 
 func _serialize_scene_data(scene_data: SceneData) -> Dictionary:
 	"""
@@ -150,11 +109,8 @@ func _serialize_scene_data(scene_data: SceneData) -> Dictionary:
 	if not scene_data:
 		return {}
 	
-	return {
-		"path": scene_data.path,
-		"display_name": scene_data.display_name,
-		"custom_data": scene_data.custom_data
-	}
+	# 使用SceneData的to_dict方法序列化
+	return scene_data.to_dict()
 
 func _deserialize_scene_data(data: Dictionary) -> SceneData:
 	"""
@@ -168,12 +124,8 @@ func _deserialize_scene_data(data: Dictionary) -> SceneData:
 	"""
 	var scene_data = SceneData.new()
 	
-	if data.has("path"):
-		scene_data.path = data["path"]
-	if data.has("display_name"):
-		scene_data.display_name = data["display_name"]
-	if data.has("custom_data"):
-		scene_data.custom_data = data["custom_data"]
+	# 使用SceneData的from_dict方法反序列化
+	scene_data.from_dict(data)
 	
 	return scene_data
 
@@ -280,12 +232,6 @@ func game_save(index : int) -> bool:
 	return true
 
 func game_load(index : int) -> bool:
-	"""
-	快速读档：从JSON文件加载游戏状态
-	
-	返回:
-		true表示加载成功，false表示失败
-	"""
 	# 检查存档文件是否存在
 	var save_path = ROOT_DIR.path_join(save_path_dict[index])
 	if not FileAccess.file_exists(save_path):
@@ -397,15 +343,6 @@ func game_load(index : int) -> bool:
 	return true
 
 func save_delete(index: int) -> bool:
-	"""
-	删除指定的存档
-	
-	参数:
-		index: 存档索引
-	
-	返回:
-		true表示删除成功，false表示失败
-	"""
 	# 检查索引是否有效
 	if not save_path_dict.has(index):
 		push_error("ArchiveManager: 无效的存档索引: %d" % index)

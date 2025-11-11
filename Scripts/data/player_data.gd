@@ -1,0 +1,220 @@
+class_name PlayerData
+extends Resource
+
+## 玩家数据资源类
+## 用于存储玩家的所有属性和状态
+
+# 移动速度参数
+@export var player_walk_speed_max: int = 200
+@export var player_run_speed_max: int = 450
+@export var player_walk_speed_min: int = 100
+@export var player_run_speed_min: int = 200
+@export var player_walk_acceleration: int = 10
+@export var player_run_acceleration: int = 30
+
+# 玩家状态
+@export var can_move: bool = true
+@export var can_interact: bool = true
+
+# 角色类型
+@export var character: String = "Oni"
+
+# 方向信息
+@export var player_direction: Vector2 = Vector2.DOWN
+@export var player_last_direction: Vector2 = Vector2.DOWN
+
+# 工具相关
+@export var tool: int = -1
+# 注意：tool_available 是复杂类型，暂时用 Array 存储
+@export var tool_available: Array = []
+
+# 生命值
+@export var health_max: float = 100.0
+@export var health_now: float = 100.0
+@export var is_died: bool = false
+
+# 位置信息（用于存档）
+@export var global_position: Vector2 = Vector2.ZERO
+
+
+func _init(
+	p_walk_speed_max: int = 200,
+	p_run_speed_max: int = 450,
+	p_walk_speed_min: int = 100,
+	p_run_speed_min: int = 200,
+	p_walk_acceleration: int = 10,
+	p_run_acceleration: int = 30,
+	p_can_move: bool = true,
+	p_can_interact: bool = true,
+	p_character: String = "Oni",
+	p_player_direction: Vector2 = Vector2.DOWN,
+	p_player_last_direction: Vector2 = Vector2.DOWN,
+	p_tool: int = -1,
+	p_health_max: float = 100.0,
+	p_health_now: float = 100.0,
+	p_is_died: bool = false,
+	p_global_position: Vector2 = Vector2.ZERO
+):
+	"""
+	初始化玩家数据
+	
+	参数:
+		p_walk_speed_max: 最大行走速度
+		p_run_speed_max: 最大奔跑速度
+		p_walk_speed_min: 最小行走速度
+		p_run_speed_min: 最小奔跑速度
+		p_walk_acceleration: 行走加速度
+		p_run_acceleration: 奔跑加速度
+		p_can_move: 是否可以移动
+		p_can_interact: 是否可以交互
+		p_character: 角色类型
+		p_player_direction: 当前方向
+		p_player_last_direction: 上次方向
+		p_tool: 当前工具索引
+		p_health_max: 最大生命值
+		p_health_now: 当前生命值
+		p_is_died: 是否死亡
+		p_global_position: 全局位置
+	"""
+	player_walk_speed_max = p_walk_speed_max
+	player_run_speed_max = p_run_speed_max
+	player_walk_speed_min = p_walk_speed_min
+	player_run_speed_min = p_run_speed_min
+	player_walk_acceleration = p_walk_acceleration
+	player_run_acceleration = p_run_acceleration
+	can_move = p_can_move
+	can_interact = p_can_interact
+	character = p_character
+	player_direction = p_player_direction
+	player_last_direction = p_player_last_direction
+	tool = p_tool
+	health_max = p_health_max
+	health_now = p_health_now
+	is_died = p_is_died
+	global_position = p_global_position
+
+func from_player_node(player_node: player) -> void:
+	"""
+	从玩家节点读取数据
+	
+	参数:
+		player_node: player节点实例
+	"""
+	if not player_node:
+		push_error("PlayerData: player节点为空")
+		return
+	
+	player_walk_speed_max = player_node.player_walk_speed_max
+	player_run_speed_max = player_node.player_run_speed_max
+	player_walk_speed_min = player_node.player_walk_speed_min
+	player_run_speed_min = player_node.player_run_speed_min
+	player_walk_acceleration = player_node.player_walk_acceleration
+	player_run_acceleration = player_node.player_run_acceleration
+	can_move = player_node.can_move
+	can_interact = player_node.can_interact
+	character = player_node.character
+	player_direction = player_node.player_direction
+	player_last_direction = player_node.player_last_direction
+	tool = player_node.tool
+	health_max = player_node.health_max
+	health_now = player_node.health_now
+	is_died = player_node.is_died
+	global_position = player_node.global_position
+
+func apply_to_player_node(player_node: player) -> void:
+	"""
+	将数据应用到玩家节点
+	
+	参数:
+		player_node: player节点实例
+	"""
+	if not player_node:
+		push_error("PlayerData: player节点为空")
+		return
+	
+	player_node.player_walk_speed_max = player_walk_speed_max
+	player_node.player_run_speed_max = player_run_speed_max
+	player_node.player_walk_speed_min = player_walk_speed_min
+	player_node.player_run_speed_min = player_run_speed_min
+	player_node.player_walk_acceleration = player_walk_acceleration
+	player_node.player_run_acceleration = player_run_acceleration
+	player_node.can_move = can_move
+	player_node.can_interact = can_interact
+	player_node.character = character
+	player_node.player_direction = player_direction
+	player_node.player_last_direction = player_last_direction
+	player_node.tool = tool
+	player_node.health_max = health_max
+	player_node.health_now = health_now
+	player_node.is_died = is_died
+	player_node.global_position = global_position
+
+func to_dict() -> Dictionary:
+	"""
+	将玩家数据序列化为字典
+	
+	返回:
+		包含所有玩家数据的字典
+	"""
+	return {
+		"player_walk_speed_max": player_walk_speed_max,
+		"player_run_speed_max": player_run_speed_max,
+		"player_walk_speed_min": player_walk_speed_min,
+		"player_run_speed_min": player_run_speed_min,
+		"player_walk_acceleration": player_walk_acceleration,
+		"player_run_acceleration": player_run_acceleration,
+		"can_move": can_move,
+		"can_interact": can_interact,
+		"character": character,
+		"player_direction": {"x": player_direction.x, "y": player_direction.y},
+		"player_last_direction": {"x": player_last_direction.x, "y": player_last_direction.y},
+		"tool": tool,
+		"health_max": health_max,
+		"health_now": health_now,
+		"is_died": is_died,
+		"global_position": {"x": global_position.x, "y": global_position.y}
+	}
+
+func from_dict(data: Dictionary) -> void:
+	"""
+	从字典反序列化玩家数据
+	
+	参数:
+		data: 玩家数据字典
+	"""
+	if data.is_empty():
+		return
+	
+	# 恢复所有变量
+	if data.has("player_walk_speed_max"):
+		player_walk_speed_max = data["player_walk_speed_max"]
+	if data.has("player_run_speed_max"):
+		player_run_speed_max = data["player_run_speed_max"]
+	if data.has("player_walk_speed_min"):
+		player_walk_speed_min = data["player_walk_speed_min"]
+	if data.has("player_run_speed_min"):
+		player_run_speed_min = data["player_run_speed_min"]
+	if data.has("player_walk_acceleration"):
+		player_walk_acceleration = data["player_walk_acceleration"]
+	if data.has("player_run_acceleration"):
+		player_run_acceleration = data["player_run_acceleration"]
+	if data.has("can_move"):
+		can_move = data["can_move"]
+	if data.has("can_interact"):
+		can_interact = data["can_interact"]
+	if data.has("character"):
+		character = data["character"]
+	if data.has("player_direction"):
+		player_direction = Vector2(data["player_direction"]["x"], data["player_direction"]["y"])
+	if data.has("player_last_direction"):
+		player_last_direction = Vector2(data["player_last_direction"]["x"], data["player_last_direction"]["y"])
+	if data.has("tool"):
+		tool = data["tool"]
+	if data.has("health_max"):
+		health_max = data["health_max"]
+	if data.has("health_now"):
+		health_now = data["health_now"]
+	if data.has("is_died"):
+		is_died = data["is_died"]
+	if data.has("global_position"):
+		global_position = Vector2(data["global_position"]["x"], data["global_position"]["y"])

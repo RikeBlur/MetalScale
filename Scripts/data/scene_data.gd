@@ -25,3 +25,33 @@ func _init(p_path: String = "", p_display_name: String = ""):
 	"""
 	path = p_path
 	display_name = p_display_name
+
+func to_dict() -> Dictionary:
+	"""
+	将场景数据序列化为字典
+	
+	返回:
+		包含所有场景数据的字典
+	"""
+	return {
+		"path": path,
+		"display_name": display_name,
+		"custom_data": custom_data
+	}
+
+func from_dict(data: Dictionary) -> void:
+	"""
+	从字典反序列化场景数据
+	
+	参数:
+		data: 场景数据字典
+	"""
+	if data.is_empty():
+		return
+	
+	if data.has("path"):
+		path = data["path"]
+	if data.has("display_name"):
+		display_name = data["display_name"]
+	if data.has("custom_data"):
+		custom_data = data["custom_data"]
