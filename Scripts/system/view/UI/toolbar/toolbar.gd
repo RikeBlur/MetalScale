@@ -45,9 +45,19 @@ func _process(_delta):
 	if not tool_manager: return
 	
 	call_deferred("_update_toolbar")
+	call_deferred("_update_consumption")
 	call_deferred("_update_progressbar")
 	
-	
+func _update_consumption() -> void:
+	for i in range(tool_boxes.size()):
+		if tool_boxes[i].consumption == null:
+			continue
+		else:
+			var tool_type = tool_boxes[i].tool
+			var consumption_label_node = tool_boxes[i].consumption
+			if tool_manager.consumption.has(tool_type):
+				consumption_label_node.text = str(tool_manager.consumption[tool_type])
+
 func _update_progressbar() -> void:
 	for i in range(tool_boxes.size()):
 		if tool_boxes[i].durability == null:

@@ -31,7 +31,7 @@ var durability = {
 }
 
 var consumption = {
-	Tool.ADRENALINE: 1
+	Tool.ADRENALINE: 2
 }
 
 # Durability consumption rate per second. Can be adjusted in the inspector.

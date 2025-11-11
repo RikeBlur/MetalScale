@@ -11,9 +11,11 @@ var config : int = 0:
 
 @export var icon : TextureRect = null
 @export var durability : ProgressBar = null
+@export var consumption : Label = null
 @export var back : TextureRect = null
 
 const DURABILITY_BAR_SCENE = preload("res://System/RPG/tools/durability_bar.tscn")
+const CONSUMPTION_LABEL_SCENE = preload("res://System/RPG/tools/consumption_label.tscn")
 
 func _ready() -> void:
 	icon = $Icon
@@ -51,9 +53,21 @@ func _apply_config() -> void:
 			for child in get_children():
 				if child != icon and child != durability_bar_node and child != back:
 					child.queue_free()
+					
 		2:
-			# config=2: 清除除Icon外的所有子节点
+			var consumption_label_node = get_node_or_null("ConsumptionLabel")
+			
+			# 如果没有ConsumptionLabel，实例化一个
+			if not consumption_label_node:
+				consumption_label_node = CONSUMPTION_LABEL_SCENE.instantiate()
+				consumption_label_node.name = "ConsumptionLabel"
+				add_child(consumption_label_node)
+			
+			# 更新引用
+			consumption = consumption_label_node
+			
+			# config=2: 清除除Icon和ConsumptionLabel外的所有子节点
 			for child in get_children():
-				if child != icon and child != back:
+				if child != icon and child != consumption_label_node and child != back:
 					child.queue_free()
-			durability = null
+			

@@ -91,7 +91,7 @@ tile_set = ExtResource("4_5inl5")
 position = Vector2(440, 256)
 state = null
 scene_from = "level_1_2"
-scene_to = "level_1_1"
+scene_to = "level_2_2"
 scene_to_index = null
 
 [node name="door2" parent="terrian/door" instance=ExtResource("5_yxuns")]

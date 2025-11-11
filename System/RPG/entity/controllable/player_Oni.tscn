@@ -1772,12 +1772,13 @@ _data = {
 &"hit": SubResource("Animation_lnjpj")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_id5i6"]
-size = Vector2(44, 88)
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lnjpj"]
 radius = 19.0
 height = 84.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_axk6g"]
+radius = 22.0
+height = 90.0
 
 [node name="Player_Oni" type="CharacterBody2D" groups=["player"]]
 motion_mode = 1
@@ -1828,19 +1829,6 @@ libraries = {
 &"": SubResource("AnimationLibrary_vnu8s")
 }
 
-[node name="interact_rage" type="Area2D" parent="."]
-position = Vector2(0, -9)
-collision_layer = 64
-collision_mask = 128
-
-[node name="InteractComponent" parent="interact_rage" node_paths=PackedStringArray("interact_rage", "player_node") instance=ExtResource("22_wc45c")]
-interact_rage = NodePath("..")
-player_node = NodePath("../..")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="interact_rage"]
-position = Vector2(0, -34)
-shape = SubResource("RectangleShape2D_id5i6")
-
 [node name="ToolManager" type="Node2D" parent="." node_paths=PackedStringArray("player_now", "failure_sfx")]
 script = ExtResource("32_okprr")
 player_now = NodePath("..")
@@ -1874,3 +1862,13 @@ volume_db = 4.0
 [node name="run_stepsound" type="AudioStreamPlayer2D" parent="SFX_manager"]
 
 [node name="FailureSFX" type="AudioStreamPlayer2D" parent="SFX_manager"]
+
+[node name="interact_range" type="Area2D" parent="."]
+
+[node name="InteractComponent" parent="interact_range" node_paths=PackedStringArray("interact_rage", "player_node") instance=ExtResource("22_wc45c")]
+interact_rage = NodePath("..")
+player_node = NodePath("../..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="interact_range"]
+position = Vector2(0, -41)
+shape = SubResource("CapsuleShape2D_axk6g")

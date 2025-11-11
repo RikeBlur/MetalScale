@@ -13,7 +13,7 @@ atlas = ExtResource("3_jn4o2")
 region = Rect2(0, 0, 50, 6)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jn4o2"]
-size = Vector2(52, 7)
+size = Vector2(52, 11)
 
 [node name="door" type="Area2D"]
 script = ExtResource("1_jn4o2")
@@ -35,5 +35,5 @@ texture = SubResource("AtlasTexture_4cixi")
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(0, -3.5)
+position = Vector2(0, -5.5)
 shape = SubResource("RectangleShape2D_jn4o2")

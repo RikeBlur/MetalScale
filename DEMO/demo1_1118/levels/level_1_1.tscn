@@ -21,7 +21,7 @@ shader_parameter/transition_color = Color(0, 0, 0, 1)
 
 [node name="Level0" type="Node2D"]
 script = ExtResource("1_o2mtp")
-player_initial_position = Array[Vector2]([Vector2(0, -100)])
+player_initial_position = Array[Vector2]([Vector2(0, 100)])
 player_initial_direction = Array[Vector2]([Vector2(0, 1)])
 
 [node name="UI_LAYERS" type="Node" parent="."]

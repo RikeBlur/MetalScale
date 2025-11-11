@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://h0gfb1pumdai"]
+
+[ext_resource type="FontFile" uid="uid://bkfy485oogvvb" path="res://Assests/font/pixel8/PixelOperator8.ttf" id="1_4g7h0"]
+[ext_resource type="Script" uid="uid://v05hfid2qsf8" path="res://Scripts/system/view/UI/toolbar/consumption_label.gd" id="2_s3u1d"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1swob"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_myf3w"]
+
+[node name="Consumption_label" type="Label"]
+custom_minimum_size = Vector2(65, 70)
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("1_4g7h0")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_1swob")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_myf3w")
+text = "8"
+horizontal_alignment = 2
+vertical_alignment = 2
+script = ExtResource("2_s3u1d")

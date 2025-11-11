@@ -82,22 +82,22 @@ static func is_movement() -> bool:
 	else:
 		return false
 		
-static func is_act() -> bool:
-	# block!输入
-	if player_input_blocked:
-		return false
-		
-	if Input.is_action_pressed("act"):
-		return true
-	else:
-		return false
-		
 static func is_running() -> bool:
 	# block!输入
 	if player_input_blocked:
 		return false
 		
 	if Input.is_action_pressed("running"):
+		return true
+	else:
+		return false
+
+static func is_act() -> bool:
+	# block!输入
+	if player_input_blocked:
+		return false
+		
+	if Input.is_action_pressed("act"):
 		return true
 	else:
 		return false

@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cvrcmavceo5nx"]
+
+[ext_resource type="Script" uid="uid://bksdnq0tf0ep5" path="res://Scripts/system/interact/collectable/collectable_component.gd" id="1_p8np4"]
+[ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="2_6cw3t"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ybchk"]
+radius = 67.47592
+
+[node name="CollectableKey" type="Node2D"]
+script = ExtResource("1_p8np4")
+collected_tool = 3
+
+[node name="interacted_range" type="Area2D" parent="."]
+
+[node name="InteractedComponent" parent="interacted_range" node_paths=PackedStringArray("interacted_rage") instance=ExtResource("2_6cw3t")]
+interacted_rage = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="interacted_range"]
+shape = SubResource("CircleShape2D_ybchk")

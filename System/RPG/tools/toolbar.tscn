@@ -244,7 +244,7 @@ expand_mode = 1
 [node name="tool6" type="Container" parent="leftoffset/PanelContainer/MarginContainer/tool_bar" node_paths=PackedStringArray("icon", "back")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("3_8deqn")
 icon = NodePath("Icon")

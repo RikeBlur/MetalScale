@@ -10,6 +10,7 @@ extends Node
 enum GameState {
 	MENU,           # 主菜单状态
 	STAGE0,        # 游戏初始化
+	STAGEhalf,    # 中间态
 	STAGE1,         # 游戏进行中
 	LOADING,        # 加载中
 	OVER       # 游戏结束

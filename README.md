@@ -1,9 +1,20 @@
 # UPDATE
 
+## 25.11.11
+
+修补 ToolSystem ： config2（消耗品）的消耗数量显示问题  <br>
+
+我的 ToolManager 每个 Tool 都是独立的实例，不存在 EMERGENCELIGHT_A 、 EMERGENCELIGHT_B .
+所以对于可能复数个的东西（消耗品），严格按照增加这个 Tool 的 consumption 来实现 <br>
+
+完成子类 Collectable， 由 interacted 扩展，交互后消失且对玩家的 tool_available 产生影响 <br>
+
+优先级 ： 重构代码；声音系统；SceneData的真实实现（场景的所有可交互实体）；NPC数据的保存。 <br>
+
 ## 25.11.10
 
-重构代码!!!!!
-一周内完成
+重构代码!!!!!  <br>
+一周内完成  <br>
 
 ## 25.11.09
 
