@@ -1,5 +1,33 @@
 # UPDATE
 
+## 25.11.14
+
+需要实现游戏总线 ：  <br>
+加载 Loading 状态的 进入 和 退出 ，通过 **信号** 判断，这个信号包括多个方面 <br>
+
+loading 分为 preloading 和 loading！  <br>
+preloading 加载 stage0 的系统（全局一致的） <br>
+loading 加载 stage1 的系统（游戏局部的） <br>
+
+通过 GameManager 逐个按顺序初始化 Stage0 系统 来实现 preloading ； <br>
+通过 GameManager 逐个 refresh/初始化 Stage1 系统 来实现 loading ； <br>
+
+loading、preloading 都有单独 scene <br>
+
+void --> preloading --> menu --> loading --> running --> over <br>
+
+12月之前完成： <br>
+游戏总线；声音系统；死亡动画；SceneData的真实实现（场景的所有可交互实体）；NPC数据的保存；Collectble 完善<br>
+
+需要的音效汇总： <br>
+player 脚步 ；  <br>
+切换道具；  <br>
+开关光源； <br>
+开门； <br>
+点击settingbox； <br>
+点击normalUI； <br>
+BGM； <br>
+
 ## 25.11.13
 
 更新blur shader， 更新 UIManager 使得打开settings （layer==2） 时 layer==1 和 viewpoint 施加 blur shader<br>

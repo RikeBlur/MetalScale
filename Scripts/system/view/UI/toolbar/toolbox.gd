@@ -14,8 +14,8 @@ var config : int = 0:
 @export var consumption : Label = null
 @export var back : TextureRect = null
 
-const DURABILITY_BAR_SCENE = preload("res://System/RPG/tools/durability_bar.tscn")
-const CONSUMPTION_LABEL_SCENE = preload("res://System/RPG/tools/consumption_label.tscn")
+const DURABILITY_BAR_SCENE = preload("res://System/RPG/tools/toolbox_son/durability_bar.tscn")
+const CONSUMPTION_LABEL_SCENE = preload("res://System/RPG/tools/toolbox_son/consumption_label.tscn")
 
 func _ready() -> void:
 	icon = $Icon

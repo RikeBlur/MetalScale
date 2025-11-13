@@ -13,9 +13,9 @@ enum Tool{
 }
 
 # NOTE: Please replace with the actual paths to your scenes.
-const EMERGENCELIGHT_SCENE = preload("res://System/RPG/tools/EmergenceLight.tscn")
-const ADRENALINE_SCENE = preload("res://System/RPG/tools/adrenaline.tscn")
-const FLASHLIGHT_SCENE = preload("res://System/RPG/tools/FlashLight.tscn")
+const EMERGENCELIGHT_SCENE = preload("res://System/RPG/tools/Tool/EmergenceLight.tscn")
+const ADRENALINE_SCENE = preload("res://System/RPG/tools/Tool/adrenaline.tscn")
+const FLASHLIGHT_SCENE = preload("res://System/RPG/tools/Tool/FlashLight.tscn")
 
 @export var current_tool: Tool = Tool.NONE:
 	set(value):
