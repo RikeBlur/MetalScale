@@ -1,5 +1,11 @@
 # UPDATE
 
+## 25.11.13
+
+更新blur shader， 更新 UIManager 使得打开settings （layer==2） 时 layer==1 和 viewpoint 施加 blur shader<br>
+
+优先级： Collectble 完善；声音系统；死亡动画；SceneData的真实实现（场景的所有可交互实体）；NPC数据的保存；重构代码<br>
+
 ## 25.11.11
 
 修补 ToolSystem ： config2（消耗品）的消耗数量显示问题  <br>
