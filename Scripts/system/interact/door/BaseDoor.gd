@@ -7,7 +7,7 @@ extends Node2D
 # 场景路径
 @export var scene_from: String = ""
 @export var scene_to: String = ""
-@export var scene_to_index: int 
+@export var scene_to_index: int = 0
 
 # InteractedComponent引用
 var interacted_component_node: interacted_component = null

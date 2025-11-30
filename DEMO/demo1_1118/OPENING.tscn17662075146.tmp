@@ -1,14 +1,12 @@
-[gd_scene load_steps=95 format=3 uid="uid://brremcem2ll0b"]
+[gd_scene load_steps=91 format=3 uid="uid://brremcem2ll0b"]
 
+[ext_resource type="Script" uid="uid://bblgeyqp4cqel" path="res://Scripts/system/level/opening.gd" id="1_epbi8"]
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="2_x55rs"]
 [ext_resource type="Texture2D" uid="uid://dx7xwoser0w35" path="res://Assests/sprite/UI/NORMALUI/opening_bb.png" id="3_hyq4k"]
 [ext_resource type="Script" uid="uid://bcymdpg7pp327" path="res://Scripts/system/view/UI/NormalUI/opening_meun.gd" id="3_pd41b"]
 [ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="3_x55rs"]
 [ext_resource type="Script" uid="uid://bgd3mrxh1v1hq" path="res://Scripts/system/view/UI/NormalUI/normal_UI_button.gd" id="4_ohyvh"]
 [ext_resource type="Texture2D" uid="uid://c12btrr34yv1l" path="res://Assests/sprite/UI/NORMALUI/normaluibutton.png" id="6_5n38v"]
-[ext_resource type="Script" uid="uid://c36346v4a100l" path="res://Scripts/system/view/preloading_animate.gd" id="7_jos7r"]
-[ext_resource type="Shader" uid="uid://dnmsgg8u8kvwd" path="res://Effect/Shader/level_transition/transition.gdshader" id="8_5c18h"]
-[ext_resource type="PackedScene" uid="uid://bdgt4t7dtg58f" path="res://System/RPG/view/transition_player.tscn" id="10_ftiba"]
 
 [sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_ohyvh"]
 
@@ -833,18 +831,8 @@ _data = {
 &"slide": SubResource("Animation_5n38v")
 }
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jos7r"]
-load_path = "res://.godot/imported/Bayer8.png-0641d62d0dd41fae15d129a7a943b31b.ctex"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5c18h"]
-shader = ExtResource("8_5c18h")
-shader_parameter/progress = 0.0
-shader_parameter/noise_texture = SubResource("CompressedTexture2D_jos7r")
-shader_parameter/noise_scale = Vector2(1, 1)
-shader_parameter/edge_softness = 0.10000000475
-shader_parameter/transition_color = Color(0, 0, 0, 1)
-
 [node name="Opening" type="Node2D"]
+script = ExtResource("1_epbi8")
 
 [node name="D1" parent="." instance=ExtResource("2_x55rs")]
 position = Vector2(616, 313.00003)
@@ -1025,24 +1013,3 @@ text = "退 出"
 libraries = {
 &"": SubResource("AnimationLibrary_jos7r")
 }
-
-[node name="PreloadingAnimate" type="CanvasLayer" parent="."]
-script = ExtResource("7_jos7r")
-
-[node name="ColorRect" type="ColorRect" parent="PreloadingAnimate"]
-material = SubResource("ShaderMaterial_5c18h")
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -589.0
-offset_top = -346.0
-offset_right = 598.0
-offset_bottom = 344.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="transition_player" parent="PreloadingAnimate" instance=ExtResource("10_ftiba")]
