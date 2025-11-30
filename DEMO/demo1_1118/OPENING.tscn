@@ -1027,6 +1027,8 @@ libraries = {
 }
 
 [node name="PreloadingAnimate" type="CanvasLayer" parent="."]
+layer = 2
+visible = false
 script = ExtResource("7_jos7r")
 
 [node name="ColorRect" type="ColorRect" parent="PreloadingAnimate"]

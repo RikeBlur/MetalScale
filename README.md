@@ -2,7 +2,15 @@
 
 ## 25.11.30
 
+设计 Pipeline： <br>
 
+preloading 完成，确保 ArchiveManager、SceneManager、UIManager、GF加载完成， <br>
+包括一些初始化操作（管理器脚本不需要_ready） <br>
+preloading 期间需要 PreloadingAnimate，Preloaded 信号 emit 时 淡出 <br>
+
+为什么 PreloadingAnimate 作为 CanvasLayer 会遮盖输入？ <br>
+
+场景加载 Loading 实现过程 还在构思 <br>
 
 ## 25.11.29
 
