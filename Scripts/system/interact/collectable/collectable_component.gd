@@ -8,7 +8,7 @@ var interacted_component_node: interacted_component = null
 # Reminder预加载和实例存储
 var can_collect_reminder = preload("res://System/RPG/interact/dialogue/dialogue_reminder.tscn")
 var reminder_instance: Node = null
-@export var reminder_offset = Vector2(50, -80)  # 向上偏移100像素
+@export var reminder_offset = Vector2(50, -80)
 
 # ============================================ Interact初始化 ===========================================
 

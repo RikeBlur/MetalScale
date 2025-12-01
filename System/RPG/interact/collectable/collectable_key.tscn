@@ -1,12 +1,78 @@
-[gd_scene load_steps=4 format=3 uid="uid://cvrcmavceo5nx"]
+[gd_scene load_steps=15 format=3 uid="uid://cvrcmavceo5nx"]
 
 [ext_resource type="Script" uid="uid://bksdnq0tf0ep5" path="res://Scripts/system/interact/collectable/collectable_component.gd" id="1_p8np4"]
 [ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="2_6cw3t"]
+[ext_resource type="Texture2D" uid="uid://c600p4b3rflfn" path="res://Assests/sprite/effect/flashpoint-Sheet.png" id="3_6cw3t"]
+[ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/point_radial_light_texture.tres" id="4_ybchk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ybchk"]
-radius = 67.47592
+radius = 41.01219
 
-[node name="CollectableKey" type="Node2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ybchk"]
+atlas = ExtResource("3_6cw3t")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_546dr"]
+atlas = ExtResource("3_6cw3t")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3i11x"]
+atlas = ExtResource("3_6cw3t")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0cdbo"]
+atlas = ExtResource("3_6cw3t")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d8ihu"]
+atlas = ExtResource("3_6cw3t")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rjo8b"]
+atlas = ExtResource("3_6cw3t")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vv75i"]
+atlas = ExtResource("3_6cw3t")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hc0f8"]
+atlas = ExtResource("3_6cw3t")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7liqu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ybchk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_546dr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3i11x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0cdbo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d8ihu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rjo8b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vv75i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hc0f8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="CollectableKey" type="Node2D" groups=["interactable"]]
 script = ExtResource("1_p8np4")
 collected_tool = 3
 
@@ -17,3 +83,16 @@ interacted_rage = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="interacted_range"]
 shape = SubResource("CircleShape2D_ybchk")
+
+[node name="flashpoint" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7liqu")
+autoplay = "default"
+frame_progress = 0.13732298
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+energy = 0.1
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 0.5
+texture = ExtResource("4_ybchk")
+texture_scale = 2.0

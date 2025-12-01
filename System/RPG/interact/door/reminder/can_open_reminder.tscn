@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://kqclsuyc1t3w"]
+
+[ext_resource type="Texture2D" uid="uid://djlucid6tjljq" path="res://Assests/sprite/UI/reminder/can_open_reminder-Sheet.png" id="1_knta6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2occp"]
+atlas = ExtResource("1_knta6")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ru8n0"]
+atlas = ExtResource("1_knta6")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7hnii"]
+atlas = ExtResource("1_knta6")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tp3wd"]
+atlas = ExtResource("1_knta6")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b1k4m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2occp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ru8n0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7hnii")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tp3wd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="CanOpenReminder" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2.5, 2.5)
+sprite_frames = SubResource("SpriteFrames_b1k4m")
+autoplay = "default"

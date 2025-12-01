@@ -9,20 +9,17 @@ enum Tool{
 	NONE, #0
 	EMERGENCELIGHT, #1
 	FLASHLIGHT, #2
-	ADRENALINE #3
+	ADRENALINE, #3
+	KEY1_1 #4
 }
 
 # NOTE: Please replace with the actual paths to your scenes.
 const EMERGENCELIGHT_SCENE = preload("res://System/RPG/tools/Tool/EmergenceLight.tscn")
 const ADRENALINE_SCENE = preload("res://System/RPG/tools/Tool/adrenaline.tscn")
 const FLASHLIGHT_SCENE = preload("res://System/RPG/tools/Tool/FlashLight.tscn")
+const KEY1_1_SCENE = preload("res://System/RPG/tools/Tool/Key1-1.tscn")
 
-@export var current_tool: Tool = Tool.NONE:
-	set(value):
-		if current_tool == value:
-			return
-		current_tool = value
-		_on_tool_changed()
+@export var current_tool: Tool = Tool.NONE
 
 # Durability for each tool
 var durability = {
@@ -31,36 +28,41 @@ var durability = {
 }
 
 var consumption = {
-	Tool.ADRENALINE: 2
+	Tool.ADRENALINE: 2,
+	Tool.KEY1_1: 1
 }
 
 # Durability consumption rate per second. Can be adjusted in the inspector.
 @export var emergencelight_durability_consumption: float = 5.0
 @export var flashlight_durability_consumption: float = 5.0
 
+# 尝试使用耗尽耐久的道具时触发的音效！！
 @export var failure_sfx: AudioStreamPlayer2D
 
 func _ready():
 	current_tool = Tool.NONE
 	player_now.tool = -1
-	_on_tool_changed()
+	_on_tool_changed(0)
 	
 
 func _process(delta):
 	# Decrease durability of the currently active tool over time.
 	match current_tool:
+		# 应急光源
 		Tool.EMERGENCELIGHT:
 			durability[Tool.EMERGENCELIGHT] -= emergencelight_durability_consumption * delta
 			if durability[Tool.EMERGENCELIGHT] <= 0:
 				durability[Tool.EMERGENCELIGHT] = 0
 				# Switch to NONE when durability runs out.
 				current_tool = Tool.NONE
+		# 手电筒
 		Tool.FLASHLIGHT:
 			durability[Tool.FLASHLIGHT] -= flashlight_durability_consumption * delta
 			if durability[Tool.FLASHLIGHT] <= 0:
 				durability[Tool.FLASHLIGHT] = 0
 				# Switch to NONE when durability runs out.
 				current_tool = Tool.NONE
+		# 肾上腺素
 		Tool.ADRENALINE:
 			if InputEvents.consume_once():
 				if get_child_count() > 0:
@@ -72,19 +74,27 @@ func _process(delta):
 				consumption[Tool.ADRENALINE] = 0
 				current_tool = Tool.NONE
 				player_now.tool_available[player_now.tool] = Tool.NONE
+		Tool.KEY1_1:
+			pass
+				
 	# 如果按下数字键，切换到当前的tool
 	var to_tool = InputEvents.to_tool()
 	if to_tool >= 0 : 
-		current_tool = player_now.tool_available[to_tool]
-		player_now.tool = to_tool
+		_on_tool_changed(to_tool)
 
 
-func _on_tool_changed():
+func _on_tool_changed(new_tool: int):
 	# When the tool changes, first clear any existing tool instances.
 	for child in get_children():
 		child.queue_free()
 
-	match current_tool:
+	# 更新当前工具
+	var tool_now = player_now.tool_available[new_tool]
+	
+	current_tool = tool_now
+	player_now.tool = new_tool
+		
+	match tool_now:
 		Tool.NONE:
 			# Do nothing if no tool is selected.
 			pass
@@ -107,3 +117,5 @@ func _on_tool_changed():
 			var instance = ADRENALINE_SCENE.instantiate()
 			if consumption[Tool.ADRENALINE] > 0:
 				add_child(instance)
+		Tool.KEY1_1:
+			pass

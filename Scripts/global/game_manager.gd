@@ -2,6 +2,8 @@ class_name game_manager
 extends Node
 
 signal Preloaded
+signal Loading
+signal Loaded
 
 # ====================================================================================================
 # ========================================= 全局管理器路径 ===============================================
@@ -137,7 +139,7 @@ func start_new_game() -> void:
 	# 加载起始点
 	var startpoint_scene: PackedScene = load("res://System/RPG/interact/door/door_front.tscn")
 	startpoint_instance = startpoint_scene.instantiate()
-	startpoint_instance.scene_to = "level_1_1"
+	startpoint_instance.scene_to = "level_1_2"
 	startpoint_instance.global_position = start_position
 	parent.add_child(startpoint_instance)
 	

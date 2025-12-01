@@ -4,6 +4,8 @@ extends Node2D
 # 门的状态：0可以打开、1上锁、2不能从这一侧打开
 @export_enum("可打开", "上锁", "不可从此侧打开") var state: int = 0
 
+@export var responding_key : ToolManager.Tool = ToolManager.Tool.NONE
+
 # 场景路径
 @export var scene_from: String = ""
 @export var scene_to: String = ""
@@ -13,7 +15,10 @@ extends Node2D
 var interacted_component_node: interacted_component = null
 
 # Reminder预加载和实例存储
-var can_open_reminder = preload("res://System/RPG/interact/dialogue/dialogue_reminder.tscn")
+var can_open_reminder = preload("res://System/RPG/interact/door/reminder/can_open_reminder.tscn")
+var need_key_reminder = preload("res://System/RPG/interact/door/reminder/need_key_reminder.tscn")
+var not_this_side_reminder = preload("res://System/RPG/interact/door/reminder/not_this_side_reminder.tscn")
+
 var reminder_instance: Node = null
 
 func _ready() -> void:
@@ -70,7 +75,13 @@ func _spawn_reminder() -> void:
 		_destroy_reminder()
 	
 	# 实例化reminder
-	reminder_instance = can_open_reminder.instantiate()
+	match state :
+		0:
+			reminder_instance = can_open_reminder.instantiate()
+		1:
+			reminder_instance = need_key_reminder.instantiate()
+		2:
+			reminder_instance = not_this_side_reminder.instantiate()
 	
 	# 添加到场景树
 	add_child(reminder_instance)
@@ -105,23 +116,22 @@ func _destroy_reminder() -> void:
 func _on_door_interacted() -> void:
 	"""当门被交互时调用"""
 	print("BaseDoor: 门被交互，当前状态: %d" % state)
-	
-	# 先销毁reminder
-	_destroy_reminder()
+
 	
 	# 根据状态处理
 	match state:
 		0:  # 可以打开
 			_open_door()
 		1:  # 上锁
-			print("BaseDoor: 门已上锁，无法打开")
-			# 可以在这里播放锁定音效或显示提示
+			_door_lock()
 		2:  # 不能从这一侧打开
 			print("BaseDoor: 不能从这一侧打开门")
 			# 可以在这里显示提示
 
 func _open_door() -> void:
 	"""打开门并切换场景"""
+	_destroy_reminder()
+	
 	if scene_to == "":
 		push_warning("BaseDoor: scene_to为空，无法切换场景")
 		return
@@ -131,6 +141,51 @@ func _open_door() -> void:
 	# 调用GlobalFunction的场景切换， 通过 index 确认场景初始落点
 	SceneManager.change_scene(scene_to, scene_to_index)
 
+func _door_lock() -> void:
+	"""处理上锁的门"""
+	
+	print("BaseDoor: 门已上锁")
+	
+	# 获取玩家引用
+	var player_node = GlobalFunction.get_player()
+	if not player_node:
+		push_warning("BaseDoor: 无法获取玩家实例")
+		return
+	
+	# 检查是否配置了对应的钥匙
+	if responding_key == ToolManager.Tool.NONE:
+		print("BaseDoor: 未配置钥匙，无法通过常规方式打开")
+		return
+	
+	# 检查玩家是否有对应的 tool
+	# tool_available 是 Array[ToolManager.Tool]
+	var key_index = player_node.tool_available.find(responding_key)
+	
+	if key_index != -1:
+		# 玩家拥有钥匙
+		print("BaseDoor: 发现钥匙 %s (索引: %d)，正在开锁..." % [responding_key, key_index])
+		
+		_destroy_reminder()
+		
+		# 1. 将玩家的tool_available对应的tool设为none
+		player_node.tool_available[key_index] = ToolManager.Tool.NONE
+		print("BaseDoor: 钥匙已消耗")
+		
+		# 2. 将门的状态设置为0 (可打开)
+		state = 0
+		print("BaseDoor: 门状态已更新为可打开 (0)")
+		
+		_spawn_reminder()
+		
+		# 自动尝试打开门
+		#_open_door()
+		
+	else:
+		# 玩家没有钥匙
+		print("BaseDoor: 玩家没有钥匙 %s" % responding_key)
+		# 弹出提示（这里暂时用print，实际项目可能需要UI管理器）
+		# TODO: 实现UI提示 "门已上锁无法打开"
+	
 # ============ 工具函数 ============
 
 func set_door_state(new_state: int) -> void:

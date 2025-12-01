@@ -232,6 +232,11 @@ func game_save(index : int) -> bool:
 	return true
 
 func game_load(index : int) -> bool:
+	# 游戏总线 pipeline
+	GameManager.set_game_state(GameManager.GameState.LOADING)
+	GameManager.Loading.emit()
+	print("ArchiveManager: 开始读档")
+
 	# 检查存档文件是否存在
 	var save_path = ROOT_DIR.path_join(save_path_dict[index])
 	if not FileAccess.file_exists(save_path):
@@ -339,7 +344,9 @@ func game_load(index : int) -> bool:
 	else:
 		push_warning("ArchiveManager: 无法恢复玩家数据")
 	
-	print("ArchiveManager: 快速读档完成")
+	print("ArchiveManager: 读档完成")
+	GameManager.Loaded.emit()
+
 	return true
 
 func save_delete(index: int) -> bool:

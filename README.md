@@ -1,5 +1,27 @@
 # UPDATE
 
+## 25.12.02
+
+完善 baselevel 类：每次加载场景，都需要更新可交互位点状态！！每次改变可交互位点状态，也要更新到 SceneData里！！ <br>
+
+
+## 25.12.01
+
+Loading ： 只在加载存档时候进入 loading 状态（目前）。 <br>
+
+SceneData目前没啥内容，我认为关于场景的信息参数（每个可交互位点的状态）可以写到 BaseLevel 里，当参数变动时，调用 SceneManager 重写对应 SceneData 里对应的参数，这样确保全局的SceneData 动态变化，存档时可以保存每个场景的实际状态无误。 <br>
+
+完成以下 情景（用于检查存档和SceneData）： <br>
+房间1-1、1-2、1-3 <br>
+1-1 to 1-2 门 开； <br>
+1-1 to 1-3 门 关； <br>
+1-2 内 存在 collectable_key 用于打开 1-1 to 1-3 门; <br>
+
+BaseLevel 构造 InteractableDict，目前分为三类：门、收集物、机关 <br>
+
+目前完成了门的三种状态（0，1，2），确保每种状态有对应的 reminder 生成 <br>
+每个门对应一个 key（Tool类），如果门是锁着的且玩家的 tool_available 中有对应的 key，则开锁（不开门）且移除这个key<br>
+
 ## 25.11.30
 
 设计 Pipeline： <br>
