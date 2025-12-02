@@ -175,6 +175,13 @@ func _door_lock() -> void:
 		state = 0
 		print("BaseDoor: 门状态已更新为可打开 (0)")
 		
+		# 更新 BaseLevel 中对应的 InteractableData 的状态
+		var base_level = _find_base_level()
+		if base_level:
+			base_level.update_interactable_state(get_path(), 0)
+		else:
+			push_warning("BaseDoor: 未找到 BaseLevel，无法更新 interactables 状态")
+		
 		_spawn_reminder()
 		
 		# 自动尝试打开门
@@ -187,6 +194,40 @@ func _door_lock() -> void:
 		# TODO: 实现UI提示 "门已上锁无法打开"
 	
 # ============ 工具函数 ============
+
+func _find_base_level() -> BaseLevel:
+	"""
+	查找场景树中的 BaseLevel 节点
+	
+	返回:
+		BaseLevel 节点，如果未找到则返回 null
+	"""
+	# 从当前节点向上查找
+	var current = get_parent()
+	while current:
+		if current is BaseLevel:
+			return current
+		current = current.get_parent()
+	
+	# 如果向上没找到，尝试从根场景查找
+	var root = get_tree().current_scene
+	if root is BaseLevel:
+		return root
+	
+	# 递归查找子节点
+	return _find_base_level_recursive(root)
+
+func _find_base_level_recursive(node: Node) -> BaseLevel:
+	"""递归查找 BaseLevel 节点"""
+	if node is BaseLevel:
+		return node
+	
+	for child in node.get_children():
+		var result = _find_base_level_recursive(child)
+		if result:
+			return result
+	
+	return null
 
 func set_door_state(new_state: int) -> void:
 	"""设置门的状态"""

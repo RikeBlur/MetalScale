@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=4 uid="uid://bedsrm0hbtskf"]
+[gd_scene load_steps=18 format=4 uid="uid://bedsrm0hbtskf"]
 
 [ext_resource type="Script" uid="uid://bm3bxm1wuunvx" path="res://Scripts/system/level/BaseLevel.gd" id="1_hivh2"]
+[ext_resource type="Script" uid="uid://dpl7usng0cfyl" path="res://Scripts/data/interactable.gd" id="2_enh4h"]
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="2_naivx"]
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="3_enh4h"]
 [ext_resource type="TileSet" uid="uid://bjvk2df6c3c1j" path="res://Style/tilesets/test_assest_3.tres" id="4_5inl5"]
@@ -8,6 +9,17 @@
 [ext_resource type="Shader" uid="uid://dnmsgg8u8kvwd" path="res://Effect/Shader/level_transition/transition.gdshader" id="6_rc2kb"]
 [ext_resource type="Texture2D" uid="uid://ds0rnye51axgi" path="res://Assests/sprite/effect/Bayer8.png" id="7_s2lrp"]
 [ext_resource type="PackedScene" uid="uid://bdgt4t7dtg58f" path="res://System/RPG/view/transition_player.tscn" id="8_jbcnk"]
+
+[sub_resource type="Resource" id="Resource_naivx"]
+script = ExtResource("2_enh4h")
+node_path = NodePath("terrian/door/door3")
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_enh4h"]
+script = ExtResource("2_enh4h")
+node_path = NodePath("terrian/door/door2")
+state = 1
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Gradient" id="Gradient_l4uji"]
 offsets = PackedFloat32Array(0, 0.993506)
@@ -50,6 +62,7 @@ shader_parameter/transition_color = Color(0, 0, 0, 1)
 script = ExtResource("1_hivh2")
 player_initial_position = Array[Vector2]([Vector2(1200, 400), Vector2(1150, 300), Vector2(440, 280)])
 player_initial_direction = Array[Vector2]([Vector2(0, -1), Vector2(0, 1), Vector2(0, 1)])
+interactables = Array[ExtResource("2_enh4h")]([SubResource("Resource_naivx"), SubResource("Resource_enh4h")])
 
 [node name="UI_LAYERS" type="Node" parent="."]
 
@@ -106,7 +119,6 @@ environment = SubResource("Environment_shyo2")
 color = Color(0.5, 0.375, 0.375, 1)
 
 [node name="transition" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="transition"]
 material = SubResource("ShaderMaterial_l4uji")

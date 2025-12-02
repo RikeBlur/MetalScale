@@ -3,10 +3,13 @@ extends Node2D
 
 @export var collected_tool : ToolManager.Tool = ToolManager.Tool.NONE
 
+# 是否可收集？ 0否1是 （他还在那里吗）
+@export var collectable_state : int = 1
+
 var interacted_component_node: interacted_component = null
 
 # Reminder预加载和实例存储
-var can_collect_reminder = preload("res://System/RPG/interact/dialogue/dialogue_reminder.tscn")
+var can_collect_reminder = preload("res://System/RPG/interact/collectable/collectable_reminder.tscn")
 var reminder_instance: Node = null
 @export var reminder_offset = Vector2(50, -80)
 

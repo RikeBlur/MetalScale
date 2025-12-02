@@ -1,9 +1,24 @@
 # UPDATE
 
+## 25.12.03
+
+检查 锁门/开门 能否 跨存档 正常运作！ <br>
+
+
 ## 25.12.02
+
+CollectableReminder 更新！ <br>
 
 完善 baselevel 类：每次加载场景，都需要更新可交互位点状态！！每次改变可交互位点状态，也要更新到 SceneData里！！ <br>
 
+新建数据结构 InteractableData  <br>
+
+每个 BaseLevel 有一个 Interactables （InteractableData数组） <br>
+SceneData 也 由 SceneManager 维护一个 Interactables，用于全局信息维持！ <br>
+
+现在门开了之后不会关上了！ <br>
+
+后续要想办法在 preloading 阶段为 每个 SceneData 初始化 Interactables！ <br>
 
 ## 25.12.01
 
@@ -20,6 +35,7 @@ SceneData目前没啥内容，我认为关于场景的信息参数（每个可�
 BaseLevel 构造 InteractableDict，目前分为三类：门、收集物、机关 <br>
 
 目前完成了门的三种状态（0，1，2），确保每种状态有对应的 reminder 生成 <br>
+所有 reminder z_index==7 !!!
 每个门对应一个 key（Tool类），如果门是锁着的且玩家的 tool_available 中有对应的 key，则开锁（不开门）且移除这个key<br>
 
 ## 25.11.30

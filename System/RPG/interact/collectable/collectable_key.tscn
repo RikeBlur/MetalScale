@@ -74,7 +74,7 @@ animations = [{
 
 [node name="CollectableKey" type="Node2D" groups=["interactable"]]
 script = ExtResource("1_p8np4")
-collected_tool = 3
+collected_tool = 4
 
 [node name="interacted_range" type="Area2D" parent="."]
 

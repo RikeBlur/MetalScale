@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://d4hqircldc8wk"]
+
+[ext_resource type="Texture2D" uid="uid://dxhrph7mrvr0w" path="res://Assests/sprite/UI/reminder/collectable_reminder-Sheet.png" id="1_gwy44"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3fpfm"]
+atlas = ExtResource("1_gwy44")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2hptf"]
+atlas = ExtResource("1_gwy44")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6u21c"]
+atlas = ExtResource("1_gwy44")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mokl7"]
+atlas = ExtResource("1_gwy44")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ablp5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3fpfm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2hptf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6u21c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mokl7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="CollectableReminder" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 7
+scale = Vector2(2.5, 2.5)
+sprite_frames = SubResource("SpriteFrames_ablp5")
+autoplay = "default"
