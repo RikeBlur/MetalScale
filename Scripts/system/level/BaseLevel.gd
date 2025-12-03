@@ -134,9 +134,7 @@ func _apply_collectible_state(collectible_node: Node, state: int) -> void:
 	
 	TODO: 根据实际的可拾取物类实现此方法
 	"""
-	# 示例实现（假设可拾取物有 set_collectible_state 方法）
-	# if collectible_node.has_method("set_collectible_state"):
-	#     collectible_node.set_collectible_state(state)
+	collectible_node.collectable_state = state
 	
 	print("BaseLevel: 可拾取物状态应用 - 节点: %s, 状态: %d (待实现)" % [collectible_node.name, state])
 

@@ -30,6 +30,9 @@ func _ready() -> void:
 		_connect_signals()
 	else:
 		push_warning("BaseDoor: 未找到InteractedComponent子节点")
+	
+	# 等待一会，让节点更新好状态
+	await get_tree().process_frame
 
 func _find_and_store_interacted_component() -> void:
 	"""查找并存储InteractedComponent子节点"""

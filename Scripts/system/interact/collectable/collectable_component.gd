@@ -13,6 +13,10 @@ var can_collect_reminder = preload("res://System/RPG/interact/collectable/collec
 var reminder_instance: Node = null
 @export var reminder_offset = Vector2(50, -80)
 
+# 视觉标识物
+@onready var flashpoint: AnimatedSprite2D = $flashpoint
+@onready var light: PointLight2D = $light
+
 # ============================================ Interact初始化 ===========================================
 
 func _ready() -> void:
@@ -24,30 +28,12 @@ func _ready() -> void:
 		_connect_signals()
 	else:
 		push_warning("BaseDoor: 未找到InteractedComponent子节点")
-
-func _find_and_store_interacted_component() -> void:
-	"""查找并存储InteractedComponent子节点"""
-	for child in get_children():
-		if child is interacted_component:
-			interacted_component_node = child
-			print("BaseDoor: 找到InteractedComponent")
-			return
 	
-	# 如果没有直接子节点，尝试递归查找
-	interacted_component_node = _find_interacted_component_recursive(self)
-	if interacted_component_node:
-		print("BaseDoor: 在子树中找到InteractedComponent")
-		
-
-func _find_interacted_component_recursive(node: Node) -> interacted_component:
-	"""递归查找InteractedComponent"""
-	for child in node.get_children():
-		if child is interacted_component:
-			return child
-		var result = _find_interacted_component_recursive(child)
-		if result:
-			return result
-	return null
+	# 等待一会，让节点更新好状态
+	await get_tree().process_frame
+	
+	if collectable_state == 0 :
+		_disappear_literually()
 
 func _connect_signals() -> void:
 	"""连接InteractedComponent的信号"""
@@ -60,7 +46,18 @@ func _connect_signals() -> void:
 	interacted_component_node.interacted.connect(_on_collected)
 	
 	print("BaseDoor: 已连接所有信号")
-
+	
+# 使得可拾取物形式上消失（无法拾取、无法触发reminder、没有视觉提示）
+func _disappear_literually() -> void:
+	collectable_state = 0
+	light.visible = false
+	flashpoint.visible = false
+	_destroy_reminder()
+	interacted_component_node.be_interactable.disconnect(_spawn_reminder)
+	interacted_component_node.be_not_interactable.disconnect(_destroy_reminder)
+	interacted_component_node.interacted.disconnect(_on_collected)
+	# 值得注意的是，交互节点本身并没有消失，所以还是会触发 INTERACTED 只不过没有实际逻辑效果
+	
 # ============================================= Reminder管理 ============================================
 
 func _spawn_reminder() -> void:
@@ -106,7 +103,75 @@ func _on_collected() -> void:
 	for i in player_node.tool_available.size():
 		if player_node.tool_available[i] == ToolManager.Tool.NONE:
 			player_node.tool_available[i] = collected_tool
-			self.queue_free()
+			# 拾取后，使其形式上消失
+			_disappear_literually()
+			# 更新 BaseLevel 中对应的 InteractableData 的状态
+			var base_level = _find_base_level()
+			if base_level:
+				base_level.update_interactable_state(get_path(), 0)
+			else:
+				push_warning("BaseDoor: 未找到 BaseLevel，无法更新 interactables 状态")
 			return
 	print("玩家的 TOOLBAR 已满")
+
+# ============================================== 工具函数 =============================================
+
+func _find_and_store_interacted_component() -> void:
+	"""查找并存储InteractedComponent子节点"""
+	for child in get_children():
+		if child is interacted_component:
+			interacted_component_node = child
+			print("BaseDoor: 找到InteractedComponent")
+			return
+	
+	# 如果没有直接子节点，尝试递归查找
+	interacted_component_node = _find_interacted_component_recursive(self)
+	if interacted_component_node:
+		print("BaseDoor: 在子树中找到InteractedComponent")
+		
+
+func _find_interacted_component_recursive(node: Node) -> interacted_component:
+	"""递归查找InteractedComponent"""
+	for child in node.get_children():
+		if child is interacted_component:
+			return child
+		var result = _find_interacted_component_recursive(child)
+		if result:
+			return result
+	return null
+
+
+func _find_base_level() -> BaseLevel:
+	"""
+	查找场景树中的 BaseLevel 节点
+	
+	返回:
+		BaseLevel 节点，如果未找到则返回 null
+	"""
+	# 从当前节点向上查找
+	var current = get_parent()
+	while current:
+		if current is BaseLevel:
+			return current
+		current = current.get_parent()
+	
+	# 如果向上没找到，尝试从根场景查找
+	var root = get_tree().current_scene
+	if root is BaseLevel:
+		return root
+	
+	# 递归查找子节点
+	return _find_base_level_recursive(root)
+
+func _find_base_level_recursive(node: Node) -> BaseLevel:
+	"""递归查找 BaseLevel 节点"""
+	if node is BaseLevel:
+		return node
+	
+	for child in node.get_children():
+		var result = _find_base_level_recursive(child)
+		if result:
+			return result
+	
+	return null
 			

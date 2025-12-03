@@ -89,7 +89,7 @@ sprite_frames = SubResource("SpriteFrames_7liqu")
 autoplay = "default"
 frame_progress = 0.13732298
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="light" type="PointLight2D" parent="."]
 energy = 0.1
 shadow_enabled = true
 shadow_filter = 1

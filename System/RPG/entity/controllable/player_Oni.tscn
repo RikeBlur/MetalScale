@@ -1787,7 +1787,7 @@ player_walk_speed_max = 150
 player_run_speed_max = 300
 player_walk_acceleration = 300
 player_run_acceleration = 300
-tool_available = Array[int]([0, 1, 2, 3, 4, 0])
+tool_available = Array[int]([0, 1, 2, 3, 0, 0])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -25)
