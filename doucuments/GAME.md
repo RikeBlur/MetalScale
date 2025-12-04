@@ -2,7 +2,7 @@
 
 游戏的系统模块分为 ： 全局模块（Stage0）； 局部模块（Stage1） <br>
 
-### Stage0：
+### Preloading：
 
 1. **SceneManager** ： 定义每个 **场景** 场景id 和 SceneData 的一一对应 <br>
 
@@ -18,11 +18,13 @@
 
 ### MEUN：
 
-1. **Opening** ： 读取玩家和相机节点传给 GlobalFunction <br>
+1. **OpeningMeun** ： 开始新游戏、 读取存档、 游戏设置、 退出游戏 <br>
 
-2. **OpeningMeun** ： 开始新游戏、 读取存档、 游戏设置、 退出游戏 <br>
+### LOADING：
 
-### Stage1 ：
+目前还是在  **ArchiveManager**  中 load_game 方法实现的 <br>
+
+### RUNNING ：
 
 1. **InteractSystem** : 玩家和场景中的**交互** <br>
 

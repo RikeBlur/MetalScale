@@ -37,3 +37,9 @@ texture = SubResource("AtlasTexture_4cixi")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(0, -5.5)
 shape = SubResource("RectangleShape2D_jn4o2")
+
+[node name="open_sfx" type="AudioStreamPlayer2D" parent="."]
+
+[node name="cant_open_sfx" type="AudioStreamPlayer2D" parent="."]
+
+[node name="use_key_sfx" type="AudioStreamPlayer2D" parent="."]

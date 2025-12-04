@@ -28,7 +28,7 @@ func _ready():
 	# 加载新场景后初始化一次 UI系统
 	UIManager.refresh_ui_manager()
 	
-	# 获取当前场景的 SceneData
+	# 获取当前场景的 SceneData ！！
 	var scene_key = SceneManager.get_current_scene_key()
 	if scene_key != "":
 		current_scene_data = SceneManager.get_scene_data(scene_key)

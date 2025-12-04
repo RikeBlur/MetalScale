@@ -10,7 +10,7 @@ enum UI_component {
 }
 
 # UI场景
-const TOOLBAR_SCENE = preload("res://System/RPG/tools/toolbar.tscn")
+const TOOLBAR_SCENE = preload("res://System/RPG/UI/toolbar.tscn")
 const SETTINGS_SCENE = preload("res://System/RPG/UI/settings.tscn")
 const EXITWINDOWS_SCENE = preload("res://System/RPG/UI/exit_window.tscn")
 const SAVEGAMEWINDOW_SCENE = preload("res://System/RPG/UI/save_game.tscn")

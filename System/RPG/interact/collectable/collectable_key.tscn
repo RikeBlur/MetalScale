@@ -96,3 +96,5 @@ shadow_filter = 1
 shadow_filter_smooth = 0.5
 texture = ExtResource("4_ybchk")
 texture_scale = 2.0
+
+[node name="CollectedSFX" type="AudioStreamPlayer2D" parent="."]

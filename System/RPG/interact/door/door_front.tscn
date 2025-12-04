@@ -32,3 +32,9 @@ texture = ExtResource("3_chdcv")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(0, -50.5)
 shape = SubResource("RectangleShape2D_chdcv")
+
+[node name="open_sfx" type="AudioStreamPlayer2D" parent="."]
+
+[node name="cant_open_sfx" type="AudioStreamPlayer2D" parent="."]
+
+[node name="use_key_sfx" type="AudioStreamPlayer2D" parent="."]

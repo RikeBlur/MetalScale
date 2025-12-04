@@ -16,6 +16,7 @@ var reminder_instance: Node = null
 # 视觉标识物
 @onready var flashpoint: AnimatedSprite2D = $flashpoint
 @onready var light: PointLight2D = $light
+@onready var collected_sfx: AudioStreamPlayer2D = $CollectedSFX
 
 # ============================================ Interact初始化 ===========================================
 
@@ -105,6 +106,8 @@ func _on_collected() -> void:
 			player_node.tool_available[i] = collected_tool
 			# 拾取后，使其形式上消失
 			_disappear_literually()
+			# 拾取音效播放
+			collected_sfx.play()
 			# 更新 BaseLevel 中对应的 InteractableData 的状态
 			var base_level = _find_base_level()
 			if base_level:

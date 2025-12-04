@@ -44,5 +44,5 @@ path: String <br>
 ### 场景显示名称
 display_name: String <br>
 
-### 其他自定义数据（可扩展）
-custom_data: Dictionary = {} <br>
+### 可交互位数据
+interactables: Array[InteractableData] <br>

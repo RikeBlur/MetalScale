@@ -21,6 +21,10 @@ var not_this_side_reminder = preload("res://System/RPG/interact/door/reminder/no
 
 var reminder_instance: Node = null
 
+@onready var open_sfx: AudioStreamPlayer2D = $open_sfx
+@onready var cant_open_sfx: AudioStreamPlayer2D = $cant_open_sfx
+@onready var use_key_sfx: AudioStreamPlayer2D = $use_key_sfx
+
 func _ready() -> void:
 	# 查找子节点中的InteractedComponent
 	_find_and_store_interacted_component()
@@ -128,12 +132,16 @@ func _on_door_interacted() -> void:
 		1:  # 上锁
 			_door_lock()
 		2:  # 不能从这一侧打开
+			cant_open_sfx.play()
 			print("BaseDoor: 不能从这一侧打开门")
 			# 可以在这里显示提示
 
 func _open_door() -> void:
 	"""打开门并切换场景"""
 	_destroy_reminder()
+	
+	# 播放音效
+	open_sfx.play()
 	
 	if scene_to == "":
 		push_warning("BaseDoor: scene_to为空，无法切换场景")
@@ -172,6 +180,9 @@ func _door_lock() -> void:
 		
 		# 1. 将玩家的tool_available对应的tool设为none
 		player_node.tool_available[key_index] = ToolManager.Tool.NONE
+		# 播放音效
+		use_key_sfx.play()
+		
 		print("BaseDoor: 钥匙已消耗")
 		
 		# 2. 将门的状态设置为0 (可打开)
@@ -194,6 +205,7 @@ func _door_lock() -> void:
 		# 玩家没有钥匙
 		print("BaseDoor: 玩家没有钥匙 %s" % responding_key)
 		# 弹出提示（这里暂时用print，实际项目可能需要UI管理器）
+		cant_open_sfx.play()
 		# TODO: 实现UI提示 "门已上锁无法打开"
 	
 # ============ 工具函数 ============

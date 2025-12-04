@@ -11,25 +11,21 @@ Stage1 setup
 
 ### 预设状态
 
-1. STAGE0 所有全局节点的加载 <br>
+1. PRELOADING 所有全局节点的加载 <br>
 
 2. MEUN 主菜单界面 <br>
 
-3. STAGEhalf 开启新游戏的前半部分，特殊游戏环境，无法打开 toolbar 和 settings，也可用于演出 <br>
+3. RUNNING 实际游戏运行的状态 <br>
 
-4. STAGE1 实际游戏运行的状态 <br>
+4. LOADING 读档切换的状态 <br>
 
-5. LOADING 读档/场景切换的状态 <br>
-
-6. OVER 游戏结束的状态，可以退回 MEUN 或者 退出 <br>
+5. OVER 游戏结束的状态，可以退回 MEUN 或者 退出 <br>
 
 ### 核心方法
 
 1. **开启新游戏** start_new_game() -> void  <br>
 
 值得一提的是，GlobalFunction只负责存储玩家、相机节点，并不负责玩家、相机节点的初始化，初始实例化由 GameManager 完成 <br>
-
-由 Menu 根节点 Opening 传入 PackedScene （玩家、相机），当玩家点击 开启新游戏 时，实例化 <br>
 
 2. **退出游戏** quit_game() -> void:  <br>
 

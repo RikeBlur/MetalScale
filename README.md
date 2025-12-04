@@ -1,5 +1,31 @@
 # UPDATE
 
+## 25.12.04
+
+1.游戏总线 （剩余困难）： <br>
+为什么 PreloadingAnimate 作为 CanvasLayer 会遮盖输入？ <br>
+场景加载 Loading 实现过程 还在构思 <br>
+
+2.声音系统： <br>
+需要的音效汇总： <br>
+player 脚步 ；  <br>
+切换道具；  <br>
+开关光源； <br>
+开门； <br>
+开锁； <br>
+开门失败； <br>
+点击settingbox； <br>
+点击normalUI； <br>
+BGM； <br>
+
+3.死亡动画： <br>
+构想 jump scare 动画 <br>
+死亡后的 menu （回到菜单、退出、读取最近存档） <br>
+
+4.NPC数据 <br>
+
+重构尝试： 在 load game 时不直接调用切换场景的 change scene，而是单独再写一个实现！！ <br>
+
 ## 25.12.03
 
 检查 锁门/开门 能否 跨存档 正常运作！ <br>
@@ -61,7 +87,8 @@ Reboot  <br>
 2.声音系统； <br>
 3.死亡动画； <br>
 4.SceneData的真实实现（场景的所有可交互实体）； <br>
-5.NPC数据的保存；Collectble 完善 <br>
+5.NPC数据的保存； <br>
+6.Collectble 完善 <br>
 
 完成后上述功能后，基本的游戏demo就可以搭建了 <br>
 
