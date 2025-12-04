@@ -10,6 +10,17 @@
 [ext_resource type="Shader" uid="uid://dnmsgg8u8kvwd" path="res://Effect/Shader/level_transition/transition.gdshader" id="8_5c18h"]
 [ext_resource type="PackedScene" uid="uid://bdgt4t7dtg58f" path="res://System/RPG/view/transition_player.tscn" id="10_ftiba"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jos7r"]
+load_path = "res://.godot/imported/Bayer8.png-0641d62d0dd41fae15d129a7a943b31b.ctex"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5c18h"]
+shader = ExtResource("8_5c18h")
+shader_parameter/progress = 0.0
+shader_parameter/noise_texture = SubResource("CompressedTexture2D_jos7r")
+shader_parameter/noise_scale = Vector2(1, 1)
+shader_parameter/edge_softness = 0.10000000475
+shader_parameter/transition_color = Color(0, 0, 0, 1)
+
 [sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_ohyvh"]
 
 [sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_hyq4k"]
@@ -833,202 +844,14 @@ _data = {
 &"slide": SubResource("Animation_5n38v")
 }
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jos7r"]
-load_path = "res://.godot/imported/Bayer8.png-0641d62d0dd41fae15d129a7a943b31b.ctex"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5c18h"]
-shader = ExtResource("8_5c18h")
-shader_parameter/progress = 0.0
-shader_parameter/noise_texture = SubResource("CompressedTexture2D_jos7r")
-shader_parameter/noise_scale = Vector2(1, 1)
-shader_parameter/edge_softness = 0.10000000475
-shader_parameter/transition_color = Color(0, 0, 0, 1)
-
 [node name="Opening" type="Node2D"]
 
 [node name="D1" parent="." instance=ExtResource("2_x55rs")]
 position = Vector2(616, 313.00003)
 texture = ExtResource("3_hyq4k")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="openingbb" type="Sprite2D" parent="CanvasLayer"]
-position = Vector2(574, 328)
-texture = ExtResource("3_hyq4k")
-
-[node name="opening_meun" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("menu_buttons", "canvas_animation_player")]
-layout_mode = 3
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -20.0
-offset_right = 40.0
-offset_bottom = 20.0
-grow_vertical = 2
-theme = ExtResource("3_x55rs")
-script = ExtResource("3_pd41b")
-menu_buttons = [NodePath("MarginContainer/button4/left/up"), NodePath("MarginContainer/button4/right/up"), NodePath("MarginContainer/button4/left/down"), NodePath("MarginContainer/button4/right/down")]
-canvas_animation_player = NodePath("../CanvasSlidePlayer")
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/opening_meun"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -328.0
-offset_right = 940.0
-offset_bottom = 322.0
-grow_vertical = 2
-pivot_offset = Vector2(0, 325)
-theme_override_constants/margin_left = 100
-theme_override_constants/margin_top = 200
-theme_override_constants/margin_right = 100
-theme_override_constants/margin_bottom = 200
-metadata/_edit_use_anchors_ = true
-
-[node name="button4" type="HBoxContainer" parent="CanvasLayer/opening_meun/MarginContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="left" type="VBoxContainer" parent="CanvasLayer/opening_meun/MarginContainer/button4"]
-layout_mode = 2
-size_flags_horizontal = 6
-alignment = 1
-
-[node name="up" type="MarginContainer" parent="CanvasLayer/opening_meun/MarginContainer/button4/left" node_paths=PackedStringArray("button", "back")]
-custom_minimum_size = Vector2(250, 100)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-script = ExtResource("4_ohyvh")
-button = NodePath("STARTNEWGAME")
-back = NodePath("back")
-normal_scale = Vector2(1, 1)
-bigger_scale = Vector2(1.05, 1.05)
-smaller_scale = Vector2(0.95, 0.95)
-
-[node name="back" type="Sprite2D" parent="CanvasLayer/opening_meun/MarginContainer/button4/left/up"]
-material = SubResource("ShaderMaterial_qh5rk")
-position = Vector2(134, 52)
-scale = Vector2(0.75, 0.75)
-texture = ExtResource("6_5n38v")
-
-[node name="dissolve_player" type="AnimationPlayer" parent="CanvasLayer/opening_meun/MarginContainer/button4/left/up/back"]
-libraries = {
-&"": SubResource("AnimationLibrary_cqwn0")
-}
-
-[node name="STARTNEWGAME" type="Button" parent="CanvasLayer/opening_meun/MarginContainer/button4/left/up"]
-custom_minimum_size = Vector2(250, 100)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme = ExtResource("3_x55rs")
-theme_type_variation = &"Button"
-theme_override_styles/normal = SubResource("StyleBoxEmpty_epbi8")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_x55rs")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_pd41b")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_ohyvh")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_hyq4k")
-action_mode = 0
-text = "开 始"
-
-[node name="down" type="MarginContainer" parent="CanvasLayer/opening_meun/MarginContainer/button4/left" node_paths=PackedStringArray("button", "back")]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-script = ExtResource("4_ohyvh")
-button = NodePath("CONFIGS")
-back = NodePath("back")
-normal_scale = Vector2(1, 1)
-bigger_scale = Vector2(1.05, 1.05)
-smaller_scale = Vector2(0.95, 0.95)
-
-[node name="back" type="Sprite2D" parent="CanvasLayer/opening_meun/MarginContainer/button4/left/down"]
-material = SubResource("ShaderMaterial_wgmxg")
-position = Vector2(134, 52)
-scale = Vector2(0.75, 0.75)
-texture = ExtResource("6_5n38v")
-
-[node name="dissolve_player" type="AnimationPlayer" parent="CanvasLayer/opening_meun/MarginContainer/button4/left/down/back"]
-libraries = {
-&"": SubResource("AnimationLibrary_cqwn0")
-}
-
-[node name="CONFIGS" type="Button" parent="CanvasLayer/opening_meun/MarginContainer/button4/left/down"]
-custom_minimum_size = Vector2(250, 100)
-layout_mode = 2
-theme = ExtResource("3_x55rs")
-theme_type_variation = &"Button"
-text = "设 置"
-
-[node name="right" type="VBoxContainer" parent="CanvasLayer/opening_meun/MarginContainer/button4"]
-layout_mode = 2
-size_flags_horizontal = 6
-alignment = 1
-
-[node name="up" type="MarginContainer" parent="CanvasLayer/opening_meun/MarginContainer/button4/right" node_paths=PackedStringArray("button", "back")]
-layout_mode = 2
-size_flags_vertical = 6
-script = ExtResource("4_ohyvh")
-button = NodePath("LOADARCHIVE")
-back = NodePath("back")
-normal_scale = Vector2(1, 1)
-bigger_scale = Vector2(1.05, 1.05)
-smaller_scale = Vector2(0.95, 0.95)
-
-[node name="back" type="Sprite2D" parent="CanvasLayer/opening_meun/MarginContainer/button4/right/up"]
-material = SubResource("ShaderMaterial_tb2kd")
-position = Vector2(134, 52)
-scale = Vector2(0.75, 0.75)
-texture = ExtResource("6_5n38v")
-
-[node name="dissolve_player" type="AnimationPlayer" parent="CanvasLayer/opening_meun/MarginContainer/button4/right/up/back"]
-libraries = {
-&"": SubResource("AnimationLibrary_cqwn0")
-}
-
-[node name="LOADARCHIVE" type="Button" parent="CanvasLayer/opening_meun/MarginContainer/button4/right/up"]
-custom_minimum_size = Vector2(250, 100)
-layout_mode = 2
-theme = ExtResource("3_x55rs")
-text = "加 载"
-
-[node name="down" type="MarginContainer" parent="CanvasLayer/opening_meun/MarginContainer/button4/right" node_paths=PackedStringArray("button", "back")]
-layout_mode = 2
-size_flags_vertical = 6
-script = ExtResource("4_ohyvh")
-button = NodePath("QUITGAME")
-back = NodePath("back")
-normal_scale = Vector2(1, 1)
-bigger_scale = Vector2(1.05, 1.05)
-smaller_scale = Vector2(0.95, 0.95)
-
-[node name="back" type="Sprite2D" parent="CanvasLayer/opening_meun/MarginContainer/button4/right/down"]
-material = SubResource("ShaderMaterial_whihu")
-position = Vector2(134, 57)
-scale = Vector2(0.75, 0.75)
-texture = ExtResource("6_5n38v")
-
-[node name="dissolve_player" type="AnimationPlayer" parent="CanvasLayer/opening_meun/MarginContainer/button4/right/down/back"]
-libraries = {
-&"": SubResource("AnimationLibrary_cqwn0")
-}
-
-[node name="QUITGAME" type="Button" parent="CanvasLayer/opening_meun/MarginContainer/button4/right/down"]
-custom_minimum_size = Vector2(250, 100)
-layout_mode = 2
-theme = ExtResource("3_x55rs")
-text = "退 出"
-
-[node name="CanvasSlidePlayer" type="AnimationPlayer" parent="CanvasLayer"]
-libraries = {
-&"": SubResource("AnimationLibrary_jos7r")
-}
-
 [node name="PreloadingAnimate" type="CanvasLayer" parent="."]
 layer = 2
-visible = false
 script = ExtResource("7_jos7r")
 
 [node name="ColorRect" type="ColorRect" parent="PreloadingAnimate"]
@@ -1046,5 +869,182 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+mouse_filter = 2
 
 [node name="transition_player" parent="PreloadingAnimate" instance=ExtResource("10_ftiba")]
+
+[node name="OpeningMenu" type="CanvasLayer" parent="."]
+
+[node name="openingbb" type="Sprite2D" parent="OpeningMenu"]
+position = Vector2(574, 328)
+texture = ExtResource("3_hyq4k")
+
+[node name="opening_meun" type="Control" parent="OpeningMenu" node_paths=PackedStringArray("menu_buttons", "canvas_animation_player")]
+layout_mode = 3
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+theme = ExtResource("3_x55rs")
+script = ExtResource("3_pd41b")
+menu_buttons = [NodePath("MarginContainer/button4/left/up"), NodePath("MarginContainer/button4/right/up"), NodePath("MarginContainer/button4/left/down"), NodePath("MarginContainer/button4/right/down")]
+canvas_animation_player = NodePath("../CanvasSlidePlayer")
+
+[node name="MarginContainer" type="MarginContainer" parent="OpeningMenu/opening_meun"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -328.0
+offset_right = 940.0
+offset_bottom = 322.0
+grow_vertical = 2
+pivot_offset = Vector2(0, 325)
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 200
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 200
+metadata/_edit_use_anchors_ = true
+
+[node name="button4" type="HBoxContainer" parent="OpeningMenu/opening_meun/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="left" type="VBoxContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4"]
+layout_mode = 2
+size_flags_horizontal = 6
+alignment = 1
+
+[node name="up" type="MarginContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4/left" node_paths=PackedStringArray("button", "back")]
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+script = ExtResource("4_ohyvh")
+button = NodePath("STARTNEWGAME")
+back = NodePath("back")
+normal_scale = Vector2(1, 1)
+bigger_scale = Vector2(1.05, 1.05)
+smaller_scale = Vector2(0.95, 0.95)
+
+[node name="back" type="Sprite2D" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/up"]
+material = SubResource("ShaderMaterial_qh5rk")
+position = Vector2(134, 52)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("6_5n38v")
+
+[node name="dissolve_player" type="AnimationPlayer" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/up/back"]
+libraries = {
+&"": SubResource("AnimationLibrary_cqwn0")
+}
+
+[node name="STARTNEWGAME" type="Button" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/up"]
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("3_x55rs")
+theme_type_variation = &"Button"
+theme_override_styles/normal = SubResource("StyleBoxEmpty_epbi8")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_x55rs")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_pd41b")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ohyvh")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_hyq4k")
+action_mode = 0
+text = "开 始"
+
+[node name="down" type="MarginContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4/left" node_paths=PackedStringArray("button", "back")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+script = ExtResource("4_ohyvh")
+button = NodePath("CONFIGS")
+back = NodePath("back")
+normal_scale = Vector2(1, 1)
+bigger_scale = Vector2(1.05, 1.05)
+smaller_scale = Vector2(0.95, 0.95)
+
+[node name="back" type="Sprite2D" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/down"]
+material = SubResource("ShaderMaterial_wgmxg")
+position = Vector2(134, 52)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("6_5n38v")
+
+[node name="dissolve_player" type="AnimationPlayer" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/down/back"]
+libraries = {
+&"": SubResource("AnimationLibrary_cqwn0")
+}
+
+[node name="CONFIGS" type="Button" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/down"]
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 2
+theme = ExtResource("3_x55rs")
+theme_type_variation = &"Button"
+text = "设 置"
+
+[node name="right" type="VBoxContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4"]
+layout_mode = 2
+size_flags_horizontal = 6
+alignment = 1
+
+[node name="up" type="MarginContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4/right" node_paths=PackedStringArray("button", "back")]
+layout_mode = 2
+size_flags_vertical = 6
+script = ExtResource("4_ohyvh")
+button = NodePath("LOADARCHIVE")
+back = NodePath("back")
+normal_scale = Vector2(1, 1)
+bigger_scale = Vector2(1.05, 1.05)
+smaller_scale = Vector2(0.95, 0.95)
+
+[node name="back" type="Sprite2D" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/up"]
+material = SubResource("ShaderMaterial_tb2kd")
+position = Vector2(134, 52)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("6_5n38v")
+
+[node name="dissolve_player" type="AnimationPlayer" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/up/back"]
+libraries = {
+&"": SubResource("AnimationLibrary_cqwn0")
+}
+
+[node name="LOADARCHIVE" type="Button" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/up"]
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 2
+theme = ExtResource("3_x55rs")
+text = "加 载"
+
+[node name="down" type="MarginContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4/right" node_paths=PackedStringArray("button", "back")]
+layout_mode = 2
+size_flags_vertical = 6
+script = ExtResource("4_ohyvh")
+button = NodePath("QUITGAME")
+back = NodePath("back")
+normal_scale = Vector2(1, 1)
+bigger_scale = Vector2(1.05, 1.05)
+smaller_scale = Vector2(0.95, 0.95)
+
+[node name="back" type="Sprite2D" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/down"]
+material = SubResource("ShaderMaterial_whihu")
+position = Vector2(134, 57)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("6_5n38v")
+
+[node name="dissolve_player" type="AnimationPlayer" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/down/back"]
+libraries = {
+&"": SubResource("AnimationLibrary_cqwn0")
+}
+
+[node name="QUITGAME" type="Button" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/down"]
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 2
+theme = ExtResource("3_x55rs")
+text = "退 出"
+
+[node name="CanvasSlidePlayer" type="AnimationPlayer" parent="OpeningMenu"]
+libraries = {
+&"": SubResource("AnimationLibrary_jos7r")
+}

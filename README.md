@@ -10,12 +10,12 @@
 需要的音效汇总： <br>
 player 脚步 ；  <br>
 切换道具；  <br>
-开关光源； <br>
+拾取可收集物； <br>
 开门； <br>
 开锁； <br>
 开门失败； <br>
-点击settingbox； <br>
-点击normalUI； <br>
+点击 settingbox； <br>
+点击 normalUI； <br>
 BGM； <br>
 
 3.死亡动画： <br>
@@ -25,6 +25,8 @@ BGM； <br>
 4.NPC数据 <br>
 
 重构尝试： 在 load game 时不直接调用切换场景的 change scene，而是单独再写一个实现！！ <br>
+
+新增 RUNNING 内部的三种状态 CONTROL/AUTO/MENU <br>
 
 ## 25.12.03
 

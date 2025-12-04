@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://c3rxsj1abf2gi"
-path="res://.godot/imported/Creepy_ambience_5.wav-31efb9f3db1d9ed3fe5922bdb4c61ab5.sample"
+path="res://.godot/imported/Creepy_ambience_5.wav-90412b21db43b8aeed7b3515bb018f1b.sample"
 
 [deps]
 
-source_file="res://Assests/SFX/horror/Creepy_ambience_5.wav"
-dest_files=["res://.godot/imported/Creepy_ambience_5.wav-31efb9f3db1d9ed3fe5922bdb4c61ab5.sample"]
+source_file="res://Assests/SFX/bin/horror/Creepy_ambience_5.wav"
+dest_files=["res://.godot/imported/Creepy_ambience_5.wav-90412b21db43b8aeed7b3515bb018f1b.sample"]
 
 [params]
 

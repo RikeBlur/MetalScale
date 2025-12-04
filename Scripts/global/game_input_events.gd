@@ -22,6 +22,9 @@ static var running : bool = false
 # 如果 player_input_blocked，所有返回都设为false
 static var player_input_blocked : bool = false
 
+# 鼠标输入阻塞标志
+static var mouse_input_blocked : bool = false
+
 # 确保单次按键不要重复触发
 static var _last_consume_timestamp: float = 0.0
 const CONSUME_COOLDOWN: float = 0.2 
@@ -154,3 +157,19 @@ static func get_last_valid_direction() -> Vector2:
 		return valid_direction
 	else:
 		return valid_last_direction
+
+# 隐藏鼠标并禁止所有鼠标输入
+static func hide_mouse() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	mouse_input_blocked = true
+	print("InputEvents: 鼠标已隐藏，鼠标输入已禁用")
+
+# 显示鼠标并恢复鼠标输入
+static func show_mouse() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	mouse_input_blocked = false
+	print("InputEvents: 鼠标已显示，鼠标输入已恢复")
+
+# 检查鼠标输入是否被阻塞
+static func is_mouse_input_blocked() -> bool:
+	return mouse_input_blocked

@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://c4dnja6ob2pjl"
-path="res://.godot/imported/Cancel 1.wav-7b3356da5dec9b0eb4c7ba12faf69d29.sample"
+path="res://.godot/imported/Cancel 1.wav-eb6f686ddd7dbfde29e9dc9a7ba50f68.sample"
 
 [deps]
 
-source_file="res://Assests/SFX/interact/Cancel 1.wav"
-dest_files=["res://.godot/imported/Cancel 1.wav-7b3356da5dec9b0eb4c7ba12faf69d29.sample"]
+source_file="res://Assests/SFX/bin/interact/Cancel 1.wav"
+dest_files=["res://.godot/imported/Cancel 1.wav-eb6f686ddd7dbfde29e9dc9a7ba50f68.sample"]
 
 [params]
 

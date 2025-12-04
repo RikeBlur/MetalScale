@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://xq8r0mwqd08l"
-path="res://.godot/imported/Monster_breath.wav-fd423478fd0b4814129647b085dcadd8.sample"
+path="res://.godot/imported/Monster_breath.wav-6521f3725a053700318f87b2bb9e1b96.sample"
 
 [deps]
 
-source_file="res://Assests/SFX/horror/Monster_breath.wav"
-dest_files=["res://.godot/imported/Monster_breath.wav-fd423478fd0b4814129647b085dcadd8.sample"]
+source_file="res://Assests/SFX/bin/horror/Monster_breath.wav"
+dest_files=["res://.godot/imported/Monster_breath.wav-6521f3725a053700318f87b2bb9e1b96.sample"]
 
 [params]
 

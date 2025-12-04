@@ -159,6 +159,29 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 	return ui_instance
 
 
+func remove_ui(ui_type: UI_component):
+	"""移除UI实例"""
+	var ui = ui_instances.get(ui_type)
+	if ui:
+		# 检查节点是否仍然有效
+		if is_instance_valid(ui):
+			# 从显示列表移除
+			_remove_ui_from_visible_list(ui_type)
+			
+			# 直接从字典中移除引用，避免循环调用
+			ui_instances.erase(ui_type)
+			# 使用queue_free安全释放节点
+			ui.queue_free()
+			print("UI_manager: 移除 UI类型 %d" % ui_type)
+		else:
+			# 节点已无效，直接从字典中移除
+			_remove_ui_from_visible_list(ui_type)
+			ui_instances.erase(ui_type)
+			print("UI_manager: UI类型 %d 节点已无效，从字典中移除" % ui_type)
+	else:
+		print("UI_manager: UI类型 %d 不存在" % ui_type)
+
+
 func _initialize_layers():
 	"""初始化所有canvas layer引用"""
 	layers.clear()
@@ -190,9 +213,13 @@ func _toggle_settings():
 	if not is_settings_showing:
 		# 显示settings
 		_show_settings()
+		GameManager.current_runnnig_state = GameManager.RunningState.MENU
+		InputEvents.show_mouse()
 	else:
 		# 隐藏settings
 		_hide_settings()
+		GameManager.current_runnnig_state = GameManager.RunningState.CONTROL
+		InputEvents.hide_mouse()
 
 func _show_settings():
 	"""显示设置界面"""
@@ -314,12 +341,11 @@ func _hide_toolbar():
 	_remove_ui_from_visible_list(UI_component.TOOLBAR)
 	
 	print("UI_manager: 隐藏工具栏")
+	
 # --------------------------------------------------------------------------------------------------
-# --------------------------------------------------------------------------------------------------
+# ------------------------------------------ 工具函数 ----------------------------------------------
 # --------------------------------------------------------------------------------------------------
 
-
-# ============ 工具函数 ============
 
 func _add_ui_to_visible_list(ui_type: UI_component) -> void:
 	"""将UI添加到其layer的可见列表中"""
@@ -390,28 +416,6 @@ func is_ui_visible(ui_type: UI_component) -> bool:
 func get_ui_instance(ui_type: UI_component) -> Node:
 	"""获取UI实例"""
 	return ui_instances.get(ui_type)
-
-func remove_ui(ui_type: UI_component):
-	"""移除UI实例"""
-	var ui = ui_instances.get(ui_type)
-	if ui:
-		# 检查节点是否仍然有效
-		if is_instance_valid(ui):
-			# 从显示列表移除
-			_remove_ui_from_visible_list(ui_type)
-			
-			# 直接从字典中移除引用，避免循环调用
-			ui_instances.erase(ui_type)
-			# 使用queue_free安全释放节点
-			ui.queue_free()
-			print("UI_manager: 移除 UI类型 %d" % ui_type)
-		else:
-			# 节点已无效，直接从字典中移除
-			_remove_ui_from_visible_list(ui_type)
-			ui_instances.erase(ui_type)
-			print("UI_manager: UI类型 %d 节点已无效，从字典中移除" % ui_type)
-	else:
-		print("UI_manager: UI类型 %d 不存在" % ui_type)
 
 func safe_remove_all_ui():
 	"""安全移除所有UI实例"""

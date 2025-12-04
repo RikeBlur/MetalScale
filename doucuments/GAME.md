@@ -26,6 +26,8 @@
 
 ### RUNNING ：
 
+分三个子状态 CONTROL/AUTO/MENU <br>
+
 1. **InteractSystem** : 玩家和场景中的**交互** <br>
 
 2. **LightingSystem** ： 照明、遮挡、光强检测 <br>

@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://t61bb5le2bm1"
-path="res://.godot/imported/Footsteps_ running.wav-4cc570f4040d0a09a3492ea276a21658.sample"
+path="res://.godot/imported/Footsteps_ running.wav-87372a2a79b9af6171da62bd44aa7129.sample"
 
 [deps]
 
-source_file="res://Assests/SFX/horror/Footsteps_ running.wav"
-dest_files=["res://.godot/imported/Footsteps_ running.wav-4cc570f4040d0a09a3492ea276a21658.sample"]
+source_file="res://Assests/SFX/bin/horror/Footsteps_ running.wav"
+dest_files=["res://.godot/imported/Footsteps_ running.wav-87372a2a79b9af6171da62bd44aa7129.sample"]
 
 [params]
 

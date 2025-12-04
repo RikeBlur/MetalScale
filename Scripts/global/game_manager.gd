@@ -27,8 +27,16 @@ enum GameState {
 	OVER
 }
 
+enum RunningState {
+	NOPE,
+	CONTROL,
+	MENU,
+	AUTO
+}
+
 # 当前游戏状态
 var current_state: GameState = GameState.PRELOADING
+var current_runnnig_state: RunningState = RunningState.NOPE
 
 # 游戏启动时间（毫秒）
 var game_start_time_msec: int = 0
@@ -56,6 +64,10 @@ func _ready() -> void:
 	# 记录游戏启动时间
 	game_start_time_msec = Time.get_ticks_msec()
 	preloading()
+	Loaded.connect(_on_loaded)
+	
+func _process(delta: float) -> void:
+	pass
 
 # ====================================================================================================
 # ============================================= 游戏总线 ==============================================
@@ -145,7 +157,19 @@ func start_new_game() -> void:
 	
 	# 更新游戏状态为运行中
 	current_state = GameState.RUNNING
+	current_runnnig_state = RunningState.CONTROL
 	print("GameManager: 新游戏启动完成，当前状态: RUNNING")
+	InputEvents.hide_mouse()
+
+func _on_loaded() -> void:
+	"""
+	游戏加载完成
+	由信号触发
+	"""
+	current_state = GameState.RUNNING
+	current_runnnig_state = RunningState.CONTROL
+	print("GameManager: 新游戏启动完成，当前状态: RUNNING")
+	InputEvents.hide_mouse()
 
 
 func quit_game() -> void:

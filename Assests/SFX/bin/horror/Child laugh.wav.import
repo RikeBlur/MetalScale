@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://rrgmuenyardm"
-path="res://.godot/imported/Child laugh.wav-8d61fdd9cde1aad14e14d1d981c61e12.sample"
+path="res://.godot/imported/Child laugh.wav-c58efa7a8d54af7b3fd53bc206b48a4b.sample"
 
 [deps]
 
-source_file="res://Assests/SFX/horror/Child laugh.wav"
-dest_files=["res://.godot/imported/Child laugh.wav-8d61fdd9cde1aad14e14d1d981c61e12.sample"]
+source_file="res://Assests/SFX/bin/horror/Child laugh.wav"
+dest_files=["res://.godot/imported/Child laugh.wav-c58efa7a8d54af7b3fd53bc206b48a4b.sample"]
 
 [params]
 

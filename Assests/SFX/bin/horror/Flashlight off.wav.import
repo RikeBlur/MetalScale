@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://ctmts73y5iq2w"
-path="res://.godot/imported/Flashlight off.wav-9016c339273cd7091a6e0e7fb125b707.sample"
+path="res://.godot/imported/Flashlight off.wav-085519cbbe8a35cc1b8b45c50ecf5f44.sample"
 
 [deps]
 
-source_file="res://Assests/SFX/horror/Flashlight off.wav"
-dest_files=["res://.godot/imported/Flashlight off.wav-9016c339273cd7091a6e0e7fb125b707.sample"]
+source_file="res://Assests/SFX/bin/horror/Flashlight off.wav"
+dest_files=["res://.godot/imported/Flashlight off.wav-085519cbbe8a35cc1b8b45c50ecf5f44.sample"]
 
 [params]
 

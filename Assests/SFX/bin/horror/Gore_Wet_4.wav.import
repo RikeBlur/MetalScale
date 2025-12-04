@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://b3kvbcaav4a8d"
-path="res://.godot/imported/Gore_Wet_4.wav-2fadcf8385c4666d89217f582d251c05.sample"
+path="res://.godot/imported/Gore_Wet_4.wav-a0cad6b529792328f59de96c72a96b1d.sample"
 
 [deps]
 
-source_file="res://Assests/SFX/horror/Gore_Wet_4.wav"
-dest_files=["res://.godot/imported/Gore_Wet_4.wav-2fadcf8385c4666d89217f582d251c05.sample"]
+source_file="res://Assests/SFX/bin/horror/Gore_Wet_4.wav"
+dest_files=["res://.godot/imported/Gore_Wet_4.wav-a0cad6b529792328f59de96c72a96b1d.sample"]
 
 [params]
 
