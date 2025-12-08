@@ -1,0 +1,2 @@
+class_name ElectronicScreen
+extends Node2D

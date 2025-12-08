@@ -23,6 +23,8 @@ var health_max : float = 100.0
 var health_now : float = 100.0
 var is_died : bool = false
 
+var aggro_value : float = 0.0
+
 signal player_hurted
 
 
