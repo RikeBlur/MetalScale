@@ -92,8 +92,23 @@ func calculate_intensities(is_now : bool) -> float:
 			var average_intensity = light_intensity_sum / float(valid_points)
 			#print("光源: ", light.name, " 有效检测点: ", valid_points, " 平均光强: ", average_intensity)
 			total_intensity += average_intensity
+			
+			# 检查是否超过该光源的发现阈值
+			if average_intensity > light.find_detector_threshold:
+				if not light.find_detector:
+					light.find_detector = true
+					print("LightDetector: 光源 %s 照射到了检测器 (intensity: %.3f > threshold: %.3f)" % [light.name, average_intensity, light.find_detector_threshold])
+			else:
+				if light.find_detector:
+					light.find_detector = false
+					print("LightDetector: 光源 %s 失去了检测器 (intensity: %.3f <= threshold: %.3f)" % [light.name, average_intensity, light.find_detector_threshold])
+			
 			if debug_mode: _update_visualize()
-		#else:
+		else:
+			# 无有效检测点，光源未照射到检测器
+			if light.find_detector:
+				light.find_detector = false
+				print("LightDetector: 光源 %s 失去了检测器 (无有效检测点)" % light.name)
 		#	print("光源: ", light.name, " 无有效检测点")
 	
 	return total_intensity

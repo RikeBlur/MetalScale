@@ -1,4 +1,4 @@
-[gd_scene load_steps=267 format=3 uid="uid://ds14l74hq1t3s"]
+[gd_scene load_steps=269 format=3 uid="uid://ds14l74hq1t3s"]
 
 [ext_resource type="Script" uid="uid://cqscuo4027so7" path="res://Scripts/system/entity/player.gd" id="1_58adm"]
 [ext_resource type="Script" uid="uid://dflthbyd1yt3o" path="res://Scripts/state_machine/node_state_machine.gd" id="2_o2obw"]
@@ -34,6 +34,8 @@
 [ext_resource type="Script" uid="uid://dkkcxq5sww6a6" path="res://Scripts/system/tools/tool_manager.gd" id="32_okprr"]
 [ext_resource type="Material" uid="uid://udxyi4gcebgr" path="res://Effect/Shader/hit_flash/hit_flash.tres" id="33_axk6g"]
 [ext_resource type="Script" uid="uid://bwj03sov6w1te" path="res://Scripts/components/hurted_component.gd" id="33_qhkxi"]
+[ext_resource type="Script" uid="uid://d0kslk43n7dye" path="res://Scripts/components/arrgo_component.gd" id="35_vnu8s"]
+[ext_resource type="PackedScene" uid="uid://gkd838orapi5" path="res://System/RPG/lighting/light_detector.tscn" id="36_5qh6w"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_blmno"]
 radius = 16.0
@@ -1872,3 +1874,10 @@ player_node = NodePath("../..")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="interact_range"]
 position = Vector2(0, -41)
 shape = SubResource("CapsuleShape2D_axk6g")
+
+[node name="arrgo_component" type="Node2D" parent="." node_paths=PackedStringArray("detector")]
+script = ExtResource("35_vnu8s")
+detector = NodePath("lightdetector")
+
+[node name="lightdetector" parent="arrgo_component" instance=ExtResource("36_5qh6w")]
+position = Vector2(0, -25)

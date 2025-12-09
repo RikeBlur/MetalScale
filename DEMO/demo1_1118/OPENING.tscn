@@ -1,4 +1,4 @@
-[gd_scene load_steps=95 format=3 uid="uid://brremcem2ll0b"]
+[gd_scene load_steps=96 format=3 uid="uid://brremcem2ll0b"]
 
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="2_x55rs"]
 [ext_resource type="Texture2D" uid="uid://dx7xwoser0w35" path="res://Assests/sprite/UI/NORMALUI/opening_bb.png" id="3_hyq4k"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://c36346v4a100l" path="res://Scripts/system/view/preloading_animate.gd" id="7_jos7r"]
 [ext_resource type="Shader" uid="uid://dnmsgg8u8kvwd" path="res://Effect/Shader/level_transition/transition.gdshader" id="8_5c18h"]
 [ext_resource type="PackedScene" uid="uid://bdgt4t7dtg58f" path="res://System/RPG/view/transition_player.tscn" id="10_ftiba"]
+[ext_resource type="Script" uid="uid://b3v26rgbib2s4" path="res://Scripts/system/lighting/lighting_manager.gd" id="13_nyq3q"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jos7r"]
 load_path = "res://.godot/imported/Bayer8.png-0641d62d0dd41fae15d129a7a943b31b.ctex"
@@ -847,6 +848,7 @@ _data = {
 [node name="Opening" type="Node2D"]
 
 [node name="D1" parent="." instance=ExtResource("2_x55rs")]
+z_index = -1
 position = Vector2(616, 313.00003)
 texture = ExtResource("3_hyq4k")
 
@@ -1048,3 +1050,6 @@ text = "退 出"
 libraries = {
 &"": SubResource("AnimationLibrary_jos7r")
 }
+
+[node name="lightingsystem" type="Node2D" parent="."]
+script = ExtResource("13_nyq3q")

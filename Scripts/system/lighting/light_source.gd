@@ -17,5 +17,11 @@ class SampleRay:
 var sample_rays: Array[SampleRay] = []
 var occlusion_points: Array[Vector2] = []
 
+# 检测器发现阈值（当光强超过此值时，认为照射到了检测器）
+@export var find_detector_threshold: float = 0.05
+
+# 标记是否照射到了检测器
+var find_detector: bool = false
+
 func calculate_intensity(angle: float, length: float) -> float:
 	return -1
