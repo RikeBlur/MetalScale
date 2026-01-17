@@ -201,6 +201,7 @@ func game_save(index : int) -> bool:
 	var save_data = {
 		"version": "1.0",
 		"timestamp": Time.get_datetime_string_from_system(),
+		"game_archive_msec": GameManager.game_archive_msec,
 		
 		# 玩家信息
 		"player": _serialize_player_data(player_node),
@@ -266,6 +267,9 @@ func game_load(index : int) -> bool:
 	if not save_data.has("player") or not save_data.has("scene"):
 		push_error("ArchiveManager: 存档数据格式错误")
 		return false
+	
+	# 恢复游戏存档时长（毫秒）
+	GameManager.game_archive_msec = save_data.get("game_archive_msec", 0)
 	
 	# 获取scene_manager引用
 	var scene_mgr = get_node_or_null("/root/SceneManager")

@@ -28,6 +28,13 @@ func _ready():
 	# 加载新场景后初始化一次 UI系统
 	UIManager.refresh_ui_manager()
 	
+	# 创建 lighting_manager 节点（若已存在则跳过）
+	if not get_node_or_null("LightingManager"):
+		var lighting_manager_node = Node2D.new()
+		lighting_manager_node.name = "LightingManager"
+		lighting_manager_node.set_script(load("res://Scripts/system/lighting/lighting_manager.gd"))
+		add_child(lighting_manager_node)
+	
 	# 获取当前场景的 SceneData ！！
 	var scene_key = SceneManager.get_current_scene_key()
 	if scene_key != "":

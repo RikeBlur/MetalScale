@@ -130,11 +130,11 @@ func update_save_info(index : int) -> void:
 		
 		# 提取信息
 		var scene_name: String = "未知场景"
-		var save_timestamp: String = "未知时间"
+		var archive_time: String = "00:00:00"
 		
-		# 获取时间戳
-		if save_data.has("timestamp"):
-			save_timestamp = save_data["timestamp"]
+		# 获取存档运行时长（毫秒）
+		if save_data.has("game_archive_msec"):
+			archive_time = _format_msec(save_data["game_archive_msec"])
 		
 		# 获取场景名称
 		if save_data.has("scene"):
@@ -147,5 +147,13 @@ func update_save_info(index : int) -> void:
 					if current_scene.has("display_name"):
 						scene_name = current_scene["display_name"]
 		
-		# 格式化显示文本：存档index\n\n'scene_name'\n\n'save_timestamp'
-		savebox.label.text = "存档 %d\n\n%s\n\n%s" % [index, scene_name, save_timestamp]
+		# 格式化显示文本：存档index\n\n'scene_name'\n\n'archive_time'
+		savebox.label.text = "存档 %d\n\n%s\n\n%s" % [index, scene_name, archive_time]
+
+func _format_msec(msec: int) -> String:
+	"""将毫秒格式化为 HH:MM:SS"""
+	var total_seconds = int(msec / 1000.0)
+	var hours = int(total_seconds / 3600.0)
+	var minutes = int((total_seconds % 3600) / 60.0)
+	var seconds = total_seconds % 60
+	return "%02d:%02d:%02d" % [hours, minutes, seconds]

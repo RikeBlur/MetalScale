@@ -6,7 +6,8 @@ enum UI_component {
 	TOOLBAR,
 	SETTINGS,
 	EXITWINDOW,
-	SAVEGAMEWINDOW
+	SAVEGAMEWINDOW,
+	ARRGOBAR
 }
 
 # UI场景
@@ -14,12 +15,13 @@ const TOOLBAR_SCENE = preload("res://System/RPG/UI/toolbar.tscn")
 const SETTINGS_SCENE = preload("res://System/RPG/UI/settings.tscn")
 const EXITWINDOWS_SCENE = preload("res://System/RPG/UI/exit_window.tscn")
 const SAVEGAMEWINDOW_SCENE = preload("res://System/RPG/UI/save_game.tscn")
+const ARRGOBAR_SCENE = preload("res://System/RPG/UI/arrgobar.tscn")
 
-# UI配置：场景路径和目标layer
+# UI配置：场景路径和目标layer （-1表示不初始化、0表示初始化）
 const UI_CONFIG = {
 	UI_component.TOOLBAR: {
 		"layer": 1,
-		"stage": 0  # stage0时加载
+		"stage": 0
 	},
 	UI_component.SETTINGS: {
 		"layer": 2,
@@ -32,6 +34,10 @@ const UI_CONFIG = {
 	UI_component.SAVEGAMEWINDOW:{
 		"layer": 3,
 		"stage": -1
+	},
+	UI_component.ARRGOBAR:{
+		"layer": 1,
+		"stage": 0
 	}
 }
 

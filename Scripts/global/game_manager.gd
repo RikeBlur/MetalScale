@@ -38,10 +38,17 @@ enum RunningState {
 var current_state: GameState = GameState.PRELOADING
 var current_runnnig_state: RunningState = RunningState.NOPE
 
-# 游戏启动时间（毫秒）
+# 游戏启动时间（毫秒）（单次运行）
 var game_start_time_msec: int = 0
 
+# 游戏总体时间（毫秒）（本个存档）
+var game_archive_msec: int = 0
+
+# 游戏初次加载时玩家的世界坐标位置
 var start_position: Vector2 = Vector2(0, -150)
+
+# 玩家是否处于仇恨状态？
+var player_arrgo: bool = false
 
 # ====================================================================================================
 # ====================================================================================================
@@ -67,7 +74,9 @@ func _ready() -> void:
 	Loaded.connect(_on_loaded)
 	
 func _process(delta: float) -> void:
-	pass
+	# 仅在运行状态下累加存档时长（毫秒）
+	if current_state == GameState.RUNNING:
+		game_archive_msec += int(delta * 1000.0)
 
 # ====================================================================================================
 # ============================================= 游戏总线 ==============================================
@@ -142,6 +151,7 @@ func start_new_game() -> void:
 	
 	# 更新游戏状态
 	current_state = GameState.LOADING
+	game_archive_msec = 0
 	
 	# 加载玩家和摄像机
 	var parent = get_tree().current_scene

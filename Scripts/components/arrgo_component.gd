@@ -3,9 +3,12 @@ extends Node2D
 
 @export var detector : light_detector = null
 @export var get_caught_threshold : float = 0.05
+@export var aggro_increase_rate : float = 0.2
 
 var caught : bool = false
 var _last_caught : bool = false
+var _aggro_timer : float = 0.0
+@export var player_node: player = null
 
 signal get_caught
 signal get_uncaught
@@ -19,6 +22,10 @@ func _ready() -> void:
 	# 初始化状态
 	_update_caught_state()
 	_last_caught = caught
+	
+	# 连接信号
+	get_caught.connect(on_into_arrgo)
+	get_uncaught.connect(on_out_arrgo)
 
 
 func _process(_delta: float) -> void:
@@ -40,6 +47,10 @@ func _process(_delta: float) -> void:
 			print("ArrgoComponent: 脱离视线。intensity: %.3f <= threshold: %.3f" % [detector.intensity_now, get_caught_threshold])
 		
 		_last_caught = caught
+	
+	# 持续仇恨增长
+	if caught:
+		on_durring_arrgo(_delta)
 
 
 func _update_caught_state() -> void:
@@ -48,3 +59,40 @@ func _update_caught_state() -> void:
 		caught = true
 	else:
 		caught = false
+
+
+func on_into_arrgo() -> void:
+	"""进入仇恨状态时调用"""
+	_aggro_timer = 0.0
+	UIManager.instantiate_ui(UI_manager.UI_component.ARRGOBAR)
+
+
+func on_out_arrgo() -> void:
+	"""脱离仇恨状态时调用"""
+	_aggro_timer = 0.0
+	UIManager.remove_ui(UI_manager.UI_component.ARRGOBAR)
+
+
+func on_durring_arrgo(delta: float) -> void:
+	"""持续仇恨状态时调用（每帧）"""
+	var target_player = _get_player()
+	if not target_player:
+		return
+	
+	# 增长速度随时间递增（平方曲线）
+	_aggro_timer += delta
+	var growth = aggro_increase_rate * (1.0 + _aggro_timer * _aggro_timer)
+	target_player.aggro_value = clamp(target_player.aggro_value + growth * delta, 0.0, 100.0)
+
+
+func _get_player() -> player:
+	"""获取玩家引用"""
+	if player_node and is_instance_valid(player_node):
+		return player_node
+	
+	var parent = get_parent()
+	if parent is player:
+		player_node = parent
+		return player_node
+	
+	return GlobalFunction.get_player()

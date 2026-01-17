@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://cshu5sori0ea"]
+
+[node name="Arrgobar" type="Control"]
+layout_mode = 3
+anchors_preset = 0

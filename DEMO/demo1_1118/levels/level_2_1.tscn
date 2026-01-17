@@ -116,6 +116,7 @@ environment = SubResource("Environment_shyo2")
 color = Color(0.5, 0.375, 0.375, 1)
 
 [node name="transition" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="transition"]
 material = SubResource("ShaderMaterial_l4uji")

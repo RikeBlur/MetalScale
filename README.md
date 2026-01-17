@@ -1,5 +1,9 @@
 # UPDATE
 
+## 26.01.17
+
+请！！ 完成 ElectronicScreen ！
+
 ## 25.12.09
 
 完成 ElectronicScreen ！ 似乎 RUNNING 过程中没有自动挂载 LightingSystem
