@@ -1,5 +1,8 @@
-[gd_scene format=3 uid="uid://cshu5sori0ea"]
+[gd_scene load_steps=2 format=3 uid="uid://cshu5sori0ea"]
+
+[ext_resource type="Script" uid="uid://cstyhvq7i7n6m" path="res://Scripts/system/view/UI/arrgobar.gd" id="1_ttghw"]
 
 [node name="Arrgobar" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_ttghw")

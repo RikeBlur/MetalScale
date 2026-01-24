@@ -1,5 +1,10 @@
 # UPDATE
 
+## 26.01.25
+
+完善了消融效果（neo_dissolve）；解决了 transition 的黑噪点问题
+请！！ 完成 ElectronicScreen ！ 和 ArrgoBar！
+
 ## 26.01.17
 
 请！！ 完成 ElectronicScreen ！

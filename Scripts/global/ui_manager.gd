@@ -127,6 +127,8 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 			ui_instance = EXITWINDOWS_SCENE.instantiate()
 		UI_component.SAVEGAMEWINDOW:
 			ui_instance = SAVEGAMEWINDOW_SCENE.instantiate()
+		UI_component.ARRGOBAR:
+			ui_instance = ARRGOBAR_SCENE.instantiate()
 	
 	if not ui_instance:
 		push_error("UI_manager: 无法实例化UI类型 %d" % ui_type)
@@ -148,11 +150,19 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 			ui_instance.own_manager = self
 		_add_ui_to_visible_list(UI_component.EXITWINDOW)
 			
-	# 特殊处理：为exitwindow设置own_manager引用
+	# 特殊处理：为savegamewindow设置own_manager引用
 	if ui_type == UI_component.SAVEGAMEWINDOW :
 		if "own_manager" in ui_instance:
 			ui_instance.own_manager = self
 		_add_ui_to_visible_list(UI_component.SAVEGAMEWINDOW)
+		
+		# 特殊处理：为arrgobar设置own_manager引用和player引用
+	if ui_type == UI_component.ARRGOBAR :
+		if "own_manager" in ui_instance:
+			ui_instance.own_manager = self
+		if "player_now" in ui_instance:
+			ui_instance.player_now = player_now
+		_add_ui_to_visible_list(UI_component.ARRGOBAR)
 	
 	# 添加到对应layer
 	target_layer.add_child(ui_instance)

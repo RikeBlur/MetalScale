@@ -16,16 +16,27 @@ uniform float edge_softness : hint_range(0.0, 0.5) = 0.1;
 uniform vec4 transition_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
 
 void fragment() {
-	// 采样noise纹理
-	vec2 noise_uv = UV * noise_scale;
-	float noise_value = texture(noise_texture, noise_uv).r;
-	
-	// 根据progress和noise计算alpha值
-	// progress = 0: 完全显示黑屏（alpha = 1）
-	// progress = 1: 完全透明（alpha = 0）
-	float alpha = smoothstep(progress - edge_softness, progress + edge_softness, noise_value);
-	
-	// 输出最终颜色
-	COLOR = transition_color;
-	COLOR.a *= alpha;
+	// 边界条件：progress = 0 时完全显示，progress = 1 时完全透明
+	if (progress <= 0.0) {
+		// 完全黑屏
+		COLOR = transition_color;
+	}
+	else if (progress >= 1.0) {
+		// 完全透明
+		COLOR = vec4(0.0, 0.0, 0.0, 0.0);
+	}
+	else {
+		// 采样noise纹理
+		vec2 noise_uv = UV * noise_scale;
+		float noise_value = texture(noise_texture, noise_uv).r;
+		
+		// 根据progress和noise计算alpha值
+		// progress = 0: 完全显示黑屏（alpha = 1）
+		// progress = 1: 完全透明（alpha = 0）
+		float alpha = smoothstep(progress - edge_softness, progress + edge_softness, noise_value);
+		
+		// 输出最终颜色
+		COLOR = transition_color;
+		COLOR.a *= alpha;
+	}
 }
