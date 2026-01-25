@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://uwv8fcsy86kg" path="res://Scripts/system/interact/door/BaseDoor.gd" id="1_chdcv"]
 [ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="2_boxjb"]
-[ext_resource type="Texture2D" uid="uid://u7ssfbfoo3ip" path="res://Assests/sprite/terrain/door.png" id="3_chdcv"]
+[ext_resource type="Texture2D" uid="uid://u7ssfbfoo3ip" path="res://Assests/sprite/object/door.png" id="3_chdcv"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2psln"]
 radius = 34.0

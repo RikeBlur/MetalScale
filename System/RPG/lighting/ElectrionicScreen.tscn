@@ -1,27 +1,46 @@
-[gd_scene load_steps=8 format=3 uid="uid://uw1jl40lxyfx"]
+[gd_scene load_steps=13 format=3 uid="uid://uw1jl40lxyfx"]
 
 [ext_resource type="Script" uid="uid://6vrsjuv3urii" path="res://Scripts/system/lighting/electrionic_screen.gd" id="1_ks8pa"]
 [ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/point_radial_light_texture.tres" id="2_0w35k"]
 [ext_resource type="Script" uid="uid://b1qwa7ctreuo0" path="res://Scripts/system/lighting/radial_light_source.gd" id="2_cg1dc"]
-[ext_resource type="Texture2D" uid="uid://bt2flaenjb5ob" path="res://Assests/sprite/terrain/electronic_screen_1.png" id="4_pyg44"]
+[ext_resource type="Texture2D" uid="uid://bt2flaenjb5ob" path="res://Assests/sprite/object/electronic_screen_1.png" id="4_pyg44"]
+[ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="4_yv60w"]
+[ext_resource type="Texture2D" uid="uid://b0qh0wtaqhfst" path="res://Effect/Shader/waving_noise/noise_0.tres" id="5_4xqns"]
+[ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/qa/矩形 1.png" id="5_pyg44"]
+[ext_resource type="Texture2D" uid="uid://dcxvbj66efpnp" path="res://Assests/sprite/object/jiu.png" id="8_4xqns"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0nj6o"]
+shader = ExtResource("4_yv60w")
+shader_parameter/wave_speed = 1.0
+shader_parameter/noise_scale = 5.0
+shader_parameter/wave_amplitude = 0.5
+shader_parameter/time_offset = 0.0
+shader_parameter/gradient_texture = ExtResource("5_4xqns")
+shader_parameter/use_gradient = true
+shader_parameter/base_color = Color(0.25882354, 0.25882354, 0.25882354, 1)
+shader_parameter/alpha_multiplier = 1.0000000475
+shader_parameter/color_mix_strength = 0.5
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_cg1dc"]
-polygon = PackedVector2Array(-55, -55, 55, -55, 55, -53, -55, -53)
+polygon = PackedVector2Array(-32, -55, 29, -55, 29, -53, -32, -53)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_pyg44"]
-polygon = PackedVector2Array(-56, -54, -48, 6, -46, 5, -54, -54)
+polygon = PackedVector2Array(-53.74718, -38.42188, -49.977615, -12.618963, -49.048183, -13.684872, -51.751842, -38.558357)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_u38on"]
-polygon = PackedVector2Array(52, -53, 46, 6, 48, 7, 55, -54)
+polygon = PackedVector2Array(50.631226, -32.5957, 47.42765, -7.72127, 48.42649, -7.673034, 51.67829, -33.546295)
 
 [node name="ElectrionicScreen" type="Node2D"]
 script = ExtResource("1_ks8pa")
 
 [node name="LightSource" type="Node2D" parent="." groups=["light_source"]]
+position = Vector2(0, -19)
 script = ExtResource("2_cg1dc")
+sampling_rate = 64
 debug_mode = true
 
 [node name="PointLight2D" type="PointLight2D" parent="LightSource"]
+position = Vector2(0, -7)
 shadow_enabled = true
 shadow_filter = 2
 shadow_filter_smooth = 1.0
@@ -29,21 +48,35 @@ shadow_item_cull_mask = 3
 texture = ExtResource("2_0w35k")
 texture_scale = 8.0
 
+[node name="ScreenContent" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_0nj6o")
+position = Vector2(0, -10)
+scale = Vector2(0.05267857, 0.061666664)
+texture = ExtResource("5_pyg44")
+
 [node name="ScreenBody" type="Sprite2D" parent="."]
+position = Vector2(1.1920929e-07, -1.1920929e-07)
+scale = Vector2(0.6171875, 0.5593262)
 texture = ExtResource("4_pyg44")
 
-[node name="ScreenContent" type="AnimatedSprite2D" parent="."]
+[node name="JIU" type="Sprite2D" parent="."]
+position = Vector2(0, -5)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("8_4xqns")
 
 [node name="occlusion" type="Node2D" parent="."]
+position = Vector2(0, 7)
 
 [node name="up" type="LightOccluder2D" parent="occlusion" groups=["occlusion"]]
+position = Vector2(1, 20)
 occluder = SubResource("OccluderPolygon2D_cg1dc")
-occluder_light_mask = 2
 
 [node name="right" type="LightOccluder2D" parent="occlusion" groups=["occlusion"]]
+position = Vector2(20, 8)
+rotation = 0.06829266
 occluder = SubResource("OccluderPolygon2D_pyg44")
-occluder_light_mask = 2
 
 [node name="left" type="LightOccluder2D" parent="occlusion" groups=["occlusion"]]
+position = Vector2(-19, 2)
+rotation = -0.048254687
 occluder = SubResource("OccluderPolygon2D_u38on")
-occluder_light_mask = 2

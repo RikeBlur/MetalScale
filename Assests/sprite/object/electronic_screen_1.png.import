@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bt2flaenjb5ob"
-path="res://.godot/imported/electronic_screen_1.png-502fda80c904a71465d2fd0c4cc9f22c.ctex"
+path="res://.godot/imported/electronic_screen_1.png-c6424ea3bf9472ecc4d51ee4ae2fe2f5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assests/sprite/terrain/electronic_screen_1.png"
-dest_files=["res://.godot/imported/electronic_screen_1.png-502fda80c904a71465d2fd0c4cc9f22c.ctex"]
+source_file="res://Assests/sprite/object/electronic_screen_1.png"
+dest_files=["res://.godot/imported/electronic_screen_1.png-c6424ea3bf9472ecc4d51ee4ae2fe2f5.ctex"]
 
 [params]
 

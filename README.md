@@ -1,17 +1,22 @@
 # UPDATE
 
+## 26.01.26
+
+ElectronicScreen ： 新增了 ScreenContent（WavingNoise）；JIU（汉字） <br>
+解决了无法正常遮挡逻辑光线的问题 <br>
+
 ## 26.01.25
 
-完善了消融效果（neo_dissolve）；解决了 transition 的黑噪点问题
-请！！ 完成 ElectronicScreen ！ 和 ArrgoBar！
+完善了消融效果（neo_dissolve）；解决了 transition 的黑噪点问题 <br>
+请！！ 完成 ElectronicScreen ！ 和 ArrgoBar！ <br>
 
 ## 26.01.17
 
-请！！ 完成 ElectronicScreen ！
+请！！ 完成 ElectronicScreen ！ <br>
 
 ## 25.12.09
 
-完成 ElectronicScreen ！ 似乎 RUNNING 过程中没有自动挂载 LightingSystem
+完成 ElectronicScreen ！ 似乎 RUNNING 过程中没有自动挂载 LightingSystem <br>
 
 ## 25.12.07
 
