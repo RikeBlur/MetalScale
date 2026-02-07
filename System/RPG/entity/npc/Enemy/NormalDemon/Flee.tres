@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=13 format=3 uid="uid://dvv7t1jdna0ri"]
+[gd_resource type="BehaviorTree" format=3 uid="uid://dvv7t1jdna0ri"]
 
 [ext_resource type="Script" uid="uid://duholooqx2vum" path="res://Scripts/system/ai/tasks/get_detector.gd" id="1_al123"]
 [ext_resource type="Script" uid="uid://eu01augamggx" path="res://Scripts/system/ai/tasks/flee_from_light.gd" id="2_c65qo"]

@@ -170,6 +170,7 @@ func start_new_game() -> void:
 	current_runnnig_state = RunningState.CONTROL
 	print("GameManager: 新游戏启动完成，当前状态: RUNNING")
 	InputEvents.hide_mouse()
+	_connect_player_arrgo()
 
 func _on_loaded() -> void:
 	"""
@@ -180,6 +181,7 @@ func _on_loaded() -> void:
 	current_runnnig_state = RunningState.CONTROL
 	print("GameManager: 新游戏启动完成，当前状态: RUNNING")
 	InputEvents.hide_mouse()
+	_connect_player_arrgo()
 
 
 func quit_game() -> void:
@@ -196,6 +198,30 @@ func quit_game() -> void:
 # ====================================================================================================
 # ================================================= 工具函数 ==========================================
 # ====================================================================================================
+
+
+func _connect_player_arrgo() -> void:
+	"""连接玩家 ArrgoComponent 的 get_caught/get_uncaught 到 game_manager.player_arrgo"""
+	var p = player_instance if (player_instance and is_instance_valid(player_instance)) else null
+	if not p:
+		p = GlobalFunction.get_player() if GlobalFunction else null
+	if not p or not is_instance_valid(p):
+		return
+	var arrgo = p.get_node_or_null("arrgo_component")
+	if not arrgo or not (arrgo is ArrgoComponent):
+		return
+	if not arrgo.get_caught.is_connected(_on_player_get_caught):
+		arrgo.get_caught.connect(_on_player_get_caught)
+	if not arrgo.get_uncaught.is_connected(_on_player_get_uncaught):
+		arrgo.get_uncaught.connect(_on_player_get_uncaught)
+
+
+func _on_player_get_caught() -> void:
+	player_arrgo = true
+
+
+func _on_player_get_uncaught() -> void:
+	player_arrgo = false
 
 
 func _install_manager(script_path: String, node_name: String) -> Node:

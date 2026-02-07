@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://bu51bywbbo0u2"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bu51bywbbo0u2"]
 
 [ext_resource type="Shader" uid="uid://qvica54eevs6" path="res://Effect/Shader/dissolve/dissolve_shader.tres" id="1_5bmp1"]
 

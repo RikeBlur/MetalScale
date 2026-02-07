@@ -80,6 +80,9 @@ func refresh_ui_manager() -> void:
 	# 隐藏
 	_hide_settings()
 	_hide_toolbar()
+	_hide_arrgobar()
+	# 连接玩家 ArrgoComponent 信号以控制 ARRGOBAR 显示
+	_connect_arrgobar_signals()
 
 func _process(_delta):
 	# 检测退出键，弹出/隐藏 settings
@@ -357,6 +360,54 @@ func _hide_toolbar():
 	_remove_ui_from_visible_list(UI_component.TOOLBAR)
 	
 	print("UI_manager: 隐藏工具栏")
+
+# --------------------------------------------------------------------------------------------------
+# -------------------------------------------- ARRGOBAR操作 -----------------------------------------
+# --------------------------------------------------------------------------------------------------
+func _connect_arrgobar_signals() -> void:
+	"""连接玩家 ArrgoComponent 的信号到 ARRGOBAR 显示控制"""
+	if not player_now or not is_instance_valid(player_now):
+		return
+	
+	var arrgo = player_now.get_node_or_null("arrgo_component")
+	if not arrgo or not (arrgo is ArrgoComponent):
+		return
+	
+	# 连接信号：get_caught 时显示，get_uncaught 时隐藏
+	if not arrgo.get_caught.is_connected(_on_player_get_caught):
+		arrgo.get_caught.connect(_on_player_get_caught)
+	if not arrgo.get_uncaught.is_connected(_on_player_get_uncaught):
+		arrgo.get_uncaught.connect(_on_player_get_uncaught)
+
+
+func _on_player_get_caught() -> void:
+	"""玩家被发现时显示 ARRGOBAR"""
+	_show_arrgobar()
+
+
+func _on_player_get_uncaught() -> void:
+	"""玩家脱离视线时隐藏 ARRGOBAR"""
+	_hide_arrgobar()
+
+
+func _show_arrgobar() -> void:
+	"""显示 ARRGOBAR"""
+	var arrgobar = ui_instances.get(UI_component.ARRGOBAR)
+	if arrgobar and is_instance_valid(arrgobar):
+		arrgobar.show()
+		if arrgobar is Control:
+			arrgobar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_add_ui_to_visible_list(UI_component.ARRGOBAR)
+		print("UI_manager: 显示 ARRGOBAR")
+
+
+func _hide_arrgobar() -> void:
+	"""隐藏 ARRGOBAR"""
+	var arrgobar = ui_instances.get(UI_component.ARRGOBAR)
+	if arrgobar and is_instance_valid(arrgobar):
+		arrgobar.hide()
+		_remove_ui_from_visible_list(UI_component.ARRGOBAR)
+		print("UI_manager: 隐藏 ARRGOBAR")
 	
 # --------------------------------------------------------------------------------------------------
 # ------------------------------------------ 工具函数 ----------------------------------------------

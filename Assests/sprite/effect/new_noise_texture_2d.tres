@@ -1,4 +1,4 @@
-[gd_resource type="NoiseTexture2D" load_steps=3 format=3 uid="uid://bnc00ao14ombt"]
+[gd_resource type="NoiseTexture2D" format=3 uid="uid://bnc00ao14ombt"]
 
 [sub_resource type="Gradient" id="Gradient_2o8x6"]
 offsets = PackedFloat32Array(0, 0.993506)

@@ -64,13 +64,11 @@ func _update_caught_state() -> void:
 func on_into_arrgo() -> void:
 	"""进入仇恨状态时调用"""
 	_aggro_timer = 0.0
-	UIManager.instantiate_ui(UI_manager.UI_component.ARRGOBAR)
 
 
 func on_out_arrgo() -> void:
 	"""脱离仇恨状态时调用"""
 	_aggro_timer = 0.0
-	UIManager.remove_ui(UI_manager.UI_component.ARRGOBAR)
 
 
 func on_durring_arrgo(delta: float) -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=269 format=3 uid="uid://ds14l74hq1t3s"]
+[gd_scene format=3 uid="uid://ds14l74hq1t3s"]
 
 [ext_resource type="Script" uid="uid://cqscuo4027so7" path="res://Scripts/system/entity/player.gd" id="1_58adm"]
 [ext_resource type="Script" uid="uid://dflthbyd1yt3o" path="res://Scripts/state_machine/node_state_machine.gd" id="2_o2obw"]
@@ -1782,7 +1782,7 @@ height = 84.0
 radius = 22.0
 height = 90.0
 
-[node name="Player_Oni" type="CharacterBody2D" groups=["player"]]
+[node name="Player_Oni" type="CharacterBody2D" unique_id=1051280514 groups=["player"]]
 motion_mode = 1
 script = ExtResource("1_58adm")
 player_walk_speed_max = 150
@@ -1791,32 +1791,32 @@ player_walk_acceleration = 300
 player_run_acceleration = 300
 tool_available = Array[int]([0, 1, 2, 3, 0, 0])
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1536282822]
 position = Vector2(0, -25)
 shape = SubResource("CapsuleShape2D_blmno")
 
-[node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("initial_node_state", "entity")]
+[node name="StateMachine" type="Node2D" parent="." unique_id=95761580 node_paths=PackedStringArray("initial_node_state", "entity")]
 script = ExtResource("2_o2obw")
 initial_node_state = NodePath("idle")
 entity = NodePath("..")
 
-[node name="walk" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("Character_body", "Animated_Sprite", "sfx")]
+[node name="walk" type="Node2D" parent="StateMachine" unique_id=412434321 node_paths=PackedStringArray("Character_body", "Animated_Sprite", "sfx")]
 script = ExtResource("3_jf3fs")
 Character_body = NodePath("../..")
 Animated_Sprite = NodePath("../../Animate")
 sfx = NodePath("../../SFX_manager/walk_stepsound")
 
-[node name="idle" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("Character_body", "Animated_Sprite")]
+[node name="idle" type="Node2D" parent="StateMachine" unique_id=1557894113 node_paths=PackedStringArray("Character_body", "Animated_Sprite")]
 script = ExtResource("4_r26sp")
 Character_body = NodePath("../..")
 Animated_Sprite = NodePath("../../Animate")
 
-[node name="run" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("Character_body", "Animated_Sprite")]
+[node name="run" type="Node2D" parent="StateMachine" unique_id=520520893 node_paths=PackedStringArray("Character_body", "Animated_Sprite")]
 script = ExtResource("5_6cwob")
 Character_body = NodePath("../..")
 Animated_Sprite = NodePath("../../Animate")
 
-[node name="Animate" type="AnimatedSprite2D" parent="."]
+[node name="Animate" type="AnimatedSprite2D" parent="." unique_id=389095850]
 modulate = Color(0.7786492, 0, 0.21302938, 1)
 light_mask = 2
 z_index = 1
@@ -1826,17 +1826,15 @@ scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_h4nvs")
 animation = &"run_right"
 
-[node name="HitFlash" type="AnimationPlayer" parent="Animate"]
-libraries = {
-&"": SubResource("AnimationLibrary_vnu8s")
-}
+[node name="HitFlash" type="AnimationPlayer" parent="Animate" unique_id=77563793]
+libraries/ = SubResource("AnimationLibrary_vnu8s")
 
-[node name="ToolManager" type="Node2D" parent="." node_paths=PackedStringArray("player_now", "failure_sfx")]
+[node name="ToolManager" type="Node2D" parent="." unique_id=1607170863 node_paths=PackedStringArray("player_now", "failure_sfx")]
 script = ExtResource("32_okprr")
 player_now = NodePath("..")
 failure_sfx = NodePath("../SFX_manager/FailureSFX")
 
-[node name="hurted_component" type="Node2D" parent="." node_paths=PackedStringArray("hurted_area", "hit_flash_player", "hurted_audio", "entity")]
+[node name="hurted_component" type="Node2D" parent="." unique_id=617251570 node_paths=PackedStringArray("hurted_area", "hit_flash_player", "hurted_audio", "entity")]
 modulate = Color(1.412422, 0.9849966, 1.1019353, 1)
 material = ExtResource("33_axk6g")
 script = ExtResource("33_qhkxi")
@@ -1845,39 +1843,40 @@ hit_flash_player = NodePath("../Animate/HitFlash")
 hurted_audio = NodePath("scream")
 entity = NodePath("..")
 
-[node name="HitBox" type="Area2D" parent="hurted_component"]
+[node name="HitBox" type="Area2D" parent="hurted_component" unique_id=1387195319]
 collision_layer = 16
 collision_mask = 32
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hurted_component/HitBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurted_component/HitBox" unique_id=237600506]
 position = Vector2(0, -41)
 shape = SubResource("CapsuleShape2D_lnjpj")
 debug_color = Color(0.6906085, 0.38889268, 0.7999413, 0.41960785)
 
-[node name="scream" type="AudioStreamPlayer2D" parent="hurted_component"]
+[node name="scream" type="AudioStreamPlayer2D" parent="hurted_component" unique_id=110842532]
 
-[node name="SFX_manager" type="Node2D" parent="."]
+[node name="SFX_manager" type="Node2D" parent="." unique_id=79562972]
 
-[node name="walk_stepsound" type="AudioStreamPlayer2D" parent="SFX_manager"]
+[node name="walk_stepsound" type="AudioStreamPlayer2D" parent="SFX_manager" unique_id=1118846946]
 volume_db = 4.0
 
-[node name="run_stepsound" type="AudioStreamPlayer2D" parent="SFX_manager"]
+[node name="run_stepsound" type="AudioStreamPlayer2D" parent="SFX_manager" unique_id=1189511867]
 
-[node name="FailureSFX" type="AudioStreamPlayer2D" parent="SFX_manager"]
+[node name="FailureSFX" type="AudioStreamPlayer2D" parent="SFX_manager" unique_id=1949676117]
 
-[node name="interact_range" type="Area2D" parent="."]
+[node name="interact_range" type="Area2D" parent="." unique_id=300330305]
 
-[node name="InteractComponent" parent="interact_range" node_paths=PackedStringArray("interact_rage", "player_node") instance=ExtResource("22_wc45c")]
+[node name="InteractComponent" parent="interact_range" unique_id=1531736770 node_paths=PackedStringArray("interact_rage", "player_node") instance=ExtResource("22_wc45c")]
 interact_rage = NodePath("..")
 player_node = NodePath("../..")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="interact_range"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="interact_range" unique_id=1461134086]
 position = Vector2(0, -41)
 shape = SubResource("CapsuleShape2D_axk6g")
 
-[node name="arrgo_component" type="Node2D" parent="." node_paths=PackedStringArray("detector")]
+[node name="arrgo_component" type="Node2D" parent="." unique_id=1231365480 node_paths=PackedStringArray("detector", "player_node")]
 script = ExtResource("35_vnu8s")
 detector = NodePath("lightdetector")
+player_node = NodePath("..")
 
-[node name="lightdetector" parent="arrgo_component" instance=ExtResource("36_5qh6w")]
+[node name="lightdetector" parent="arrgo_component" unique_id=605312149 instance=ExtResource("36_5qh6w")]
 position = Vector2(0, -25)

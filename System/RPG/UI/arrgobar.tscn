@@ -1,8 +1,43 @@
-[gd_scene load_steps=2 format=3 uid="uid://cshu5sori0ea"]
+[gd_scene format=3 uid="uid://cshu5sori0ea"]
 
 [ext_resource type="Script" uid="uid://cstyhvq7i7n6m" path="res://Scripts/system/view/UI/arrgobar.gd" id="1_ttghw"]
 
-[node name="Arrgobar" type="Control"]
+[node name="Arrgobar" type="Control" unique_id=1291587924 node_paths=PackedStringArray("arrgo_bar")]
 layout_mode = 3
-anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 0.96400005
+offset_top = -2.0
+offset_right = -1152.0
+offset_bottom = -626.67206
 script = ExtResource("1_ttghw")
+arrgo_bar = NodePath("MarginContainer/ProcessBar")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1290040054]
+layout_mode = 0
+offset_left = 1003.0
+offset_top = 3.0
+offset_right = 1043.0
+offset_bottom = 43.0
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=847799893]
+custom_minimum_size = Vector2(50, 600)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1002.0
+offset_top = 4.0
+offset_right = 1148.0
+offset_bottom = 655.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 20
+
+[node name="ProcessBar" type="ProgressBar" parent="MarginContainer" unique_id=1665683209]
+custom_minimum_size = Vector2(0, 600)
+layout_mode = 2
+fill_mode = 2

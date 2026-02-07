@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://bjvk2df6c3c1j"]
+[gd_resource type="TileSet" format=3 uid="uid://bjvk2df6c3c1j"]
 
 [ext_resource type="Texture2D" uid="uid://cif4b8wd1yly3" path="res://Assests/tileset/tileset_assest_3/Interiors_free_48x48.png" id="1_6use4"]
 [ext_resource type="Texture2D" uid="uid://comftb8pp4p78" path="res://Assests/tileset/tileset_assest_3/Room_Builder_free_48x48.png" id="2_qq2xs"]

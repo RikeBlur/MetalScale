@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://brremcem2ll0b"]
+[gd_scene format=3 uid="uid://brremcem2ll0b"]
 
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="2_x55rs"]
 [ext_resource type="Texture2D" uid="uid://dx7xwoser0w35" path="res://Assests/sprite/UI/NORMALUI/opening_bb.png" id="3_hyq4k"]
@@ -178,19 +178,19 @@ _data = {
 &"slide": SubResource("Animation_5n38v")
 }
 
-[node name="Opening" type="Node2D"]
+[node name="Opening" type="Node2D" unique_id=1976286586]
 
-[node name="D1" parent="." instance=ExtResource("2_x55rs")]
+[node name="D1" parent="." unique_id=987026251 instance=ExtResource("2_x55rs")]
 z_index = -1
 position = Vector2(616, 313.00003)
 texture = ExtResource("3_hyq4k")
 
-[node name="PreloadingAnimate" type="CanvasLayer" parent="."]
+[node name="PreloadingAnimate" type="CanvasLayer" parent="." unique_id=1125728262]
 layer = 2
 visible = false
 script = ExtResource("7_jos7r")
 
-[node name="ColorRect" type="ColorRect" parent="PreloadingAnimate"]
+[node name="ColorRect" type="ColorRect" parent="PreloadingAnimate" unique_id=15089889]
 material = SubResource("ShaderMaterial_5c18h")
 anchors_preset = 8
 anchor_left = 0.5
@@ -207,15 +207,15 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
 
-[node name="transition_player" parent="PreloadingAnimate" instance=ExtResource("10_ftiba")]
+[node name="transition_player" parent="PreloadingAnimate" unique_id=2081527640 instance=ExtResource("10_ftiba")]
 
-[node name="OpeningMenu" type="CanvasLayer" parent="."]
+[node name="OpeningMenu" type="CanvasLayer" parent="." unique_id=861386234]
 
-[node name="openingbb" type="Sprite2D" parent="OpeningMenu"]
+[node name="openingbb" type="Sprite2D" parent="OpeningMenu" unique_id=1122076909]
 position = Vector2(574, 328)
 texture = ExtResource("3_hyq4k")
 
-[node name="opening_meun" type="Control" parent="OpeningMenu" node_paths=PackedStringArray("menu_buttons", "canvas_animation_player")]
+[node name="opening_meun" type="Control" parent="OpeningMenu" unique_id=918476034 node_paths=PackedStringArray("menu_buttons", "canvas_animation_player")]
 layout_mode = 3
 anchors_preset = 4
 anchor_top = 0.5
@@ -229,7 +229,7 @@ script = ExtResource("3_pd41b")
 menu_buttons = [NodePath("MarginContainer/button4/left/up"), NodePath("MarginContainer/button4/right/up"), NodePath("MarginContainer/button4/left/down"), NodePath("MarginContainer/button4/right/down")]
 canvas_animation_player = NodePath("../CanvasSlidePlayer")
 
-[node name="MarginContainer" type="MarginContainer" parent="OpeningMenu/opening_meun"]
+[node name="MarginContainer" type="MarginContainer" parent="OpeningMenu/opening_meun" unique_id=1817429292]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -245,16 +245,16 @@ theme_override_constants/margin_right = 100
 theme_override_constants/margin_bottom = 200
 metadata/_edit_use_anchors_ = true
 
-[node name="button4" type="HBoxContainer" parent="OpeningMenu/opening_meun/MarginContainer"]
+[node name="button4" type="HBoxContainer" parent="OpeningMenu/opening_meun/MarginContainer" unique_id=59539613]
 layout_mode = 2
 alignment = 1
 
-[node name="left" type="VBoxContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4"]
+[node name="left" type="VBoxContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4" unique_id=530834584]
 layout_mode = 2
 size_flags_horizontal = 6
 alignment = 1
 
-[node name="up" type="MarginContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4/left" node_paths=PackedStringArray("button", "back")]
+[node name="up" type="MarginContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4/left" unique_id=994596718 node_paths=PackedStringArray("button", "back")]
 custom_minimum_size = Vector2(250, 100)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -266,18 +266,16 @@ normal_scale = Vector2(1, 1)
 bigger_scale = Vector2(1.05, 1.05)
 smaller_scale = Vector2(0.95, 0.95)
 
-[node name="back" type="Sprite2D" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/up"]
+[node name="back" type="Sprite2D" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/up" unique_id=1197032779]
 material = SubResource("ShaderMaterial_ftiba")
 position = Vector2(134, 52)
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("6_5n38v")
 
-[node name="dissolve_player" type="AnimationPlayer" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/up/back"]
-libraries = {
-&"": SubResource("AnimationLibrary_cqwn0")
-}
+[node name="dissolve_player" type="AnimationPlayer" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/up/back" unique_id=1495588397]
+libraries/ = SubResource("AnimationLibrary_cqwn0")
 
-[node name="STARTNEWGAME" type="Button" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/up"]
+[node name="STARTNEWGAME" type="Button" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/up" unique_id=600964458]
 custom_minimum_size = Vector2(250, 100)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -292,7 +290,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_hyq4k")
 action_mode = 0
 text = "开 始"
 
-[node name="down" type="MarginContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4/left" node_paths=PackedStringArray("button", "back")]
+[node name="down" type="MarginContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4/left" unique_id=1750862522 node_paths=PackedStringArray("button", "back")]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
@@ -303,30 +301,28 @@ normal_scale = Vector2(1, 1)
 bigger_scale = Vector2(1.05, 1.05)
 smaller_scale = Vector2(0.95, 0.95)
 
-[node name="back" type="Sprite2D" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/down"]
+[node name="back" type="Sprite2D" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/down" unique_id=2044766025]
 material = SubResource("ShaderMaterial_vu0gh")
 position = Vector2(134, 52)
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("6_5n38v")
 
-[node name="dissolve_player" type="AnimationPlayer" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/down/back"]
-libraries = {
-&"": SubResource("AnimationLibrary_cqwn0")
-}
+[node name="dissolve_player" type="AnimationPlayer" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/down/back" unique_id=43490688]
+libraries/ = SubResource("AnimationLibrary_cqwn0")
 
-[node name="CONFIGS" type="Button" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/down"]
+[node name="CONFIGS" type="Button" parent="OpeningMenu/opening_meun/MarginContainer/button4/left/down" unique_id=223598809]
 custom_minimum_size = Vector2(250, 100)
 layout_mode = 2
 theme = ExtResource("3_x55rs")
 theme_type_variation = &"Button"
 text = "设 置"
 
-[node name="right" type="VBoxContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4"]
+[node name="right" type="VBoxContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4" unique_id=236173595]
 layout_mode = 2
 size_flags_horizontal = 6
 alignment = 1
 
-[node name="up" type="MarginContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4/right" node_paths=PackedStringArray("button", "back")]
+[node name="up" type="MarginContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4/right" unique_id=1813222672 node_paths=PackedStringArray("button", "back")]
 layout_mode = 2
 size_flags_vertical = 6
 script = ExtResource("4_ohyvh")
@@ -336,24 +332,22 @@ normal_scale = Vector2(1, 1)
 bigger_scale = Vector2(1.05, 1.05)
 smaller_scale = Vector2(0.95, 0.95)
 
-[node name="back" type="Sprite2D" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/up"]
+[node name="back" type="Sprite2D" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/up" unique_id=157572458]
 material = SubResource("ShaderMaterial_nyq3q")
 position = Vector2(134, 52)
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("6_5n38v")
 
-[node name="dissolve_player" type="AnimationPlayer" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/up/back"]
-libraries = {
-&"": SubResource("AnimationLibrary_cqwn0")
-}
+[node name="dissolve_player" type="AnimationPlayer" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/up/back" unique_id=553261981]
+libraries/ = SubResource("AnimationLibrary_cqwn0")
 
-[node name="LOADARCHIVE" type="Button" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/up"]
+[node name="LOADARCHIVE" type="Button" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/up" unique_id=137408221]
 custom_minimum_size = Vector2(250, 100)
 layout_mode = 2
 theme = ExtResource("3_x55rs")
 text = "加 载"
 
-[node name="down" type="MarginContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4/right" node_paths=PackedStringArray("button", "back")]
+[node name="down" type="MarginContainer" parent="OpeningMenu/opening_meun/MarginContainer/button4/right" unique_id=670841820 node_paths=PackedStringArray("button", "back")]
 layout_mode = 2
 size_flags_vertical = 6
 script = ExtResource("4_ohyvh")
@@ -363,27 +357,23 @@ normal_scale = Vector2(1, 1)
 bigger_scale = Vector2(1.05, 1.05)
 smaller_scale = Vector2(0.95, 0.95)
 
-[node name="back" type="Sprite2D" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/down"]
+[node name="back" type="Sprite2D" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/down" unique_id=1382760643]
 material = SubResource("ShaderMaterial_pq8nc")
 position = Vector2(134, 57)
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("6_5n38v")
 
-[node name="dissolve_player" type="AnimationPlayer" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/down/back"]
-libraries = {
-&"": SubResource("AnimationLibrary_cqwn0")
-}
+[node name="dissolve_player" type="AnimationPlayer" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/down/back" unique_id=1649324975]
+libraries/ = SubResource("AnimationLibrary_cqwn0")
 
-[node name="QUITGAME" type="Button" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/down"]
+[node name="QUITGAME" type="Button" parent="OpeningMenu/opening_meun/MarginContainer/button4/right/down" unique_id=1672284095]
 custom_minimum_size = Vector2(250, 100)
 layout_mode = 2
 theme = ExtResource("3_x55rs")
 text = "退 出"
 
-[node name="CanvasSlidePlayer" type="AnimationPlayer" parent="OpeningMenu"]
-libraries = {
-&"": SubResource("AnimationLibrary_jos7r")
-}
+[node name="CanvasSlidePlayer" type="AnimationPlayer" parent="OpeningMenu" unique_id=257270180]
+libraries/ = SubResource("AnimationLibrary_jos7r")
 
-[node name="lightingsystem" type="Node2D" parent="."]
+[node name="lightingsystem" type="Node2D" parent="." unique_id=109021751]
 script = ExtResource("13_nyq3q")
