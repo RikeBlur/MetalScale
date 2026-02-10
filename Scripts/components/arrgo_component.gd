@@ -4,11 +4,15 @@ extends Node2D
 @export var detector : light_detector = null
 @export var get_caught_threshold : float = 0.05
 @export var aggro_increase_rate : float = 0.2
+@export var aggro_decrease_rate : float = 0.15
 
 var caught : bool = false
 var _last_caught : bool = false
 var _aggro_timer : float = 0.0
+var _decay_timer : float = 0.0
 @export var player_node: player = null
+
+var intensity : float = 0.0
 
 signal get_caught
 signal get_uncaught
@@ -28,7 +32,7 @@ func _ready() -> void:
 	get_uncaught.connect(on_out_arrgo)
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if not detector:
 		return
 	
@@ -50,7 +54,10 @@ func _process(_delta: float) -> void:
 	
 	# 持续仇恨增长
 	if caught:
-		on_durring_arrgo(_delta)
+		intensity = detector.intensity_now
+		on_durring_arrgo(delta, intensity)
+	else:
+		on_not_during_arrgo(delta)
 
 
 func _update_caught_state() -> void:
@@ -69,9 +76,10 @@ func on_into_arrgo() -> void:
 func on_out_arrgo() -> void:
 	"""脱离仇恨状态时调用"""
 	_aggro_timer = 0.0
+	_decay_timer = 0.0
 
 
-func on_durring_arrgo(delta: float) -> void:
+func on_durring_arrgo(delta: float, intensity_now:float) -> void:
 	"""持续仇恨状态时调用（每帧）"""
 	var target_player = _get_player()
 	if not target_player:
@@ -79,8 +87,19 @@ func on_durring_arrgo(delta: float) -> void:
 	
 	# 增长速度随时间递增（平方曲线）
 	_aggro_timer += delta
-	var growth = aggro_increase_rate * (1.0 + _aggro_timer * _aggro_timer)
+	var growth = aggro_increase_rate * (1.0 + _aggro_timer * _aggro_timer) * intensity_now
 	target_player.aggro_value = clamp(target_player.aggro_value + growth * delta, 0.0, 100.0)
+
+func on_not_during_arrgo(delta: float) -> void:
+	"""非仇恨状态时调用（每帧），aggro_value 随时间平方衰减，不低于 0"""
+	var target_player = _get_player()
+	if not target_player:
+		return
+	
+	# 衰减速度随时间平方递增（脱战越久减得越快）
+	_decay_timer += delta
+	var decay = aggro_decrease_rate * (1.0 + _decay_timer * _decay_timer) * 5
+	target_player.aggro_value = clamp(target_player.aggro_value - decay * delta, 0.0, 100.0)
 
 
 func _get_player() -> player:

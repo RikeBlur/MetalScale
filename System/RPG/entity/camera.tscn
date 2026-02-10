@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://j77rmr5mxlqk"]
+[gd_scene format=3 uid="uid://j77rmr5mxlqk"]
 
 [ext_resource type="Script" uid="uid://dw4hvyigndglp" path="res://Scripts/system/view/camera.gd" id="1_g4464"]
 
-[node name="Camera" type="Camera2D"]
+[node name="Camera" type="Camera2D" unique_id=795184897]
 zoom = Vector2(1.5, 1.5)
 limit_enabled = false
 limit_left = 0

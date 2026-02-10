@@ -1,12 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://dd5w0mao6mk4m"]
+[gd_scene format=3 uid="uid://dd5w0mao6mk4m"]
 
 [ext_resource type="Script" uid="uid://bxkh0l3yjdpl3" path="res://Scripts/system/interact/dialogue/dialogue_base.gd" id="1_u6u5o"]
 [ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="2_1xri0"]
 [ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/data/dialogue_resource/DialogueResource.gd" id="2_nld3x"]
-[ext_resource type="Texture2D" uid="uid://bqugtmn8twlpo" path="res://Assests/sprite/Oni/dialogue/back_1.png" id="2_rqtrr"]
-[ext_resource type="Texture2D" uid="uid://6mrcy46rb3n5" path="res://Assests/sprite/Oni/dialogue/back_2.png" id="3_pmorv"]
-[ext_resource type="Texture2D" uid="uid://ca8kcucbq03cb" path="res://Assests/sprite/Oni/dialogue/idle/f0.png" id="5_ent0q"]
-[ext_resource type="Texture2D" uid="uid://dobtpgeely0ey" path="res://Assests/sprite/Oni/dialogue/idle/f1.png" id="6_2g1tx"]
+[ext_resource type="Texture2D" uid="uid://bqugtmn8twlpo" path="res://Assests/sprite/Character/Oni/dialogue/back_1.png" id="2_rqtrr"]
+[ext_resource type="Texture2D" uid="uid://6mrcy46rb3n5" path="res://Assests/sprite/Character/Oni/dialogue/back_2.png" id="3_pmorv"]
+[ext_resource type="Texture2D" uid="uid://ca8kcucbq03cb" path="res://Assests/sprite/Character/Oni/dialogue/idle/f0.png" id="5_ent0q"]
+[ext_resource type="Texture2D" uid="uid://dobtpgeely0ey" path="res://Assests/sprite/Character/Oni/dialogue/idle/f1.png" id="6_2g1tx"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_e6sdg"]
 animations = [{

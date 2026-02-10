@@ -6,7 +6,7 @@ var activated: bool = false
 
 func _ready() -> void:
 	player_now = GlobalFunction.get_player()
-	_connect_arrgobar_signals
+	_connect_arrgobar_signals()
 
 func _process(_delta: float) -> void:
 	# 持续从 GameManager 同步玩家仇恨状态

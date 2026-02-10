@@ -57,6 +57,9 @@ var is_settings_showing: bool = false
 # Toolbar相关状态
 var is_toolbar_showing: bool = true  # toolbar默认显示
 
+# ARRGOBAR 延迟隐藏控制
+var _arrgobar_should_hide: bool = false
+
 # Shader资源（需要时可以预加载）
 @export var ui_layers : Node
 @export var layer1_shader: Shader
@@ -391,7 +394,10 @@ func _on_player_get_uncaught() -> void:
 
 
 func _show_arrgobar() -> void:
-	"""显示 ARRGOBAR"""
+	"""显示 ARRGOBAR（立即显示）"""
+	# 取消任何待执行的隐藏
+	_arrgobar_should_hide = false
+	
 	var arrgobar = ui_instances.get(UI_component.ARRGOBAR)
 	if arrgobar and is_instance_valid(arrgobar):
 		arrgobar.show()
@@ -402,12 +408,21 @@ func _show_arrgobar() -> void:
 
 
 func _hide_arrgobar() -> void:
-	"""隐藏 ARRGOBAR"""
+	"""隐藏 ARRGOBAR（延迟约 2 秒后隐藏）"""
+	_arrgobar_should_hide = true
+	
+	# 延迟 2 秒
+	await get_tree().create_timer(5.0).timeout
+	
+	# 2 秒后检查是否仍需隐藏（期间可能又被 show 取消了）
+	if not _arrgobar_should_hide:
+		return
+	
 	var arrgobar = ui_instances.get(UI_component.ARRGOBAR)
 	if arrgobar and is_instance_valid(arrgobar):
 		arrgobar.hide()
 		_remove_ui_from_visible_list(UI_component.ARRGOBAR)
-		print("UI_manager: 隐藏 ARRGOBAR")
+		print("UI_manager: 隐藏 ARRGOBAR（延迟2秒后）")
 	
 # --------------------------------------------------------------------------------------------------
 # ------------------------------------------ 工具函数 ----------------------------------------------
