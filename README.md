@@ -1,4 +1,5 @@
 主色调：（34，32，52）；（172，50，50）
+Oni：30*90
 
 # UPDATE
 
@@ -13,7 +14,7 @@
 
 ## 26.02.07
 
-完成 ArrgoComponent 里 get_caught / get uncaught 信号和各种东西
+完成 ArrgoComponent 里 gt_caught / get uncaught 信号和各种东西
 （UIManager/GameManager/ElectronicScreen）的绑定
 【用信号而不是用变量控制，这样方便在开始和结束时触发不对称的效果】
 

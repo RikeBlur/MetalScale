@@ -187,7 +187,6 @@ texture = ExtResource("3_hyq4k")
 
 [node name="PreloadingAnimate" type="CanvasLayer" parent="." unique_id=1125728262]
 layer = 2
-visible = false
 script = ExtResource("7_jos7r")
 
 [node name="ColorRect" type="ColorRect" parent="PreloadingAnimate" unique_id=15089889]
