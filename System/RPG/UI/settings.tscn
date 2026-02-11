@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://cr1cfwpuoqd8k"]
+[gd_scene format=3 uid="uid://cr1cfwpuoqd8k"]
 
 [ext_resource type="Script" uid="uid://pyq368xualgt" path="res://Scripts/system/view/UI/settings/settings.gd" id="1_oaby7"]
 [ext_resource type="Script" uid="uid://cd3nl1ac0hn2c" path="res://Scripts/system/view/UI/settings/settingbox.gd" id="2_lev6s"]
@@ -228,7 +228,7 @@ shader_parameter/edge_color = Color(0.83, 0, 0, 1)
 shader_parameter/edge_width = 0.1
 shader_parameter/edge_intensity = 2.0
 
-[node name="settings" type="Control"]
+[node name="settings" type="Control" unique_id=1615312752]
 layout_mode = 3
 anchors_preset = 5
 anchor_left = 0.5
@@ -240,7 +240,7 @@ grow_horizontal = 2
 size_flags_horizontal = 4
 script = ExtResource("1_oaby7")
 
-[node name="topoffset" type="MarginContainer" parent="."]
+[node name="topoffset" type="MarginContainer" parent="." unique_id=1655778233]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -251,21 +251,21 @@ offset_bottom = 81.0
 grow_horizontal = 2
 theme_override_constants/margin_top = 20
 
-[node name="PanelContainer" type="PanelContainer" parent="topoffset"]
+[node name="PanelContainer" type="PanelContainer" parent="topoffset" unique_id=136760924]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="topoffset/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="topoffset/PanelContainer" unique_id=960743806]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 3
 
-[node name="settings" type="HBoxContainer" parent="topoffset/PanelContainer/MarginContainer"]
+[node name="settings" type="HBoxContainer" parent="topoffset/PanelContainer/MarginContainer" unique_id=1059027381]
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="settingbox1" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" node_paths=PackedStringArray("button", "back", "front")]
+[node name="settingbox1" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" unique_id=189271569 node_paths=PackedStringArray("button", "back", "front")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 theme_override_constants/margin_left = 5
@@ -280,7 +280,7 @@ normal_scale = Vector2(1.3, 1.3)
 bigger_scale = Vector2(1.5, 1.5)
 smaller_scale = Vector2(1.2, 1.2)
 
-[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox1"]
+[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox1" unique_id=407710308]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_1bjeo")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_7ixif")
@@ -289,24 +289,22 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_b2ftq")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_qlhl8")
 toggle_mode = true
 
-[node name="back" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox1"]
+[node name="back" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox1" unique_id=574317348]
 material = SubResource("ShaderMaterial_orq7f")
 position = Vector2(35.5, 39)
 scale = Vector2(0.25, 0.25)
 texture = SubResource("CompressedTexture2D_2hqe3")
 
-[node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox1/back"]
-libraries = {
-&"": SubResource("AnimationLibrary_cqwn0")
-}
+[node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox1/back" unique_id=821242642]
+libraries/ = SubResource("AnimationLibrary_cqwn0")
 
-[node name="front" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox1"]
+[node name="front" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox1" unique_id=1443480802]
 modulate = Color(0.5372549, 0.5372549, 0.5372549, 1)
 position = Vector2(32.5, 35)
 scale = Vector2(2, 2)
 texture = ExtResource("3_uswx7")
 
-[node name="settingbox2" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" node_paths=PackedStringArray("button", "back", "front")]
+[node name="settingbox2" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" unique_id=603947961 node_paths=PackedStringArray("button", "back", "front")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 theme_override_constants/margin_left = 5
@@ -321,7 +319,7 @@ normal_scale = Vector2(1.3, 1.3)
 bigger_scale = Vector2(1.5, 1.5)
 smaller_scale = Vector2(1.2, 1.2)
 
-[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox2"]
+[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox2" unique_id=1906283519]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_g1r1r")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_xrcs5")
@@ -330,24 +328,22 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_n3i2n")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_6st2v")
 toggle_mode = true
 
-[node name="back" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox2"]
+[node name="back" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox2" unique_id=1696047506]
 material = SubResource("ShaderMaterial_j580r")
 position = Vector2(35.5, 39)
 scale = Vector2(0.25, 0.25)
 texture = SubResource("CompressedTexture2D_hp7d5")
 
-[node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox2/back"]
-libraries = {
-&"": SubResource("AnimationLibrary_cqwn0")
-}
+[node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox2/back" unique_id=1913121114]
+libraries/ = SubResource("AnimationLibrary_cqwn0")
 
-[node name="front" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox2"]
+[node name="front" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox2" unique_id=1037111282]
 modulate = Color(0.5372549, 0.5372549, 0.5372549, 1)
 position = Vector2(32.5, 35)
 scale = Vector2(2, 2)
 texture = ExtResource("3_l7f6u")
 
-[node name="settingbox3" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" node_paths=PackedStringArray("button", "back", "front")]
+[node name="settingbox3" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" unique_id=1276332869 node_paths=PackedStringArray("button", "back", "front")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 theme_override_constants/margin_left = 5
@@ -362,7 +358,7 @@ normal_scale = Vector2(1.3, 1.3)
 bigger_scale = Vector2(1.5, 1.5)
 smaller_scale = Vector2(1.2, 1.2)
 
-[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox3"]
+[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox3" unique_id=1345177307]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_i4d30")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_agof2")
@@ -371,24 +367,22 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_bkyj5")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_mki7e")
 toggle_mode = true
 
-[node name="back" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox3"]
+[node name="back" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox3" unique_id=981268902]
 material = SubResource("ShaderMaterial_gri4g")
 position = Vector2(35.5, 39)
 scale = Vector2(0.25, 0.25)
 texture = SubResource("CompressedTexture2D_3unt8")
 
-[node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox3/back"]
-libraries = {
-&"": SubResource("AnimationLibrary_cqwn0")
-}
+[node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox3/back" unique_id=2099619374]
+libraries/ = SubResource("AnimationLibrary_cqwn0")
 
-[node name="front" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox3"]
+[node name="front" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox3" unique_id=1771471901]
 modulate = Color(0.5372549, 0.5372549, 0.5372549, 1)
 position = Vector2(32.5, 35)
 scale = Vector2(2, 2)
 texture = ExtResource("3_cqwn0")
 
-[node name="settingbox4" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" node_paths=PackedStringArray("button", "back", "front")]
+[node name="settingbox4" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" unique_id=716804266 node_paths=PackedStringArray("button", "back", "front")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 theme_override_constants/margin_left = 5
@@ -403,7 +397,7 @@ normal_scale = Vector2(1.3, 1.3)
 bigger_scale = Vector2(1.5, 1.5)
 smaller_scale = Vector2(1.2, 1.2)
 
-[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox4"]
+[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox4" unique_id=717132918]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_l7f6u")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_uswx7")
@@ -412,24 +406,22 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_romha")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_88ifu")
 toggle_mode = true
 
-[node name="back" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox4"]
+[node name="back" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox4" unique_id=776380920]
 material = SubResource("ShaderMaterial_grm8c")
 position = Vector2(35.5, 39)
 scale = Vector2(0.25, 0.25)
 texture = SubResource("CompressedTexture2D_cqwn0")
 
-[node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox4/back"]
-libraries = {
-&"": SubResource("AnimationLibrary_cqwn0")
-}
+[node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox4/back" unique_id=1624738560]
+libraries/ = SubResource("AnimationLibrary_cqwn0")
 
-[node name="front" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox4"]
+[node name="front" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox4" unique_id=992954269]
 modulate = Color(0.5372549, 0.5372549, 0.5372549, 1)
 position = Vector2(32.5, 35)
 scale = Vector2(2, 2)
 texture = ExtResource("3_eqabb")
 
-[node name="settingbox5" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" node_paths=PackedStringArray("button", "back", "front")]
+[node name="settingbox5" type="MarginContainer" parent="topoffset/PanelContainer/MarginContainer/settings" unique_id=963739385 node_paths=PackedStringArray("button", "back", "front")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 theme_override_constants/margin_left = 5
@@ -441,7 +433,7 @@ button = NodePath("Button")
 back = NodePath("back")
 front = NodePath("front")
 
-[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox5"]
+[node name="Button" type="Button" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox5" unique_id=1649563243]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_oaby7")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_lev6s")
@@ -450,18 +442,16 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_eqabb")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_cqwn0")
 toggle_mode = true
 
-[node name="back" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox5"]
+[node name="back" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox5" unique_id=1183024074]
 material = SubResource("ShaderMaterial_hn8pb")
 position = Vector2(35.5, 39)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("3_lev6s")
 
-[node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox5/back"]
-libraries = {
-&"": SubResource("AnimationLibrary_cqwn0")
-}
+[node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox5/back" unique_id=905657674]
+libraries/ = SubResource("AnimationLibrary_cqwn0")
 
-[node name="front" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox5"]
+[node name="front" type="Sprite2D" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox5" unique_id=885767538]
 modulate = Color(0.5372549, 0.5372549, 0.5372549, 1)
 position = Vector2(32.5, 35)
 scale = Vector2(2, 2)

@@ -22,46 +22,45 @@ shader_parameter/alpha_multiplier = 1.0000000475
 shader_parameter/color_mix_strength = 0.5
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_cg1dc"]
-polygon = PackedVector2Array(-32, -55, 29, -55, 29, -53, -32, -53)
+polygon = PackedVector2Array(-20, -57, 18, -57, 18, -55, -20, -55)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_pyg44"]
-polygon = PackedVector2Array(-53.74718, -38.42188, -49.977615, -12.618963, -49.048183, -13.684872, -51.751842, -38.558357)
+polygon = PackedVector2Array(-41.979874, -42.233757, -39.822132, -25.341627, -37.895035, -26.475775, -38.986866, -42.438477)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_u38on"]
-polygon = PackedVector2Array(50.631226, -32.5957, 47.42765, -7.72127, 48.42649, -7.673034, 51.67829, -33.546295)
+polygon = PackedVector2Array(36.84046, -37.266346, 36.068687, -21.28497, 38.018124, -20.189663, 39.83697, -37.12164)
 
 [node name="ElectrionicScreen" type="Node2D" unique_id=987910373]
 script = ExtResource("1_ks8pa")
 
 [node name="LightSource" type="Node2D" parent="." unique_id=1659965690 groups=["light_source"]]
-position = Vector2(0, -19)
+position = Vector2(0, -16)
 script = ExtResource("2_cg1dc")
-sampling_rate = 64
+radius = 100.0
+sampling_rate = 32
 debug_mode = true
 
 [node name="PointLight2D" type="PointLight2D" parent="LightSource" unique_id=559647924]
-position = Vector2(0, -7)
+position = Vector2(0, -10)
 shadow_enabled = true
 shadow_filter = 2
 shadow_filter_smooth = 1.0
 shadow_item_cull_mask = 3
 texture = ExtResource("2_0w35k")
-texture_scale = 8.0
+texture_scale = 4.0
 
 [node name="ScreenContent" type="Sprite2D" parent="." unique_id=158828935]
 material = SubResource("ShaderMaterial_0nj6o")
-position = Vector2(0, -10)
-scale = Vector2(0.05267857, 0.061666664)
+position = Vector2(-9.536743e-07, -18.25)
+scale = Vector2(0.030357141, 0.034166668)
 texture = ExtResource("5_pyg44")
 
 [node name="ScreenBody" type="Sprite2D" parent="." unique_id=1929611458]
-position = Vector2(1.1920929e-07, -1.1920929e-07)
-scale = Vector2(0.6171875, 0.5593262)
+position = Vector2(0, -13)
 texture = ExtResource("4_pyg44")
 
 [node name="JIU" type="Sprite2D" parent="." unique_id=2016861912]
-position = Vector2(0, -5)
-scale = Vector2(0.6, 0.6)
+position = Vector2(0, -14)
 texture = ExtResource("8_4xqns")
 
 [node name="occlusion" type="Node2D" parent="." unique_id=2022629210]

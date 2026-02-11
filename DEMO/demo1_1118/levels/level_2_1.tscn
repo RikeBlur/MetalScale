@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/door_back.tscn" id="5_w2n4f"]
 [ext_resource type="Shader" uid="uid://dnmsgg8u8kvwd" path="res://Effect/Shader/level_transition/transition.gdshader" id="6_0eyh4"]
 [ext_resource type="PackedScene" uid="uid://uw1jl40lxyfx" path="res://System/RPG/lighting/ElectrionicScreen.tscn" id="6_dny7q"]
-[ext_resource type="Texture2D" uid="uid://ds0rnye51axgi" path="res://Assests/sprite/effect/Bayer8.png" id="7_bvdh2"]
+[ext_resource type="Texture2D" uid="uid://bnc00ao14ombt" path="res://Assests/sprite/effect/new_noise_texture_2d.tres" id="8_dny7q"]
 [ext_resource type="PackedScene" uid="uid://bdgt4t7dtg58f" path="res://System/RPG/view/transition_player.tscn" id="8_xn52a"]
 
 [sub_resource type="Gradient" id="Gradient_l4uji"]
@@ -42,7 +42,7 @@ glow_enabled = true
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_l4uji"]
 shader = ExtResource("6_0eyh4")
 shader_parameter/progress = 0.0
-shader_parameter/noise_texture = ExtResource("7_bvdh2")
+shader_parameter/noise_texture = ExtResource("8_dny7q")
 shader_parameter/noise_scale = Vector2(1, 1)
 shader_parameter/edge_softness = 0.10000000475
 shader_parameter/transition_color = Color(0, 0, 0, 1)
@@ -107,7 +107,7 @@ tile_set = ExtResource("4_8h551")
 [node name="light" type="Node2D" parent="terrian" unique_id=1475510800]
 
 [node name="ElectrionicScreen" parent="terrian/light" unique_id=1802227372 instance=ExtResource("6_dny7q")]
-position = Vector2(254, 11)
+position = Vector2(252, 35)
 
 [node name="WorldOfWonder" type="WorldEnvironment" parent="." unique_id=1757527792]
 environment = SubResource("Environment_shyo2")
@@ -116,7 +116,6 @@ environment = SubResource("Environment_shyo2")
 color = Color(0.5, 0.375, 0.375, 1)
 
 [node name="transition" type="CanvasLayer" parent="." unique_id=1719863007]
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="transition" unique_id=400304696]
 material = SubResource("ShaderMaterial_l4uji")

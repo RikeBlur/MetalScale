@@ -149,7 +149,7 @@ func _open_door() -> void:
 	
 	print("BaseDoor: 打开门，切换到场景: %s" % scene_to)
 	
-	# 调用GlobalFunction的场景切换， 通过 index 确认场景初始落点
+	# 调用SceneManager的场景切换， 通过 index 确认场景初始落点
 	SceneManager.change_scene(scene_to, scene_to_index)
 
 func _door_lock() -> void:
@@ -158,7 +158,7 @@ func _door_lock() -> void:
 	print("BaseDoor: 门已上锁")
 	
 	# 获取玩家引用
-	var player_node = GlobalFunction.get_player()
+	var player_node = GameManager.get_player()
 	if not player_node:
 		push_warning("BaseDoor: 无法获取玩家实例")
 		return

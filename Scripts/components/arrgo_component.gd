@@ -112,4 +112,4 @@ func _get_player() -> player:
 		player_node = parent
 		return player_node
 	
-	return GlobalFunction.get_player()
+	return GameManager.get_player()

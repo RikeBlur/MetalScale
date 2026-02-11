@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="metal_scale"
-run/main_scene="uid://brremcem2ll0b"
+run/main_scene="uid://coj35ec54m524"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -23,10 +23,10 @@ config/icon="res://icon.svg"
 
 RPGInputEvents="*res://Scripts/global/game_input_events.gd"
 GameManager="*res://Scripts/global/game_manager.gd"
-GlobalFunction="*res://Scripts/global/GLOBAL_FUNCTION.gd"
 SceneManager="*res://Scripts/global/scene_manager.gd"
 ArchiveManager="*res://Scripts/global/archive_manager.gd"
 UIManager="*res://Scripts/global/ui_manager.gd"
+LightingManager="*uid://b3v26rgbib2s4"
 
 [dialogic]
 

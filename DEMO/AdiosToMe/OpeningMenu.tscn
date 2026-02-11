@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://coj35ec54m524"]
+
+[ext_resource type="PackedScene" uid="uid://dn8hjlrnwp5uu" path="res://System/RPG/UI/OpeningMenu.tscn" id="4_dr64k"]
+[ext_resource type="Script" uid="uid://b3v26rgbib2s4" path="res://Scripts/system/lighting/lighting_manager.gd" id="11_i6vwo"]
+
+[node name="OpeningMenu" type="Node2D" unique_id=2138918271]
+
+[node name="OpeningMenu" type="CanvasLayer" parent="." unique_id=1903540263]
+
+[node name="OpeningMenu" parent="OpeningMenu" unique_id=1916706883 instance=ExtResource("4_dr64k")]
+
+[node name="lightingsystem" type="Node2D" parent="." unique_id=1448331522]
+script = ExtResource("11_i6vwo")

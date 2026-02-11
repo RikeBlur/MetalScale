@@ -5,7 +5,7 @@ var player_now: CharacterBody2D = null
 var activated: bool = false
 
 func _ready() -> void:
-	player_now = GlobalFunction.get_player()
+	player_now = GameManager.get_player()
 	_connect_arrgobar_signals()
 
 func _process(_delta: float) -> void:

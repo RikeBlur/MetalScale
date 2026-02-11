@@ -185,14 +185,8 @@ func game_save(index : int) -> bool:
 		push_error("ArchiveManager: 未找到SceneManager节点")
 		return false
 	
-	# 获取GlobalFunction引用
-	var global_func = get_node_or_null("/root/GlobalFunction")
-	if not global_func:
-		push_error("ArchiveManager: 未找到GlobalFunction节点")
-		return false
-	
 	# 获取player节点
-	var player_node = global_func.get_player()
+	var player_node = GameManager.get_player()
 	if not player_node:
 		push_error("ArchiveManager: 未找到player节点")
 		return false
@@ -277,12 +271,6 @@ func game_load(index : int) -> bool:
 		push_error("ArchiveManager: 未找到SceneManager节点")
 		return false
 	
-	# 获取GlobalFunction引用
-	var global_func = get_node_or_null("/root/GlobalFunction")
-	if not global_func:
-		push_error("ArchiveManager: 未找到GlobalFunction节点")
-		return false
-	
 	# Step 1: 用保存好的SceneData重置scene_manager的字典
 	if save_data["scene"].has("scene_dict"):
 		scene_mgr.scene_dict = _deserialize_all_scenes(save_data["scene"]["scene_dict"])
@@ -295,7 +283,7 @@ func game_load(index : int) -> bool:
 		return false
 	
 	# 检查是否存在player节点（判断是否是首次加载）
-	var player_node = global_func.get_player()
+	var player_node = GameManager.get_player()
 	var is_first_load = (player_node == null)
 	
 	if is_first_load:
@@ -320,7 +308,7 @@ func game_load(index : int) -> bool:
 		await get_tree().process_frame
 		
 		# 获取新加载场景中的player节点
-		player_node = global_func.get_player()
+		player_node = GameManager.get_player()
 		if not player_node:
 			push_error("ArchiveManager: 场景加载后未找到player节点")
 			return false
@@ -334,7 +322,7 @@ func game_load(index : int) -> bool:
 		await scene_mgr.player_reseted
 		
 		# 重新获取player节点引用
-		player_node = global_func.get_player()
+		player_node = GameManager.get_player()
 	
 	# 恢复player参数
 	if player_node and save_data.has("player"):
@@ -400,14 +388,8 @@ func quick_save() -> bool:
 		push_error("ArchiveManager: 未找到SceneManager节点")
 		return false
 	
-	# 获取GlobalFunction引用
-	var global_func = get_node_or_null("/root/GlobalFunction")
-	if not global_func:
-		push_error("ArchiveManager: 未找到GlobalFunction节点")
-		return false
-	
 	# 获取player节点
-	var player_node = global_func.get_player()
+	var player_node = GameManager.get_player()
 	if not player_node:
 		push_error("ArchiveManager: 未找到player节点")
 		return false
@@ -487,12 +469,6 @@ func quick_load() -> bool:
 		push_error("ArchiveManager: 未找到SceneManager节点")
 		return false
 	
-	# 获取GlobalFunction引用
-	var global_func = get_node_or_null("/root/GlobalFunction")
-	if not global_func:
-		push_error("ArchiveManager: 未找到GlobalFunction节点")
-		return false
-	
 	# Step 1: 用保存好的SceneData重置scene_manager的字典
 	if save_data["scene"].has("scene_dict"):
 		scene_mgr.scene_dict = _deserialize_all_scenes(save_data["scene"]["scene_dict"])
@@ -505,7 +481,7 @@ func quick_load() -> bool:
 		return false
 	
 	# 检查是否存在player节点（判断是否是首次加载）
-	var player_node = global_func.get_player()
+	var player_node = GameManager.get_player()
 	var is_first_load = (player_node == null)
 	
 	if is_first_load:
@@ -530,7 +506,7 @@ func quick_load() -> bool:
 		await get_tree().process_frame
 		
 		# 获取新加载场景中的player节点
-		player_node = global_func.get_player()
+		player_node = GameManager.get_player()
 		if not player_node:
 			push_error("ArchiveManager: 场景加载后未找到player节点")
 			return false
@@ -541,7 +517,7 @@ func quick_load() -> bool:
 		await scene_mgr.change_scene(scene_now)
 		
 		# 重新获取player节点引用
-		player_node = global_func.get_player()
+		player_node = GameManager.get_player()
 	
 	# 恢复player参数
 	if player_node and save_data.has("player"):

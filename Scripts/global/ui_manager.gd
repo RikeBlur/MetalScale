@@ -73,9 +73,9 @@ func refresh_ui_manager() -> void:
 	# 自动读取UI_LAYERS节点
 	if not ui_layers:
 		ui_layers = get_tree().current_scene.get_node_or_null("UI_LAYERS")
-	# 自动从GlobalFunction读取player
+	# 自动从GameManager读取player
 	if not player_now:
-		player_now = GlobalFunction.get_player()
+		player_now = GameManager.get_player()
 	# 初始化canvas layers
 	_initialize_layers()
 	# 初始化stage0的UI
@@ -162,13 +162,14 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 			ui_instance.own_manager = self
 		_add_ui_to_visible_list(UI_component.SAVEGAMEWINDOW)
 		
-		# 特殊处理：为arrgobar设置own_manager引用和player引用
+		# 特殊处理：为arrgobar设置own_manager引用和player引用，且隐藏掉
 	if ui_type == UI_component.ARRGOBAR :
 		if "own_manager" in ui_instance:
 			ui_instance.own_manager = self
 		if "player_now" in ui_instance:
 			ui_instance.player_now = player_now
-		_add_ui_to_visible_list(UI_component.ARRGOBAR)
+			ui_instance.hide()
+			
 	
 	# 添加到对应layer
 	target_layer.add_child(ui_instance)
@@ -235,12 +236,14 @@ func _toggle_settings():
 	if not is_settings_showing:
 		# 显示settings
 		_show_settings()
-		GameManager.current_runnnig_state = GameManager.RunningState.MENU
+		GameManager.set_running_state(GameManager.RunningState.MENU)
+		# RUNNING.MENU状态下鼠标可以操作
 		InputEvents.show_mouse()
 	else:
 		# 隐藏settings
 		_hide_settings()
-		GameManager.current_runnnig_state = GameManager.RunningState.CONTROL
+		GameManager.set_running_state(GameManager.RunningState.CONTROL)
+		# RUNNING.CONTROL状态下鼠标不可以操作
 		InputEvents.hide_mouse()
 
 func _show_settings():
@@ -408,13 +411,13 @@ func _show_arrgobar() -> void:
 
 
 func _hide_arrgobar() -> void:
-	"""隐藏 ARRGOBAR（延迟约 2 秒后隐藏）"""
+	"""隐藏 ARRGOBAR（延迟约 5 秒后隐藏）"""
 	_arrgobar_should_hide = true
 	
-	# 延迟 2 秒
+	# 延迟 5 秒
 	await get_tree().create_timer(5.0).timeout
 	
-	# 2 秒后检查是否仍需隐藏（期间可能又被 show 取消了）
+	# 5 秒后检查是否仍需隐藏（期间可能又被 show 取消了）
 	if not _arrgobar_should_hide:
 		return
 	
@@ -422,7 +425,7 @@ func _hide_arrgobar() -> void:
 	if arrgobar and is_instance_valid(arrgobar):
 		arrgobar.hide()
 		_remove_ui_from_visible_list(UI_component.ARRGOBAR)
-		print("UI_manager: 隐藏 ARRGOBAR（延迟2秒后）")
+		print("UI_manager: 隐藏 ARRGOBAR（延迟5秒后）")
 	
 # --------------------------------------------------------------------------------------------------
 # ------------------------------------------ 工具函数 ----------------------------------------------

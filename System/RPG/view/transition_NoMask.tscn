@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://yxyd6g5ii2qp"]
+
+[ext_resource type="Shader" uid="uid://dnmsgg8u8kvwd" path="res://Effect/Shader/level_transition/transition.gdshader" id="1_frura"]
+
+[sub_resource type="Gradient" id="Gradient_3aqy0"]
+offsets = PackedFloat32Array(0, 0.993506)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_frura"]
+frequency = 0.0009
+offset = Vector3(0, 88.4, 0)
+fractal_type = 2
+domain_warp_enabled = true
+domain_warp_type = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jx155"]
+noise = SubResource("FastNoiseLite_frura")
+color_ramp = SubResource("Gradient_3aqy0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vy2ns"]
+shader = ExtResource("1_frura")
+shader_parameter/progress = 1.0
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_jx155")
+shader_parameter/noise_scale = Vector2(1, 1)
+shader_parameter/edge_softness = 0.10000000475
+shader_parameter/transition_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_i06ea"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_20hak"]
+resource_name = "appear"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 0.1961461),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ip2lo"]
+resource_name = "disappear"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 0.2588165),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i06ea"]
+_data = {
+&"RESET": SubResource("Animation_i06ea"),
+&"appear": SubResource("Animation_20hak"),
+&"disappear": SubResource("Animation_ip2lo")
+}
+
+[node name="transition" type="CanvasLayer" unique_id=546653505]
+layer = 10
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=201237744]
+material = SubResource("ShaderMaterial_vy2ns")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -589.0
+offset_top = -346.0
+offset_right = 598.0
+offset_bottom = 344.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(0, 0, 0, 1)
+
+[node name="TransitionPlayer" type="AnimationPlayer" parent="ColorRect" unique_id=835834050]
+libraries/ = SubResource("AnimationLibrary_i06ea")

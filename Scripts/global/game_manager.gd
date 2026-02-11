@@ -2,21 +2,23 @@ class_name game_manager
 extends Node
 
 signal Preloaded
-signal Loading
+# signal Loading
 signal Loaded
 
 # ====================================================================================================
 # ========================================= 全局管理器路径 ===============================================
 # ====================================================================================================
 
-const GLOBAL_FUNCTION_PATH = "res://Scripts/global/GLOBAL_FUNCTION.gd"
 const SCENE_MANAGER_PATH = "res://Scripts/global/scene_manager.gd"
 const ARCHIVE_MANAGER_PATH = "res://Scripts/global/archive_manager.gd"
 const UI_MANAGER_PATH = "res://Scripts/global/ui_manager.gd"
+const LIGHTING_MANAGER_PATH = "res://Scripts/system/lighting/lighting_manager.gd"
 
 # ====================================================================================================
 # ============================================ 游戏状态枚举 =============================================
 # ====================================================================================================
+
+var debug : bool = true
 
 # 游戏状态枚举
 enum GameState {
@@ -45,7 +47,8 @@ var game_start_time_msec: int = 0
 var game_archive_msec: int = 0
 
 # 游戏初次加载时玩家的世界坐标位置
-var start_position: Vector2 = Vector2(0, -150)
+var start_scene: String = "TeacherRestRoom"
+#var start_position: Vector2 = Vector2(0, -150)
 
 # 玩家是否处于仇恨状态？
 var player_arrgo: bool = false
@@ -54,6 +57,7 @@ var player_arrgo: bool = false
 # ====================================================================================================
 # ====================================================================================================
 
+
 # ====================================================================================================
 # ========================================== 节点引用存储 ==============================================
 # ====================================================================================================
@@ -61,7 +65,11 @@ var player_arrgo: bool = false
 # 存储实例化的节点引用
 var player_instance: player = null
 var camera_instance: AdvancedCamera = null
-var startpoint_instance: Node2D = null
+#var startpoint_instance: Node2D = null
+
+# Debug UI元素
+var debug_canvas: CanvasLayer = null
+var debug_label: Label = null
 
 # ====================================================================================================
 # ====================================================================================================
@@ -70,13 +78,23 @@ var startpoint_instance: Node2D = null
 func _ready() -> void:
 	# 记录游戏启动时间
 	game_start_time_msec = Time.get_ticks_msec()
+	
+	# 创建debug UI
+	if debug:
+		_create_debug_ui()
+	
 	preloading()
+	# 加载完毕执行的函数
 	Loaded.connect(_on_loaded)
 	
 func _process(delta: float) -> void:
 	# 仅在运行状态下累加存档时长（毫秒）
 	if current_state == GameState.RUNNING:
 		game_archive_msec += int(delta * 1000.0)
+	
+	# 更新debug UI
+	if debug and debug_label:
+		_update_debug_ui()
 
 # ====================================================================================================
 # ============================================= 游戏总线 ==============================================
@@ -88,44 +106,44 @@ func preloading() -> void:
 	PRELOADING -> MENU
 	
 	包括:
-		- 存档管理器
-		- packed的玩家节点和camera节点（GlobalFunction）
+		- packed的玩家节点和camera节点
 		- 场景管理器
+		- 存档管理器
 		- UI管理器
+		- 光照管理器
 	"""	
 	print("GameManager: 开始预加载流程...")
 	
-	# 1. 加载 GlobalFunction (基础依赖)
-	# 所有的全局查找函数都在这里，必须最先加载
-	var gf = _install_manager(GLOBAL_FUNCTION_PATH, "GlobalFunction")
-	# 加载 gf 所需要的玩家节点和摄像机节点
+	# 1. 加载 Player 和 Camera 实例
 	# 加载 Player 场景
 	var player_scene: PackedScene = load("res://System/RPG/entity/controllable/player_Oni.tscn")
 	player_instance = player_scene.instantiate()
-	gf.stored_player = player_instance
 	# 加载 Camera 场景
 	var camera_scene: PackedScene = load("res://System/RPG/entity/camera.tscn")
 	camera_instance = camera_scene.instantiate()
 	camera_instance.target = player_instance
-	gf.stored_camera = camera_instance 
 	
-	# 2. 加载 SceneManager (依赖 GlobalFunction)
-	# 负责场景切换和节点存储，ArchiveManager依赖它
+	# 2. 加载 SceneManager
+	# 负责场景切换和节点存储
 	_install_manager(SCENE_MANAGER_PATH, "SceneManager")
 	
-	# 3. 加载 ArchiveManager (依赖 SceneManager, GlobalFunction)
+	# 3. 加载 ArchiveManager (依赖 SceneManager, GameManager)
 	# 负责读写存档
 	var arc_mgr = _install_manager(ARCHIVE_MANAGER_PATH, "ArchiveManager")
-	# 初始化UI管理器
+	# 初始化存档管理器
 	if arc_mgr and arc_mgr.has_method("check_save_state"):
 		arc_mgr.check_save_state()
 	
-	# 4. 加载 UIManager (依赖 GlobalFunction)
+	# 4. 加载 UIManager (依赖 GameManager)
 	# 负责UI管理
 	var ui_mgr = _install_manager(UI_MANAGER_PATH, "UIManager")
 	# 初始化UI管理器
-	if ui_mgr and ui_mgr.has_method("refresh_ui_manager"):
-		ui_mgr.refresh_ui_manager()
+	#if ui_mgr and ui_mgr.has_method("refresh_ui_manager"):
+	#	ui_mgr.refresh_ui_manager()
+	
+	# 5. 加载 LightingManager
+	# 负责光照系统管理
+	_install_manager(LIGHTING_MANAGER_PATH, "LightingManager")
 	
 	# 等待一帧，确保所有节点都已进入场景树并执行了_ready
 	await get_tree().process_frame
@@ -142,43 +160,49 @@ func start_new_game() -> void:
 	开始新游戏
 	
 	功能:
-		- 实例化 player 和 camera
-		- 设置 camera 的 target 为 player
-		- 实例化 startpoint（如果有配置）
+		- 先将 player 和 camera 临时添加到当前场景
+		- 调用 SceneManager 切换到 start_scene
+		- 刷新 UIManager
 		- 更新游戏状态为 RUNNING
 	"""
 	print("GameManager: 开始新游戏")
 	
 	# 更新游戏状态
-	current_state = GameState.LOADING
+	set_game_state(GameState.LOADING)
 	game_archive_msec = 0
 	
-	# 加载玩家和摄像机
+	# 临时添加玩家和摄像机到当前场景（SceneManager.change_scene 需要它们在场景树中）
 	var parent = get_tree().current_scene
 	parent.add_child(player_instance)
 	parent.add_child(camera_instance)
+	camera_instance.target = player_instance
 	
-	# 加载起始点
-	var startpoint_scene: PackedScene = load("res://System/RPG/interact/door/door_front.tscn")
-	startpoint_instance = startpoint_scene.instantiate()
-	startpoint_instance.scene_to = "level_1_2"
-	startpoint_instance.global_position = start_position
-	parent.add_child(startpoint_instance)
+	# 等待一帧确保节点完全进入场景树
+	await get_tree().process_frame
+	
+	# 调用 SceneManager 切换到起始场景
+	print("GameManager: 切换到起始场景 %s" % start_scene)
+	await SceneManager.change_scene(start_scene, 0)
+	
+	# 刷新 UIManager
+	print("GameManager: 刷新 UI Manager")
+	UIManager.refresh_ui_manager()
 	
 	# 更新游戏状态为运行中
-	current_state = GameState.RUNNING
-	current_runnnig_state = RunningState.CONTROL
+	set_game_state(GameState.RUNNING)
+	set_running_state(RunningState.CONTROL)
 	print("GameManager: 新游戏启动完成，当前状态: RUNNING")
 	InputEvents.hide_mouse()
 	_connect_player_arrgo()
+
 
 func _on_loaded() -> void:
 	"""
 	游戏加载完成
 	由信号触发
 	"""
-	current_state = GameState.RUNNING
-	current_runnnig_state = RunningState.CONTROL
+	set_game_state(GameState.RUNNING)
+	set_running_state(RunningState.CONTROL)
 	print("GameManager: 新游戏启动完成，当前状态: RUNNING")
 	InputEvents.hide_mouse()
 	_connect_player_arrgo()
@@ -203,8 +227,6 @@ func quit_game() -> void:
 func _connect_player_arrgo() -> void:
 	"""连接玩家 ArrgoComponent 的 get_caught/get_uncaught 到 game_manager.player_arrgo"""
 	var p = player_instance if (player_instance and is_instance_valid(player_instance)) else null
-	if not p:
-		p = GlobalFunction.get_player() if GlobalFunction else null
 	if not p or not is_instance_valid(p):
 		return
 	var arrgo = p.get_node_or_null("arrgo_component")
@@ -263,6 +285,52 @@ func _install_manager(script_path: String, node_name: String) -> Node:
 # ====================================================================================================
 
 
+# ====================================================================================================
+# ======================================= 获取Player和Camera =========================================
+# ====================================================================================================
+
+func get_player() -> player:
+	"""获取存储的player节点"""
+	if not player_instance or not is_instance_valid(player_instance):
+		# 如果存储的player无效，尝试从场景树中重新查找
+		var players = get_tree().get_nodes_in_group("player")
+		if players.size() > 0:
+			player_instance = players[0]
+			print("GameManager: 重新获取player节点")
+		else:
+			push_warning("GameManager: 未找到player分组的节点")
+	return player_instance
+
+func get_camera() -> AdvancedCamera:
+	"""获取存储的camera节点"""
+	if not camera_instance or not is_instance_valid(camera_instance):
+		# 如果存储的camera无效，尝试从场景树中重新查找
+		var root = get_tree().current_scene
+		if root:
+			camera_instance = _find_camera_recursive(root)
+			if camera_instance:
+				print("GameManager: 重新获取camera节点")
+			else:
+				push_warning("GameManager: 未找到AdvancedCamera节点")
+	return camera_instance
+
+func _find_camera_recursive(node: Node) -> AdvancedCamera:
+	"""递归查找AdvancedCamera节点"""
+	if node is AdvancedCamera:
+		return node
+	
+	for child in node.get_children():
+		var result = _find_camera_recursive(child)
+		if result:
+			return result
+	
+	return null
+
+# ====================================================================================================
+# ====================================================================================================
+# ====================================================================================================
+
+
 func set_game_state(new_state: GameState) -> void:
 	"""
 	设置游戏状态
@@ -272,6 +340,10 @@ func set_game_state(new_state: GameState) -> void:
 	"""
 	current_state = new_state
 	print("GameManager: 游戏状态已更改为: %s" % GameState.keys()[new_state])
+	
+	# 更新debug UI
+	if debug and debug_label:
+		_update_debug_ui()
 
 
 func get_game_state() -> GameState:
@@ -282,6 +354,29 @@ func get_game_state() -> GameState:
 		当前的游戏状态
 	"""
 	return current_state
+
+func set_running_state(new_state: RunningState) -> void:
+	"""
+	设置运行状态
+	
+	参数:
+		new_state: 新的运行状态
+	"""
+	current_runnnig_state = new_state
+	print("GameManager: 运行状态已更改为: %s" % RunningState.keys()[new_state])
+	
+	# 更新debug UI
+	if debug and debug_label:
+		_update_debug_ui()
+
+func get_running_state() -> RunningState:
+	"""
+	获取当前运行状态
+	
+	返回:
+		当前的运行状态
+	"""
+	return current_runnnig_state
 
 func get_runtime_seconds() -> float:
 	"""
@@ -304,3 +399,92 @@ func get_runtime_formatted() -> String:
 	var minutes = int((total_seconds % 3600) / 60.0)
 	var seconds = total_seconds % 60
 	return "%02d:%02d:%02d" % [hours, minutes, seconds]
+
+# ====================================================================================================
+# =========================================== Debug UI功能 ============================================
+# ====================================================================================================
+
+func _create_debug_ui() -> void:
+	"""创建调试UI - 在屏幕右下角显示游戏状态"""
+	# 创建CanvasLayer（确保UI始终在最上层）
+	debug_canvas = CanvasLayer.new()
+	debug_canvas.name = "DebugCanvas"
+	debug_canvas.layer = 100  # 设置为高层级，确保显示在最上层
+	add_child(debug_canvas)
+	
+	# 创建背景面板
+	var panel = PanelContainer.new()
+	panel.name = "DebugPanel"
+	debug_canvas.add_child(panel)
+	
+	# 设置面板样式
+	var style_box = StyleBoxFlat.new()
+	style_box.bg_color = Color(0, 0, 0, 0.7)  # 半透明黑色背景
+	style_box.border_color = Color(0.8, 0.8, 0.8, 0.9)
+	style_box.set_border_width_all(2)
+	style_box.set_corner_radius_all(8)
+	style_box.content_margin_left = 15
+	style_box.content_margin_right = 15
+	style_box.content_margin_top = 10
+	style_box.content_margin_bottom = 10
+	panel.add_theme_stylebox_override("panel", style_box)
+	
+	# 创建Label
+	debug_label = Label.new()
+	debug_label.name = "DebugLabel"
+	panel.add_child(debug_label)
+	
+	# 设置Label样式
+	debug_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+	debug_label.add_theme_font_size_override("font_size", 16)
+	
+	# 设置面板位置（右下角）
+	panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT, Control.PRESET_MODE_MINSIZE, 10)
+	panel.position = Vector2(-10, -10)  # 从右下角偏移一点距离
+	
+	print("GameManager: Debug UI已创建")
+	_update_debug_ui()
+
+func _update_debug_ui() -> void:
+	"""更新调试UI显示的内容"""
+	if not debug_label:
+		return
+	
+	var state_text = ""
+	
+	# 获取当前GameState
+	var game_state_name = GameState.keys()[current_state]
+	state_text += "[游戏状态]\n"
+	state_text += "GameState: %s\n" % game_state_name
+	
+	# 如果是RUNNING状态，显示RunningState
+	if current_state == GameState.RUNNING:
+		var running_state_name = RunningState.keys()[current_runnnig_state]
+		state_text += "RunningState: %s\n" % running_state_name
+	
+	# 添加额外信息
+	state_text += "\n[额外信息]\n"
+	state_text += "运行时长: %s\n" % get_runtime_formatted()
+	state_text += "存档时长: %.1fs\n" % (game_archive_msec / 1000.0)
+	state_text += "玩家仇恨: %s" % ("是" if player_arrgo else "否")
+	
+	debug_label.text = state_text
+
+func toggle_debug_ui() -> void:
+	"""切换debug UI的显示/隐藏"""
+	if debug_canvas:
+		debug_canvas.visible = not debug_canvas.visible
+		print("GameManager: Debug UI 可见性切换为: ", debug_canvas.visible)
+
+func set_debug_mode(enabled: bool) -> void:
+	"""设置debug模式"""
+	debug = enabled
+	if debug and not debug_canvas:
+		_create_debug_ui()
+	elif not debug and debug_canvas:
+		debug_canvas.visible = false
+	print("GameManager: Debug模式设置为: ", debug)
+
+# ====================================================================================================
+# ====================================================================================================
+# ====================================================================================================

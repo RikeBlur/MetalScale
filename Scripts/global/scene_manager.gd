@@ -10,11 +10,15 @@ var scene_dict: Dictionary = {
 	"level_1_1": SceneData.new("res://DEMO/demo1_1118/levels/level_1_1.tscn", "关卡 1-1", []),
 	"level_1_2": SceneData.new("res://DEMO/demo1_1118/levels/level_1_2.tscn", "关卡 1-2", []),
 	"level_2_1": SceneData.new("res://DEMO/demo1_1118/levels/level_2_1.tscn", "关卡 2-1", []),
-	"level_2_2": SceneData.new("res://DEMO/demo1_1118/levels/level_2_2.tscn", "关卡 2-2", [])
+	"level_2_2": SceneData.new("res://DEMO/demo1_1118/levels/level_2_2.tscn", "关卡 2-2", []),
+	"TeacherRestRoom": SceneData.new("res://DEMO/AdiosToMe/Levels/TeacherRestRoom.tscn", "0-0", [])
 }
 
 # 当前场景的key
 var current_scene_key: String = ""
+
+# 全局转场场景路径（挂到 Root 上，与当前场景同级，避免被 change_scene_to_file 一起销毁）
+const TRANSITION_SCENE_PATH: String = "res://System/RPG/view/transition_Mask.tscn"
 
 signal player_reseted
 
@@ -29,28 +33,6 @@ func _find_base_level(node: Node) -> BaseLevel:
 	
 	for child in node.get_children():
 		var result = _find_base_level(child)
-		if result:
-			return result
-	
-	return null
-
-func _find_transition_player(node: Node) -> AnimationPlayer:
-	"""查找名为transition_player的AnimationPlayer节点"""
-	# 优先通过名称直接查找
-	var transition_player = node.get_node_or_null("transition_player")
-	if transition_player and transition_player is AnimationPlayer:
-		return transition_player
-	
-	# 如果直接查找失败，递归查找
-	return _find_transition_player_recursive(node)
-
-func _find_transition_player_recursive(node: Node) -> AnimationPlayer:
-	"""递归查找transition_player"""
-	if node.name == "transition_player" and node is AnimationPlayer:
-		return node
-	
-	for child in node.get_children():
-		var result = _find_transition_player_recursive(child)
 		if result:
 			return result
 	
@@ -156,8 +138,8 @@ func change_scene(scene_key: String, scene_to_index: int) -> void:
 		return
 	
 	# 保存当前player和camera的引用
-	var current_player = GlobalFunction.get_player()
-	var current_camera = GlobalFunction.get_camera()
+	var current_player = GameManager.get_player()
+	var current_camera = GameManager.get_camera()
 	
 	if not current_player:
 		push_error("SceneManager: 无法切换场景，player节点不存在")
@@ -171,16 +153,20 @@ func change_scene(scene_key: String, scene_to_index: int) -> void:
 	current_player.can_move = false
 	current_player.can_interact = false
 	
-	# 播放当前场景的转场结束动画
-	var current_scene = get_tree().current_scene
-	var current_transition_player = _find_transition_player(current_scene)
-	if current_transition_player:
-		if current_transition_player.has_animation("transition_end"):
-			current_transition_player.play("transition_end")
-			await current_transition_player.animation_finished
-			print("SceneManager: 转场结束动画播放完成")
-	else:
-		print("SceneManager: 当前场景没有转场动画")
+	# 在 Root 上实例化全局转场（与当前场景同级，change_scene_to_file 不会销毁它）
+	var transition_packed = load(TRANSITION_SCENE_PATH) as PackedScene
+	if not transition_packed:
+		push_error("SceneManager: 无法加载转场场景: %s" % TRANSITION_SCENE_PATH)
+		return
+	var transition_node = transition_packed.instantiate()
+	transition_node.name = "SceneManagerTransition"
+	get_tree().root.add_child(transition_node)
+	var transition_player_node = transition_node.get_node_or_null("ColorRect/TransitionPlayer")
+	if transition_player_node and transition_player_node is AnimationPlayer:
+		if transition_player_node.has_animation("appear"):
+			transition_player_node.play("appear")
+			await transition_player_node.animation_finished
+			print("SceneManager: 转场 appear 播放完成")
 	
 	# 从当前父节点移除player和camera（保留它们）
 	var player_parent = current_player.get_parent()
@@ -243,13 +229,15 @@ func change_scene(scene_key: String, scene_to_index: int) -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	
-	# 播放新场景的转场开始动画
-	var new_transition_player = _find_transition_player(new_scene)
-	if new_transition_player:
-		if new_transition_player.has_animation("transition_begin"):
-			new_transition_player.play("transition_begin")
-			await new_transition_player.animation_finished
-			print("SceneManager: 转场开始动画播放完成")
+	# 播放全局转场的 disappear 并销毁
+	var root_transition = get_tree().root.get_node_or_null("SceneManagerTransition")
+	if root_transition:
+		var end_player = root_transition.get_node_or_null("ColorRect/TransitionPlayer")
+		if end_player and end_player is AnimationPlayer and end_player.has_animation("disappear"):
+			end_player.play("disappear")
+			await end_player.animation_finished
+			print("SceneManager: 转场 disappear 播放完成")
+		root_transition.queue_free()
 	
 	# 恢复玩家移动和交互
 	current_player.can_move = true

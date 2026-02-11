@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b53iiq3eyf2kl"]
+[gd_scene format=3 uid="uid://b53iiq3eyf2kl"]
 
 [ext_resource type="Script" uid="uid://uwv8fcsy86kg" path="res://Scripts/system/interact/door/BaseDoor.gd" id="1_chdcv"]
 [ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="2_boxjb"]
@@ -11,30 +11,30 @@ height = 110.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_chdcv"]
 size = Vector2(52, 37)
 
-[node name="door" type="Area2D"]
+[node name="door" type="Area2D" unique_id=387604085]
 script = ExtResource("1_chdcv")
 scene_from = "uid://vp6soyihnvap"
 scene_to = "uid://itc8wfv45jeo"
 
-[node name="InteractedComponent" parent="." node_paths=PackedStringArray("interacted_rage") instance=ExtResource("2_boxjb")]
+[node name="InteractedComponent" parent="." unique_id=1585207032 node_paths=PackedStringArray("interacted_rage") instance=ExtResource("2_boxjb")]
 interacted_rage = NodePath("..")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1817593455]
 position = Vector2(0, -36)
 shape = SubResource("CapsuleShape2D_2psln")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=183173875]
 position = Vector2(0, -33)
 texture = ExtResource("3_chdcv")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1982224626]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=11012396]
 position = Vector2(0, -50.5)
 shape = SubResource("RectangleShape2D_chdcv")
 
-[node name="open_sfx" type="AudioStreamPlayer2D" parent="."]
+[node name="open_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1455024013]
 
-[node name="cant_open_sfx" type="AudioStreamPlayer2D" parent="."]
+[node name="cant_open_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1725352786]
 
-[node name="use_key_sfx" type="AudioStreamPlayer2D" parent="."]
+[node name="use_key_sfx" type="AudioStreamPlayer2D" parent="." unique_id=2043841304]

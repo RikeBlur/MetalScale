@@ -2,8 +2,8 @@ class_name OpeningMeun
 extends Control
 
 # 主菜单按钮列表（在编辑器中配置）
-@export var menu_buttons: Array[NormalUIButton] = []
-@export var canvas_animation_player : AnimationPlayer = null
+@export var menu_buttons: Array[Button] = []
+#@export var canvas_animation_player : AnimationPlayer = null
 
 func _ready() -> void:
 	"""
@@ -21,11 +21,11 @@ func _connect_button_signals() -> void:
 	"""
 	for i in range(menu_buttons.size()):
 		var menu_button = menu_buttons[i]
-		if menu_button and menu_button.button:
+		if menu_button:
 			# 连接按钮的pressed信号
-			menu_button.button.pressed.connect(_on_button_pressed.bind(i))
+			menu_button.pressed.connect(_on_button_pressed.bind(i))
 			# 连接按钮的hover信号
-			menu_button.button.mouse_entered.connect(_on_button_hovered.bind(i))
+			menu_button.mouse_entered.connect(_on_button_hovered.bind(i))
 			print("OpeningMeun: 按钮 %d 信号已连接" % i)
 
 
@@ -77,7 +77,7 @@ func _on_button_0_pressed() -> void:
 	# TODO: 实现按钮0的功能
 	print("START NEW GAME !")
 	GameManager.start_new_game()
-	call_deferred("canvas_slide")
+	#call_deferred("canvas_slide")
 
 
 func _on_button_1_pressed() -> void:
@@ -108,8 +108,8 @@ func _on_button_3_pressed() -> void:
 # ================================================ 功 能 函 数 ====================================
 # ====================================================================================================
 
-func canvas_slide() -> void:
-	canvas_animation_player.play("slide")
+#func canvas_slide() -> void:
+#	canvas_animation_player.play("slide")
 
 # ====================================================================================================
 # ====================================================================================================

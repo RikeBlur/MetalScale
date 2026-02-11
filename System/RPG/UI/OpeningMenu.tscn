@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://dn8hjlrnwp5uu"]
+
+[ext_resource type="Script" uid="uid://bcymdpg7pp327" path="res://Scripts/system/view/UI/NormalUI/opening_meun.gd" id="1_e1kxj"]
+[ext_resource type="Texture2D" uid="uid://dq80j3rf10ytp" path="res://Assests/sprite/UI/LOGO.png" id="2_kt0g7"]
+[ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="3_jkds0"]
+[ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="4_yow4s"]
+
+[node name="OpeningMenu" type="Control" unique_id=1916706883 node_paths=PackedStringArray("menu_buttons")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_e1kxj")
+menu_buttons = [NodePath("MarginContainer/VBoxContainer/Start/Button"), NodePath("MarginContainer/VBoxContainer/Archive/Button"), NodePath("MarginContainer/VBoxContainer/Config/Button"), NodePath("MarginContainer/VBoxContainer/Exit/Button")]
+
+[node name="BackColor" type="ColorRect" parent="." unique_id=1306729891]
+layout_mode = 0
+offset_right = 1153.0
+offset_bottom = 660.0
+color = Color(0.13333334, 0.1254902, 0.1254902, 1)
+
+[node name="Title" type="TextureRect" parent="." unique_id=1095314837]
+layout_mode = 0
+offset_top = 4.0
+offset_right = 1148.0
+offset_bottom = 330.0
+texture = ExtResource("2_kt0g7")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1550626287]
+layout_mode = 1
+offset_top = 250.0
+offset_right = 1154.0
+offset_bottom = 650.0
+pivot_offset = Vector2(0, 325)
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1898340357]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Start" type="MarginContainer" parent="MarginContainer/VBoxContainer" unique_id=1459557290]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 500
+theme_override_constants/margin_right = 500
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Start" unique_id=1588012730]
+layout_mode = 2
+theme = ExtResource("3_jkds0")
+text = "开始"
+
+[node name="Archive" type="MarginContainer" parent="MarginContainer/VBoxContainer" unique_id=1203246601]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 500
+theme_override_constants/margin_right = 500
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Archive" unique_id=19235205]
+layout_mode = 2
+theme = ExtResource("3_jkds0")
+text = "继续"
+
+[node name="Config" type="MarginContainer" parent="MarginContainer/VBoxContainer" unique_id=386979317]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 500
+theme_override_constants/margin_right = 500
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Config" unique_id=101727124]
+layout_mode = 2
+theme = ExtResource("3_jkds0")
+text = "设置"
+
+[node name="Exit" type="MarginContainer" parent="MarginContainer/VBoxContainer" unique_id=1528644397]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 500
+theme_override_constants/margin_right = 500
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Exit" unique_id=584301968]
+layout_mode = 2
+theme = ExtResource("3_jkds0")
+text = "退出"
+
+[node name="D1" parent="." unique_id=2115307938 instance=ExtResource("4_yow4s")]
+position = Vector2(-273.95004, 325.75043)
+scale = Vector2(0.7838393, 1.1225014)
+
+[node name="D2" parent="." unique_id=527845371 instance=ExtResource("4_yow4s")]
+position = Vector2(1405, 323.00003)
+scale = Vector2(0.7394596, 1.1329784)
