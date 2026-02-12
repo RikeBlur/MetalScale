@@ -15,7 +15,7 @@ extends Node2D
 #@export var player_node: player = null
 
 # 转产动画
-@export var transition_player : AnimationPlayer = null
+#@export var transition_player : AnimationPlayer = null
 
 # 可交互对象数组（编辑器配置用，运行时会同步到 SceneData）
 @export var interactables: Array[InteractableData] = []

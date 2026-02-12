@@ -48,7 +48,7 @@ var game_archive_msec: int = 0
 
 # 游戏初次加载时玩家的世界坐标位置
 var start_scene: String = "TeacherRestRoom"
-#var start_position: Vector2 = Vector2(0, -150)
+#var start_position: Vector2 = Vector2(500, 300)
 
 # 玩家是否处于仇恨状态？
 var player_arrgo: bool = false
@@ -189,11 +189,7 @@ func start_new_game() -> void:
 	UIManager.refresh_ui_manager()
 	
 	# 更新游戏状态为运行中
-	set_game_state(GameState.RUNNING)
-	set_running_state(RunningState.CONTROL)
-	print("GameManager: 新游戏启动完成，当前状态: RUNNING")
-	InputEvents.hide_mouse()
-	_connect_player_arrgo()
+	Loaded.emit()
 
 
 func _on_loaded() -> void:
@@ -327,7 +323,7 @@ func _find_camera_recursive(node: Node) -> AdvancedCamera:
 	return null
 
 # ====================================================================================================
-# ====================================================================================================
+# =================================================  功能函数  ========================================
 # ====================================================================================================
 
 
