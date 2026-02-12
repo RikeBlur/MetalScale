@@ -6,6 +6,7 @@ extends NodeState
 @export var speed_min : int = 200
 @export var speed_max : int = 450
 @export var accelaration : int = 500
+@export var sfx : SFXPlayer = null
 
 var speed : int = 100
 
@@ -66,7 +67,9 @@ func _on_enter() -> void:
 	speed_max = Character_body.player_run_speed_max
 	accelaration = Character_body.player_run_acceleration
 	print("Now State : RUN")
+	sfx.play_start()
 
 func _on_exit() -> void:
 	Character_body.velocity = Vector2.ZERO
-	Animated_Sprite.stop()	
+	Animated_Sprite.stop()
+	sfx.play_stop()

@@ -37,7 +37,7 @@ var consumption = {
 @export var flashlight_durability_consumption: float = 5.0
 
 # 尝试使用耗尽耐久的道具时触发的音效！！
-@export var failure_sfx: AudioStreamPlayer2D
+@export var failure_sfx: SFXPlayer = null
 
 func _ready():
 	current_tool = Tool.NONE
@@ -104,7 +104,7 @@ func _on_tool_changed(new_tool: int):
 				add_child(instance)
 				instance.success_sfx.play()
 			else :
-				failure_sfx.play()
+				failure_sfx.play_once()
 		Tool.FLASHLIGHT:
 			if durability[Tool.FLASHLIGHT] > 0:
 				var instance = FLASHLIGHT_SCENE.instantiate()
@@ -112,7 +112,7 @@ func _on_tool_changed(new_tool: int):
 					add_child(instance)
 					instance.success_sfx.play()
 				else :
-					failure_sfx.play()
+					failure_sfx.play_once()
 		Tool.ADRENALINE:
 			var instance = ADRENALINE_SCENE.instantiate()
 			if consumption[Tool.ADRENALINE] > 0:

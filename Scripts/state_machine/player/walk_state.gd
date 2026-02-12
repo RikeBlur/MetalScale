@@ -6,7 +6,7 @@ extends NodeState
 @export var speed_max : int = 200
 @export var speed_min : int = 100
 @export var accelaration : int = 50
-@export var sfx : AudioStreamPlayer2D = null
+@export var sfx : SFXPlayer = null
 
 var speed : int = 50
 
@@ -66,11 +66,11 @@ func _on_enter() -> void:
 	speed_min = Character_body.player_walk_speed_min
 	speed_max = Character_body.player_walk_speed_max
 	accelaration = Character_body.player_walk_acceleration
-	sfx.play()
+	sfx.play_start()
 	print("Now State : WALK")
 
 func _on_exit() -> void:
 	Character_body.velocity = Vector2.ZERO
 	Animated_Sprite.stop()
-	sfx.stop()
+	sfx.play_stop()
 	speed = 0

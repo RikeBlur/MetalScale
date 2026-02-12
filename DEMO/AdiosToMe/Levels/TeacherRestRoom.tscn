@@ -49,6 +49,8 @@ scale = Vector2(3.3419642, 2.878333)
 
 [node name="floor" type="Node2D" parent="terrian" unique_id=1913546815]
 
+[node name="1" type="TileMapLayer" parent="terrian/floor" unique_id=989117305]
+
 [node name="wall" type="Node2D" parent="terrian" unique_id=469640039]
 y_sort_enabled = true
 

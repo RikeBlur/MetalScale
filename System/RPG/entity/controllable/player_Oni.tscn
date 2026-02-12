@@ -34,8 +34,12 @@
 [ext_resource type="Script" uid="uid://dkkcxq5sww6a6" path="res://Scripts/system/tools/tool_manager.gd" id="32_okprr"]
 [ext_resource type="Material" uid="uid://udxyi4gcebgr" path="res://Effect/Shader/hit_flash/hit_flash.tres" id="33_axk6g"]
 [ext_resource type="Script" uid="uid://bwj03sov6w1te" path="res://Scripts/components/hurted_component.gd" id="33_qhkxi"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="34_5qh6w"]
+[ext_resource type="AudioStream" uid="uid://bwe5povfpufyn" path="res://Assests/SFX/Character/Footsteps_walking.mp3" id="34_ipg3r"]
 [ext_resource type="Script" uid="uid://d0kslk43n7dye" path="res://Scripts/components/arrgo_component.gd" id="35_vnu8s"]
 [ext_resource type="PackedScene" uid="uid://gkd838orapi5" path="res://System/RPG/lighting/light_detector.tscn" id="36_5qh6w"]
+[ext_resource type="AudioStream" uid="uid://hac2cumo6mqa" path="res://Assests/SFX/Character/Footsteps_ running.mp3" id="36_jkc22"]
+[ext_resource type="AudioStream" uid="uid://bo7pe7r677nvm" path="res://Assests/SFX/Character/Retro Event UI StereoUP 01.mp3" id="37_aooo5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_blmno"]
 radius = 16.0
@@ -1811,10 +1815,11 @@ script = ExtResource("4_r26sp")
 Character_body = NodePath("../..")
 Animated_Sprite = NodePath("../../Animate")
 
-[node name="run" type="Node2D" parent="StateMachine" unique_id=520520893 node_paths=PackedStringArray("Character_body", "Animated_Sprite")]
+[node name="run" type="Node2D" parent="StateMachine" unique_id=520520893 node_paths=PackedStringArray("Character_body", "Animated_Sprite", "sfx")]
 script = ExtResource("5_6cwob")
 Character_body = NodePath("../..")
 Animated_Sprite = NodePath("../../Animate")
+sfx = NodePath("../../SFX_manager/run_stepsound")
 
 [node name="Animate" type="AnimatedSprite2D" parent="." unique_id=389095850]
 modulate = Color(0.7786492, 0, 0.21302938, 1)
@@ -1857,11 +1862,21 @@ debug_color = Color(0.6906085, 0.38889268, 0.7999413, 0.41960785)
 [node name="SFX_manager" type="Node2D" parent="." unique_id=79562972]
 
 [node name="walk_stepsound" type="AudioStreamPlayer2D" parent="SFX_manager" unique_id=1118846946]
-volume_db = 4.0
+stream = ExtResource("34_ipg3r")
+script = ExtResource("34_5qh6w")
+one_shot = false
+fade_duration = 0.2
 
 [node name="run_stepsound" type="AudioStreamPlayer2D" parent="SFX_manager" unique_id=1189511867]
+stream = ExtResource("36_jkc22")
+script = ExtResource("34_5qh6w")
+one_shot = false
+fade_duration = 0.1
 
 [node name="FailureSFX" type="AudioStreamPlayer2D" parent="SFX_manager" unique_id=1949676117]
+stream = ExtResource("37_aooo5")
+script = ExtResource("34_5qh6w")
+fade_duration = 0.0
 
 [node name="interact_range" type="Area2D" parent="." unique_id=300330305]
 

@@ -3,22 +3,27 @@ Oni：30*90
 
 # UPDATE
 
+## 26.02.12
+新增 SFXPlayer，继承 StreamPlayer2D。 <br>
+音效分为 one_shot 与否两类，对于 one_shot，使用 play_once 调用；反之，用 play_start / play_stop 调用。 <br>
+
+
 ## 26.02.10
 
 一个月目标：
-1、素材绘制（规划大小）    √（0211）
-2、地图规划
-3、游戏状态机可视化    √（0211）
-4、音效库限时免费
+1、素材绘制（规划大小）    √（0211） <br>
+2、地图规划 <br>
+3、游戏状态机可视化    √（0211） <br>
+4、音效库限时免费 <br>
 
 
 ## 26.02.07
 
-完成 ArrgoComponent 里 gt_caught / get uncaught 信号和各种东西
-（UIManager/GameManager/ElectronicScreen）的绑定
-【用信号而不是用变量控制，这样方便在开始和结束时触发不对称的效果】
+完成 ArrgoComponent 里 gt_caught / get uncaught 信号和各种东西 <br>
+（UIManager/GameManager/ElectronicScreen）的绑定 <br>
+【用信号而不是用变量控制，这样方便在开始和结束时触发不对称的效果】 <br>
 
-GlobalFucntion / GlobalFunction ??
+GlobalFucntion / GlobalFunction ?? <br>
 
 ## 26.01.26
 
