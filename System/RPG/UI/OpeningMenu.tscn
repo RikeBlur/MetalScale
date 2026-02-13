@@ -4,6 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://dq80j3rf10ytp" path="res://Assests/sprite/UI/LOGO.png" id="2_kt0g7"]
 [ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="3_jkds0"]
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="4_yow4s"]
+[ext_resource type="AudioStream" uid="uid://bhx132gkd3s0w" path="res://Assests/SFX/UI/hoven_1.mp3" id="5_h4ysq"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="6_wwv41"]
+[ext_resource type="AudioStream" uid="uid://dmunfc7rlysuf" path="res://Assests/SFX/UI/Click.mp3" id="7_ylavq"]
 
 [node name="OpeningMenu" type="Control" unique_id=1916706883 node_paths=PackedStringArray("menu_buttons")]
 layout_mode = 3
@@ -92,3 +95,17 @@ scale = Vector2(0.7838393, 1.1225014)
 [node name="D2" parent="." unique_id=527845371 instance=ExtResource("4_yow4s")]
 position = Vector2(1405, 323.00003)
 scale = Vector2(0.7394596, 1.1329784)
+
+[node name="SFXManager" type="Node2D" parent="." unique_id=1177245303]
+
+[node name="hoven" type="AudioStreamPlayer2D" parent="SFXManager" unique_id=253500097]
+stream = ExtResource("5_h4ysq")
+script = ExtResource("6_wwv41")
+base_volume_db = 1.0
+metadata/_custom_type_script = "uid://use5ds4i6ib4"
+
+[node name="pressed" type="AudioStreamPlayer2D" parent="SFXManager" unique_id=929591566]
+stream = ExtResource("7_ylavq")
+script = ExtResource("6_wwv41")
+base_volume_db = 2.0
+metadata/_custom_type_script = "uid://use5ds4i6ib4"

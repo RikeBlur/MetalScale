@@ -5,6 +5,10 @@ extends Control
 @export var menu_buttons: Array[Button] = []
 #@export var canvas_animation_player : AnimationPlayer = null
 
+@onready var hoven_sfx: SFXPlayer = $SFXManager/hoven
+@onready var pressed_sfx: SFXPlayer = $SFXManager/pressed
+
+
 func _ready() -> void:
 	"""
 	初始化主菜单
@@ -42,7 +46,7 @@ func _on_button_pressed(button_index: int) -> void:
 	"""
 	print("OpeningMeun: 按钮 %d 被点击" % button_index)
 	
-	# TODO: 在此处添加按钮点击的具体逻辑
+	pressed_sfx.play_once()
 	match button_index:
 		0:
 			_on_button_0_pressed()
@@ -64,8 +68,8 @@ func _on_button_hovered(button_index: int) -> void:
 		button_index: 按钮在数组中的索引
 	"""
 	print("OpeningMeun: 按钮 %d 被悬停" % button_index)
+	hoven_sfx.play_once()
 	
-	# TODO: 在此处添加按钮悬停的具体逻辑
 
 
 # ====================================================================================================
