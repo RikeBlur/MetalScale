@@ -27,6 +27,8 @@ SceneManager="*res://Scripts/global/scene_manager.gd"
 ArchiveManager="*res://Scripts/global/archive_manager.gd"
 UIManager="*res://Scripts/global/ui_manager.gd"
 LightingManager="*uid://b3v26rgbib2s4"
+BgmManager="*uid://c635nqrtm1g5g"
+CutsceneManager="*uid://b8nw2hpqvaof3"
 
 [dialogic]
 
@@ -78,6 +80,7 @@ audio/channel_defaults={
 [display]
 
 window/stretch/mode="viewport"
+mouse_cursor/custom_image="uid://byi8u7m0qd5i8"
 
 [editor_plugins]
 

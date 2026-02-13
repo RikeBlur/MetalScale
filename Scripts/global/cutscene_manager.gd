@@ -1,0 +1,2 @@
+class_name cutscene_manager
+extends Node
