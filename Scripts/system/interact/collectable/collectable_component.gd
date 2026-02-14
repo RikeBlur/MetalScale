@@ -16,7 +16,7 @@ var reminder_instance: Node = null
 # 视觉标识物
 @onready var flashpoint: AnimatedSprite2D = $flashpoint
 @onready var light: PointLight2D = $light
-@onready var collected_sfx: AudioStreamPlayer2D = $CollectedSFX
+@onready var collected_sfx: SFXPlayer = $CollectedSFX
 
 # ============================================ Interact初始化 ===========================================
 
@@ -107,7 +107,9 @@ func _on_collected() -> void:
 			# 拾取后，使其形式上消失
 			_disappear_literually()
 			# 拾取音效播放
-			collected_sfx.play()
+			collected_sfx.play_once()
+			# 显示收集提示窗口
+			_show_collect_window(collected_tool)
 			# 更新 BaseLevel 中对应的 InteractableData 的状态
 			var base_level = _find_base_level()
 			if base_level:
@@ -177,4 +179,20 @@ func _find_base_level_recursive(node: Node) -> BaseLevel:
 			return result
 	
 	return null
+
+func _show_collect_window(tool: ToolManager.Tool) -> void:
+	"""
+	显示工具收集提示窗口
+	
+	参数:
+		tool: 收集到的工具类型
+	"""
+	# 获取工具的显示名称
+	var tool_display_name = ToolManager.get_tool_display_name(tool)
+	
+	# 通过 UIManager 显示窗口
+	if UIManager:
+		UIManager.show_collect_window(tool_display_name)
+	else:
+		push_warning("CollectableComponent: 未找到 UIManager，无法显示收集窗口")
 			

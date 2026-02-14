@@ -7,15 +7,17 @@ enum UI_component {
 	SETTINGS,
 	EXITWINDOW,
 	SAVEGAMEWINDOW,
-	ARRGOBAR
+	ARRGOBAR,
+	COLLECTWINDOW
 }
 
 # UI场景
 const TOOLBAR_SCENE = preload("res://System/RPG/UI/toolbar.tscn")
 const SETTINGS_SCENE = preload("res://System/RPG/UI/settings.tscn")
-const EXITWINDOWS_SCENE = preload("res://System/RPG/UI/exit_window.tscn")
+const EXITWINDOWS_SCENE = preload("res://System/RPG/UI/windows/exit_window.tscn")
 const SAVEGAMEWINDOW_SCENE = preload("res://System/RPG/UI/save_game.tscn")
 const ARRGOBAR_SCENE = preload("res://System/RPG/UI/arrgobar.tscn")
+const COLLECTWINDOW_SCENE = preload("res://System/RPG/UI/windows/collected_window.tscn")
 
 # UI配置：场景路径和目标layer （-1表示不初始化、0表示初始化）
 const UI_CONFIG = {
@@ -38,6 +40,10 @@ const UI_CONFIG = {
 	UI_component.ARRGOBAR:{
 		"layer": 1,
 		"stage": 0
+	},
+	UI_component.COLLECTWINDOW:{
+		"layer": 3,
+		"stage": -1
 	}
 }
 
@@ -135,6 +141,8 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 			ui_instance = SAVEGAMEWINDOW_SCENE.instantiate()
 		UI_component.ARRGOBAR:
 			ui_instance = ARRGOBAR_SCENE.instantiate()
+		UI_component.COLLECTWINDOW:
+			ui_instance = COLLECTWINDOW_SCENE.instantiate()
 	
 	if not ui_instance:
 		push_error("UI_manager: 无法实例化UI类型 %d" % ui_type)
@@ -169,6 +177,12 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 		if "player_now" in ui_instance:
 			ui_instance.player_now = player_now
 			ui_instance.hide()
+	
+	# 特殊处理：为collectwindow设置own_manager引用
+	if ui_type == UI_component.COLLECTWINDOW :
+		if "own_manager" in ui_instance:
+			ui_instance.own_manager = self
+		_add_ui_to_visible_list(UI_component.COLLECTWINDOW)
 			
 	
 	# 添加到对应layer
@@ -426,6 +440,28 @@ func _hide_arrgobar() -> void:
 		arrgobar.hide()
 		_remove_ui_from_visible_list(UI_component.ARRGOBAR)
 		print("UI_manager: 隐藏 ARRGOBAR（延迟5秒后）")
+
+# --------------------------------------------------------------------------------------------------
+# ---------------------------------------- COLLECTWINDOW操作 ----------------------------------------
+# --------------------------------------------------------------------------------------------------
+func show_collect_window(tool_name: String) -> void:
+	"""
+	显示工具收集提示窗口
+	
+	参数:
+		tool_name: 工具的显示名称
+	"""
+	# 实例化窗口
+	var collect_window = instantiate_ui(UI_component.COLLECTWINDOW)
+	if not collect_window or not is_instance_valid(collect_window):
+		push_error("UI_manager: 无法实例化 COLLECTWINDOW")
+		return
+	
+	# 设置显示文本
+	if collect_window.has_method("set_tool_name"):
+		collect_window.set_tool_name(tool_name)
+	
+	print("UI_manager: 显示收集窗口 - 工具: %s" % tool_name)
 	
 # --------------------------------------------------------------------------------------------------
 # ------------------------------------------ 工具函数 ----------------------------------------------

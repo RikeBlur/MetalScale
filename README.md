@@ -1,7 +1,19 @@
-主色调：（34，32，52）；（172，50，50）
-Oni：30*90
+主色调：（34，32，52）；（172，50，50） <br>
+Oni：30*90 pixel <br>
+渲染顺序： 地板0；人物与物体1；后墙2；后门3 <br>
 
 # UPDATE
+
+## 26.02.15
+存在人物碰撞体和 object 的 staticbody 直接无法流畅碰撞的现象，存在抽搐、卡住的情况 <br>
+需要寻找音效： 门锁上、门解锁。 <br>
+
+
+## 26.02.14
+使用 TileMapLayer 实现 y sort 很诡异，于是除了 floor 和 wall 这些 layer==0 且 <br>
+绝对静态的材质，其他的 Object 采用单独场景保存。目前已经完成 sofa_face_left <br>
+所有 Character 和 Object 都是 ObjectAndCharacter 的子节点 <br>
+
 
 ## 26.02.12
 新增 SFXPlayer，继承 StreamPlayer2D。 <br>
@@ -12,7 +24,7 @@ Oni：30*90
 
 一个月目标：
 1、素材绘制（规划大小）    √（0211） <br>
-2、地图规划 <br>
+2、地图规划    √（0214） <br>
 3、游戏状态机可视化    √（0211） <br>
 4、音效库限时免费    √（0213） <br>
 5、CutsceneManager <br>

@@ -41,9 +41,9 @@
 [ext_resource type="AudioStream" uid="uid://hac2cumo6mqa" path="res://Assests/SFX/Character/Footsteps_ running.mp3" id="36_jkc22"]
 [ext_resource type="AudioStream" uid="uid://bo7pe7r677nvm" path="res://Assests/SFX/Character/Retro Event UI StereoUP 01.mp3" id="37_aooo5"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_blmno"]
-radius = 16.0
-height = 50.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jkc22"]
+radius = 11.111106
+height = 34.69338
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_axk6g"]
 shader = ExtResource("6_lnjpj")
@@ -1788,6 +1788,7 @@ height = 90.0
 
 [node name="Player_Oni" type="CharacterBody2D" unique_id=1051280514 groups=["player"]]
 motion_mode = 1
+wall_min_slide_angle = 0.0
 script = ExtResource("1_58adm")
 player_walk_speed_max = 150
 player_run_speed_max = 300
@@ -1796,8 +1797,9 @@ player_run_acceleration = 300
 tool_available = Array[int]([0, 1, 2, 3, 0, 0])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1536282822]
-position = Vector2(0, -25)
-shape = SubResource("CapsuleShape2D_blmno")
+position = Vector2(0, -23)
+scale = Vector2(1.0800005, 1.3259015)
+shape = SubResource("CapsuleShape2D_jkc22")
 
 [node name="StateMachine" type="Node2D" parent="." unique_id=95761580 node_paths=PackedStringArray("initial_node_state", "entity")]
 script = ExtResource("2_o2obw")
@@ -1825,11 +1827,13 @@ sfx = NodePath("../../SFX_manager/run_stepsound")
 modulate = Color(0.7786492, 0, 0.21302938, 1)
 light_mask = 2
 z_index = 1
+y_sort_enabled = true
 material = SubResource("ShaderMaterial_axk6g")
-position = Vector2(-1.9999999, -42)
+position = Vector2(0, -7.1054274e-15)
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_h4nvs")
 animation = &"idle_back"
+offset = Vector2(0, -220)
 
 [node name="HitFlash" type="AnimationPlayer" parent="Animate" unique_id=77563793]
 libraries/ = SubResource("AnimationLibrary_vnu8s")
@@ -1895,3 +1899,4 @@ player_node = NodePath("..")
 
 [node name="lightdetector" parent="arrgo_component" unique_id=605312149 instance=ExtResource("36_5qh6w")]
 position = Vector2(0, -25)
+debug_mode = false

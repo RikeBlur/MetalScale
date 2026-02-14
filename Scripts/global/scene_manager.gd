@@ -198,8 +198,12 @@ func change_scene(scene_key: String, scene_to_index: int) -> void:
 		push_error("SceneManager: 无法获取新场景根节点")
 		return
 	
-	# 重新添加player到新场景
-	new_scene.add_child(current_player)
+	# 重新添加player到新场景（若有 ObjectAndCharacter 则加入其下以参与 y_sort，否则加入根节点）
+	var new_player_parent: Node = new_scene
+	var object_and_character = new_scene.get_node_or_null("ObjectAndCharacter")
+	if object_and_character and object_and_character is Node2D:
+		new_player_parent = object_and_character
+	new_player_parent.add_child(current_player)
 	print("SceneManager: 已添加player到新场景")
 	
 	# 检查新场景是否有BaseLevel并应用初始位置和朝向

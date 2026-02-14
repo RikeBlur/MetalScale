@@ -31,6 +31,7 @@ polygon = PackedVector2Array(-41.979874, -42.233757, -39.822132, -25.341627, -37
 polygon = PackedVector2Array(36.84046, -37.266346, 36.068687, -21.28497, 38.018124, -20.189663, 39.83697, -37.12164)
 
 [node name="ElectrionicScreen" type="Node2D" unique_id=987910373]
+z_index = 3
 script = ExtResource("1_ks8pa")
 
 [node name="LightSource" type="Node2D" parent="." unique_id=1659965690 groups=["light_source"]]

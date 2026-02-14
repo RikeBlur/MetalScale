@@ -13,6 +13,15 @@ enum Tool{
 	KEY1_1 #4
 }
 
+# 工具显示名字典
+const TOOL_DISPLAY_NAMES = {
+	Tool.NONE: "无",
+	Tool.EMERGENCELIGHT: "应急光源",
+	Tool.FLASHLIGHT: "手电筒",
+	Tool.ADRENALINE: "肾上腺素",
+	Tool.KEY1_1: "教师休息室钥匙"
+}
+
 # NOTE: Please replace with the actual paths to your scenes.
 const EMERGENCELIGHT_SCENE = preload("res://System/RPG/tools/Tool/EmergenceLight.tscn")
 const ADRENALINE_SCENE = preload("res://System/RPG/tools/Tool/adrenaline.tscn")
@@ -43,6 +52,10 @@ func _ready():
 	current_tool = Tool.NONE
 	player_now.tool = -1
 	_on_tool_changed(0)
+
+# 静态方法：根据工具类型获取显示名
+static func get_tool_display_name(tool: Tool) -> String:
+	return TOOL_DISPLAY_NAMES.get(tool, "未知工具")
 	
 
 func _process(delta):

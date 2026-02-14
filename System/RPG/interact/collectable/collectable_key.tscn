@@ -1,9 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://cvrcmavceo5nx"]
+[gd_scene format=3 uid="uid://cvrcmavceo5nx"]
 
 [ext_resource type="Script" uid="uid://bksdnq0tf0ep5" path="res://Scripts/system/interact/collectable/collectable_component.gd" id="1_p8np4"]
 [ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="2_6cw3t"]
 [ext_resource type="Texture2D" uid="uid://c600p4b3rflfn" path="res://Assests/sprite/effect/flashpoint-Sheet.png" id="3_6cw3t"]
 [ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/point_radial_light_texture.tres" id="4_ybchk"]
+[ext_resource type="AudioStream" uid="uid://bmkbvgximk7io" path="res://Assests/SFX/UI/collect.mp3" id="5_3i11x"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="5_546dr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ybchk"]
 radius = 41.01219
@@ -72,24 +74,29 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="CollectableKey" type="Node2D" groups=["interactable"]]
+[node name="CollectableKey" type="Node2D" unique_id=820129776 groups=["interactable"]]
 script = ExtResource("1_p8np4")
 collected_tool = 4
+reminder_offset = Vector2(50, -40)
 
-[node name="interacted_range" type="Area2D" parent="."]
+[node name="interacted_range" type="Area2D" parent="." unique_id=2041620259]
 
-[node name="InteractedComponent" parent="interacted_range" node_paths=PackedStringArray("interacted_rage") instance=ExtResource("2_6cw3t")]
+[node name="InteractedComponent" parent="interacted_range" unique_id=600859715 node_paths=PackedStringArray("interacted_rage") instance=ExtResource("2_6cw3t")]
 interacted_rage = NodePath("..")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="interacted_range"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="interacted_range" unique_id=609042097]
 shape = SubResource("CircleShape2D_ybchk")
 
-[node name="flashpoint" type="AnimatedSprite2D" parent="."]
+[node name="flashpoint" type="AnimatedSprite2D" parent="." unique_id=629738311]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(0, 9)
 sprite_frames = SubResource("SpriteFrames_7liqu")
 autoplay = "default"
 frame_progress = 0.13732298
+offset = Vector2(0, -10)
 
-[node name="light" type="PointLight2D" parent="."]
+[node name="light" type="PointLight2D" parent="." unique_id=355830749]
 energy = 0.1
 shadow_enabled = true
 shadow_filter = 1
@@ -97,4 +104,7 @@ shadow_filter_smooth = 0.5
 texture = ExtResource("4_ybchk")
 texture_scale = 2.0
 
-[node name="CollectedSFX" type="AudioStreamPlayer2D" parent="."]
+[node name="CollectedSFX" type="AudioStreamPlayer2D" parent="." unique_id=1434524244]
+stream = ExtResource("5_3i11x")
+script = ExtResource("5_546dr")
+base_volume_db = 3.0

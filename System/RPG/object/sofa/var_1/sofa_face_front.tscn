@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://b1xhnxykyofy2"]
+
+[ext_resource type="Texture2D" uid="uid://cibthjt0acsd" path="res://Assests/tileset/AdiosToMe/sofa.png" id="1_s7smh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1kxsq"]
+atlas = ExtResource("1_s7smh")
+region = Rect2(96, 8, 96, 55)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2u82w"]
+size = Vector2(90, 27)
+
+[node name="SofaFaceRight" type="Node2D" unique_id=2027197509]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2073500244]
+z_index = 1
+y_sort_enabled = true
+texture = SubResource("AtlasTexture_1kxsq")
+offset = Vector2(0, -25)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=493958637]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1830542527]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(0, -35.5)
+shape = SubResource("RectangleShape2D_2u82w")
