@@ -13,26 +13,47 @@ var camera_position : Vector2 = Vector2.ZERO
 var camera_offset : Vector2 = Vector2(-576, -324)
 
 # 一个示例预加载的对话场景（可移除/替换）
-var dialogue_1 = preload("res://System/RPG/interact/dialogue/dialogue_ax_b.tscn")
-var dialogue_2 = preload("res://System/RPG/interact/dialogue/dialogue_oni_a.tscn")
-var dialogue_3 = preload("res://System/RPG/interact/dialogue/dialogue_oni_ax.tscn")
+var dialogue_1 = preload("res://System/RPG/interact/dialogue/template/dialogue_ax_b.tscn")
+var dialogue_2 = preload("res://System/RPG/interact/dialogue/template/dialogue_ax_a.tscn")
+var dialogue_3 = preload("res://System/RPG/interact/dialogue/template/dialogue_oni_a.tscn")
+var dialogue_4 = preload("res://System/RPG/interact/dialogue/template/dialogue_oni_ax.tscn")
 
 var dialogue_reminder = preload("res://System/RPG/interact/dialogue/dialogue_reminder.tscn")
 var reminder_instances : Dictionary = {}  # 存储每个area对应的reminder实例
 
 @export var player_node : CharacterBody2D = null 
+@onready var canvas_layer : CanvasLayer = $CanvasLayer
 
 func _ready() -> void:
+	# 确保有 CanvasLayer 子节点
+	if not canvas_layer:
+		canvas_layer = CanvasLayer.new()
+		add_child(canvas_layer)
+		print("DialogueManager: 自动创建 CanvasLayer")
 	# 如果编辑器里没有填 dialogues，至少用示例占位，避免索引越界
 	if dialogue_style.size() == 0:
 		dialogue_style.append(dialogue_1)
 		dialogue_style.append(dialogue_2)
 		dialogue_style.append(dialogue_3)
+		dialogue_style.append(dialogue_4)
 
 	_ensure_array_lengths()
 	
-	for i in get_tree().get_nodes_in_group("player"):
-		player_node = i
+	# 从 GameManager 获取 player 节点
+	if not player_node:
+		player_node = GameManager.get_player()
+		if player_node:
+			print("DialogueManager: 从 GameManager 获取到 player 节点")
+		else:
+			push_warning("DialogueManager: 未从 GameManager 获取到 player 节点")
+	
+	# 从 GameManager 获取 camera 节点
+	if not camera:
+		camera = GameManager.get_camera()
+		if camera:
+			print("DialogueManager: 从 GameManager 获取到 camera 节点")
+		else:
+			push_warning("DialogueManager: 未从 GameManager 获取到 camera 节点")
 		
 	_trigger_source_connect()
 
@@ -88,7 +109,8 @@ func _on_triggered(area: Area2D, idx: int) -> void:
 # 实时检查 trigger_flag 并在需要时实例化对话
 func _process(_delta: float) -> void:
 	# 更新相机位置
-	camera_position = camera.global_position
+	if camera:
+		camera_position = camera.global_position
 	# 执行对话生成
 	for i in range(trigger_flag.size()):
 		if trigger_flag[i].flag :
@@ -101,6 +123,7 @@ func _process(_delta: float) -> void:
 func _spawn_dual_dialogue(style: int, start: int, end: int, a_index: Array[int], b_index: Array[int]) -> void:
 	print("生成对话")
 	player_node.can_move = false
+	player_node.can_interact = false
 	if style < 0 or style >= dialogue_style.size():
 		push_error("dialogue style index out of range: %d" % style)
 		return
@@ -113,12 +136,13 @@ func _spawn_dual_dialogue(style: int, start: int, end: int, a_index: Array[int],
 		push_error("failed to instantiate dialogue style at index %d" % style)
 		return
 
-	# 将对话节点加入到当前 manager（可根据需要改为加入到 UI 层或专门容器）
-	inst.global_position = camera_position + camera_offset
+	# 将对话节点加入到 CanvasLayer（固定在屏幕空间）
 	inst.dialogue = dialogue_content.slice(start,end)
 	inst.a_index = a_index
 	inst.b_index = b_index
-	add_child(inst)
+	# 设置 scene_root 引用，让对话框能正确解析相对路径
+	inst.scene_root = self
+	canvas_layer.add_child(inst)
 	
 	# 如果对话场景提供了 dialogue_finished 信号，连接它以便自动回收实例
 	if inst.has_signal("dialogue_finished"):
@@ -129,7 +153,9 @@ func _spawn_dual_dialogue(style: int, start: int, end: int, a_index: Array[int],
 # 实例化并添加对话场景到场景树
 func _spawn_dialogue(style: int, start: int, end: int) -> void:
 	print("生成对话")
+	# 不能移动、互动
 	player_node.can_move = false
+	player_node.can_interact = false
 	if style < 0 or style >= dialogue_style.size():
 		push_error("dialogue style index out of range: %d" % style)
 		return
@@ -142,10 +168,11 @@ func _spawn_dialogue(style: int, start: int, end: int) -> void:
 		push_error("failed to instantiate dialogue style at index %d" % style)
 		return
 
-	# 将对话节点加入到当前 manager（可根据需要改为加入到 UI 层或专门容器）
-	inst.global_position = camera_position + camera_offset
+	# 将对话节点加入到 CanvasLayer（固定在屏幕空间）
 	inst.dialogue = dialogue_content.slice(start,end)
-	add_child(inst)
+	# 设置 scene_root 引用，让对话框能正确解析相对路径
+	inst.scene_root = self
+	canvas_layer.add_child(inst)
 
 	# 如果对话场景提供了 dialogue_finished 信号，连接它以便自动回收实例
 	if inst.has_signal("dialogue_finished"):
@@ -167,7 +194,7 @@ func _spawn_reminder(area: Area2D) -> void:
 	var inst = dialogue_reminder.instantiate()
 	
 	# 设置位置偏移（可以根据需要调整）
-	var offset = Vector2(50, -150)  
+	var offset = Vector2(30, -100)  
 	inst.global_position = pos + offset
 	
 	# 添加到场景树

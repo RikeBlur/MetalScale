@@ -8,6 +8,10 @@ Oni：30*90 pixel <br>
 存在人物碰撞体和 object 的 staticbody 直接无法流畅碰撞的现象，存在抽搐、卡住的情况 <br>
 需要寻找音效： 门锁上、门解锁。 <br>
 
+Dialogue使用tips： end需要-1；style不用-1；可以利用 DialogueFunction 实现物品给予。 <br>
+改动时注意 base 和 dual 同步改。 <br>
+现在 template 全部改成 control 节点了， DialogueManager 下面需要一个 CanvasLayer。 <br>
+
 
 ## 26.02.14
 使用 TileMapLayer 实现 y sort 很诡异，于是除了 floor 和 wall 这些 layer==0 且 <br>

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dw4hvyigndglp" path="res://Scripts/system/view/camera.gd" id="1_g4464"]
 
-[node name="Camera" type="Camera2D" unique_id=795184897]
+[node name="Camera" type="Camera2D" unique_id=795184897 groups=["camera"]]
 zoom = Vector2(2, 2)
 limit_enabled = false
 limit_left = 0

@@ -106,6 +106,7 @@ occlusion=""
 light_detector=""
 tool=""
 interactable=""
+camera=""
 
 [gui]
 

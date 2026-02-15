@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://ca6e3sjoclyky"]
+[gd_scene format=3 uid="uid://ca6e3sjoclyky"]
 
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_phtbw"]
 [ext_resource type="PackedScene" uid="uid://ds14l74hq1t3s" path="res://System/RPG/entity/controllable/player_Oni.tscn" id="4_qkb8r"]
@@ -66,34 +66,34 @@ normal = Vector2(0.99948, 0.0322413)
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2owme"]
 normal = Vector2(0.0534947, 0.998568)
 
-[node name="Test0" type="Node2D"]
+[node name="Test0" type="Node2D" unique_id=535481641]
 y_sort_enabled = true
 
-[node name="D1" parent="." instance=ExtResource("1_phtbw")]
+[node name="D1" parent="." unique_id=265147197 instance=ExtResource("1_phtbw")]
 
-[node name="Player_Oni" parent="." instance=ExtResource("4_qkb8r")]
+[node name="Player_Oni" parent="." unique_id=890447578 instance=ExtResource("4_qkb8r")]
 material = SubResource("ShaderMaterial_0sskb")
 position = Vector2(573, 405)
 player_walk_speed_max = 120
 
-[node name="ax_npc" parent="." instance=ExtResource("6_565r3")]
+[node name="ax_npc" parent="." unique_id=973006863 instance=ExtResource("6_565r3")]
 y_sort_enabled = true
 position = Vector2(295, 274)
 
-[node name="trigger_source_1" type="Area2D" parent="ax_npc"]
+[node name="trigger_source_1" type="Area2D" parent="ax_npc" unique_id=1874201744]
 collision_layer = 128
 collision_mask = 64
 
-[node name="InteractedComponent" parent="ax_npc/trigger_source_1" node_paths=PackedStringArray("interacted_rage") instance=ExtResource("7_lebc1")]
+[node name="InteractedComponent" parent="ax_npc/trigger_source_1" unique_id=743437071 node_paths=PackedStringArray("interacted_rage") instance=ExtResource("7_lebc1")]
 interacted_rage = NodePath("..")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ax_npc/trigger_source_1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ax_npc/trigger_source_1" unique_id=2142271487]
 position = Vector2(4.5, -61)
 shape = SubResource("RectangleShape2D_am6s1")
 
-[node name="manager_manager" type="Node2D" parent="."]
+[node name="manager_manager" type="Node2D" parent="." unique_id=2084697540]
 
-[node name="dialogue_manager" type="Node2D" parent="manager_manager" node_paths=PackedStringArray("camera", "player_node")]
+[node name="dialogue_manager" type="Node2D" parent="manager_manager" unique_id=15460379 node_paths=PackedStringArray("camera", "player_node")]
 script = ExtResource("8_bsw2b")
 trigger_source = [NodePath("../../ax_npc/trigger_source_1")]
 trigger_flag = Array[ExtResource("9_x4idq")]([SubResource("Resource_kc3q4")])
@@ -101,41 +101,41 @@ dialogue_content = Array[ExtResource("10_jbcpv")]([SubResource("Resource_p08nu")
 camera = NodePath("../../Camera")
 player_node = NodePath("../../Player_Oni")
 
-[node name="interact_manager" type="Node2D" parent="manager_manager"]
+[node name="interact_manager" type="Node2D" parent="manager_manager" unique_id=1302730500]
 script = ExtResource("14_tt4ln")
 
-[node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
+[node name="Camera" type="Camera2D" parent="." unique_id=2068036000 node_paths=PackedStringArray("target")]
 position = Vector2(578, 326)
 script = ExtResource("15_lpbp6")
 target = NodePath("../Player_Oni")
 center_x = false
 use_y_offset = false
 
-[node name="boundery" type="Node2D" parent="."]
+[node name="boundery" type="Node2D" parent="." unique_id=2027383582]
 
-[node name="StaticBody2D4" type="StaticBody2D" parent="boundery"]
+[node name="StaticBody2D4" type="StaticBody2D" parent="boundery" unique_id=1270726390]
 position = Vector2(-1704, 1292)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="boundery/StaticBody2D4"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundery/StaticBody2D4" unique_id=389265666]
 position = Vector2(2857, -943)
 shape = SubResource("WorldBoundaryShape2D_kbudn")
 
-[node name="StaticBody2D3" type="StaticBody2D" parent="boundery"]
+[node name="StaticBody2D3" type="StaticBody2D" parent="boundery" unique_id=2049115182]
 position = Vector2(-852, 646)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="boundery/StaticBody2D3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundery/StaticBody2D3" unique_id=1145589059]
 position = Vector2(1427, 4)
 shape = SubResource("WorldBoundaryShape2D_3lb5b")
 
-[node name="StaticBody2D2" type="StaticBody2D" parent="boundery"]
+[node name="StaticBody2D2" type="StaticBody2D" parent="boundery" unique_id=949131937]
 position = Vector2(-426, 323)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="boundery/StaticBody2D2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundery/StaticBody2D2" unique_id=340755461]
 position = Vector2(427, 14)
 shape = SubResource("WorldBoundaryShape2D_r5tux")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="boundery"]
+[node name="StaticBody2D" type="StaticBody2D" parent="boundery" unique_id=1361619640]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="boundery/StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundery/StaticBody2D" unique_id=104325698]
 position = Vector2(526, 4)
 shape = SubResource("WorldBoundaryShape2D_2owme")

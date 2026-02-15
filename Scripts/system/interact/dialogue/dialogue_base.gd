@@ -1,7 +1,7 @@
 class_name dialogue_base
-extends Node2D
+extends Control
 
-const DialogueButtonPreload = preload("res://System/QA/botton.tscn")
+const DialogueButtonPreload = preload("res://System/RPG/interact/dialogue/botton.tscn")
 
 @export var back_sprite : AnimatedSprite2D = null
 @export var dialogue_label : RichTextLabel = null
@@ -14,6 +14,7 @@ var current_dialogue_item : int = 0
 var next_item : bool = true
 
 var player_node : CharacterBody2D
+var scene_root : Node = null  # 用于存储场景根节点引用，解决相对路径问题
 
 func _ready() -> void:
 	visible = false
@@ -36,6 +37,7 @@ func _process(_delta: float) -> void:
 				player_node = i
 			return
 		player_node.can_move = true
+		player_node.can_interact = true
 		queue_free()
 		return
 		
@@ -61,7 +63,19 @@ func _process(_delta: float) -> void:
 			next_item = true
 	
 func _funtion_resource(i: DialogueFunction) -> void :
-	var target_node = get_node(i.target_path)
+	var target_node = null
+	# 优先从 scene_root 查找，这样相对路径才能正确解析
+	if scene_root:
+		target_node = scene_root.get_node_or_null(i.target_path)
+	else:
+		target_node = get_node_or_null(i.target_path)
+	
+	if not target_node:
+		push_error("DialogueFunction: 无法找到目标节点: %s (scene_root: %s)" % [i.target_path, scene_root])
+		current_dialogue_item += 1
+		next_item = true
+		return
+		
 	if target_node.has_method(i.function_name):
 		if i.function_arguments.size() == 0:
 			target_node.call(i.function_name)
@@ -96,15 +110,26 @@ func _choice_resource(i: DialogueChoice) -> void :
 		
 		var function_resource : DialogueFunction = i.choice_function_call[item] 
 		if function_resource:
-			DialogueBottonVar.connect("pressed",
-			Callable(get_node(function_resource.target_path), function_resource.function_name).bindv(function_resource.function_arguments),
-			CONNECT_ONE_SHOT)
+			var target_node = null
+			# 优先从 scene_root 查找，这样相对路径才能正确解析
+			if scene_root:
+				target_node = scene_root.get_node_or_null(function_resource.target_path)
+			else:
+				target_node = get_node_or_null(function_resource.target_path)
 			
-			if function_resource.hide_dialogue_box:
-				DialogueBottonVar.connect("pressed", hide, CONNECT_ONE_SHOT)
-			DialogueBottonVar.connect("pressed", 
-			_choice_botton_pressed.bind(get_node(function_resource.target_path), function_resource.wait_for_signal_to_continue),
-			CONNECT_ONE_SHOT)
+			if not target_node:
+				push_error("DialogueChoice: 无法找到目标节点: %s (scene_root: %s)" % [function_resource.target_path, scene_root])
+				DialogueBottonVar.connect("pressed", _choice_botton_pressed.bind(null, ""), CONNECT_ONE_SHOT)
+			else:
+				DialogueBottonVar.connect("pressed",
+				Callable(target_node, function_resource.function_name).bindv(function_resource.function_arguments),
+				CONNECT_ONE_SHOT)
+				
+				if function_resource.hide_dialogue_box:
+					DialogueBottonVar.connect("pressed", hide, CONNECT_ONE_SHOT)
+				DialogueBottonVar.connect("pressed", 
+				_choice_botton_pressed.bind(target_node, function_resource.wait_for_signal_to_continue),
+				CONNECT_ONE_SHOT)
 			
 		else:
 			DialogueBottonVar.connect("pressed", _choice_botton_pressed.bind(null, ""), CONNECT_ONE_SHOT)	
@@ -119,7 +144,7 @@ func _choice_botton_pressed(target_node : Node, wait_for_signal_to_continue: Str
 	
 	# add any other effect
 	
-	if wait_for_signal_to_continue:
+	if wait_for_signal_to_continue and target_node:
 		var signal_name = wait_for_signal_to_continue
 		if target_node.has_signal(signal_name):
 			var signal_state = {"done" : false}
@@ -134,16 +159,8 @@ func _choice_botton_pressed(target_node : Node, wait_for_signal_to_continue: Str
 func _text_resource(i: DialogueText) -> void :
 	text_sound.stream = i.text_sound
 	text_sound.volume_db = i.text_volume_db
-	var camera: Camera2D = get_viewport().get_camera_2d()
-	if camera and i.camera_position != Vector2(999.0, 999.0):
-		var camera_tween : Tween = create_tween().set_trans(Tween.TRANS_SINE)
-		camera_tween.tween_property(camera, "global_position", i.camera_position, i.camera_transition_time)
-			
-	if i.sprite_animation_name:
-		speaker_sprite.visible = true
-		speaker_sprite.play(i.sprite_animation_name)
-	else :
-		speaker_sprite.visible = false
+
+	speaker_sprite.play(i.sprite_animation_name)
 	
 	dialogue_label.visible_characters = 0
 	dialogue_label.text = i.text

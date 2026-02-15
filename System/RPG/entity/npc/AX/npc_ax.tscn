@@ -21,8 +21,8 @@
 [ext_resource type="Texture2D" uid="uid://cd4snx66m2n06" path="res://Assests/sprite/Character/AX/walk_10/walk-right-Sheet.png" id="21_ha10d"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2k661"]
-radius = 20.0
-height = 76.0
+radius = 12.0
+height = 44.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qomo1"]
 shader = ExtResource("3_hjppg")
@@ -1183,23 +1183,24 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="ax_npc" type="CharacterBody2D"]
-z_index = 1
-position = Vector2(532, 496)
+[node name="ax_npc" type="CharacterBody2D" unique_id=788386440]
 motion_mode = 1
 script = ExtResource("1_nwrsu")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, -57)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1353204047]
+position = Vector2(2, -44)
 shape = SubResource("CapsuleShape2D_2k661")
 
-[node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("entity")]
+[node name="StateMachine" type="Node2D" parent="." unique_id=97151342 node_paths=PackedStringArray("entity")]
 script = ExtResource("2_86k84")
 entity = NodePath("..")
 
-[node name="Animate" type="AnimatedSprite2D" parent="."]
+[node name="Animate" type="AnimatedSprite2D" parent="." unique_id=255632767]
+z_index = 1
+y_sort_enabled = true
 material = SubResource("ShaderMaterial_qomo1")
-position = Vector2(-5.96046e-08, -61)
-scale = Vector2(0.3, 0.3)
+position = Vector2(-5.96046e-08, -21.000004)
+scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_0ra0g")
 autoplay = "default"
+offset = Vector2(0, -200)

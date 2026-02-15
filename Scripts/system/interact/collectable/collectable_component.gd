@@ -100,7 +100,11 @@ func _destroy_reminder() -> void:
 # ============================================== 交互处理 =============================================
 		
 func _on_collected() -> void:
-	var player_node = interacted_component_node.inter_com.player_node
+	var player_node = null
+	if interacted_component_node.inter_com:
+		player_node = interacted_component_node.inter_com.player_node
+	else:
+		player_node = GameManager.get_player()
 	for i in player_node.tool_available.size():
 		if player_node.tool_available[i] == ToolManager.Tool.NONE:
 			player_node.tool_available[i] = collected_tool
