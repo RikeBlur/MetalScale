@@ -1784,7 +1784,7 @@ height = 84.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_axk6g"]
 radius = 22.0
-height = 90.0
+height = 68.0
 
 [node name="Player_Oni" type="CharacterBody2D" unique_id=1051280514 groups=["player"]]
 motion_mode = 1
@@ -1889,7 +1889,7 @@ interact_rage = NodePath("..")
 player_node = NodePath("../..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="interact_range" unique_id=1461134086]
-position = Vector2(0, -41)
+position = Vector2(0, -38)
 shape = SubResource("CapsuleShape2D_axk6g")
 
 [node name="arrgo_component" type="Node2D" parent="." unique_id=1231365480 node_paths=PackedStringArray("detector", "player_node")]

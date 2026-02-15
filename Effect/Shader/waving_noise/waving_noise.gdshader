@@ -48,7 +48,7 @@ float fbm(vec2 st) {
 
 void fragment() {
     vec2 uv = UV;
-
+	vec4 source_tex = texture(TEXTURE, uv);
     // 计算时间偏移
     float animated_time = TIME * wave_speed + time_offset;
 
@@ -87,6 +87,8 @@ void fragment() {
 
     // 应用透明度乘数
     final_color.a *= alpha_multiplier;
-
+	// 仅在原图非透明区域显示噪声效果
+    final_color.a *= source_tex.a;
+	
     COLOR = final_color;
 }

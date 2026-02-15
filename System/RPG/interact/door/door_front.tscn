@@ -3,8 +3,10 @@
 [ext_resource type="Script" uid="uid://uwv8fcsy86kg" path="res://Scripts/system/interact/door/BaseDoor.gd" id="1_chdcv"]
 [ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="2_boxjb"]
 [ext_resource type="Texture2D" uid="uid://u7ssfbfoo3ip" path="res://Assests/sprite/object/door.png" id="3_chdcv"]
-[ext_resource type="AudioStream" uid="uid://be2hhlqod7cul" path="res://Assests/SFX/UI/open_door.mp3" id="4_kgdhc"]
+[ext_resource type="AudioStream" uid="uid://c0uhqsqoqjy5y" path="res://Assests/SFX/Object/door_open_[cut_0sec].mp3" id="4_ef6gj"]
 [ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="4_n1w2s"]
+[ext_resource type="AudioStream" uid="uid://c56u1rqb2tere" path="res://Assests/SFX/Object/door_lock.mp3" id="6_ef6gj"]
+[ext_resource type="AudioStream" uid="uid://wkxra0wohxcp" path="res://Assests/SFX/Object/lock_open.mp3" id="7_b5slr"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2psln"]
 radius = 34.0
@@ -26,7 +28,8 @@ position = Vector2(0, -36)
 shape = SubResource("CapsuleShape2D_2psln")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=183173875]
-position = Vector2(1, -33)
+position = Vector2(1, -37.999996)
+scale = Vector2(1, 1.1)
 texture = ExtResource("3_chdcv")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1982224626]
@@ -36,13 +39,15 @@ position = Vector2(0, -50.5)
 shape = SubResource("RectangleShape2D_chdcv")
 
 [node name="open_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1455024013]
-stream = ExtResource("4_kgdhc")
+stream = ExtResource("4_ef6gj")
 volume_db = 5.0
 script = ExtResource("4_n1w2s")
 base_volume_db = 3.0
 
 [node name="cant_open_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1725352786]
+stream = ExtResource("6_ef6gj")
 script = ExtResource("4_n1w2s")
 
 [node name="use_key_sfx" type="AudioStreamPlayer2D" parent="." unique_id=2043841304]
+stream = ExtResource("7_b5slr")
 script = ExtResource("4_n1w2s")

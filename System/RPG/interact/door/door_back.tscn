@@ -3,7 +3,10 @@
 [ext_resource type="Script" uid="uid://uwv8fcsy86kg" path="res://Scripts/system/interact/door/BaseDoor.gd" id="1_jn4o2"]
 [ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="2_4cixi"]
 [ext_resource type="Texture2D" uid="uid://u7ssfbfoo3ip" path="res://Assests/sprite/object/door.png" id="3_jn4o2"]
+[ext_resource type="AudioStream" uid="uid://c0uhqsqoqjy5y" path="res://Assests/SFX/Object/door_open_[cut_0sec].mp3" id="4_mdwr7"]
 [ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="4_qenaq"]
+[ext_resource type="AudioStream" uid="uid://wkxra0wohxcp" path="res://Assests/SFX/Object/lock_open.mp3" id="6_mdwr7"]
+[ext_resource type="AudioStream" uid="uid://c56u1rqb2tere" path="res://Assests/SFX/Object/door_lock.mp3" id="6_o6tyk"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2psln"]
 radius = 8.0
@@ -44,10 +47,15 @@ position = Vector2(0.5, 5)
 shape = SubResource("RectangleShape2D_jn4o2")
 
 [node name="open_sfx" type="AudioStreamPlayer2D" parent="." unique_id=781156774]
+stream = ExtResource("4_mdwr7")
+volume_db = 1.0
 script = ExtResource("4_qenaq")
+base_volume_db = 1.0
 
 [node name="cant_open_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1776954999]
+stream = ExtResource("6_o6tyk")
 script = ExtResource("4_qenaq")
 
 [node name="use_key_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1263807715]
+stream = ExtResource("6_mdwr7")
 script = ExtResource("4_qenaq")

@@ -4,6 +4,13 @@ Oni：30*90 pixel <br>
 
 # UPDATE
 
+## 26.02.16
+目标：
+Dialogue 融入 Interact 系统（保存数据）  <br>
+怪物重置  <br>
+2层地图完成  <br>
+
+
 ## 26.02.15
 存在人物碰撞体和 object 的 staticbody 直接无法流畅碰撞的现象，存在抽搐、卡住的情况 <br>
 需要寻找音效： 门锁上、门解锁。 <br>
@@ -11,6 +18,11 @@ Oni：30*90 pixel <br>
 Dialogue使用tips： end需要-1；style不用-1；可以利用 DialogueFunction 实现物品给予。 <br>
 改动时注意 base 和 dual 同步改。 <br>
 现在 template 全部改成 control 节点了， DialogueManager 下面需要一个 CanvasLayer。 <br>
+
+切记！InteractComponent 是 Area2D 的 **第一个** 子节点
+
+Savepoint  -->  SAVEGAMEWINDOW  （可存可读）
+settings:save_game  -->  LOADGAMEWINDOW  （只读不存）
 
 
 ## 26.02.14

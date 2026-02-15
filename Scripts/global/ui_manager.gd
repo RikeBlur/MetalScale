@@ -7,6 +7,7 @@ enum UI_component {
 	SETTINGS,
 	EXITWINDOW,
 	SAVEGAMEWINDOW,
+	LOADGAMEWINDOW,
 	ARRGOBAR,
 	COLLECTWINDOW
 }
@@ -16,6 +17,7 @@ const TOOLBAR_SCENE = preload("res://System/RPG/UI/toolbar.tscn")
 const SETTINGS_SCENE = preload("res://System/RPG/UI/settings.tscn")
 const EXITWINDOWS_SCENE = preload("res://System/RPG/UI/windows/exit_window.tscn")
 const SAVEGAMEWINDOW_SCENE = preload("res://System/RPG/UI/save_game.tscn")
+const LOADGAMEWINDOW_SCENE = preload("res://System/RPG/UI/load_game.tscn")
 const ARRGOBAR_SCENE = preload("res://System/RPG/UI/arrgobar.tscn")
 const COLLECTWINDOW_SCENE = preload("res://System/RPG/UI/windows/collected_window.tscn")
 
@@ -34,6 +36,10 @@ const UI_CONFIG = {
 		"stage": -1
 	},
 	UI_component.SAVEGAMEWINDOW:{
+		"layer": 3,
+		"stage": -1
+	},
+	UI_component.LOADGAMEWINDOW:{
 		"layer": 3,
 		"stage": -1
 	},
@@ -139,6 +145,8 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 			ui_instance = EXITWINDOWS_SCENE.instantiate()
 		UI_component.SAVEGAMEWINDOW:
 			ui_instance = SAVEGAMEWINDOW_SCENE.instantiate()
+		UI_component.LOADGAMEWINDOW:
+			ui_instance = LOADGAMEWINDOW_SCENE.instantiate()
 		UI_component.ARRGOBAR:
 			ui_instance = ARRGOBAR_SCENE.instantiate()
 		UI_component.COLLECTWINDOW:
@@ -169,6 +177,12 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 		if "own_manager" in ui_instance:
 			ui_instance.own_manager = self
 		_add_ui_to_visible_list(UI_component.SAVEGAMEWINDOW)
+		
+	# 特殊处理：为loadgamewindow设置own_manager引用
+	if ui_type == UI_component.LOADGAMEWINDOW :
+		if "own_manager" in ui_instance:
+			ui_instance.own_manager = self
+		_add_ui_to_visible_list(UI_component.LOADGAMEWINDOW)
 		
 		# 特殊处理：为arrgobar设置own_manager引用和player引用，且隐藏掉
 	if ui_type == UI_component.ARRGOBAR :

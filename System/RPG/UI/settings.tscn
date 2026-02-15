@@ -9,6 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://dnq0cimi255na" path="res://Assests/sprite/UI/SETTINGS/settingbox/settingbox-exit.png" id="3_lev6s"]
 [ext_resource type="Texture2D" uid="uid://dhkpib5ppp6n6" path="res://Assests/sprite/UI/SETTINGS/settingicon/player-state-icon.png" id="3_uswx7"]
 [ext_resource type="Texture2D" uid="uid://c8cn4c6s3gqfc" path="res://Assests/sprite/UI/SETTINGS/settingicon/exit-icon.png" id="4_adcln"]
+[ext_resource type="AudioStream" uid="uid://bhx132gkd3s0w" path="res://Assests/SFX/UI/hoven_1.mp3" id="10_orq7f"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="11_g1h1c"]
+[ext_resource type="AudioStream" uid="uid://dmunfc7rlysuf" path="res://Assests/SFX/UI/Click.mp3" id="12_wmwtp"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gm48f"]
 
@@ -459,3 +462,17 @@ modulate = Color(0.5372549, 0.5372549, 0.5372549, 1)
 position = Vector2(32.5, 35)
 scale = Vector2(2, 2)
 texture = ExtResource("4_adcln")
+
+[node name="SFXManager" type="Node2D" parent="." unique_id=968673960]
+
+[node name="hoven" type="AudioStreamPlayer2D" parent="SFXManager" unique_id=515389776]
+stream = ExtResource("10_orq7f")
+script = ExtResource("11_g1h1c")
+base_volume_db = 1.0
+metadata/_custom_type_script = "uid://use5ds4i6ib4"
+
+[node name="pressed" type="AudioStreamPlayer2D" parent="SFXManager" unique_id=1110983759]
+stream = ExtResource("12_wmwtp")
+script = ExtResource("11_g1h1c")
+base_volume_db = 2.0
+metadata/_custom_type_script = "uid://use5ds4i6ib4"

@@ -1,14 +1,14 @@
-[gd_scene format=3 uid="uid://g7w5witcbpjv"]
+[gd_scene format=3 uid="uid://mekfbcqr1ej4"]
 
-[ext_resource type="Script" uid="uid://d2w8ul5ovgnk0" path="res://Scripts/system/view/UI/settings/save_game_window.gd" id="1_7i35i"]
-[ext_resource type="Script" uid="uid://dvmrauxiebvon" path="res://Scripts/system/view/UI/settings/savebox.gd" id="2_kbrha"]
-[ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="2_q8q02"]
-[ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="4_3054x"]
-[ext_resource type="Material" uid="uid://b3merg5ld62cu" path="res://Effect/Shader/waving_noise/waving_noise.tres" id="4_hunk3"]
-[ext_resource type="Texture2D" uid="uid://ciwvbi2qgrlar" path="res://Assests/sprite/UI/NORMALUI/savebox.png" id="4_x50bv"]
-[ext_resource type="AudioStream" uid="uid://bhx132gkd3s0w" path="res://Assests/SFX/UI/hoven_1.mp3" id="7_aotkt"]
-[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="8_mcfjq"]
-[ext_resource type="AudioStream" uid="uid://dmunfc7rlysuf" path="res://Assests/SFX/UI/Click.mp3" id="9_bvdy1"]
+[ext_resource type="Script" uid="uid://d2w8ul5ovgnk0" path="res://Scripts/system/view/UI/settings/save_game_window.gd" id="1_qf41q"]
+[ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="2_enjks"]
+[ext_resource type="Script" uid="uid://dvmrauxiebvon" path="res://Scripts/system/view/UI/settings/savebox.gd" id="3_5yo55"]
+[ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="4_enla3"]
+[ext_resource type="Texture2D" uid="uid://ciwvbi2qgrlar" path="res://Assests/sprite/UI/NORMALUI/savebox.png" id="5_ewkq3"]
+[ext_resource type="Material" uid="uid://b3merg5ld62cu" path="res://Effect/Shader/waving_noise/waving_noise.tres" id="6_05khj"]
+[ext_resource type="AudioStream" uid="uid://bhx132gkd3s0w" path="res://Assests/SFX/UI/hoven_1.mp3" id="7_enla3"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="8_ewkq3"]
+[ext_resource type="AudioStream" uid="uid://dmunfc7rlysuf" path="res://Assests/SFX/UI/Click.mp3" id="9_05khj"]
 
 [sub_resource type="Gradient" id="Gradient_a71c4"]
 offsets = PackedFloat32Array(0, 0.993506)
@@ -24,7 +24,7 @@ noise = SubResource("FastNoiseLite_0f4kt")
 color_ramp = SubResource("Gradient_a71c4")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mcfjq"]
-shader = ExtResource("4_3054x")
+shader = ExtResource("4_enla3")
 shader_parameter/wave_speed = 1.0
 shader_parameter/noise_scale = 5.0
 shader_parameter/wave_amplitude = 0.5
@@ -44,7 +44,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_7i35i")
+script = ExtResource("1_qf41q")
 saveboxes = [NodePath("Panel/Container/MarginContainer/VBoxContainer/archive/save0"), NodePath("Panel/Container/MarginContainer/VBoxContainer/archive/save1"), NodePath("Panel/Container/MarginContainer/VBoxContainer/archive/save2"), NodePath("Panel/Container/MarginContainer/VBoxContainer/archive/save3"), NodePath("Panel/Container/MarginContainer/VBoxContainer/archive/save4"), NodePath("Panel/Container/MarginContainer/VBoxContainer/archive/save5")]
 
 [node name="Panel" type="MarginContainer" parent="." unique_id=645828117]
@@ -60,7 +60,7 @@ offset_right = 528.0
 offset_bottom = 285.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_q8q02")
+theme = ExtResource("2_enjks")
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
@@ -96,16 +96,16 @@ theme_override_constants/separation = 20
 [node name="save0" type="MarginContainer" parent="Panel/Container/MarginContainer/VBoxContainer/archive" unique_id=1134706768]
 custom_minimum_size = Vector2(150, 350)
 layout_mode = 2
-script = ExtResource("2_kbrha")
+script = ExtResource("3_5yo55")
 
 [node name="border" type="TextureRect" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save0" unique_id=582667728]
 material = SubResource("ShaderMaterial_mcfjq")
 layout_mode = 2
-texture = ExtResource("4_x50bv")
+texture = ExtResource("5_ewkq3")
 
 [node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save0" unique_id=540826281]
 layout_mode = 2
-theme = ExtResource("2_q8q02")
+theme = ExtResource("2_enjks")
 
 [node name="Label" type="Label" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save0" unique_id=14013011]
 layout_mode = 2
@@ -116,12 +116,12 @@ horizontal_alignment = 1
 [node name="save1" type="MarginContainer" parent="Panel/Container/MarginContainer/VBoxContainer/archive" unique_id=1084918789]
 custom_minimum_size = Vector2(150, 300)
 layout_mode = 2
-script = ExtResource("2_kbrha")
+script = ExtResource("3_5yo55")
 
 [node name="border" type="TextureRect" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save1" unique_id=287650184]
-material = ExtResource("4_hunk3")
+material = ExtResource("6_05khj")
 layout_mode = 2
-texture = ExtResource("4_x50bv")
+texture = ExtResource("5_ewkq3")
 
 [node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save1" unique_id=1533122320]
 layout_mode = 2
@@ -135,12 +135,12 @@ horizontal_alignment = 1
 [node name="save2" type="MarginContainer" parent="Panel/Container/MarginContainer/VBoxContainer/archive" unique_id=511075018]
 custom_minimum_size = Vector2(150, 300)
 layout_mode = 2
-script = ExtResource("2_kbrha")
+script = ExtResource("3_5yo55")
 
 [node name="border" type="TextureRect" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save2" unique_id=528391322]
-material = ExtResource("4_hunk3")
+material = ExtResource("6_05khj")
 layout_mode = 2
-texture = ExtResource("4_x50bv")
+texture = ExtResource("5_ewkq3")
 
 [node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save2" unique_id=321871871]
 layout_mode = 2
@@ -154,12 +154,12 @@ horizontal_alignment = 1
 [node name="save3" type="MarginContainer" parent="Panel/Container/MarginContainer/VBoxContainer/archive" unique_id=1985613979]
 custom_minimum_size = Vector2(150, 300)
 layout_mode = 2
-script = ExtResource("2_kbrha")
+script = ExtResource("3_5yo55")
 
 [node name="border" type="TextureRect" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save3" unique_id=743639802]
-material = ExtResource("4_hunk3")
+material = ExtResource("6_05khj")
 layout_mode = 2
-texture = ExtResource("4_x50bv")
+texture = ExtResource("5_ewkq3")
 
 [node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save3" unique_id=4795912]
 layout_mode = 2
@@ -173,12 +173,12 @@ horizontal_alignment = 1
 [node name="save4" type="MarginContainer" parent="Panel/Container/MarginContainer/VBoxContainer/archive" unique_id=1221912610]
 custom_minimum_size = Vector2(150, 300)
 layout_mode = 2
-script = ExtResource("2_kbrha")
+script = ExtResource("3_5yo55")
 
 [node name="border" type="TextureRect" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save4" unique_id=1034265159]
-material = ExtResource("4_hunk3")
+material = ExtResource("6_05khj")
 layout_mode = 2
-texture = ExtResource("4_x50bv")
+texture = ExtResource("5_ewkq3")
 
 [node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save4" unique_id=42610480]
 layout_mode = 2
@@ -192,12 +192,12 @@ horizontal_alignment = 1
 [node name="save5" type="MarginContainer" parent="Panel/Container/MarginContainer/VBoxContainer/archive" unique_id=1438881575]
 custom_minimum_size = Vector2(150, 300)
 layout_mode = 2
-script = ExtResource("2_kbrha")
+script = ExtResource("3_5yo55")
 
 [node name="border" type="TextureRect" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save5" unique_id=219015472]
-material = ExtResource("4_hunk3")
+material = ExtResource("6_05khj")
 layout_mode = 2
-texture = ExtResource("4_x50bv")
+texture = ExtResource("5_ewkq3")
 
 [node name="Button" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/archive/save5" unique_id=2107660982]
 layout_mode = 2
@@ -235,14 +235,14 @@ text = "删除
 [node name="SFXManager" type="Node2D" parent="." unique_id=1150942049]
 
 [node name="hoven" type="AudioStreamPlayer2D" parent="SFXManager" unique_id=1257135361]
-stream = ExtResource("7_aotkt")
-script = ExtResource("8_mcfjq")
+stream = ExtResource("7_enla3")
+script = ExtResource("8_ewkq3")
 base_volume_db = 1.0
 metadata/_custom_type_script = "uid://use5ds4i6ib4"
 
 [node name="pressed" type="AudioStreamPlayer2D" parent="SFXManager" unique_id=445125701]
-stream = ExtResource("9_bvdy1")
-script = ExtResource("8_mcfjq")
+stream = ExtResource("9_05khj")
+script = ExtResource("8_ewkq3")
 base_volume_db = 2.0
 metadata/_custom_type_script = "uid://use5ds4i6ib4"
 

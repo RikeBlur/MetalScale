@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="6_7rtgw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ybchk"]
-radius = 32.01562
+radius = 25.179358
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ybchk"]
 atlas = ExtResource("3_iic88")

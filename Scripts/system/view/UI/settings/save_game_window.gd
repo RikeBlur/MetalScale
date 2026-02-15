@@ -6,6 +6,10 @@ extends Control
 var own_manager: UI_manager = null
 var save_on_chosen : int = -1
 
+@onready var hoven: SFXPlayer = $SFXManager/hoven
+@onready var pressed: SFXPlayer = $SFXManager/pressed
+
+
 # ====================================================================================================
 # ============================================ 操作按钮 ================================================
 # ====================================================================================================
@@ -74,6 +78,7 @@ func _process(_delta: float) -> void:
 func _ready() -> void:
 	for i in saveboxes.size():
 		call_deferred("update_save_info", i)
+	_connect_button_sfx()
 
 func update_save_info(index : int) -> void:
 	"""
@@ -157,3 +162,26 @@ func _format_msec(msec: int) -> String:
 	var minutes = int((total_seconds % 3600) / 60.0)
 	var seconds = total_seconds % 60
 	return "%02d:%02d:%02d" % [hours, minutes, seconds]
+
+func _connect_button_sfx() -> void:
+	for button in _collect_buttons(self):
+		if not button.mouse_entered.is_connected(_on_any_button_hoven):
+			button.mouse_entered.connect(_on_any_button_hoven)
+		if not button.pressed.is_connected(_on_any_button_pressed):
+			button.pressed.connect(_on_any_button_pressed)
+
+func _on_any_button_hoven() -> void:
+	if hoven:
+		hoven.play_once()
+
+func _on_any_button_pressed() -> void:
+	if pressed:
+		pressed.play_once()
+
+func _collect_buttons(root: Node) -> Array[Button]:
+	var result: Array[Button] = []
+	for child in root.get_children():
+		if child is Button:
+			result.append(child)
+		result.append_array(_collect_buttons(child))
+	return result

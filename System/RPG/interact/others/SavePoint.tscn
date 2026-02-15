@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://bdo8tfmp7gl8l"]
+
+[ext_resource type="Script" uid="uid://s083pbyk7krt" path="res://Scripts/system/interact/others/save_point.gd" id="1_4i2cx"]
+[ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="1_h248m"]
+[ext_resource type="Texture2D" uid="uid://bfvvqnmauy2fh" path="res://Assests/sprite/object/savepoint.png" id="2_hkak7"]
+[ext_resource type="Texture2D" uid="uid://c600p4b3rflfn" path="res://Assests/sprite/effect/flashpoint-Sheet.png" id="3_4tjcs"]
+[ext_resource type="AudioStream" uid="uid://by58q4au3nujo" path="res://Assests/SFX/Object/savepoint.wav" id="5_7auw7"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="5_brp4w"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ybchk"]
+atlas = ExtResource("3_4tjcs")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_546dr"]
+atlas = ExtResource("3_4tjcs")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3i11x"]
+atlas = ExtResource("3_4tjcs")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0cdbo"]
+atlas = ExtResource("3_4tjcs")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d8ihu"]
+atlas = ExtResource("3_4tjcs")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rjo8b"]
+atlas = ExtResource("3_4tjcs")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vv75i"]
+atlas = ExtResource("3_4tjcs")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hc0f8"]
+atlas = ExtResource("3_4tjcs")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_brp4w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ybchk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_546dr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3i11x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0cdbo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d8ihu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rjo8b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vv75i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hc0f8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4tjcs"]
+size = Vector2(27, 23)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4i2cx"]
+radius = 29.0
+
+[node name="SavePoint" type="Node2D" unique_id=1721797248 node_paths=PackedStringArray("interacted_com", "sfx")]
+script = ExtResource("1_4i2cx")
+interacted_com = NodePath("Area2D/InteractedComponent")
+sfx = NodePath("SFXPlayer")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=155440351]
+texture = ExtResource("2_hkak7")
+offset = Vector2(0, -32)
+
+[node name="flashpoint" type="AnimatedSprite2D" parent="." unique_id=2130118889]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(0, 1)
+sprite_frames = SubResource("SpriteFrames_brp4w")
+autoplay = "default"
+offset = Vector2(0, -10)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1692734922]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=340221834]
+position = Vector2(0, -33)
+shape = SubResource("RectangleShape2D_4tjcs")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=731142024]
+collision_layer = 128
+collision_mask = 64
+
+[node name="InteractedComponent" parent="Area2D" unique_id=1985262593 node_paths=PackedStringArray("interacted_rage") instance=ExtResource("1_h248m")]
+interacted_rage = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=635221646]
+position = Vector2(-1, -11)
+shape = SubResource("CircleShape2D_4i2cx")
+
+[node name="SFXPlayer" type="AudioStreamPlayer2D" parent="." unique_id=456491121]
+stream = ExtResource("5_7auw7")
+script = ExtResource("5_brp4w")
+metadata/_custom_type_script = "uid://use5ds4i6ib4"

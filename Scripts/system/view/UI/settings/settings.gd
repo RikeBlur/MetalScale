@@ -8,11 +8,16 @@ var setting_boxes: Array = []
 
 var own_manager: UI_manager = null
 
+@onready var hoven: SFXPlayer = $SFXManager/hoven
+@onready var pressed: SFXPlayer = $SFXManager/pressed
+
 func _ready():
 	# 初始化所有容纳button的settingbox
 	_initialize_setting_boxes()
 	# 连接所有settingbox的按钮信号
 	_connect_setting_signals()
+	# 连接通用按钮音效
+	_connect_button_sfx()
 
 func _initialize_setting_boxes():
 	"""初始化所有settingbox子组件"""
@@ -79,7 +84,7 @@ func _on_setting_3_pressed():
 	"""设置项 3 的处理函数"""
 	print("执行设置项 3")
 	# 在这里添加具体的功能实现
-	call_deferred("try_to_savegame")
+	call_deferred("try_to_loadgame")
 
 func _on_setting_4_pressed():
 	"""设置项 4 的处理函数"""
@@ -99,9 +104,33 @@ func refresh_settings():
 	"""刷新设置显示"""
 	_initialize_setting_boxes()
 	_connect_setting_signals()
+	_connect_button_sfx()
 	
 func try_to_quit_game() -> void:
 	own_manager.instantiate_ui(UI_manager.UI_component.EXITWINDOW)
 	
-func try_to_savegame() -> void:
-	own_manager.instantiate_ui(UI_manager.UI_component.SAVEGAMEWINDOW)
+func try_to_loadgame() -> void:
+	own_manager.instantiate_ui(UI_manager.UI_component.LOADGAMEWINDOW)
+
+func _connect_button_sfx() -> void:
+	for button in _collect_buttons(self):
+		if not button.mouse_entered.is_connected(_on_any_button_hoven):
+			button.mouse_entered.connect(_on_any_button_hoven)
+		if not button.pressed.is_connected(_on_any_button_pressed):
+			button.pressed.connect(_on_any_button_pressed)
+
+func _on_any_button_hoven() -> void:
+	if hoven:
+		hoven.play_once()
+
+func _on_any_button_pressed() -> void:
+	if pressed:
+		pressed.play_once()
+
+func _collect_buttons(root: Node) -> Array[Button]:
+	var result: Array[Button] = []
+	for child in root.get_children():
+		if child is Button:
+			result.append(child)
+		result.append_array(_collect_buttons(child))
+	return result
