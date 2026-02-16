@@ -8,11 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://0d02haowqy1a" path="res://System/RPG/object/plant/plant_1.tscn" id="6_sjp6x"]
 [ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/interact/door/door_front.tscn" id="8_hhn2e"]
 [ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/door_back.tscn" id="10_i5ykk"]
-[ext_resource type="Script" uid="uid://dgprjwspphr6g" path="res://Scripts/system/interact/dialogue/dialogue_manager.gd" id="13_s37e7"]
-[ext_resource type="Script" uid="uid://b37t7a67t8onx" path="res://Scripts/system/interact/dialogue/dialogue_flag.gd" id="14_mfnat"]
-[ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/data/dialogue_resource/DialogueResource.gd" id="15_uamly"]
-[ext_resource type="Script" uid="uid://4p4vcldhkkvo" path="res://Scripts/data/dialogue_resource/DialogueTextResource.gd" id="16_uy2e2"]
-[ext_resource type="Script" uid="uid://qyrh2jt5lx0e" path="res://Scripts/data/dialogue_resource/DialogueFunctionResource.gd" id="17_qfb2j"]
 
 [sub_resource type="Gradient" id="Gradient_336yt"]
 offsets = PackedFloat32Array(0, 0.993506)
@@ -38,29 +33,6 @@ shader_parameter/use_gradient = true
 shader_parameter/base_color = Color(0, 0, 0, 1)
 shader_parameter/alpha_multiplier = 1.0
 shader_parameter/color_mix_strength = 0.90000004275
-
-[sub_resource type="Resource" id="Resource_bp111"]
-script = ExtResource("14_mfnat")
-only_once = false
-style = Array[int]([2])
-start = Array[int]([0])
-end = Array[int]([3])
-metadata/_custom_type_script = "uid://b37t7a67t8onx"
-
-[sub_resource type="Resource" id="Resource_cjikf"]
-script = ExtResource("16_uy2e2")
-text = "配电室在三楼，就麻烦你去看看能不能恢复电力了。"
-metadata/_custom_type_script = "uid://4p4vcldhkkvo"
-
-[sub_resource type="Resource" id="Resource_bea47"]
-script = ExtResource("16_uy2e2")
-text = "这个拿上吧，应该对你更有用。"
-metadata/_custom_type_script = "uid://4p4vcldhkkvo"
-
-[sub_resource type="Resource" id="Resource_34yh5"]
-script = ExtResource("17_qfb2j")
-function_name = "_on_collected"
-metadata/_custom_type_script = "uid://qyrh2jt5lx0e"
 
 [sub_resource type="Environment" id="Environment_5n7gh"]
 ssao_enabled = true
@@ -155,16 +127,6 @@ scene_to = "0-0"
 
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]
 y_sort_enabled = true
-
-[node name="dialogue_manager" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=1632934893]
-y_sort_enabled = true
-script = ExtResource("13_s37e7")
-trigger_source = [NodePath("")]
-trigger_flag = Array[ExtResource("14_mfnat")]([SubResource("Resource_bp111")])
-dialogue_content = Array[ExtResource("15_uamly")]([SubResource("Resource_cjikf"), SubResource("Resource_bea47"), SubResource("Resource_34yh5")])
-metadata/_custom_type_script = "uid://dgprjwspphr6g"
-
-[node name="CanvasLayer" type="CanvasLayer" parent="ObjectAndCharacter/Interactable/dialogue_manager" unique_id=1685394327]
 
 [node name="WorldOfWonder" type="WorldEnvironment" parent="." unique_id=945717885]
 environment = SubResource("Environment_5n7gh")

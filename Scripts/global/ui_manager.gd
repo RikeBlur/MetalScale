@@ -13,47 +13,53 @@ enum UI_component {
 	COLLECTWINDOW
 }
 
-# UI场景
-const TOOLBAR_SCENE = preload("res://System/RPG/UI/toolbar.tscn")
-const SETTINGS_SCENE = preload("res://System/RPG/UI/settings.tscn")
-const GAMECONFIG_SCENE = preload("res://System/RPG/UI/game_config.tscn")
-const EXITWINDOWS_SCENE = preload("res://System/RPG/UI/windows/exit_window.tscn")
-const SAVEGAMEWINDOW_SCENE = preload("res://System/RPG/UI/save_game.tscn")
-const LOADGAMEWINDOW_SCENE = preload("res://System/RPG/UI/load_game.tscn")
-const ARRGOBAR_SCENE = preload("res://System/RPG/UI/arrgobar.tscn")
-const COLLECTWINDOW_SCENE = preload("res://System/RPG/UI/windows/collected_window.tscn")
-
-# UI配置：场景路径和目标layer （-1表示不初始化、0表示初始化）
-const UI_CONFIG = {
+# UI统一数据结构：name(UI_component)、scene、layer、stage
+const UI_DATA = {
 	UI_component.TOOLBAR: {
+		"name": UI_component.TOOLBAR,
+		"scene": preload("res://System/RPG/UI/toolbar.tscn"),
 		"layer": 1,
 		"stage": 0
 	},
 	UI_component.SETTINGS: {
-		"layer": 1,
-		"stage": 0 
-	},
-	UI_component.GAMECONFIG: {
-		"layer": 2,
-		"stage": -1 
-	},
-	UI_component.EXITWINDOW:{
-		"layer": 3,
-		"stage": -1
-	},
-	UI_component.SAVEGAMEWINDOW:{
-		"layer": 2,
-		"stage": -1
-	},
-	UI_component.LOADGAMEWINDOW:{
-		"layer": 2,
-		"stage": -1
-	},
-	UI_component.ARRGOBAR:{
+		"name": UI_component.SETTINGS,
+		"scene": preload("res://System/RPG/UI/settings.tscn"),
 		"layer": 1,
 		"stage": 0
 	},
-	UI_component.COLLECTWINDOW:{
+	UI_component.GAMECONFIG: {
+		"name": UI_component.GAMECONFIG,
+		"scene": preload("res://System/RPG/UI/game_config.tscn"),
+		"layer": 2,
+		"stage": -1
+	},
+	UI_component.EXITWINDOW: {
+		"name": UI_component.EXITWINDOW,
+		"scene": preload("res://System/RPG/UI/windows/exit_window.tscn"),
+		"layer": 3,
+		"stage": -1
+	},
+	UI_component.SAVEGAMEWINDOW: {
+		"name": UI_component.SAVEGAMEWINDOW,
+		"scene": preload("res://System/RPG/UI/save_game.tscn"),
+		"layer": 2,
+		"stage": -1
+	},
+	UI_component.LOADGAMEWINDOW: {
+		"name": UI_component.LOADGAMEWINDOW,
+		"scene": preload("res://System/RPG/UI/load_game.tscn"),
+		"layer": 2,
+		"stage": -1
+	},
+	UI_component.ARRGOBAR: {
+		"name": UI_component.ARRGOBAR,
+		"scene": preload("res://System/RPG/UI/arrgobar.tscn"),
+		"layer": 1,
+		"stage": 0
+	},
+	UI_component.COLLECTWINDOW: {
+		"name": UI_component.COLLECTWINDOW,
+		"scene": preload("res://System/RPG/UI/windows/collected_window.tscn"),
 		"layer": 3,
 		"stage": -1
 	}
@@ -152,33 +158,22 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 			ui_instances.erase(ui_type)
 			print("UI_manager: UI类型 %d 的旧实例已失效，将重新实例化" % ui_type)
 	
-	var config = UI_CONFIG[ui_type]
-	var target_layer = layers.get(config.layer)
+	var ui_data = UI_DATA.get(ui_type)
+	if not ui_data:
+		push_error("UI_manager: 未找到UI类型 %d 的数据配置" % ui_type)
+		return null
+	var target_layer = layers.get(ui_data["layer"])
 	
 	if not target_layer:
-		push_error("UI_manager: 未找到layer %d" % config.layer)
+		push_error("UI_manager: 未找到layer %d" % ui_data["layer"])
 		return null
 	
-	# 根据UI类型获取场景并实例化
-	var ui_instance: Node = null
-	
-	match ui_type:
-		UI_component.TOOLBAR:
-			ui_instance = TOOLBAR_SCENE.instantiate()
-		UI_component.SETTINGS:
-			ui_instance = SETTINGS_SCENE.instantiate()
-		UI_component.GAMECONFIG:
-			ui_instance = GAMECONFIG_SCENE.instantiate()
-		UI_component.EXITWINDOW :
-			ui_instance = EXITWINDOWS_SCENE.instantiate()
-		UI_component.SAVEGAMEWINDOW:
-			ui_instance = SAVEGAMEWINDOW_SCENE.instantiate()
-		UI_component.LOADGAMEWINDOW:
-			ui_instance = LOADGAMEWINDOW_SCENE.instantiate()
-		UI_component.ARRGOBAR:
-			ui_instance = ARRGOBAR_SCENE.instantiate()
-		UI_component.COLLECTWINDOW:
-			ui_instance = COLLECTWINDOW_SCENE.instantiate()
+	# 统一通过 UI_DATA 的 scene 实例化
+	var scene: PackedScene = ui_data["scene"]
+	if not scene:
+		push_error("UI_manager: UI类型 %d 未配置scene" % ui_type)
+		return null
+	var ui_instance: Node = scene.instantiate()
 	
 	if not ui_instance:
 		push_error("UI_manager: 无法实例化UI类型 %d" % ui_type)
@@ -239,7 +234,7 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 	# 存储实例
 	ui_instances[ui_type] = ui_instance
 	
-	print("UI_manager: 实例化 UI类型 %d 到 layer %d" % [ui_type, config.layer])
+	print("UI_manager: 实例化 UI类型 %d 到 layer %d" % [ui_type, ui_data["layer"]])
 	
 	return ui_instance
 
@@ -285,9 +280,9 @@ func _initialize_layers():
 
 func _initialize_stage0_ui():
 	"""初始化stage0阶段的UI"""
-	for ui_type in UI_CONFIG:
-		var config = UI_CONFIG[ui_type]
-		if config.stage == 0:
+	for ui_type in UI_DATA:
+		var ui_data = UI_DATA[ui_type]
+		if ui_data["stage"] == 0:
 			instantiate_ui(ui_type)
 
 # --------------------------------------------------------------------------------------------------
@@ -518,11 +513,11 @@ func show_collect_window(tool_name: String) -> void:
 
 func _add_ui_to_visible_list(ui_type: UI_component) -> void:
 	"""将UI添加到其layer的可见列表中"""
-	var config = UI_CONFIG.get(ui_type)
-	if not config:
+	var ui_data = UI_DATA.get(ui_type)
+	if not ui_data:
 		return
 	
-	var layer_id = config.layer
+	var layer_id = ui_data["layer"]
 	
 	# 确保该layer的列表存在
 	if not layer_visible_uis.has(layer_id):
@@ -536,11 +531,11 @@ func _add_ui_to_visible_list(ui_type: UI_component) -> void:
 
 func _remove_ui_from_visible_list(ui_type: UI_component) -> void:
 	"""将UI从其layer的可见列表中移除"""
-	var config = UI_CONFIG.get(ui_type)
-	if not config:
+	var ui_data = UI_DATA.get(ui_type)
+	if not ui_data:
 		return
 	
-	var layer_id = config.layer
+	var layer_id = ui_data["layer"]
 	
 	# 如果该layer的列表存在，从中移除UI
 	if layer_visible_uis.has(layer_id):
@@ -572,11 +567,11 @@ func is_ui_visible(ui_type: UI_component) -> bool:
 	返回:
 		true表示UI当前显示，false表示隐藏或不存在
 	"""
-	var config = UI_CONFIG.get(ui_type)
-	if not config:
+	var ui_data = UI_DATA.get(ui_type)
+	if not ui_data:
 		return false
 	
-	var layer_id = config.layer
+	var layer_id = ui_data["layer"]
 	if not layer_visible_uis.has(layer_id):
 		return false
 	

@@ -8,6 +8,7 @@
 # UPDATE
 
 ## 26.02.16
+
 目标：
 Dialogue 融入 Interact 系统（保存数据）  <br>
 GameManager 中的全局设置 GameConfig 也需要用 Resoruce 保存  <br>
@@ -15,8 +16,16 @@ GameManager 中的全局设置 GameConfig 也需要用 Resoruce 保存  <br>
 2层地图完成  <br>
 UI管理器重置  <br>
 
+UI： 只有Running-Control时，ESC 转化为 toggle_settings  <br>
+Running-Menu 时，ESC 优先 remove layer 最高的 UI  <br>
+Menu 时，强行显示鼠标  <br>
+
+Dialogue ： DialogueManager 修改为 DialogueComponent，每个可对话区域  <br>
+对应一个 DialogueComponent， 通过 CurrentFlag 和 NextFlag 方便控制 <br>
+同一个区域的多个对话组。Flag 和 Content 的对应关系不变  <br>
 
 ## 26.02.15
+
 存在人物碰撞体和 object 的 staticbody 直接无法流畅碰撞的现象，存在抽搐、卡住的情况 <br>
 需要寻找音效： 门锁上、门解锁。 <br>
 
@@ -31,12 +40,14 @@ settings:save_game  -->  LOADGAMEWINDOW  （只读不存）
 
 
 ## 26.02.14
+
 使用 TileMapLayer 实现 y sort 很诡异，于是除了 floor 和 wall 这些 layer==0 且 <br>
 绝对静态的材质，其他的 Object 采用单独场景保存。目前已经完成 sofa_face_left <br>
 所有 Character 和 Object 都是 ObjectAndCharacter 的子节点 <br>
 
 
 ## 26.02.12
+
 新增 SFXPlayer，继承 StreamPlayer2D。 <br>
 音效分为 one_shot 与否两类，对于 one_shot，使用 play_once 调用；反之，用 play_start / play_stop 调用。 <br>
 
