@@ -9,5 +9,15 @@
 
 [node name="OpeningMenu" parent="OpeningMenu" unique_id=1916706883 instance=ExtResource("4_dr64k")]
 
+[node name="UI_LAYERS" type="Node" parent="." unique_id=729197380]
+
+[node name="UI_layer1" type="CanvasLayer" parent="UI_LAYERS" unique_id=1557296624]
+
+[node name="UI_layer2" type="CanvasLayer" parent="UI_LAYERS" unique_id=398465337]
+layer = 2
+
+[node name="UI_layer3" type="CanvasLayer" parent="UI_LAYERS" unique_id=1704259303]
+layer = 3
+
 [node name="lightingsystem" type="Node2D" parent="." unique_id=1448331522]
 script = ExtResource("11_i6vwo")

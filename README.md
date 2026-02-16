@@ -1,14 +1,19 @@
-主色调：（34，32，52）；（172，50，50） <br>
-Oni：30*90 pixel <br>
-渲染顺序： 地板0；人物与物体1；后墙2；后门3 <br>
+# AdiosToMe
+
+1. 主色调：（34，32，52）；（172，50，50） <br>
+2. Oni：30*90 pixel <br>
+3. 渲染顺序： 地板0；人物与物体1；后墙2；后门3 <br>
+
 
 # UPDATE
 
 ## 26.02.16
 目标：
 Dialogue 融入 Interact 系统（保存数据）  <br>
+GameManager 中的全局设置 GameConfig 也需要用 Resoruce 保存  <br>
 怪物重置  <br>
 2层地图完成  <br>
+UI管理器重置  <br>
 
 
 ## 26.02.15

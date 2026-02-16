@@ -97,6 +97,10 @@ func _process(delta: float) -> void:
 	if current_state == GameState.RUNNING:
 		game_archive_msec += int(delta * 1000.0)
 	
+	# 兜底：MENU 状态下如果鼠标不可见，强制显示
+	if current_state == GameState.MENU and Input.mouse_mode != Input.MOUSE_MODE_VISIBLE:
+		InputEvents.show_mouse()
+	
 	# 更新debug UI
 	if debug and debug_label:
 		_update_debug_ui()

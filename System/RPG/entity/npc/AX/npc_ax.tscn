@@ -22,7 +22,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2k661"]
 radius = 12.0
-height = 44.0
+height = 50.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qomo1"]
 shader = ExtResource("3_hjppg")
@@ -1188,7 +1188,7 @@ motion_mode = 1
 script = ExtResource("1_nwrsu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1353204047]
-position = Vector2(2, -44)
+position = Vector2(2, -47)
 shape = SubResource("CapsuleShape2D_2k661")
 
 [node name="StateMachine" type="Node2D" parent="." unique_id=97151342 node_paths=PackedStringArray("entity")]

@@ -130,7 +130,7 @@ func _get_target_volume() -> float:
 	"""获取目标音量（dB）"""
 	var gain = 1.0
 	if GameManager and is_instance_valid(GameManager):
-		gain = GameManager.BGM_gain / 100.0
+		gain = GameManager.SFX_gain / 100.0
 	return base_volume_db + linear_to_db(gain)
 
 func _start_fade(from_vol: float, to_vol: float) -> void:

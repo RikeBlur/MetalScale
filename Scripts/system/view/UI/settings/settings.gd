@@ -77,8 +77,7 @@ func _on_setting_1_pressed():
 func _on_setting_2_pressed():
 	"""设置项 2 的处理函数（例如：分辨率设置）"""
 	print("执行设置项 2")
-	# 在这里添加具体的功能实现
-	pass
+	call_deferred("try_to_change_config")
 
 func _on_setting_3_pressed():
 	"""设置项 3 的处理函数"""
@@ -111,6 +110,9 @@ func try_to_quit_game() -> void:
 	
 func try_to_loadgame() -> void:
 	own_manager.instantiate_ui(UI_manager.UI_component.LOADGAMEWINDOW)
+
+func try_to_change_config() -> void:
+	own_manager.instantiate_ui(UI_manager.UI_component.GAMECONFIG)
 
 func _connect_button_sfx() -> void:
 	for button in _collect_buttons(self):

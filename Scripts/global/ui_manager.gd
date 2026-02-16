@@ -5,6 +5,7 @@ extends Node2D
 enum UI_component {
 	TOOLBAR,
 	SETTINGS,
+	GAMECONFIG,
 	EXITWINDOW,
 	SAVEGAMEWINDOW,
 	LOADGAMEWINDOW,
@@ -15,6 +16,7 @@ enum UI_component {
 # UI场景
 const TOOLBAR_SCENE = preload("res://System/RPG/UI/toolbar.tscn")
 const SETTINGS_SCENE = preload("res://System/RPG/UI/settings.tscn")
+const GAMECONFIG_SCENE = preload("res://System/RPG/UI/game_config.tscn")
 const EXITWINDOWS_SCENE = preload("res://System/RPG/UI/windows/exit_window.tscn")
 const SAVEGAMEWINDOW_SCENE = preload("res://System/RPG/UI/save_game.tscn")
 const LOADGAMEWINDOW_SCENE = preload("res://System/RPG/UI/load_game.tscn")
@@ -28,19 +30,23 @@ const UI_CONFIG = {
 		"stage": 0
 	},
 	UI_component.SETTINGS: {
-		"layer": 2,
+		"layer": 1,
 		"stage": 0 
+	},
+	UI_component.GAMECONFIG: {
+		"layer": 2,
+		"stage": -1 
 	},
 	UI_component.EXITWINDOW:{
 		"layer": 3,
 		"stage": -1
 	},
 	UI_component.SAVEGAMEWINDOW:{
-		"layer": 3,
+		"layer": 2,
 		"stage": -1
 	},
 	UI_component.LOADGAMEWINDOW:{
-		"layer": 3,
+		"layer": 2,
 		"stage": -1
 	},
 	UI_component.ARRGOBAR:{
@@ -100,17 +106,37 @@ func refresh_ui_manager() -> void:
 	_connect_arrgobar_signals()
 
 func _process(_delta):
-	# 检测退出键，弹出/隐藏 settings
+	# 检测退出键，按层级处理 UI 关闭/打开
 	if InputEvents.quit_once():
-		if get_visible_uis_in_layer(3):
-			for i in get_visible_uis_in_layer(3):
-				remove_ui(i)
-		else:
-			_toggle_settings()
+		_handle_quit_pressed()
 	
 	# 检测Tab键，切换toolbar显示/隐藏
 	if Input.is_action_just_pressed("tab"):
 		_toggle_toolbar()
+
+func _handle_quit_pressed() -> void:
+	# 优先销毁最高层可见UI（先 layer3，再 layer2）
+	if _try_close_top_visible_ui_in_layers([3, 2]):
+		return
+	
+	# 如果 settings 正在显示，且没有更高层窗口，则关闭 settings
+	if is_settings_showing:
+		_toggle_settings()
+		return
+	
+	# 只有 RUNNING + CONTROL 才允许按 ESC 打开 settings
+	if GameManager.get_game_state() == GameManager.GameState.RUNNING \
+	and GameManager.get_running_state() == GameManager.RunningState.CONTROL:
+		_toggle_settings()
+
+func _try_close_top_visible_ui_in_layers(layer_ids: Array[int]) -> bool:
+	for layer_id in layer_ids:
+		var visible_list = get_visible_uis_in_layer(layer_id)
+		if visible_list.size() > 0:
+			var top_ui = visible_list[visible_list.size() - 1]
+			remove_ui(top_ui)
+			return true
+	return false
 
 
 func instantiate_ui(ui_type: UI_component) -> Node:
@@ -141,6 +167,8 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 			ui_instance = TOOLBAR_SCENE.instantiate()
 		UI_component.SETTINGS:
 			ui_instance = SETTINGS_SCENE.instantiate()
+		UI_component.GAMECONFIG:
+			ui_instance = GAMECONFIG_SCENE.instantiate()
 		UI_component.EXITWINDOW :
 			ui_instance = EXITWINDOWS_SCENE.instantiate()
 		UI_component.SAVEGAMEWINDOW:
@@ -165,6 +193,12 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 	if ui_type == UI_component.SETTINGS :
 		if "own_manager" in ui_instance:
 			ui_instance.own_manager = self
+	
+	# 特殊处理：为gameconfig设置own_manager引用
+	if ui_type == UI_component.GAMECONFIG :
+		if "own_manager" in ui_instance:
+			ui_instance.own_manager = self
+		_add_ui_to_visible_list(UI_component.GAMECONFIG)
 			
 	# 特殊处理：为exitwindow设置own_manager引用
 	if ui_type == UI_component.EXITWINDOW :
