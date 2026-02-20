@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://cfnker340p8ms"]
+
+[ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_ge02j"]
+[ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="2_xso86"]
+[ext_resource type="Texture2D" uid="uid://cgrovmqkykmef" path="res://Assests/sprite/qa/bazuer.png" id="3_btxjs"]
+
+[node name="Bazuer" type="Control" unique_id=57581870]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="D1" parent="." unique_id=442118752 instance=ExtResource("1_ge02j")]
+
+[node name="Panel" type="Panel" parent="." unique_id=1715525190]
+modulate = Color(0.66162944, 0.6616294, 0.6616294, 1)
+layout_mode = 0
+offset_left = 206.0
+offset_top = 210.0
+offset_right = 962.0
+offset_bottom = 426.0
+theme = ExtResource("2_xso86")
+
+[node name="Label" type="Label" parent="Panel" unique_id=612891257]
+layout_mode = 0
+offset_left = 162.0
+offset_top = 75.0
+offset_right = 709.0
+offset_bottom = 204.0
+theme_override_font_sizes/font_size = 24
+text = "每个夜晚(包括首个夜晚)选择一名除自己的玩家施加
+ *诅咒*（持续到玩家死亡） 。每个白天，每有一个
+被 *诅咒* 的玩家未被处决，则该夜晚会有随机一个
+玩家死亡。"
+
+[node name="Label2" type="Label" parent="Panel" unique_id=1593874484]
+layout_mode = 0
+offset_left = 155.0
+offset_top = 26.0
+offset_right = 325.0
+offset_bottom = 59.0
+text = "恶魔-巴祖尔"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=694825232]
+position = Vector2(276, 307)
+scale = Vector2(1.53125, 1.53125)
+texture = ExtResource("3_btxjs")

@@ -1,0 +1,423 @@
+[gd_scene format=3 uid="uid://db5qlcs1ugakh"]
+
+[ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_pwwjl"]
+[ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="2_apxiw"]
+[ext_resource type="Script" uid="uid://c6jsg28nhcjsy" path="res://Scripts/system/view/animation.gd" id="3_wmxyf"]
+[ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="4_sxrt1"]
+[ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="5_eyrf7"]
+[ext_resource type="Shader" uid="uid://qvica54eevs6" path="res://Effect/Shader/dissolve/dissolve_shader.tres" id="7_7vjpx"]
+[ext_resource type="Texture2D" uid="uid://dv2p3c4p3uk8e" path="res://Assests/sprite/Character/AX/dialogue/back_1.png" id="8_c87pb"]
+[ext_resource type="Texture2D" uid="uid://bxngadho5jgwo" path="res://Assests/sprite/Character/AX/dialogue/back_2.png" id="9_imqmj"]
+
+[sub_resource type="Gradient" id="Gradient_3pxdc"]
+offsets = PackedFloat32Array(0, 0.993506)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_kae4w"]
+offset = Vector3(0, 140.35, 0)
+fractal_type = 2
+domain_warp_enabled = true
+domain_warp_type = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gthut"]
+noise = SubResource("FastNoiseLite_kae4w")
+color_ramp = SubResource("Gradient_3pxdc")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mci5n"]
+shader = ExtResource("2_apxiw")
+shader_parameter/wave_speed = 0.25
+shader_parameter/noise_scale = 3.0
+shader_parameter/wave_amplitude = 0.5
+shader_parameter/time_offset = 0.0
+shader_parameter/gradient_texture = SubResource("NoiseTexture2D_gthut")
+shader_parameter/use_gradient = true
+shader_parameter/base_color = Color(0, 0, 0, 1)
+shader_parameter/alpha_multiplier = 1.0
+shader_parameter/color_mix_strength = 0.99
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5bmp1"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5bmp1"]
+noise = SubResource("FastNoiseLite_5bmp1")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wdnre"]
+resource_local_to_scene = true
+shader = ExtResource("7_7vjpx")
+shader_parameter/Noise = SubResource("NoiseTexture2D_5bmp1")
+shader_parameter/DissolveValue = 1.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1sjrp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_c87pb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_imqmj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
+
+[node name="Statemachine" type="Control" unique_id=883631207]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="D1" parent="." unique_id=2129294719 instance=ExtResource("1_pwwjl")]
+material = SubResource("ShaderMaterial_mci5n")
+position = Vector2(675, 319)
+
+[node name="Control" type="Control" parent="." unique_id=1274249609]
+anchors_preset = 0
+offset_left = 123.0
+offset_top = -47.0
+offset_right = 163.0
+offset_bottom = -7.0
+script = ExtResource("3_wmxyf")
+n1 = 0.5
+m1 = 3.0
+m2 = 0.0
+first_delay = 5.0
+
+[node name="Label" type="Label" parent="Control" unique_id=1542844288]
+material = ExtResource("5_eyrf7")
+layout_mode = 0
+offset_left = 59.0
+offset_top = 154.0
+offset_right = 155.0
+offset_bottom = 187.0
+theme = ExtResource("4_sxrt1")
+theme_override_font_sizes/font_size = 24
+text = "游戏内全局变量数据:
+"
+
+[node name="Label2" type="Label" parent="Control" unique_id=977322397]
+material = ExtResource("5_eyrf7")
+layout_mode = 0
+offset_left = 60.0
+offset_top = 205.0
+offset_right = 252.0
+offset_bottom = 300.0
+theme = ExtResource("4_sxrt1")
+theme_override_font_sizes/font_size = 24
+text = "游戏模式
+
+可操作角色  ..."
+
+[node name="Label3" type="Label" parent="Control" unique_id=548173659]
+material = ExtResource("5_eyrf7")
+layout_mode = 0
+offset_left = 338.0
+offset_top = 154.0
+offset_right = 536.0
+offset_bottom = 207.0
+theme = ExtResource("4_sxrt1")
+theme_override_font_sizes/font_size = 24
+text = "玩家数据:
+"
+
+[node name="Label4" type="Label" parent="Control" unique_id=1134082879]
+material = ExtResource("5_eyrf7")
+layout_mode = 0
+offset_left = 341.0
+offset_top = 205.0
+offset_right = 533.0
+offset_bottom = 454.0
+theme = ExtResource("4_sxrt1")
+theme_override_font_sizes/font_size = 24
+text = "所处场景和全局坐标
+
+生命值
+
+基础属性
+
+背包及物品状态
+
+..."
+
+[node name="Label5" type="Label" parent="Control" unique_id=978914850]
+material = ExtResource("5_eyrf7")
+layout_mode = 0
+offset_left = 617.0
+offset_top = 154.0
+offset_right = 815.0
+offset_bottom = 207.0
+theme = ExtResource("4_sxrt1")
+theme_override_font_sizes/font_size = 24
+text = "场景数据:
+"
+
+[node name="Label6" type="Label" parent="Control" unique_id=1226483457]
+material = ExtResource("5_eyrf7")
+layout_mode = 0
+offset_left = 619.0
+offset_top = 205.0
+offset_right = 811.0
+offset_bottom = 454.0
+theme = ExtResource("4_sxrt1")
+theme_override_font_sizes/font_size = 24
+text = "场景编号
+
+显示名
+
+动态节点状态
+（如门、可拾取物...）
+
+..."
+
+[node name="Label7" type="Label" parent="Control" unique_id=751503837]
+material = ExtResource("5_eyrf7")
+layout_mode = 0
+offset_left = 26.0
+offset_top = 384.0
+offset_right = 290.0
+offset_bottom = 470.0
+theme = ExtResource("4_sxrt1")
+theme_override_font_sizes/font_size = 24
+text = "系统配置变量
+
+音量、亮度、存档路径..."
+
+[node name="back_sprite" type="AnimatedSprite2D" parent="." unique_id=1118251832]
+material = SubResource("ShaderMaterial_wdnre")
+position = Vector2(586, 545.00006)
+scale = Vector2(0.6130501, 0.3761815)
+sprite_frames = SubResource("SpriteFrames_1sjrp")
+autoplay = "default"
+frame_progress = 0.59056145
+
+[node name="Node2D" type="Node2D" parent="." unique_id=2061520366]
+
+[node name="Line2D6" type="Line2D" parent="Node2D" unique_id=345744348]
+position = Vector2(26, -15)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(396.38113, 469, 975.6314, 470)
+width = 5.0
+
+[node name="Line2D8" type="Line2D" parent="Node2D" unique_id=95577329]
+position = Vector2(-265, -184)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(400.33505, 470, 683.0408, 470)
+width = 5.0
+
+[node name="Line2D4" type="Line2D" parent="Node2D" unique_id=745548040]
+position = Vector2(233, -428)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(271.83246, 472, 771.01575, 472)
+width = 5.0
+
+[node name="Line2D5" type="Line2D" parent="Node2D" unique_id=676876267]
+position = Vector2(-33.000004, -429)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(169.03036, 470, 327.18744, 470)
+width = 5.0
+
+[node name="Line2D2" type="Line2D" parent="Node2D" unique_id=321461886]
+position = Vector2(612, -594)
+rotation = 1.5707964
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(626.6973, 471, 870.8523, 471)
+width = 5.0
+
+[node name="Line2D7" type="Line2D" parent="Node2D" unique_id=794508371]
+position = Vector2(893, -418)
+rotation = 1.5707964
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(693.9141, 467, 862.94446, 466.99997)
+width = 5.0
+
+[node name="Line2D3" type="Line2D" parent="Node2D" unique_id=160111035]
+position = Vector2(1483, -591)
+rotation = 1.5707964
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(626.6973, 471, 902.1794, 470.35938, 1034.9403, 470)
+width = 5.0
+
+[node name="Label" type="Label" parent="Node2D" unique_id=1250998409]
+offset_left = 302.0
+offset_top = 26.0
+offset_right = 535.0
+offset_bottom = 59.0
+theme = ExtResource("4_sxrt1")
+theme_override_font_sizes/font_size = 32
+text = "ArchiveData"
+
+[node name="Node2D2" type="Node2D" parent="." unique_id=1163900856]
+position = Vector2(5, -25)
+
+[node name="Line2D" type="Line2D" parent="Node2D2" unique_id=1193604399]
+position = Vector2(45.000004, -177)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(114, 470, 375.62302, 470)
+width = 5.0
+
+[node name="Line2D2" type="Line2D" parent="Node2D2" unique_id=907613988]
+position = Vector2(47.000004, -363)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(114, 470, 139.37592, 470)
+width = 5.0
+
+[node name="Line2D4" type="Line2D" parent="Node2D2" unique_id=1601877604]
+position = Vector2(202, -363)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(114, 470, 217.46596, 470)
+width = 5.0
+
+[node name="Line2D3" type="Line2D" parent="Node2D2" unique_id=891436045]
+position = Vector2(631, -592)
+rotation = 1.5707964
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(688.97174, 471, 703.0178, 471.00012, 875.7947, 471)
+width = 5.0
+
+[node name="Line2D5" type="Line2D" parent="Node2D2" unique_id=705562486]
+position = Vector2(894, -592)
+rotation = 1.5707964
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(688.97174, 471, 703.0178, 471.00012, 873.81775, 471)
+width = 5.0
+
+[node name="Label" type="Label" parent="Node2D2" unique_id=2094671411]
+offset_left = 190.0
+offset_top = 93.0
+offset_right = 423.0
+offset_bottom = 126.0
+theme = ExtResource("4_sxrt1")
+theme_override_font_sizes/font_size = 24
+text = "GameData"
+
+[node name="Node2D5" type="Node2D" parent="." unique_id=2099987126]
+position = Vector2(-19, 203)
+
+[node name="Line2D" type="Line2D" parent="Node2D5" unique_id=1897896039]
+position = Vector2(45.000004, -219)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(114, 470, 379.57693, 470)
+width = 5.0
+
+[node name="Line2D2" type="Line2D" parent="Node2D5" unique_id=1686438066]
+position = Vector2(47.000004, -363)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(114, 470, 139.37592, 470)
+width = 5.0
+
+[node name="Line2D4" type="Line2D" parent="Node2D5" unique_id=1353149126]
+position = Vector2(202, -363)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(123.56021, 470, 222.40836, 470)
+width = 5.0
+
+[node name="Line2D3" type="Line2D" parent="Node2D5" unique_id=21516881]
+position = Vector2(631, -592)
+rotation = 1.5707964
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(688.97174, 471, 703.0178, 471.00012, 834.27856, 471)
+width = 5.0
+
+[node name="Line2D5" type="Line2D" parent="Node2D5" unique_id=1746194858]
+position = Vector2(899, -592)
+rotation = 1.5707964
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(688.97174, 471, 703.0178, 471.00012, 833.29004, 470.99997)
+width = 5.0
+
+[node name="Label" type="Label" parent="Node2D5" unique_id=511043672]
+offset_left = 190.0
+offset_top = 93.0
+offset_right = 337.0
+offset_bottom = 126.0
+theme = ExtResource("4_sxrt1")
+theme_override_font_sizes/font_size = 24
+text = "ConfigData"
+
+[node name="Node2D3" type="Node2D" parent="." unique_id=479532960]
+position = Vector2(287, -25)
+
+[node name="Line2D" type="Line2D" parent="Node2D3" unique_id=793944396]
+position = Vector2(45.000004, -21)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(114, 470, 375.62302, 470)
+width = 5.0
+
+[node name="Line2D2" type="Line2D" parent="Node2D3" unique_id=904323523]
+position = Vector2(47.000004, -363)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(114, 470, 139.37592, 470)
+width = 5.0
+
+[node name="Line2D4" type="Line2D" parent="Node2D3" unique_id=149262172]
+position = Vector2(202, -363)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(122.57175, 469, 217.46596, 470)
+width = 5.0
+
+[node name="Line2D3" type="Line2D" parent="Node2D3" unique_id=214102076]
+position = Vector2(631, -592)
+rotation = 1.5707964
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(688.97174, 471, 703.0178, 471.00012, 1030.9863, 471)
+width = 5.0
+
+[node name="Line2D5" type="Line2D" parent="Node2D3" unique_id=1811733551]
+position = Vector2(894, -592)
+rotation = 1.5707964
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(688.97174, 471, 703.0178, 471.00012, 1030.9863, 471)
+width = 5.0
+
+[node name="Label" type="Label" parent="Node2D3" unique_id=1196069845]
+offset_left = 190.0
+offset_top = 93.0
+offset_right = 327.0
+offset_bottom = 126.0
+theme = ExtResource("4_sxrt1")
+theme_override_font_sizes/font_size = 24
+text = "PlayerData"
+
+[node name="Node2D4" type="Node2D" parent="." unique_id=878972400]
+position = Vector2(567, -25)
+
+[node name="Line2D" type="Line2D" parent="Node2D4" unique_id=1056037831]
+position = Vector2(45.000004, -21)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(114, 470, 375.62302, 470)
+width = 5.0
+
+[node name="Line2D2" type="Line2D" parent="Node2D4" unique_id=1372428349]
+position = Vector2(47.000004, -363)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(114, 470, 139.37592, 470)
+width = 5.0
+
+[node name="Line2D4" type="Line2D" parent="Node2D4" unique_id=1225246624]
+position = Vector2(202, -363)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(114, 470, 217.46596, 470)
+width = 5.0
+
+[node name="Line2D3" type="Line2D" parent="Node2D4" unique_id=721291279]
+position = Vector2(631, -592)
+rotation = 1.5707964
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(688.97174, 471, 703.0178, 471.00012, 1030.9863, 471)
+width = 5.0
+
+[node name="Line2D5" type="Line2D" parent="Node2D4" unique_id=1137941468]
+position = Vector2(894, -592)
+rotation = 1.5707964
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(688.97174, 471, 703.0178, 471.00012, 1030.9863, 471)
+width = 5.0
+
+[node name="Label" type="Label" parent="Node2D4" unique_id=617809330]
+offset_left = 190.0
+offset_top = 93.0
+offset_right = 423.0
+offset_bottom = 126.0
+theme = ExtResource("4_sxrt1")
+theme_override_font_sizes/font_size = 24
+text = "SceneData"

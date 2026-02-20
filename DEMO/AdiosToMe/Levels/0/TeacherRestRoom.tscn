@@ -11,14 +11,18 @@
 [ext_resource type="PackedScene" uid="uid://cxeexvvqjko1k" path="res://System/RPG/object/bookcase/bookcase1.tscn" id="8_0n24n"]
 [ext_resource type="PackedScene" uid="uid://gy5s7mt2h1j8" path="res://System/RPG/object/plant/plant_3.tscn" id="9_kcrlr"]
 [ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/door_back.tscn" id="10_rmce1"]
+[ext_resource type="PackedScene" uid="uid://sd3jma661c1d" path="res://System/RPG/object/Painting/painting_2.tscn" id="11_lpvga"]
 [ext_resource type="PackedScene" uid="uid://cvrcmavceo5nx" path="res://System/RPG/interact/collectable/collectable_key.tscn" id="11_wrmek"]
 [ext_resource type="PackedScene" uid="uid://bw5wihigpecin" path="res://System/RPG/interact/collectable/collectable_emergencylight.tscn" id="12_3c20e"]
+[ext_resource type="PackedScene" uid="uid://bx3o413gr76jv" path="res://System/RPG/object/Painting/painting_3.tscn" id="12_m0vy7"]
+[ext_resource type="PackedScene" uid="uid://dsvj30b8127ij" path="res://System/RPG/object/Painting/painting_4.tscn" id="13_va5wj"]
 [ext_resource type="Script" uid="uid://b37t7a67t8onx" path="res://Scripts/system/interact/dialogue/dialogue_flag.gd" id="14_my5dp"]
 [ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/data/dialogue_resource/DialogueResource.gd" id="15_u050n"]
 [ext_resource type="PackedScene" uid="uid://b6l44rib7dlyn" path="res://System/RPG/interact/dialogue/dialogue_component.tscn" id="16_b8ura"]
 [ext_resource type="Script" uid="uid://4p4vcldhkkvo" path="res://Scripts/data/dialogue_resource/DialogueTextResource.gd" id="16_ielik"]
 [ext_resource type="PackedScene" uid="uid://b7fgg2qcnwcji" path="res://System/RPG/entity/npc/AX/npc_ax.tscn" id="19_5nc1p"]
 [ext_resource type="PackedScene" uid="uid://bdo8tfmp7gl8l" path="res://System/RPG/interact/others/SavePoint.tscn" id="21_m0vy7"]
+[ext_resource type="Script" uid="uid://qyrh2jt5lx0e" path="res://Scripts/data/dialogue_resource/DialogueFunctionResource.gd" id="21_t31br"]
 
 [sub_resource type="Resource" id="Resource_va5wj"]
 script = ExtResource("2_m0vy7")
@@ -31,6 +35,12 @@ script = ExtResource("2_m0vy7")
 node_path = NodePath("ObjectAndCharacter/Interactable/collectable/CollectableKey")
 type = 1
 state = 1
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_0n24n"]
+script = ExtResource("2_m0vy7")
+node_path = NodePath("ObjectAndCharacter/Interactable/DialogueComponent")
+type = 2
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Gradient" id="Gradient_336yt"]
@@ -63,30 +73,31 @@ script = ExtResource("14_my5dp")
 next_flag = 1
 style = Array[int]([2])
 start = Array[int]([0])
-end = Array[int]([1])
+end = Array[int]([2])
 metadata/_custom_type_script = "uid://b37t7a67t8onx"
 
 [sub_resource type="Resource" id="Resource_m0vy7"]
 script = ExtResource("14_my5dp")
 next_flag = 1
 style = Array[int]([2])
-start = Array[int]([1])
+start = Array[int]([2])
 end = Array[int]([3])
 metadata/_custom_type_script = "uid://b37t7a67t8onx"
 
 [sub_resource type="Resource" id="Resource_t31br"]
 script = ExtResource("16_ielik")
-text = "1"
+text = "啊，这个还是给你吧。"
 metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 
 [sub_resource type="Resource" id="Resource_pnopn"]
-script = ExtResource("16_ielik")
-text = "2"
-metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+script = ExtResource("21_t31br")
+target_path = NodePath("../collectable/CollectableEmerganceLight")
+function_name = "_on_collected"
+metadata/_custom_type_script = "uid://qyrh2jt5lx0e"
 
 [sub_resource type="Resource" id="Resource_aosta"]
 script = ExtResource("16_ielik")
-text = "3"
+text = "方便的话去三楼的配电室看看吧。"
 metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 
 [sub_resource type="Environment" id="Environment_5n7gh"]
@@ -98,7 +109,7 @@ y_sort_enabled = true
 script = ExtResource("1_gxc2u")
 player_initial_position = Array[Vector2]([Vector2(630, 450)])
 player_initial_direction = Array[Vector2]([Vector2(0, -1)])
-interactables = Array[ExtResource("2_m0vy7")]([SubResource("Resource_va5wj"), SubResource("Resource_lpvga")])
+interactables = Array[ExtResource("2_m0vy7")]([SubResource("Resource_va5wj"), SubResource("Resource_lpvga"), SubResource("Resource_0n24n")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 
@@ -183,6 +194,15 @@ position = Vector2(412, 462)
 
 [node name="Plant4" parent="ObjectAndCharacter/object" unique_id=2058057086 instance=ExtResource("9_kcrlr")]
 position = Vector2(540, 224)
+
+[node name="Plant1" parent="ObjectAndCharacter/object" unique_id=148974099 instance=ExtResource("11_lpvga")]
+position = Vector2(463, 143)
+
+[node name="Plant2" parent="ObjectAndCharacter/object" unique_id=1943518757 instance=ExtResource("12_m0vy7")]
+position = Vector2(672, 142)
+
+[node name="Plant5" parent="ObjectAndCharacter/object" unique_id=1849968337 instance=ExtResource("13_va5wj")]
+position = Vector2(561, 142)
 
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 

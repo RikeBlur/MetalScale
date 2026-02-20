@@ -7,14 +7,19 @@
 
 # UPDATE
 
+## 26.02.20
+
+Resource子类 ConfigData，用来存储系统变量，和存档保存在一起 <br>
+
+
 ## 26.02.16
 
 目标：
-Dialogue 融入 Interact 系统（保存数据）  <br>
-GameManager 中的全局设置 GameConfig 也需要用 Resoruce 保存  <br>
+Dialogue 融入 Interact 系统（保存数据） √（0217） <br>
+GameManager 中的全局设置 GameConfig 也需要用 Resoruce 保存 √（0220） <br>
 怪物重置  <br>
 2层地图完成  <br>
-UI管理器重置  <br>
+UI管理器重置  √（0218）<br>
 
 UI： 只有Running-Control时，ESC 转化为 toggle_settings  <br>
 Running-Menu 时，ESC 优先 remove layer 最高的 UI  <br>

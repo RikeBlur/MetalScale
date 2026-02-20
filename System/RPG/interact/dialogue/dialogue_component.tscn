@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://b6l44rib7dlyn"]
 
-[ext_resource type="Script" uid="uid://dgprjwspphr6g" path="res://Scripts/system/interact/dialogue/dialogue_manager.gd" id="1_jkb3v"]
+[ext_resource type="Script" uid="uid://dgprjwspphr6g" path="res://Scripts/system/interact/dialogue/dialogue_component.gd" id="1_jkb3v"]
 [ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="2_v7g0j"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v7g0j"]
 radius = 21.0
 
-[node name="DialogueComponent" type="Node2D" unique_id=1786519888]
+[node name="DialogueComponent" type="Node2D" unique_id=1786519888 groups=["interactable"]]
 script = ExtResource("1_jkb3v")
 trigger_source = [NodePath("Area2D")]
 

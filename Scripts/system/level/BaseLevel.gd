@@ -106,12 +106,16 @@ func apply_interactable_states() -> void:
 				_apply_door_state(node, interactable.state)
 			1:  # 可拾取物
 				_apply_collectible_state(node, interactable.state)
-			2:  # 其他机关
+			2: #对话
+				_apply_dialogue_state(node, interactable.state)
+			3:  # 其他机关
 				_apply_mechanism_state(node, interactable.state)
 			_:
 				push_warning("BaseLevel: 未知的 interactable 类型: %d" % interactable.type)
 	
 	print("BaseLevel: 可交互对象状态应用完成")
+
+# ====================================================================================================
 
 func _apply_door_state(door_node: Node, state: int) -> void:
 	"""
@@ -140,6 +144,31 @@ func _apply_collectible_state(collectible_node: Node, state: int) -> void:
 	collectible_node.collectable_state = state
 	
 	print("BaseLevel: 可拾取物状态应用 - 节点: %s, 状态: %d (待实现)" % [collectible_node.name, state])
+	
+# ====================================================================================================
+
+func _apply_dialogue_state(dialogue_node: Node, state: int) -> void:
+	# 对话状态：直接映射到 DialogueComponent.current_flag
+	# 约定：-1 表示停用；>=0 表示使用对应 trigger_flag 索引
+	if dialogue_node is DialogueComponent:
+		var dialogue_comp: DialogueComponent = dialogue_node
+		
+		# 允许 -1（停用）
+		if state == -1:
+			dialogue_comp.current_flag = -1
+			print("BaseLevel: 对话状态应用 - 节点: %s, current_flag: -1(停用)" % dialogue_node.name)
+			return
+		
+		# 非负索引需要做边界检查，避免运行时越界
+		if state >= 0 and state < dialogue_comp.trigger_flag.size():
+			dialogue_comp.current_flag = state
+			print("BaseLevel: 对话状态应用 - 节点: %s, current_flag: %d" % [dialogue_node.name, state])
+		else:
+			push_warning("BaseLevel: 对话状态越界，节点: %s, state: %d, trigger_flag.size: %d" % [dialogue_node.name, state, dialogue_comp.trigger_flag.size()])
+	else:
+		push_warning("BaseLevel: 节点 %s 不是 DialogueComponent 类型" % dialogue_node.name)
+	
+# ====================================================================================================
 
 func _apply_mechanism_state(mechanism_node: Node, state: int) -> void:
 	"""
@@ -156,6 +185,8 @@ func _apply_mechanism_state(mechanism_node: Node, state: int) -> void:
 	#     mechanism_node.set_mechanism_state(state)
 	
 	print("BaseLevel: 机关状态应用 - 节点: %s, 状态: %d (待实现)" % [mechanism_node.name, state])
+
+# ====================================================================================================
 
 func update_interactable_state(node_path: Variant, new_state: int) -> void:
 	"""
@@ -195,6 +226,8 @@ func update_interactable_state(node_path: Variant, new_state: int) -> void:
 			return
 	
 	push_warning("BaseLevel: interactables 中不存在路径 %s (相对路径: %s)" % [path_str, relative_path])
+
+# ====================================================================================================
 
 func get_interactable_by_path(node_path: Variant) -> InteractableData:
 	"""

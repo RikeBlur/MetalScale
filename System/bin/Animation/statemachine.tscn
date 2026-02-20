@@ -1,0 +1,356 @@
+[gd_scene format=3 uid="uid://btu1hhgioiy7t"]
+
+[ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_yd8u3"]
+[ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="2_feh58"]
+[ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="3_feh58"]
+[ext_resource type="Script" uid="uid://c6jsg28nhcjsy" path="res://Scripts/system/view/animation.gd" id="3_kae4w"]
+[ext_resource type="Shader" uid="uid://qvica54eevs6" path="res://Effect/Shader/dissolve/dissolve_shader.tres" id="3_n1pdg"]
+[ext_resource type="Texture2D" uid="uid://bjakugmqbbtw7" path="res://DEMO/Bin/demo/assets/arrow_right.png" id="4_3pxdc"]
+[ext_resource type="Texture2D" uid="uid://dv2p3c4p3uk8e" path="res://Assests/sprite/Character/AX/dialogue/back_1.png" id="4_8qtn4"]
+[ext_resource type="Texture2D" uid="uid://bxngadho5jgwo" path="res://Assests/sprite/Character/AX/dialogue/back_2.png" id="5_c3j08"]
+[ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="5_gthut"]
+
+[sub_resource type="Gradient" id="Gradient_3pxdc"]
+offsets = PackedFloat32Array(0, 0.993506)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_kae4w"]
+offset = Vector3(0, 140.35, 0)
+fractal_type = 2
+domain_warp_enabled = true
+domain_warp_type = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gthut"]
+noise = SubResource("FastNoiseLite_kae4w")
+color_ramp = SubResource("Gradient_3pxdc")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mci5n"]
+shader = ExtResource("2_feh58")
+shader_parameter/wave_speed = 0.25
+shader_parameter/noise_scale = 3.0
+shader_parameter/wave_amplitude = 0.5
+shader_parameter/time_offset = 0.0
+shader_parameter/gradient_texture = SubResource("NoiseTexture2D_gthut")
+shader_parameter/use_gradient = true
+shader_parameter/base_color = Color(0, 0, 0, 1)
+shader_parameter/alpha_multiplier = 1.0
+shader_parameter/color_mix_strength = 0.99
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_feh58"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_3pxdc"]
+input_name = "screen_uv"
+
+[sub_resource type="VisualShaderNodeIf" id="VisualShaderNodeIf_kae4w"]
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_gthut"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.5, 0.5, 0.5)]
+op_type = 3
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_mci5n"]
+constant = Color(0.65, 0.052, 0.0619665, 1)
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_hif0q"]
+default_input_values = [0, 0.0, 1, 0.1]
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_n1pdg"]
+parameter_name = "Noise"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_8qtn4"]
+source = 5
+
+[sub_resource type="VisualShaderNodeIf" id="VisualShaderNodeIf_c3j08"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_wdnre"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_1sjrp"]
+constant = 1.0
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_pcwna"]
+parameter_name = "DissolveValue"
+hint = 1
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_sakoh"]
+input_name = "texture"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_5uhsy"]
+expanded_output_ports = [0]
+source = 5
+
+[sub_resource type="VisualShader" id="VisualShader_15a2y"]
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(1500, 200)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture2DParameter_n1pdg")
+nodes/fragment/2/position = Vector2(-420, -100)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_8qtn4")
+nodes/fragment/3/position = Vector2(-100, -200)
+nodes/fragment/4/node = SubResource("VisualShaderNodeIf_c3j08")
+nodes/fragment/4/position = Vector2(560, 20)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatConstant_wdnre")
+nodes/fragment/5/position = Vector2(0, 380)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatConstant_1sjrp")
+nodes/fragment/6/position = Vector2(0, 480)
+nodes/fragment/7/node = SubResource("VisualShaderNodeFloatParameter_pcwna")
+nodes/fragment/7/position = Vector2(-60, 100)
+nodes/fragment/8/node = SubResource("VisualShaderNodeInput_sakoh")
+nodes/fragment/8/position = Vector2(600, 420)
+nodes/fragment/9/node = SubResource("VisualShaderNodeTexture_5uhsy")
+nodes/fragment/9/position = Vector2(880, 340)
+nodes/fragment/10/node = SubResource("VisualShaderNodeMix_feh58")
+nodes/fragment/10/position = Vector2(1180, 200)
+nodes/fragment/11/node = SubResource("VisualShaderNodeInput_3pxdc")
+nodes/fragment/11/position = Vector2(-420, -260)
+nodes/fragment/12/node = SubResource("VisualShaderNodeIf_kae4w")
+nodes/fragment/12/position = Vector2(580, -400)
+nodes/fragment/13/node = SubResource("VisualShaderNodeMix_gthut")
+nodes/fragment/13/position = Vector2(1100, -260)
+nodes/fragment/14/node = SubResource("VisualShaderNodeColorConstant_mci5n")
+nodes/fragment/14/position = Vector2(740, -120)
+nodes/fragment/15/node = SubResource("VisualShaderNodeFloatOp_hif0q")
+nodes/fragment/15/position = Vector2(360, 120)
+nodes/fragment/connections = PackedInt32Array(2, 0, 3, 2, 3, 0, 4, 0, 6, 0, 4, 5, 5, 0, 4, 4, 8, 0, 9, 2, 4, 0, 10, 1, 9, 4, 10, 2, 10, 0, 0, 1, 11, 0, 3, 0, 3, 0, 12, 0, 7, 0, 12, 1, 6, 0, 12, 5, 9, 0, 13, 1, 12, 0, 13, 2, 14, 0, 13, 0, 13, 0, 0, 0, 5, 0, 12, 4, 7, 0, 15, 0, 15, 0, 4, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_xpg3o"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_humle"]
+noise = SubResource("FastNoiseLite_xpg3o")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c5rou"]
+resource_local_to_scene = true
+shader = SubResource("VisualShader_15a2y")
+shader_parameter/Noise = SubResource("NoiseTexture2D_humle")
+shader_parameter/DissolveValue = 1.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5bmp1"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5bmp1"]
+noise = SubResource("FastNoiseLite_5bmp1")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wdnre"]
+resource_local_to_scene = true
+shader = ExtResource("3_n1pdg")
+shader_parameter/Noise = SubResource("NoiseTexture2D_5bmp1")
+shader_parameter/DissolveValue = 1.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1sjrp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_8qtn4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_c3j08")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
+
+[node name="Statemachine" type="Control" unique_id=883631207]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="D1" parent="." unique_id=2129294719 instance=ExtResource("1_yd8u3")]
+material = SubResource("ShaderMaterial_mci5n")
+position = Vector2(675, 319)
+
+[node name="Control" type="Control" parent="." unique_id=1274249609]
+anchors_preset = 0
+offset_left = 123.0
+offset_top = -27.0
+offset_right = 163.0
+offset_bottom = 13.0
+script = ExtResource("3_kae4w")
+n1 = 0.5
+m1 = 3.0
+m2 = 0.0
+first_delay = 5.0
+
+[node name="Label" type="Label" parent="Control" unique_id=2004996587]
+material = SubResource("ShaderMaterial_c5rou")
+layout_mode = 0
+offset_left = 37.0
+offset_top = 280.0
+offset_right = 181.0
+offset_bottom = 329.0
+theme = ExtResource("3_feh58")
+theme_override_font_sizes/font_size = 48
+text = "预加载"
+
+[node name="TextureRect" type="TextureRect" parent="Control" unique_id=603530847]
+material = ExtResource("5_gthut")
+layout_mode = 0
+offset_left = 198.0
+offset_top = 261.0
+offset_right = 308.2343
+offset_bottom = 366.75543
+rotation = -0.5071137
+scale = Vector2(1.3121331, 0.3015784)
+texture = ExtResource("4_3pxdc")
+
+[node name="Label2" type="Label" parent="Control" unique_id=1082784345]
+material = SubResource("ShaderMaterial_c5rou")
+layout_mode = 0
+offset_left = 362.0
+offset_top = 154.0
+offset_right = 506.0
+offset_bottom = 203.0
+theme = ExtResource("3_feh58")
+theme_override_font_sizes/font_size = 48
+text = "主菜单"
+
+[node name="TextureRect2" type="TextureRect" parent="Control" unique_id=467298846]
+material = ExtResource("5_gthut")
+layout_mode = 0
+offset_left = 531.0
+offset_top = 165.0
+offset_right = 632.3023
+offset_bottom = 264.638
+rotation = -0.009641517
+scale = Vector2(1.3121331, 0.3015784)
+texture = ExtResource("4_3pxdc")
+
+[node name="Label3" type="Label" parent="Control" unique_id=1385265381]
+material = SubResource("ShaderMaterial_c5rou")
+layout_mode = 0
+offset_left = 681.0
+offset_top = 147.0
+offset_right = 825.0
+offset_bottom = 196.0
+theme = ExtResource("3_feh58")
+theme_override_font_sizes/font_size = 48
+text = "加载"
+
+[node name="TextureRect3" type="TextureRect" parent="Control" unique_id=1709843895]
+material = ExtResource("5_gthut")
+layout_mode = 0
+offset_left = 742.99994
+offset_top = 234.00003
+offset_right = 839.4586
+offset_bottom = 333.63806
+rotation = 2.351212
+scale = Vector2(1.5140495, 0.3015784)
+texture = ExtResource("4_3pxdc")
+
+[node name="TextureRect4" type="TextureRect" parent="Control" unique_id=1834263656]
+material = ExtResource("5_gthut")
+layout_mode = 0
+offset_left = 577.00006
+offset_top = 290.0
+offset_right = 678.30237
+offset_bottom = 389.638
+rotation = -0.80786204
+scale = Vector2(1.3121331, 0.3015784)
+texture = ExtResource("4_3pxdc")
+
+[node name="Label4" type="Label" parent="Control" unique_id=1558905692]
+material = SubResource("ShaderMaterial_c5rou")
+layout_mode = 0
+offset_left = 512.0
+offset_top = 318.0
+offset_right = 656.0
+offset_bottom = 367.0
+theme = ExtResource("3_feh58")
+theme_override_font_sizes/font_size = 48
+text = "运行"
+
+[node name="Label5" type="Label" parent="Control" unique_id=1006866366]
+material = SubResource("ShaderMaterial_c5rou")
+layout_mode = 0
+offset_left = 506.0
+offset_top = 373.0
+offset_right = 650.0
+offset_bottom = 550.0
+theme = ExtResource("3_feh58")
+text = "Control
+Auto
+Menu"
+
+[node name="TextureRect5" type="TextureRect" parent="Control" unique_id=1358578246]
+material = ExtResource("5_gthut")
+layout_mode = 0
+offset_left = 504.99997
+offset_top = 324.0
+offset_right = 606.30225
+offset_bottom = 423.638
+rotation = -2.3037841
+scale = Vector2(1.3121331, 0.3015784)
+texture = ExtResource("4_3pxdc")
+
+[node name="TextureRect7" type="TextureRect" parent="Control" unique_id=1464944609]
+material = ExtResource("5_gthut")
+layout_mode = 0
+offset_left = 418.09805
+offset_top = 150.41916
+offset_right = 477.63538
+offset_bottom = 250.05716
+rotation = -1.5793816
+scale = Vector2(1.3121331, 0.3015784)
+texture = ExtResource("4_3pxdc")
+
+[node name="TextureRect6" type="TextureRect" parent="Control" unique_id=263098888]
+material = ExtResource("5_gthut")
+layout_mode = 0
+offset_left = 712.5088
+offset_top = 378.76712
+offset_right = 844.28406
+offset_bottom = 478.40512
+rotation = -0.004520973
+scale = Vector2(1.3121331, 0.3015784)
+texture = ExtResource("4_3pxdc")
+
+[node name="back_sprite" type="AnimatedSprite2D" parent="." unique_id=1118251832]
+material = SubResource("ShaderMaterial_wdnre")
+position = Vector2(578, 562.00006)
+scale = Vector2(0.6130501, 0.3761815)
+sprite_frames = SubResource("SpriteFrames_1sjrp")
+autoplay = "default"
+frame_progress = 0.46594614
+
+[node name="Label" type="Label" parent="." unique_id=1250998409]
+layout_mode = 0
+offset_left = 288.0
+offset_top = 26.0
+offset_right = 521.0
+offset_bottom = 59.0
+theme = ExtResource("3_feh58")
+theme_override_font_sizes/font_size = 32
+text = "GameManager"
+
+[node name="Node2D" type="Node2D" parent="." unique_id=2061520366]
+
+[node name="Line2D" type="Line2D" parent="Node2D" unique_id=1193604399]
+position = Vector2(26, 7)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(114, 470, 975.6314, 470)
+width = 5.0
+
+[node name="Line2D4" type="Line2D" parent="Node2D" unique_id=745548040]
+position = Vector2(233, -428)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(293.57904, 471, 771.01575, 472)
+width = 5.0
+
+[node name="Line2D5" type="Line2D" parent="Node2D" unique_id=676876267]
+position = Vector2(-33.000004, -429)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(169.03036, 470, 306.42932, 470)
+width = 5.0
+
+[node name="Line2D2" type="Line2D" parent="Node2D" unique_id=321461886]
+position = Vector2(612, -594)
+rotation = 1.5707964
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(626.6973, 471, 1055.6984, 470.99997)
+width = 5.0
+
+[node name="Line2D3" type="Line2D" parent="Node2D" unique_id=160111035]
+position = Vector2(1483, -591)
+rotation = 1.5707964
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(626.6973, 471, 902.1794, 470.35938, 1056.6869, 470)
+width = 5.0

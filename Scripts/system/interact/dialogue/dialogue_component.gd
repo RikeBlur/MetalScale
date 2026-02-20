@@ -129,6 +129,13 @@ func _on_triggered(area: Area2D) -> void:
 	else:
 		push_warning("DialogueComponent: next_flag(%d) 非法，已停用触发" % next_idx)
 		current_flag = -1
+	
+	# 更新 BaseLevel 中对应的 InteractableData 的状态
+	var base_level = _find_base_level()
+	if base_level:
+		base_level.update_interactable_state(get_path(), current_flag)
+	else:
+		push_warning("DialogueComponent: 未找到 BaseLevel，无法更新 interactables 状态")
 
 
 # 实时检查 trigger_flag 并在需要时实例化对话
@@ -174,6 +181,8 @@ func _spawn_dual_dialogue(style: int, start: int, end: int, a_index: Array[int],
 	# 设置 scene_root 引用，让对话框能正确解析相对路径
 	inst.scene_root = self
 	canvas_layer.add_child(inst)
+	GameManager.set_running_state(GameManager.RunningState.AUTO)
+	inst.tree_exited.connect(_on_dialogue_node_exited, CONNECT_ONE_SHOT)
 	
 	# 如果对话场景提供了 dialogue_finished 信号，连接它以便自动回收实例
 	if inst.has_signal("dialogue_finished"):
@@ -204,6 +213,8 @@ func _spawn_dialogue(style: int, start: int, end: int) -> void:
 	# 设置 scene_root 引用，让对话框能正确解析相对路径
 	inst.scene_root = self
 	canvas_layer.add_child(inst)
+	GameManager.set_running_state(GameManager.RunningState.AUTO)
+	inst.tree_exited.connect(_on_dialogue_node_exited, CONNECT_ONE_SHOT)
 
 	# 如果对话场景提供了 dialogue_finished 信号，连接它以便自动回收实例
 	if inst.has_signal("dialogue_finished"):
@@ -215,6 +226,13 @@ func _spawn_dialogue(style: int, start: int, end: int) -> void:
 func _on_dialogue_finished(inst: Node) -> void:
 	if is_instance_valid(inst):
 		inst.queue_free()
+	_restore_running_state_after_dialogue()
+
+func _on_dialogue_node_exited() -> void:
+	_restore_running_state_after_dialogue()
+
+func _restore_running_state_after_dialogue() -> void:
+	GameManager.set_running_state(GameManager.RunningState.CONTROL)
 		
 func _spawn_reminder(area: Area2D) -> void:
 	# current_flag == -1 时表示该对话已停用：不再显示reminder
@@ -278,3 +296,37 @@ func _is_flag_data_valid(flag_data: dialogue_flag, idx: int) -> bool:
 		push_warning("DialogueComponent: trigger_flag[%d].end 为空" % idx)
 		return false
 	return true
+
+func _find_base_level() -> BaseLevel:
+	"""
+	查找场景树中的 BaseLevel 节点
+	
+	返回:
+		BaseLevel 节点，如果未找到则返回 null
+	"""
+	# 从当前节点向上查找
+	var current = get_parent()
+	while current:
+		if current is BaseLevel:
+			return current
+		current = current.get_parent()
+	
+	# 如果向上没找到，尝试从根场景查找
+	var root = get_tree().current_scene
+	if root is BaseLevel:
+		return root
+	
+	# 递归查找子节点
+	return _find_base_level_recursive(root)
+
+func _find_base_level_recursive(node: Node) -> BaseLevel:
+	"""递归查找 BaseLevel 节点"""
+	if node is BaseLevel:
+		return node
+	
+	for child in node.get_children():
+		var result = _find_base_level_recursive(child)
+		if result:
+			return result
+	
+	return null

@@ -24,9 +24,10 @@ func _ready() -> void:
 		button.button_down.connect(_on_button_pressed)
 		button.button_up.connect(_on_button_released)
 	
-	# 初始化front的scale
+	# 初始化front的scale和modulate
 	if front:
 		front.scale = normal_scale
+		front.modulate = normal_color
 
 # 当按钮被悬浮时触发的方法
 func _on_button_hover() -> void:

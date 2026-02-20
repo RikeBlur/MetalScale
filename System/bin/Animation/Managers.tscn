@@ -1,0 +1,281 @@
+[gd_scene format=3 uid="uid://tn7qj5rsyu48"]
+
+[ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_cnrfk"]
+[ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="2_c2v2s"]
+[ext_resource type="Script" uid="uid://c6jsg28nhcjsy" path="res://Scripts/system/view/animation.gd" id="3_n2ufk"]
+[ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="4_vuk12"]
+[ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="5_va5qb"]
+[ext_resource type="Texture2D" uid="uid://bjakugmqbbtw7" path="res://DEMO/Bin/demo/assets/arrow_right.png" id="6_c2v2s"]
+[ext_resource type="Shader" uid="uid://qvica54eevs6" path="res://Effect/Shader/dissolve/dissolve_shader.tres" id="6_mcguh"]
+[ext_resource type="Texture2D" uid="uid://dv2p3c4p3uk8e" path="res://Assests/sprite/Character/AX/dialogue/back_1.png" id="7_8h8q3"]
+[ext_resource type="Texture2D" uid="uid://bxngadho5jgwo" path="res://Assests/sprite/Character/AX/dialogue/back_2.png" id="8_mquxb"]
+
+[sub_resource type="Gradient" id="Gradient_3pxdc"]
+offsets = PackedFloat32Array(0, 0.993506)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_kae4w"]
+offset = Vector3(0, 140.35, 0)
+fractal_type = 2
+domain_warp_enabled = true
+domain_warp_type = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gthut"]
+noise = SubResource("FastNoiseLite_kae4w")
+color_ramp = SubResource("Gradient_3pxdc")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mci5n"]
+shader = ExtResource("2_c2v2s")
+shader_parameter/wave_speed = 0.25
+shader_parameter/noise_scale = 3.0
+shader_parameter/wave_amplitude = 0.5
+shader_parameter/time_offset = 0.0
+shader_parameter/gradient_texture = SubResource("NoiseTexture2D_gthut")
+shader_parameter/use_gradient = true
+shader_parameter/base_color = Color(0, 0, 0, 1)
+shader_parameter/alpha_multiplier = 1.0
+shader_parameter/color_mix_strength = 0.99
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5bmp1"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5bmp1"]
+noise = SubResource("FastNoiseLite_5bmp1")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wdnre"]
+resource_local_to_scene = true
+shader = ExtResource("6_mcguh")
+shader_parameter/Noise = SubResource("NoiseTexture2D_5bmp1")
+shader_parameter/DissolveValue = 1.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1sjrp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_8h8q3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_mquxb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
+
+[node name="Statemachine" type="Control" unique_id=883631207]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="D1" parent="." unique_id=2129294719 instance=ExtResource("1_cnrfk")]
+material = SubResource("ShaderMaterial_mci5n")
+position = Vector2(675, 319)
+
+[node name="Control" type="Control" parent="." unique_id=1274249609]
+anchors_preset = 0
+offset_left = 123.0
+offset_top = -47.0
+offset_right = 163.0
+offset_bottom = -7.0
+script = ExtResource("3_n2ufk")
+n1 = 0.5
+m1 = 2.0
+first_delay = 5.0
+
+[node name="Label" type="Label" parent="Control" unique_id=1542844288]
+material = ExtResource("4_vuk12")
+layout_mode = 0
+offset_left = 95.0
+offset_top = 260.0
+offset_right = 297.0
+offset_bottom = 349.0
+theme = ExtResource("5_va5qb")
+theme_override_font_sizes/font_size = 24
+text = "游戏全局管理器
+GameManager"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="Control" unique_id=684584658]
+material = ExtResource("4_vuk12")
+layout_mode = 0
+offset_left = 257.9439
+offset_top = 244.24176
+offset_right = 342.57684
+offset_bottom = 343.8797
+rotation = -0.6923215
+scale = Vector2(1.3121331, 0.3015784)
+texture = ExtResource("6_c2v2s")
+
+[node name="Label2" type="Label" parent="Control" unique_id=1113811356]
+material = ExtResource("4_vuk12")
+layout_mode = 0
+offset_left = 363.0
+offset_top = 124.0
+offset_right = 565.0
+offset_bottom = 213.0
+theme = ExtResource("5_va5qb")
+theme_override_font_sizes/font_size = 24
+text = "存档管理器
+ArchiveManager"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect3" type="TextureRect" parent="Control" unique_id=193745092]
+material = ExtResource("4_vuk12")
+layout_mode = 0
+offset_left = 287.0
+offset_top = 281.00003
+offset_right = 361.3568
+offset_bottom = 380.63797
+rotation = 0.009813065
+scale = Vector2(1.3121331, 0.3015784)
+texture = ExtResource("6_c2v2s")
+
+[node name="Label3" type="Label" parent="Control" unique_id=976345631]
+material = ExtResource("4_vuk12")
+layout_mode = 0
+offset_left = 356.0
+offset_top = 261.0
+offset_right = 558.0
+offset_bottom = 350.0
+theme = ExtResource("5_va5qb")
+theme_override_font_sizes/font_size = 24
+text = "场景管理器
+SceneManager"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect4" type="TextureRect" parent="Control" unique_id=1082255026]
+material = ExtResource("4_vuk12")
+layout_mode = 0
+offset_left = 283.0
+offset_top = 341.0
+offset_right = 372.67584
+offset_bottom = 440.63794
+rotation = 0.5642653
+scale = Vector2(1.3121331, 0.3015784)
+texture = ExtResource("6_c2v2s")
+
+[node name="Label4" type="Label" parent="Control" unique_id=53146094]
+material = ExtResource("4_vuk12")
+layout_mode = 0
+offset_left = 361.0
+offset_top = 388.0
+offset_right = 563.0
+offset_bottom = 477.0
+theme = ExtResource("5_va5qb")
+theme_override_font_sizes/font_size = 24
+text = "UI管理器
+UIManager"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label5" type="Label" parent="Control" unique_id=480755040]
+material = ExtResource("4_vuk12")
+layout_mode = 0
+offset_left = 599.0
+offset_top = 145.0
+offset_right = 801.0
+offset_bottom = 234.0
+theme = ExtResource("5_va5qb")
+theme_override_font_sizes/font_size = 24
+text = "道具管理器
+ToolManager"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label6" type="Label" parent="Control" unique_id=582003165]
+material = ExtResource("4_vuk12")
+layout_mode = 0
+offset_left = 599.0
+offset_top = 249.0
+offset_right = 809.0
+offset_bottom = 443.0
+theme = ExtResource("5_va5qb")
+theme_override_font_sizes/font_size = 24
+text = "光照管理器
+LightingManager
+
+. . .
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="back_sprite" type="AnimatedSprite2D" parent="." unique_id=1118251832]
+material = SubResource("ShaderMaterial_wdnre")
+position = Vector2(586, 545.00006)
+scale = Vector2(0.6130501, 0.3761815)
+sprite_frames = SubResource("SpriteFrames_1sjrp")
+autoplay = "default"
+frame_progress = 0.59056145
+
+[node name="Node2D" type="Node2D" parent="." unique_id=2061520366]
+
+[node name="Line2D6" type="Line2D" parent="Node2D" unique_id=345744348]
+position = Vector2(26, -15)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(169.03036, 469, 913.35706, 470)
+width = 5.0
+
+[node name="Line2D4" type="Line2D" parent="Node2D" unique_id=745548040]
+position = Vector2(235, -428)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(309.39478, 472, 708.74133, 472)
+width = 5.0
+
+[node name="Line2D5" type="Line2D" parent="Node2D" unique_id=676876267]
+position = Vector2(-33.000004, -429)
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(226.3623, 471, 327.18744, 470)
+width = 5.0
+
+[node name="Line2D2" type="Line2D" parent="Node2D" unique_id=321461886]
+position = Vector2(668, -591.00006)
+rotation = 1.5707964
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(626.6973, 471, 1036.9172, 470)
+width = 5.0
+
+[node name="Line2D3" type="Line2D" parent="Node2D" unique_id=160111035]
+position = Vector2(1420, -591)
+rotation = 1.5707964
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(626.6973, 471, 902.1794, 470.35938, 1034.9403, 470)
+width = 5.0
+
+[node name="Line2D7" type="Line2D" parent="Node2D" unique_id=2025499808]
+position = Vector2(1180, -591)
+rotation = 1.5707964
+scale = Vector2(1.0116526, 1)
+points = PackedVector2Array(629.66284, 471, 902.1794, 470.35938, 1031.9749, 470)
+width = 5.0
+default_color = Color(0.7649327, 0.76493275, 0.76493275, 1)
+
+[node name="Label" type="Label" parent="Node2D" unique_id=1250998409]
+offset_left = 302.0
+offset_top = 26.0
+offset_right = 535.0
+offset_bottom = 59.0
+theme = ExtResource("5_va5qb")
+theme_override_font_sizes/font_size = 32
+text = "MultiManager"
+
+[node name="Label2" type="Label" parent="Node2D" unique_id=472082821]
+offset_left = 221.0
+offset_top = 64.0
+offset_right = 454.0
+offset_bottom = 97.0
+theme = ExtResource("5_va5qb")
+theme_override_font_sizes/font_size = 16
+text = "Global"
+
+[node name="Label3" type="Label" parent="Node2D" unique_id=705598011]
+offset_left = 725.0
+offset_top = 62.0
+offset_right = 958.0
+offset_bottom = 95.0
+theme = ExtResource("5_va5qb")
+theme_override_font_sizes/font_size = 16
+text = "local"

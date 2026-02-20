@@ -2,18 +2,22 @@ class_name GameConfig
 extends Control
 
 @export var configboxes: Array[ConfigBox] = []
-# 与 configboxes 一一对应，填写 GameManager 里的变量名（例如: "BGM_gain", "SFX_gain"）
-@export var bound_game_manager_properties: Array[String] = []
+# 与 configboxes 一一对应，填写 ConfigData 里的属性名（例如: "BGM_gain", "Gamma"）
+@export var bound_config_properties: Array[String] = []
 
 var values: Array[float] = []
 
 @onready var hoven: SFXPlayer = $SFXManager/hoven
 @onready var pressed: SFXPlayer = $SFXManager/pressed
 
+# ===========================================================================
+# ================================= 数据读写 =================================
+# ===========================================================================
+
 func _ready() -> void:
 	_initialize_configboxes()
 	_ensure_array_lengths()
-	_pull_values_from_game_manager()
+	_pull_values_from_config_data()
 	_apply_values_to_configboxes()
 	_connect_configbox_signals()
 	_connect_control_sfx()
@@ -34,25 +38,23 @@ func _collect_configboxes(root: Node, out: Array[ConfigBox]) -> void:
 func _ensure_array_lengths() -> void:
 	while values.size() < configboxes.size():
 		values.append(0.0)
-	while bound_game_manager_properties.size() < configboxes.size():
-		bound_game_manager_properties.append("")
+	while bound_config_properties.size() < configboxes.size():
+		bound_config_properties.append("")
 
-func _pull_values_from_game_manager() -> void:
+func _pull_values_from_config_data() -> void:
+	var cd := GameManager.config_data
+	if not cd:
+		push_warning("GameConfig: GameManager.config_data 尚未初始化")
+		return
 	for i in range(configboxes.size()):
-		var prop_name := bound_game_manager_properties[i]
+		var prop_name := bound_config_properties[i]
 		if prop_name.is_empty():
 			values[i] = configboxes[i].get_value()
 			continue
-
-		if _has_property(GameManager, prop_name):
-			var raw_value = GameManager.get(prop_name)
-			if raw_value is float or raw_value is int:
-				values[i] = float(raw_value)
-			else:
-				push_warning("GameConfig: GameManager.%s 不是数值类型" % prop_name)
-				values[i] = configboxes[i].get_value()
+		if _has_property(cd, prop_name):
+			values[i] = float(cd.get(prop_name))
 		else:
-			push_warning("GameConfig: GameManager 不存在属性 %s" % prop_name)
+			push_warning("GameConfig: ConfigData 不存在属性 %s" % prop_name)
 			values[i] = configboxes[i].get_value()
 
 func _apply_values_to_configboxes() -> void:
@@ -74,19 +76,31 @@ func _on_configbox_value_changed(new_value: float, index: int) -> void:
 		return
 	values[index] = new_value
 
-	var prop_name := bound_game_manager_properties[index]
+	var prop_name := bound_config_properties[index]
 	if prop_name.is_empty():
 		return
-	if _has_property(GameManager, prop_name):
-		GameManager.set(prop_name, new_value)
+
+	var cd := GameManager.config_data
+	if not cd:
+		push_warning("GameConfig: GameManager.config_data 尚未初始化")
+		return
+
+	if _has_property(cd, prop_name):
+		cd.set(prop_name, new_value)
+		GameManager.apply_config()
+		GameManager.save_config()
 	else:
-		push_warning("GameConfig: GameManager 不存在属性 %s" % prop_name)
+		push_warning("GameConfig: ConfigData 不存在属性 %s" % prop_name)
 
 func _has_property(obj: Object, property_name: String) -> bool:
 	for p in obj.get_property_list():
 		if p.has("name") and p.name == property_name:
 			return true
 	return false
+
+# ===========================================================================
+# ================================= 控件音效 =================================
+# ===========================================================================
 
 func _connect_control_sfx() -> void:
 	for box in configboxes:

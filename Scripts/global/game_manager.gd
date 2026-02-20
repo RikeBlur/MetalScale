@@ -13,12 +13,13 @@ const SCENE_MANAGER_PATH = "res://Scripts/global/scene_manager.gd"
 const ARCHIVE_MANAGER_PATH = "res://Scripts/global/archive_manager.gd"
 const UI_MANAGER_PATH = "res://Scripts/global/ui_manager.gd"
 const LIGHTING_MANAGER_PATH = "res://Scripts/system/lighting/lighting_manager.gd"
+const CONFIG_PATH: String = "user://config.tres"
 
 # ====================================================================================================
 # ============================================ 游戏状态枚举 =============================================
 # ====================================================================================================
 
-var debug : bool = true
+var debug : bool = false
 
 # 游戏状态枚举
 enum GameState {
@@ -53,14 +54,15 @@ var start_scene: String = "0-0"
 # 玩家是否处于仇恨状态？
 var player_arrgo: bool = false
 
+# 全局配置数据（对应 user://config.tres）
+var config_data: ConfigData = null
+
 # BGM音量
 var BGM_gain: float = 100.0
 # SFX音量
 var SFX_gain: float = 100.0
-
-# ====================================================================================================
-# ====================================================================================================
-# ====================================================================================================
+# 全局屏幕亮度（1.0为默认亮度）
+var Gamma: float = 1.0
 
 
 # ====================================================================================================
@@ -75,6 +77,10 @@ var camera_instance: AdvancedCamera = null
 # Debug UI元素
 var debug_canvas: CanvasLayer = null
 var debug_label: Label = null
+# 全局亮度控制节点（后处理覆盖，作用于整个视窗）
+var gamma_canvas_layer: CanvasLayer = null
+var gamma_screen_rect: ColorRect = null
+var gamma_material: ShaderMaterial = null
 
 # ====================================================================================================
 # ====================================================================================================
@@ -83,6 +89,10 @@ var debug_label: Label = null
 func _ready() -> void:
 	# 记录游戏启动时间
 	game_start_time_msec = Time.get_ticks_msec()
+	# 先加载配置，设置好 BGM_gain / SFX_gain / Gamma 变量
+	load_config()
+	# _ready 期间父节点正在初始化，defer 到下一帧再挂载后处理层（届时会读取 Gamma）
+	_ensure_gamma_postprocess_layer.call_deferred()
 	
 	# 创建debug UI
 	if debug:
@@ -225,7 +235,7 @@ func quit_game() -> void:
 
 
 # ====================================================================================================
-# ================================================= 工具函数 ==========================================
+# ================================================= ARRGO ==========================================
 # ====================================================================================================
 
 
@@ -249,45 +259,6 @@ func _on_player_get_caught() -> void:
 
 func _on_player_get_uncaught() -> void:
 	player_arrgo = false
-
-
-func _install_manager(script_path: String, node_name: String) -> Node:
-	"""
-	实例化并挂载管理器节点到根节点
-	
-	参数:
-		script_path: 脚本资源路径
-		node_name: 挂载后的节点名称（用于 get_node("/root/Name")）
-	
-	返回:
-		实例化的节点引用
-	"""
-	# 检查节点是否已存在（兼容Autoload情况，防止重复加载）
-	var existing_node = get_node_or_null("/root/" + node_name)
-	if existing_node:
-		print("GameManager: %s 已存在，跳过加载" % node_name)
-		return existing_node
-		
-	# 加载脚本
-	var script = load(script_path)
-	if not script:
-		push_error("GameManager: 无法加载脚本: %s" % script_path)
-		return null
-		
-	# 实例化并设置名称
-	var instance = script.new()
-	instance.name = node_name
-	
-	# 挂载到根节点
-	get_tree().root.add_child(instance)
-	print("GameManager: 已挂载 %s" % node_name)
-	
-	return instance
-
-
-# ====================================================================================================
-# ====================================================================================================
-# ====================================================================================================
 
 
 # ====================================================================================================
@@ -332,10 +303,159 @@ func _find_camera_recursive(node: Node) -> AdvancedCamera:
 	return null
 
 # ====================================================================================================
+# =================================================  config  ========================================
+# ====================================================================================================
+
+func load_config() -> void:
+	"""
+	从本地加载 ConfigData（user://config.tres），不存在则使用默认值。
+	直接赋值变量，不触发副作用（此时场景树尚未完全就绪）。
+	"""
+	if FileAccess.file_exists(CONFIG_PATH):
+		var loaded = ResourceLoader.load(CONFIG_PATH, "", ResourceLoader.CACHE_MODE_IGNORE)
+		if loaded is ConfigData:
+			config_data = loaded
+	if not config_data:
+		config_data = ConfigData.new()
+	BGM_gain = config_data.BGM_gain
+	SFX_gain = config_data.SFX_gain
+	Gamma    = config_data.Gamma
+	print("GameManager: 配置已加载 (BGM=%.0f SFX=%.0f Gamma=%.2f)" % [BGM_gain, SFX_gain, Gamma])
+
+func save_config() -> void:
+	"""将当前变量同步回 config_data 并保存到本地。"""
+	if not config_data:
+		config_data = ConfigData.new()
+	config_data.BGM_gain = BGM_gain
+	config_data.SFX_gain = SFX_gain
+	config_data.Gamma    = Gamma
+	ResourceSaver.save(config_data, CONFIG_PATH)
+	print("GameManager: 配置已保存")
+
+func apply_config() -> void:
+	"""从 config_data 重新应用所有设置（含副作用，如 Gamma 后处理）。"""
+	if not config_data:
+		return
+	BGM_gain = config_data.BGM_gain
+	SFX_gain = config_data.SFX_gain
+	set_gamma(config_data.Gamma) 
+
+	
+# ====================================================================================================
+# ================================================= Gamma设置 ========================================
+# ====================================================================================================
+
+func set_gamma(value: float) -> void:
+	"""
+	设置全局屏幕亮度（2D）
+	
+	参数:
+		value: 亮度值，范围建议 0.3~2.0，1.0 为默认
+	"""
+	Gamma = clamp(value, 0.1, 3.0)
+	_apply_gamma()
+	
+	# 更新debug UI
+	if debug and debug_label:
+		_update_debug_ui()
+
+func _ensure_gamma_postprocess_layer() -> void:
+	"""确保全局亮度后处理层存在（覆盖整个视窗）"""
+	if gamma_canvas_layer and is_instance_valid(gamma_canvas_layer):
+		return
+	
+	var existing = get_tree().root.get_node_or_null("GlobalGammaCanvasLayer")
+	if existing and existing is CanvasLayer:
+		gamma_canvas_layer = existing
+		gamma_screen_rect = gamma_canvas_layer.get_node_or_null("GlobalGammaScreenRect")
+	else:
+		gamma_canvas_layer = CanvasLayer.new()
+		gamma_canvas_layer.name = "GlobalGammaCanvasLayer"
+		gamma_canvas_layer.layer = 999
+		get_tree().root.add_child(gamma_canvas_layer)
+		
+		gamma_screen_rect = ColorRect.new()
+		gamma_screen_rect.name = "GlobalGammaScreenRect"
+		gamma_screen_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		gamma_canvas_layer.add_child(gamma_screen_rect)
+		# CanvasLayer 不是 Control，anchors 无效，必须手动设置 size
+		gamma_screen_rect.position = Vector2.ZERO
+		gamma_screen_rect.size = get_viewport().get_visible_rect().size
+		get_viewport().size_changed.connect(_on_viewport_size_changed)
+	
+	if not gamma_material or not is_instance_valid(gamma_material):
+		gamma_material = ShaderMaterial.new()
+		var shader := Shader.new()
+		shader.code = """
+shader_type canvas_item;
+
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
+uniform float gamma_value = 1.0;
+
+void fragment() {
+	vec4 src = texture(screen_texture, SCREEN_UV);
+	float safe_gamma = max(gamma_value, 0.001);
+	src.rgb = pow(src.rgb, vec3(1.0 / safe_gamma));
+	COLOR = src;
+}
+"""
+		gamma_material.shader = shader
+	if gamma_screen_rect:
+		gamma_screen_rect.material = gamma_material
+	
+	# 节点刚挂载完，立即同步当前 Gamma 值
+	_apply_gamma()
+
+func _apply_gamma() -> void:
+	"""应用全局亮度到后处理材质"""
+	if not gamma_material or not is_instance_valid(gamma_material):
+		return
+	gamma_material.set_shader_parameter("gamma_value", Gamma)
+
+func _on_viewport_size_changed() -> void:
+	"""视窗尺寸变化时同步更新后处理层的覆盖尺寸"""
+	if gamma_screen_rect and is_instance_valid(gamma_screen_rect):
+		gamma_screen_rect.size = get_viewport().get_visible_rect().size
+
+	
+# ====================================================================================================
 # =================================================  功能函数  ========================================
 # ====================================================================================================
 
-
+func _install_manager(script_path: String, node_name: String) -> Node:
+	"""
+	实例化并挂载管理器节点到根节点
+	
+	参数:
+		script_path: 脚本资源路径
+		node_name: 挂载后的节点名称（用于 get_node("/root/Name")）
+	
+	返回:
+		实例化的节点引用
+	"""
+	# 检查节点是否已存在（兼容Autoload情况，防止重复加载）
+	var existing_node = get_node_or_null("/root/" + node_name)
+	if existing_node:
+		print("GameManager: %s 已存在，跳过加载" % node_name)
+		return existing_node
+		
+	# 加载脚本
+	var script = load(script_path)
+	if not script:
+		push_error("GameManager: 无法加载脚本: %s" % script_path)
+		return null
+		
+	# 实例化并设置名称
+	var instance = script.new()
+	instance.name = node_name
+	
+	# 挂载到根节点
+	get_tree().root.add_child(instance)
+	print("GameManager: 已挂载 %s" % node_name)
+	
+	return instance
+	
+	
 func set_game_state(new_state: GameState) -> void:
 	"""
 	设置游戏状态
@@ -471,7 +591,8 @@ func _update_debug_ui() -> void:
 	state_text += "\n[额外信息]\n"
 	state_text += "运行时长: %s\n" % get_runtime_formatted()
 	state_text += "存档时长: %.1fs\n" % (game_archive_msec / 1000.0)
-	state_text += "玩家仇恨: %s" % ("是" if player_arrgo else "否")
+	state_text += "玩家仇恨: %s\n" % ("是" if player_arrgo else "否")
+	state_text += "Gamma: %.2f" % Gamma
 	
 	debug_label.text = state_text
 

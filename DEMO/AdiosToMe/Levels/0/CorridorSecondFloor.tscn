@@ -6,6 +6,7 @@
 [ext_resource type="TileSet" uid="uid://dt350ynmnt232" path="res://Style/tilesets/Indoors.tres" id="4_5avmu"]
 [ext_resource type="PackedScene" uid="uid://dbe22w2vs2dh8" path="res://System/RPG/object/plant/plant_2.tscn" id="5_246ut"]
 [ext_resource type="PackedScene" uid="uid://0d02haowqy1a" path="res://System/RPG/object/plant/plant_1.tscn" id="6_sjp6x"]
+[ext_resource type="PackedScene" uid="uid://bx3o413gr76jv" path="res://System/RPG/object/Painting/painting_3.tscn" id="7_j5tyw"]
 [ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/interact/door/door_front.tscn" id="8_hhn2e"]
 [ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/door_back.tscn" id="10_i5ykk"]
 
@@ -96,6 +97,9 @@ position = Vector2(72, 213)
 
 [node name="Plant1" parent="ObjectAndCharacter/object" unique_id=349480135 instance=ExtResource("6_sjp6x")]
 position = Vector2(1091, 214)
+
+[node name="Plant3" parent="ObjectAndCharacter/object" unique_id=682420739 instance=ExtResource("7_j5tyw")]
+position = Vector2(414, 120)
 
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 
