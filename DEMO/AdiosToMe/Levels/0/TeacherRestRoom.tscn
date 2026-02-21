@@ -238,6 +238,8 @@ position = Vector2(414, 352)
 [node name="SavePoint" parent="ObjectAndCharacter/Interactable" unique_id=1721797248 instance=ExtResource("21_m0vy7")]
 position = Vector2(733, 217)
 
+[node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
+
 [node name="WorldOfWonder" type="WorldEnvironment" parent="." unique_id=945717885]
 environment = SubResource("Environment_5n7gh")
 

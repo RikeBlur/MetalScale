@@ -29,6 +29,7 @@ UIManager="*res://Scripts/global/ui_manager.gd"
 LightingManager="*uid://b3v26rgbib2s4"
 BgmManager="*uid://c635nqrtm1g5g"
 CutsceneManager="*uid://b8nw2hpqvaof3"
+NPCManager="*uid://d2kx6sc6k0y04"
 
 [dialogic]
 

@@ -10,6 +10,7 @@ extends CharacterBody2D
 
 var can_move : bool = true
 var can_interact : bool = true
+var can_act : bool = true
 
 @export var character : String = "Oni"
 

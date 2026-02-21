@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ctcr1sh6whs5s"]
 
-[ext_resource type="Script" uid="uid://66l62r06nnn4" path="res://Scripts/system/entity/enemy/normal_demon.gd" id="1_n5mda"]
+[ext_resource type="Shader" uid="uid://g68h8mpjhpom" path="res://Effect/Shader/glowing_outline/glowingOutline.gdshader" id="2_o0lj8"]
 [ext_resource type="PackedScene" uid="uid://gkd838orapi5" path="res://System/RPG/lighting/light_detector.tscn" id="2_pord0"]
 [ext_resource type="Texture2D" uid="uid://cprciedwjloep" path="res://Assests/sprite/Character/EYE/run/back-Sheet.png" id="3_o0lj8"]
 [ext_resource type="Texture2D" uid="uid://w1431mdjprvv" path="res://Assests/sprite/Character/EYE/run/back-left-Sheet.png" id="4_d8an1"]
@@ -23,9 +23,76 @@
 [ext_resource type="Texture2D" uid="uid://bm6f30guraeim" path="res://Assests/sprite/Character/EYE/walk/front-right-Sheet.png" id="16_f3rdj"]
 [ext_resource type="Texture2D" uid="uid://d4i75ypcalckm" path="res://Assests/sprite/Character/EYE/walk/left-Sheet.png" id="17_xnlch"]
 
+[sub_resource type="GDScript" id="GDScript_d8an1"]
+script/source = "class_name normal_demon
+extends CharacterBody2D
+## Base agent script that is shared by all agents.
+
+var summon_count: int = 0
+
+var _moved_this_frame: bool = false
+var direction : Vector2 = Vector2.ZERO
+
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite
+#@onready var health: Health = $Health
+@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
+
+@onready var hsm: LimboHSM = $LimboHSM
+@onready var PatrolState: LimboState = $LimboHSM/PatrolState
+@onready var PursueState: LimboState = $LimboHSM/PursueState
+@onready var FleeState: LimboState = $LimboHSM/FleeState
+
+func _ready() -> void:
+	_init_state_machine()
+
+func _physics_process(_delta: float) -> void:
+	_post_physics_process.call_deferred()
+
+
+func _post_physics_process() -> void:
+	if not _moved_this_frame:
+		velocity = lerp(velocity, Vector2.ZERO, 0.5)
+	_moved_this_frame = false
+
+
+func move(p_velocity: Vector2) -> void:
+	velocity = lerp(velocity, p_velocity, 0.2)
+	move_and_slide()
+	_moved_this_frame = true
+
+
+## Is specified position inside the arena (not inside an obstacle)?
+func is_good_position(p_position: Vector2) -> bool:
+	var space_state := get_world_2d().direct_space_state
+	var params := PhysicsPointQueryParameters2D.new()
+	params.position = p_position
+	params.collision_mask = 1 # Obstacle layer has value 1
+	var collision := space_state.intersect_point(params)
+	return collision.is_empty()
+
+func _init_state_machine() -> void:
+	# 添加状态转换
+	hsm.add_transition(PatrolState, PursueState, \"target_detected\")
+	hsm.add_transition(PursueState, PatrolState, \"target_lost\")
+	hsm.add_transition(PursueState, FleeState, \"light_detected\")
+	hsm.add_transition(PatrolState, FleeState, \"light_detected\")
+	hsm.add_transition(FleeState, PatrolState, \"light_lost\")	
+	
+	# 初始化状态机
+	hsm.initialize(self)
+	hsm.set_active(true)
+"
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1ctb8"]
 radius = 15.0
 height = 58.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i8lql"]
+shader = ExtResource("2_o0lj8")
+shader_parameter/outline_width = 8.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
+shader_parameter/hit_flash_intensity = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xnlch"]
 atlas = ExtResource("3_o0lj8")
@@ -1145,65 +1212,66 @@ var/speed/hint_string = ""
 radius = 43.0
 height = 86.0
 
-[node name="NormalDemon" type="CharacterBody2D"]
+[node name="NormalDemon" type="CharacterBody2D" unique_id=335505012]
 motion_mode = 1
-script = ExtResource("1_n5mda")
+script = SubResource("GDScript_d8an1")
 
-[node name="lightdetector" parent="." instance=ExtResource("2_pord0")]
+[node name="lightdetector" parent="." unique_id=1330689935 instance=ExtResource("2_pord0")]
 radius = 800.0
 update_rate = 0.05
 extension_length = 30.0
 future_length = 100.0
 debug_mode = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=938134740]
 position = Vector2(0, -29)
 shape = SubResource("CapsuleShape2D_1ctb8")
 
-[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="." unique_id=1859537312]
 z_index = 1
+material = SubResource("ShaderMaterial_i8lql")
 position = Vector2(0, -58)
 scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_35s1q")
 animation = &"run_back"
 frame_progress = 0.21974708
 
-[node name="LimboHSM" type="LimboHSM" parent="."]
+[node name="LimboHSM" type="LimboHSM" parent="." unique_id=925516177]
 blackboard_plan = SubResource("BlackboardPlan_3e6or")
 script = ExtResource("6_6ne0r")
 
-[node name="PatrolState" type="BTState" parent="LimboHSM"]
+[node name="PatrolState" type="BTState" parent="LimboHSM" unique_id=229782029]
 behavior_tree = ExtResource("6_3e6or")
 success_event = &"target_detected"
 failure_event = &"target_lost"
 blackboard_plan = SubResource("BlackboardPlan_6ne0r")
 
-[node name="PursueState" type="BTState" parent="LimboHSM"]
+[node name="PursueState" type="BTState" parent="LimboHSM" unique_id=1335676630]
 behavior_tree = ExtResource("6_3hvfr")
 success_event = &"target_lost"
 failure_event = &"target_detected"
 blackboard_plan = SubResource("BlackboardPlan_4umh4")
 
-[node name="FleeState" type="BTState" parent="LimboHSM"]
+[node name="FleeState" type="BTState" parent="LimboHSM" unique_id=2062949023]
 behavior_tree = ExtResource("8_6ne0r")
 success_event = &"light_lost"
 failure_event = &"light_detected"
 blackboard_plan = SubResource("BlackboardPlan_2c53l")
 
-[node name="DamageComponent" type="Node2D" parent="." node_paths=PackedStringArray("damage_area", "entity")]
+[node name="DamageComponent" type="Node2D" parent="." unique_id=28911471 node_paths=PackedStringArray("damage_area", "entity")]
 script = ExtResource("8_4umh4")
 damage_area = NodePath("DamageBox")
 entity = NodePath("..")
 target_group = "player"
 
-[node name="DamageBox" type="Area2D" parent="DamageComponent"]
+[node name="DamageBox" type="Area2D" parent="DamageComponent" unique_id=1287894461]
 collision_layer = 32
 collision_mask = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageComponent/DamageBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageComponent/DamageBox" unique_id=575797940]
 position = Vector2(0, -44)
 shape = SubResource("CapsuleShape2D_2c53l")
 
-[node name="SFX_manager" type="Node2D" parent="."]
+[node name="SFX_manager" type="Node2D" parent="." unique_id=607660859]
 
-[node name="scream" type="AudioStreamPlayer2D" parent="SFX_manager"]
+[node name="scream" type="AudioStreamPlayer2D" parent="SFX_manager" unique_id=1512064705]

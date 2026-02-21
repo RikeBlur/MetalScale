@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b7fgg2qcnwcji"]
 
-[ext_resource type="Script" uid="uid://b62pfc5vc8hmy" path="res://Scripts/system/entity/npc.gd" id="1_nwrsu"]
+[ext_resource type="Script" uid="uid://b62pfc5vc8hmy" path="res://Scripts/system/entity/npc/npc.gd" id="1_nwrsu"]
 [ext_resource type="Script" uid="uid://dflthbyd1yt3o" path="res://Scripts/state_machine/node_state_machine.gd" id="2_86k84"]
 [ext_resource type="Shader" uid="uid://g68h8mpjhpom" path="res://Effect/Shader/glowing_outline/glowingOutline.gdshader" id="3_hjppg"]
 [ext_resource type="Texture2D" uid="uid://crv2fxbyxgdkb" path="res://Assests/sprite/Character/AX/idle_10/idle-back-Sheet.png" id="6_fkxkv"]

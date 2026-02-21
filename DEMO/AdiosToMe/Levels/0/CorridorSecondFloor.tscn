@@ -132,6 +132,8 @@ scene_to = "0-0"
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]
 y_sort_enabled = true
 
+[node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=435539595]
+
 [node name="WorldOfWonder" type="WorldEnvironment" parent="." unique_id=945717885]
 environment = SubResource("Environment_5n7gh")
 

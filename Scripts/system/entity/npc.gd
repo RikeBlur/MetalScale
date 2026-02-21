@@ -1,2 +1,0 @@
-class_name enemy
-extends CharacterBody2D

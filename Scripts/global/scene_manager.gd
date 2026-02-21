@@ -150,8 +150,11 @@ func change_scene(scene_key: String, scene_to_index: int) -> void:
 		push_error("SceneManager: 无法切换场景，camera节点不存在")
 		return
 	
-	# 禁用玩家移动和交互
+	# 进入加载状态
+	GameManager.current_state = GameManager.GameState.LOADING
+	GameManager.Loading.emit()
 	current_player.can_move = false
+	current_player.can_act = false
 	current_player.can_interact = false
 	
 	# 在 Root 上实例化全局转场（与当前场景同级，change_scene_to_file 不会销毁它）
@@ -244,9 +247,11 @@ func change_scene(scene_key: String, scene_to_index: int) -> void:
 			print("SceneManager: 转场 disappear 播放完成")
 		root_transition.queue_free()
 	
-	# 恢复玩家移动和交互
+	# 恢复玩家移动和交互，切回运行状态
 	current_player.can_move = true
+	current_player.can_act = true
 	current_player.can_interact = true
+	GameManager.current_state = GameManager.GameState.RUNNING
 	
 	print("SceneManager: 场景切换完成，当前场景key: %s" % current_scene_key)
 
