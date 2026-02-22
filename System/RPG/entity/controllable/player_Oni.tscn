@@ -1789,6 +1789,7 @@ height = 68.0
 [node name="Player_Oni" type="CharacterBody2D" unique_id=1051280514 groups=["player"]]
 motion_mode = 1
 wall_min_slide_angle = 0.0
+safe_margin = 1.0
 script = ExtResource("1_58adm")
 player_walk_speed_max = 150
 player_run_speed_max = 300

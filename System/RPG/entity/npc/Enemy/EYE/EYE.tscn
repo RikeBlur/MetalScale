@@ -1121,7 +1121,7 @@ animations = [{
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3ftw8"]
 radius = 8.0
-height = 70.0
+height = 54.0
 
 [node name="Eye" type="CharacterBody2D" unique_id=431185256]
 z_index = 1
@@ -1145,11 +1145,12 @@ animated_sprite = NodePath("../../AnimatedSprite")
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="." unique_id=1635367419]
 z_index = 1
 material = SubResource("ShaderMaterial_t7jrn")
-scale = Vector2(0.3, 0.3)
+position = Vector2(0, -17.999998)
+scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_pjei4")
 animation = &"walk_front_left"
 offset = Vector2(0, -150)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=252321699]
-position = Vector2(0, -31)
+position = Vector2(0, -27)
 shape = SubResource("CapsuleShape2D_3ftw8")

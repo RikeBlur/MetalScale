@@ -14,10 +14,7 @@ enum npc_type { EYE }
 # EYE游荡：每隔多少秒随机换一个当前场景
 const EYE_WANDER_INTERVAL: float = 30.0
 # EYE追杀：收到 state==1 后多少秒入场
-const EYE_CHASE_DELAY: float = 10.0
-# Loading信号触发后持续检测的帧数（等待新场景就绪）
-const LOADING_CHECK_FRAMES: int = 10
-
+const EYE_CHASE_DELAY: float = 3.0
 # ====================================================================================================
 # ========================================= 数据结构 =================================================
 # ====================================================================================================
@@ -59,8 +56,6 @@ var _eye_wander_timers: Dictionary = {}
 # EYE追杀倒计时器。key: npc编号，value: 剩余秒数（初始化后才存在）
 var _eye_chase_timers: Dictionary = {}
 
-# Loading后逐帧检测剩余帧数（>0 时每帧执行检测）
-var _loading_frames_left: int = 0
 
 # ====================================================================================================
 # ========================================== 初始化 =================================================
@@ -68,16 +63,13 @@ var _loading_frames_left: int = 0
 
 func _ready() -> void:
 	GameManager.Loading.connect(_on_game_loading)
+	# player_reseted 在新场景加载完成、玩家落位后才发出，是出场检测的正确时机
+	SceneManager.player_reseted.connect(_on_player_reseted)
 
 
 func _process(delta: float) -> void:
 	# 实时同步在场NPC的位置/朝向到data
 	_update_inscene_npc_data()
-
-	# Loading后逐帧检测是否有NPC应在新场景出现
-	if _loading_frames_left > 0:
-		_loading_frames_left -= 1
-		_check_and_spawn_for_current_scene()
 
 	# EYE特有的离场行为（游荡/急速追杀）
 	_update_eye_behaviors(delta)
@@ -168,9 +160,8 @@ func _update_inscene_npc_data() -> void:
 
 func _on_game_loading() -> void:
 	"""
-	场景切换开始前：
-	  1. 将所有在场NPC的最新位置/朝向写入data，并标记离场（节点即将随旧场景一起销毁）。
-	  2. 开启连续帧检测，等待新场景就绪后自动加载匹配NPC。
+	场景切换开始前：将所有在场NPC的最新位置/朝向/state写入data，并标记离场。
+	节点将随旧场景一起销毁，此处是销毁前最后一次读取的机会。
 	"""
 	for npc_id in npc_dict:
 		var data: NPCData = npc_dict[npc_id]
@@ -182,15 +173,21 @@ func _on_game_loading() -> void:
 			data.npc_position = inst.global_position
 			if "npc_direction" in inst:
 				data.npc_direction = inst.npc_direction
+			if "state" in inst:
+				data.state = inst.state
 
 		data.is_inscene = false
 
 	_npc_instances.clear()
-	_loading_frames_left = LOADING_CHECK_FRAMES
+	print("NpcManager: Loading — 已保存所有NPC状态并标记离场")
 
 
-func _check_and_spawn_for_current_scene() -> void:
-	"""检测是否有NPC应在当前（新）场景出现，使用data中保存的位置/朝向（不传scene_index）。"""
+func _on_player_reseted() -> void:
+	"""
+	新场景加载完成、玩家落位后触发。
+	此时 current_scene_key 和 get_tree().current_scene 均已就绪，
+	是检测并实例化应出场NPC的正确时机。
+	"""
 	var current_key: String = SceneManager.get_current_scene_key()
 	if current_key == "":
 		return
@@ -199,6 +196,7 @@ func _check_and_spawn_for_current_scene() -> void:
 		var data: NPCData = npc_dict[npc_id]
 		if not data.is_inscene and data.current_scene == current_key:
 			instantiate_npc(npc_id)  # scene_index = -1，使用data里保存的位置
+			print("NpcManager: 场景 '%s' 出现NPC '%s'" % [current_key, npc_id])
 
 # ====================================================================================================
 # ============================== 4. EYE特有行为 =====================================================

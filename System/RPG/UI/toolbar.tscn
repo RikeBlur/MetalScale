@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://1b5wtmditoi1"]
+[gd_scene format=3 uid="uid://1b5wtmditoi1"]
 
 [ext_resource type="Script" uid="uid://c5cyjie74vwbm" path="res://Scripts/system/view/UI/toolbar/toolbar.gd" id="1_uj81v"]
 [ext_resource type="Theme" uid="uid://beojeuc7ptq0g" path="res://Style/UI/theme_tool_bar.tres" id="2_0tvs6"]
@@ -88,7 +88,7 @@ shader_parameter/broken_blend = 0.7
 shader_parameter/broken_brightness = 0.4
 shader_parameter/pulse_speed = 1.5
 
-[node name="toolbar" type="Control"]
+[node name="toolbar" type="Control" unique_id=1081575883]
 layout_mode = 3
 anchors_preset = 4
 anchor_top = 0.5
@@ -100,7 +100,7 @@ grow_vertical = 2
 size_flags_horizontal = 0
 script = ExtResource("1_uj81v")
 
-[node name="leftoffset" type="MarginContainer" parent="."]
+[node name="leftoffset" type="MarginContainer" parent="." unique_id=1200864650]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -111,28 +111,28 @@ offset_bottom = 210.0
 grow_vertical = 2
 theme_override_constants/margin_left = 50
 
-[node name="PanelContainer" type="PanelContainer" parent="leftoffset"]
+[node name="PanelContainer" type="PanelContainer" parent="leftoffset" unique_id=183698417]
 layout_mode = 2
 theme = ExtResource("2_0tvs6")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_vcotx")
 
-[node name="bb" type="Sprite2D" parent="leftoffset/PanelContainer"]
+[node name="bb" type="Sprite2D" parent="leftoffset/PanelContainer" unique_id=1375108835]
 position = Vector2(45, 239.5)
 scale = Vector2(1.2, 1.2)
 texture = ExtResource("3_dqrdw")
 
-[node name="MarginContainer" type="MarginContainer" parent="leftoffset/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="leftoffset/PanelContainer" unique_id=1125052047]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 10
 
-[node name="tool_bar" type="VBoxContainer" parent="leftoffset/PanelContainer/MarginContainer"]
+[node name="tool_bar" type="VBoxContainer" parent="leftoffset/PanelContainer/MarginContainer" unique_id=1801931208]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="tool1" type="Container" parent="leftoffset/PanelContainer/MarginContainer/tool_bar" node_paths=PackedStringArray("icon", "back")]
+[node name="tool1" type="Container" parent="leftoffset/PanelContainer/MarginContainer/tool_bar" unique_id=948102566 node_paths=PackedStringArray("icon", "back")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -141,13 +141,13 @@ script = ExtResource("4_uaseb")
 icon = NodePath("Icon")
 back = NodePath("back")
 
-[node name="back" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool1"]
+[node name="back" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool1" unique_id=185633116]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 texture = ExtResource("5_8qyhs")
 expand_mode = 1
 
-[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool1"]
+[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool1" unique_id=1265566028]
 material = SubResource("ShaderMaterial_3rp35")
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
@@ -156,7 +156,7 @@ size_flags_vertical = 4
 texture = ExtResource("7_odrtv")
 expand_mode = 1
 
-[node name="tool2" type="Container" parent="leftoffset/PanelContainer/MarginContainer/tool_bar" node_paths=PackedStringArray("icon", "back")]
+[node name="tool2" type="Container" parent="leftoffset/PanelContainer/MarginContainer/tool_bar" unique_id=866399540 node_paths=PackedStringArray("icon", "back")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -165,19 +165,19 @@ script = ExtResource("4_uaseb")
 icon = NodePath("Icon")
 back = NodePath("back")
 
-[node name="back" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool2"]
+[node name="back" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool2" unique_id=508223221]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 texture = ExtResource("5_8qyhs")
 expand_mode = 1
 
-[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool2"]
+[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool2" unique_id=738811892]
 material = SubResource("ShaderMaterial_i4jqv")
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 expand_mode = 1
 
-[node name="tool3" type="Container" parent="leftoffset/PanelContainer/MarginContainer/tool_bar" node_paths=PackedStringArray("icon", "back")]
+[node name="tool3" type="Container" parent="leftoffset/PanelContainer/MarginContainer/tool_bar" unique_id=1703689864 node_paths=PackedStringArray("icon", "back")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -186,19 +186,19 @@ script = ExtResource("4_uaseb")
 icon = NodePath("Icon")
 back = NodePath("back")
 
-[node name="back" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool3"]
+[node name="back" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool3" unique_id=296393751]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 texture = ExtResource("5_8qyhs")
 expand_mode = 1
 
-[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool3"]
+[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool3" unique_id=529196411]
 material = SubResource("ShaderMaterial_teogu")
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 expand_mode = 1
 
-[node name="tool4" type="Container" parent="leftoffset/PanelContainer/MarginContainer/tool_bar" node_paths=PackedStringArray("icon", "back")]
+[node name="tool4" type="Container" parent="leftoffset/PanelContainer/MarginContainer/tool_bar" unique_id=979781083 node_paths=PackedStringArray("icon", "back")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -207,20 +207,20 @@ script = ExtResource("4_uaseb")
 icon = NodePath("Icon")
 back = NodePath("back")
 
-[node name="back" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool4"]
+[node name="back" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool4" unique_id=1769875449]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 size_flags_horizontal = 0
 texture = ExtResource("5_8qyhs")
 expand_mode = 1
 
-[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool4"]
+[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool4" unique_id=1480935253]
 material = SubResource("ShaderMaterial_i4iuh")
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 expand_mode = 1
 
-[node name="tool5" type="Container" parent="leftoffset/PanelContainer/MarginContainer/tool_bar" node_paths=PackedStringArray("icon", "back")]
+[node name="tool5" type="Container" parent="leftoffset/PanelContainer/MarginContainer/tool_bar" unique_id=481022953 node_paths=PackedStringArray("icon", "back")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -229,19 +229,19 @@ script = ExtResource("4_uaseb")
 icon = NodePath("Icon")
 back = NodePath("back")
 
-[node name="back" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool5"]
+[node name="back" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool5" unique_id=615650212]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 texture = ExtResource("5_8qyhs")
 expand_mode = 1
 
-[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool5"]
+[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool5" unique_id=1602231089]
 material = SubResource("ShaderMaterial_1swob")
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 expand_mode = 1
 
-[node name="tool6" type="Container" parent="leftoffset/PanelContainer/MarginContainer/tool_bar" node_paths=PackedStringArray("icon", "back")]
+[node name="tool6" type="Container" parent="leftoffset/PanelContainer/MarginContainer/tool_bar" unique_id=76583976 node_paths=PackedStringArray("icon", "back")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -250,18 +250,18 @@ script = ExtResource("4_uaseb")
 icon = NodePath("Icon")
 back = NodePath("back")
 
-[node name="back" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool6"]
+[node name="back" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool6" unique_id=1785268776]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 texture = ExtResource("5_8qyhs")
 expand_mode = 1
 
-[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool6"]
+[node name="Icon" type="TextureRect" parent="leftoffset/PanelContainer/MarginContainer/tool_bar/tool6" unique_id=1966361101]
 material = SubResource("ShaderMaterial_myf3w")
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 expand_mode = 1
 
-[node name="hand-left-up" type="Sprite2D" parent="leftoffset"]
+[node name="hand-left-up" type="Sprite2D" parent="leftoffset" unique_id=790803968]
 
-[node name="hand-right-down" type="Sprite2D" parent="leftoffset"]
+[node name="hand-right-down" type="Sprite2D" parent="leftoffset" unique_id=1818075659]

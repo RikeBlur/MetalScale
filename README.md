@@ -6,6 +6,13 @@
 
 # UPDATE
 
+## 26.02.22
+
+ToolBar 改为 滑出/滑入（slide） 的模式 <br>
+
+UIManager 也有对应的 debug信息显示窗口，再右上角，和 GameManager 共用一个开关（debug） <br>
+
+
 ## 26.02.21
 
 完成 NPCManager <br>
@@ -24,7 +31,7 @@ Resource子类 ConfigData，用来存储系统变量，和存档保存在一起 
 目标：
 Dialogue 融入 Interact 系统（保存数据） √（0217） <br>
 GameManager 中的全局设置 GameConfig 也需要用 Resoruce 保存 √（0220） <br>
-怪物重置  <br>
+怪物重置  √（0222） <br>
 2层地图完成  <br>
 UI管理器重置  √（0218）<br>
 

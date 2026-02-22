@@ -80,6 +80,11 @@ var is_settings_showing: bool = false
 
 # Toolbar相关状态
 var is_toolbar_showing: bool = true  # toolbar默认显示
+@export var toolbar_x_offset: float = 300.0  # 隐藏时沿x负轴移出屏幕的距离，应 >= toolbar宽度
+const TOOLBAR_SLIDE_DURATION: float = 0.3
+var _toolbar_tween: Tween = null
+var _toolbar_shown_x: float = 0.0       # 记录toolbar"显示"时的position.x
+var _toolbar_x_initialized: bool = false # 首次hide后为true
 
 # ARRGOBAR 延迟隐藏控制
 var _arrgobar_should_hide: bool = false
@@ -91,6 +96,10 @@ var _arrgobar_should_hide: bool = false
 
 # 对玩家的引用（用于传递给toolbar等UI）
 @export var player_now: CharacterBody2D
+
+# Debug UI（复用 GameManager.debug 开关）
+var _debug_canvas: CanvasLayer = null
+var _debug_label: Label = null
 
 	
 func refresh_ui_manager() -> void:
@@ -110,6 +119,9 @@ func refresh_ui_manager() -> void:
 	_hide_arrgobar()
 	# 连接玩家 ArrgoComponent 信号以控制 ARRGOBAR 显示
 	_connect_arrgobar_signals()
+	# 初始化 Debug UI（复用 GameManager.debug 开关）
+	if GameManager.debug and not _debug_canvas:
+		_create_debug_ui()
 
 func _process(_delta):
 	# 检测退出键，按层级处理 UI 关闭/打开
@@ -119,6 +131,10 @@ func _process(_delta):
 	# 检测Tab键，切换toolbar显示/隐藏
 	if Input.is_action_just_pressed("tab"):
 		_toggle_toolbar()
+	
+	# 更新 Debug UI
+	if GameManager.debug and _debug_label:
+		_update_debug_ui()
 
 func _handle_quit_pressed() -> void:
 	# 优先销毁最高层可见UI（先 layer3，再 layer2）
@@ -378,6 +394,7 @@ func _apply_settings_shader(apply: bool):
 			# 这里需要根据实际游戏场景结构调整
 			# 可以对Camera2D或其他节点应用shader
 			pass
+
 # --------------------------------------------------------------------------------------------------
 # -------------------------------------------- TAB操作 ----------------------------------------------
 # --------------------------------------------------------------------------------------------------
@@ -391,38 +408,44 @@ func _toggle_toolbar():
 		_hide_toolbar()
 
 func _show_toolbar():
-	"""显示工具栏"""
+	"""显示工具栏：沿x正轴平滑滑入"""
 	var toolbar = ui_instances.get(UI_component.TOOLBAR)
 	if toolbar and is_instance_valid(toolbar):
-		toolbar.show()  # 使用 show() 方法
-		# 确保可以接收输入
 		if toolbar is Control:
 			toolbar.mouse_filter = Control.MOUSE_FILTER_STOP
-		# 保持处理模式（不修改process_mode）
-	
+		_toolbar_slide(toolbar, _toolbar_shown_x)
+
 	is_toolbar_showing = true
-	
-	# 添加到显示列表
 	_add_ui_to_visible_list(UI_component.TOOLBAR)
-	
 	print("UI_manager: 显示工具栏")
 
 func _hide_toolbar():
-	"""隐藏工具栏"""
+	"""隐藏工具栏：沿x负轴平滑滑出。首次调用立即到位（避免启动闪烁）"""
 	var toolbar = ui_instances.get(UI_component.TOOLBAR)
 	if toolbar and is_instance_valid(toolbar):
-		toolbar.hide()  # 使用 hide() 方法
-		# 确保不接收任何输入（只设置mouse_filter，不修改process_mode）
+		if not _toolbar_x_initialized:
+			# 首次hide：记录"显示"原点，直接跳到隐藏位置，不播放动画
+			_toolbar_shown_x = toolbar.position.x
+			_toolbar_x_initialized = true
+			toolbar.position.x = _toolbar_shown_x - toolbar_x_offset
+		else:
+			_toolbar_slide(toolbar, _toolbar_shown_x - toolbar_x_offset)
 		if toolbar is Control:
 			toolbar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		# 注意：不修改process_mode，保持toolbar的处理过程
-	
+
 	is_toolbar_showing = false
-	
-	# 从显示列表移除
 	_remove_ui_from_visible_list(UI_component.TOOLBAR)
-	
 	print("UI_manager: 隐藏工具栏")
+
+func _toolbar_slide(toolbar: Control, target_x: float) -> void:
+	"""以平滑曲线将toolbar的position.x tween到target_x"""
+	if _toolbar_tween and _toolbar_tween.is_valid():
+		_toolbar_tween.kill()
+	_toolbar_tween = create_tween()
+	_toolbar_tween.set_trans(Tween.TRANS_CUBIC)
+	_toolbar_tween.set_ease(Tween.EASE_IN_OUT)
+	_toolbar_tween.tween_property(toolbar, "position:x", target_x, TOOLBAR_SLIDE_DURATION)
 
 # --------------------------------------------------------------------------------------------------
 # -------------------------------------------- ARRGOBAR操作 -----------------------------------------
@@ -605,4 +628,81 @@ func safe_remove_self():
 	# 使用queue_free()安全释放节点
 	queue_free()
 	print("UI_manager: 安全释放自身完成")
+
+# ====================================================================================================
+# ============================================ Debug UI =============================================
+# ====================================================================================================
+
+func _create_debug_ui() -> void:
+	"""创建 Debug UI —— 右上角半透明面板，显示 ui_instances 和 visible_list"""
+	_debug_canvas = CanvasLayer.new()
+	_debug_canvas.name = "UIManagerDebugCanvas"
+	_debug_canvas.layer = 101  # 比 GameManager debug(100) 高一层，确保不遮挡
+	add_child(_debug_canvas)
+	
+	var panel := PanelContainer.new()
+	panel.name = "UIManagerDebugPanel"
+	_debug_canvas.add_child(panel)
+	
+	var style_box := StyleBoxFlat.new()
+	style_box.bg_color = Color(0.05, 0.05, 0.2, 0.75)
+	style_box.border_color = Color(0.4, 0.6, 1.0, 0.9)
+	style_box.set_border_width_all(2)
+	style_box.set_corner_radius_all(8)
+	style_box.content_margin_left = 12
+	style_box.content_margin_right = 12
+	style_box.content_margin_top = 8
+	style_box.content_margin_bottom = 8
+	panel.add_theme_stylebox_override("panel", style_box)
+	
+	_debug_label = Label.new()
+	_debug_label.name = "UIManagerDebugLabel"
+	_debug_label.add_theme_color_override("font_color", Color(0.8, 0.95, 1.0, 1.0))
+	_debug_label.add_theme_font_size_override("font_size", 14)
+	panel.add_child(_debug_label)
+	
+	# 固定右上角：右边缘贴屏幕右侧，向左向下增长
+	panel.anchor_left   = 1.0
+	panel.anchor_right  = 1.0
+	panel.anchor_top    = 0.0
+	panel.anchor_bottom = 0.0
+	panel.offset_right  = -10.0
+	panel.offset_top    = 10.0
+	panel.grow_horizontal = Control.GROW_DIRECTION_BEGIN  # 向左增长
+	panel.grow_vertical   = Control.GROW_DIRECTION_END    # 向下增长
+	
+	print("UI_manager: Debug UI 已创建")
+	_update_debug_ui()
+
+
+func _update_debug_ui() -> void:
+	"""刷新 Debug 面板内容"""
+	if not _debug_label:
+		return
+	
+	var text := "[UI_manager Debug]\n"
+	
+	# ── 已实例化的 UI ──
+	text += "\n[Instances] (%d)\n" % ui_instances.size()
+	if ui_instances.is_empty():
+		text += "  (空)\n"
+	else:
+		for key in ui_instances:
+			var inst = ui_instances[key]
+			var valid: bool = inst != null and is_instance_valid(inst)
+			text += "  %s : %s\n" % [UI_component.keys()[key], "OK" if valid else "INVALID"]
+	
+	# ── 各 layer 的 visible_list ──
+	text += "\n[Visible List]\n"
+	if layer_visible_uis.is_empty():
+		text += "  (空)\n"
+	else:
+		for layer_id in layer_visible_uis:
+			var arr: Array = layer_visible_uis[layer_id]
+			var names := []
+			for comp in arr:
+				names.append(UI_component.keys()[comp])
+			text += "  L%d: %s\n" % [layer_id, ", ".join(names) if names else "—"]
+	
+	_debug_label.text = text
 		

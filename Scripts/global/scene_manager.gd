@@ -7,10 +7,10 @@ extends Node
 
 # 场景数据字典，key为场景名，value为SceneData资源, Interactables 先全部设为 []
 var scene_dict: Dictionary = {
-	"level_1_1": SceneData.new("res://DEMO/demo1_1118/levels/level_1_1.tscn", "关卡 1-1", []),
-	"level_1_2": SceneData.new("res://DEMO/demo1_1118/levels/level_1_2.tscn", "关卡 1-2", []),
-	"level_2_1": SceneData.new("res://DEMO/demo1_1118/levels/level_2_1.tscn", "关卡 2-1", []),
-	"level_2_2": SceneData.new("res://DEMO/demo1_1118/levels/level_2_2.tscn", "关卡 2-2", []),
+	#"level_1_1": SceneData.new("res://DEMO/demo1_1118/levels/level_1_1.tscn", "关卡 1-1", []),
+	#"level_1_2": SceneData.new("res://DEMO/demo1_1118/levels/level_1_2.tscn", "关卡 1-2", []),
+	#"level_2_1": SceneData.new("res://DEMO/demo1_1118/levels/level_2_1.tscn", "关卡 2-1", []),
+	#"level_2_2": SceneData.new("res://DEMO/demo1_1118/levels/level_2_2.tscn", "关卡 2-2", []),
 	"0-0": SceneData.new("res://DEMO/AdiosToMe/Levels/0/TeacherRestRoom.tscn", "教师休息室", []),
 	"0-1": SceneData.new("res://DEMO/AdiosToMe/Levels/0/CorridorSecondFloor.tscn", "二层走廊", [])
 }
