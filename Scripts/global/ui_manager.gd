@@ -86,6 +86,13 @@ var _toolbar_tween: Tween = null
 var _toolbar_shown_x: float = 0.0       # 记录toolbar"显示"时的position.x
 var _toolbar_x_initialized: bool = false # 首次hide后为true
 
+# Settings相关滑入动画
+@export var settings_y_offset: float = 300.0  # 隐藏时沿y负轴移出屏幕的距离，应 >= settings高度
+const SETTINGS_SLIDE_DURATION: float = 0.3
+var _settings_tween: Tween = null
+var _settings_shown_y: float = 0.0        # 记录settings"显示"时的position.y
+var _settings_y_initialized: bool = false  # 首次show后为true
+
 # ARRGOBAR 延迟隐藏控制
 var _arrgobar_should_hide: bool = false
 
@@ -320,50 +327,58 @@ func _toggle_settings():
 		InputEvents.hide_mouse()
 
 func _show_settings():
-	"""显示设置界面"""
-	# 实例化settings（如果还未实例化或实例已失效）
+	"""显示设置界面：从y负轴方向平滑滑入"""
 	if not ui_instances.has(UI_component.SETTINGS) or not is_instance_valid(ui_instances.get(UI_component.SETTINGS)):
 		instantiate_ui(UI_component.SETTINGS)
-	else:
-		# 如果已存在且有效，显示它
-		var settings = ui_instances[UI_component.SETTINGS]
-		settings.show()  # 使用 show() 方法
-		# 确保可以接收输入
+
+	var settings = ui_instances.get(UI_component.SETTINGS)
+	if settings and is_instance_valid(settings):
+		# 首次show时记录"显示"原点，并将节点预置到屏幕外
+		if not _settings_y_initialized:
+			_settings_shown_y = settings.position.y
+			_settings_y_initialized = true
+			settings.position.y = _settings_shown_y - settings_y_offset
+		settings.show()
+		settings.process_mode = Node.PROCESS_MODE_INHERIT
 		if settings is Control:
 			settings.mouse_filter = Control.MOUSE_FILTER_STOP
-		# 启用处理
-		settings.process_mode = Node.PROCESS_MODE_INHERIT
-	
+		_settings_slide(settings, _settings_shown_y)
+
 	is_settings_showing = true
-	
-	# 添加到显示列表
 	_add_ui_to_visible_list(UI_component.SETTINGS)
-	
-	# 应用shader效果
 	_apply_settings_shader(true)
-	
 	print("UI_manager: 显示设置界面")
 
 func _hide_settings():
-	"""隐藏设置界面"""
+	"""隐藏设置界面：沿y负轴平滑滑出，动画结束后禁用节点"""
 	var settings = ui_instances.get(UI_component.SETTINGS)
 	if settings and is_instance_valid(settings):
-		settings.hide()  # 使用 hide() 方法
-		# 确保不接收任何输入（多重保护）
+		# 若还未记录"显示"原点，在滑出前先记录（避免init阶段_hide比_show先调用导致原点丢失）
+		if not _settings_y_initialized:
+			_settings_shown_y = settings.position.y
+			_settings_y_initialized = true
 		if settings is Control:
 			settings.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		# 禁用处理，防止任何交互
-		settings.process_mode = Node.PROCESS_MODE_DISABLED
-	
+		_settings_slide(settings, _settings_shown_y - settings_y_offset, true)
+
 	is_settings_showing = false
-	
-	# 从显示列表移除
 	_remove_ui_from_visible_list(UI_component.SETTINGS)
-	
-	# 移除shader效果
 	_apply_settings_shader(false)
-	
 	print("UI_manager: 隐藏设置界面")
+
+func _settings_slide(settings: Control, target_y: float, disable_after: bool = false) -> void:
+	"""以平滑曲线将settings的position.y tween到target_y"""
+	if _settings_tween and _settings_tween.is_valid():
+		_settings_tween.kill()
+	_settings_tween = create_tween()
+	_settings_tween.set_trans(Tween.TRANS_CUBIC)
+	_settings_tween.set_ease(Tween.EASE_IN_OUT)
+	_settings_tween.tween_property(settings, "position:y", target_y, SETTINGS_SLIDE_DURATION)
+	if disable_after:
+		_settings_tween.tween_callback(func() -> void:
+			settings.hide()
+			settings.process_mode = Node.PROCESS_MODE_DISABLED
+		)
 
 func _apply_settings_shader(apply: bool):
 	"""应用或移除设置界面的shader效果"""

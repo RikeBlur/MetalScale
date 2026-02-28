@@ -1,14 +1,14 @@
-[gd_scene load_steps=18 format=4 uid="uid://d4dc8kc6agrlo"]
+[gd_scene format=4 uid="uid://d4dc8kc6agrlo"]
 
 [ext_resource type="Script" uid="uid://bm3bxm1wuunvx" path="res://Scripts/system/level/BaseLevel.gd" id="1_x03ya"]
 [ext_resource type="Script" uid="uid://dpl7usng0cfyl" path="res://Scripts/data/interactable.gd" id="2_4jwx4"]
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="2_bffud"]
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="3_4jwx4"]
 [ext_resource type="TileSet" uid="uid://bjvk2df6c3c1j" path="res://Style/tilesets/test_assest_3.tres" id="4_tad78"]
-[ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/door_back.tscn" id="5_ksm54"]
+[ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/var1/door_back.tscn" id="5_ksm54"]
 [ext_resource type="Shader" uid="uid://dnmsgg8u8kvwd" path="res://Effect/Shader/level_transition/transition.gdshader" id="6_1tk4b"]
 [ext_resource type="PackedScene" uid="uid://cvrcmavceo5nx" path="res://System/RPG/interact/collectable/collectable_key.tscn" id="6_x03ya"]
-[ext_resource type="PackedScene" uid="uid://bdgt4t7dtg58f" path="res://System/RPG/view/transition_player.tscn" id="8_tx56o"]
+[ext_resource type="PackedScene" path="res://System/RPG/view/transition_player.tscn" id="8_tx56o"]
 
 [sub_resource type="Resource" id="Resource_tad78"]
 script = ExtResource("2_4jwx4")

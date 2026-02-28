@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://uw1jl40lxyfx"]
 
 [ext_resource type="Script" uid="uid://6vrsjuv3urii" path="res://Scripts/system/lighting/electrionic_screen.gd" id="1_ks8pa"]
-[ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/point_radial_light_texture.tres" id="2_0w35k"]
+[ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/component/point_radial_light_texture.tres" id="2_0w35k"]
 [ext_resource type="Script" uid="uid://b1qwa7ctreuo0" path="res://Scripts/system/lighting/radial_light_source.gd" id="2_cg1dc"]
 [ext_resource type="Texture2D" uid="uid://bt2flaenjb5ob" path="res://Assests/sprite/object/electronic_screen_1.png" id="4_pyg44"]
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="4_yv60w"]

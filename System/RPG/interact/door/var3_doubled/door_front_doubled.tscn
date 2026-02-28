@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://ckqqsxjg1mxqs"]
+
+[ext_resource type="Script" uid="uid://uwv8fcsy86kg" path="res://Scripts/system/interact/door/BaseDoor.gd" id="1_smt7y"]
+[ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="2_lfhnv"]
+[ext_resource type="Texture2D" uid="uid://brfbn63u2nwyk" path="res://Assests/sprite/object/door_doubled.png" id="3_x3tkx"]
+[ext_resource type="AudioStream" uid="uid://c0uhqsqoqjy5y" path="res://Assests/SFX/Object/door_open_[cut_0sec].mp3" id="4_tv6hc"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="5_adtja"]
+[ext_resource type="AudioStream" uid="uid://c56u1rqb2tere" path="res://Assests/SFX/Object/door_lock.mp3" id="6_17oj0"]
+[ext_resource type="AudioStream" uid="uid://wkxra0wohxcp" path="res://Assests/SFX/Object/lock_open.mp3" id="7_s7doh"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2psln"]
+radius = 39.0
+height = 110.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_chdcv"]
+size = Vector2(90, 37)
+
+[node name="door" type="Area2D" unique_id=387604085]
+script = ExtResource("1_smt7y")
+scene_from = "uid://vp6soyihnvap"
+scene_to = "uid://itc8wfv45jeo"
+
+[node name="InteractedComponent" parent="." unique_id=1585207032 node_paths=PackedStringArray("interacted_rage") instance=ExtResource("2_lfhnv")]
+interacted_rage = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1817593455]
+position = Vector2(0, -36)
+shape = SubResource("CapsuleShape2D_2psln")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=183173875]
+scale = Vector2(1, 1.1)
+texture = ExtResource("3_x3tkx")
+offset = Vector2(0, -50)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1982224626]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=11012396]
+position = Vector2(0, -66)
+shape = SubResource("RectangleShape2D_chdcv")
+
+[node name="open_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1455024013]
+stream = ExtResource("4_tv6hc")
+volume_db = 5.0
+script = ExtResource("5_adtja")
+base_volume_db = 3.0
+
+[node name="cant_open_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1725352786]
+stream = ExtResource("6_17oj0")
+script = ExtResource("5_adtja")
+
+[node name="use_key_sfx" type="AudioStreamPlayer2D" parent="." unique_id=2043841304]
+stream = ExtResource("7_s7doh")
+script = ExtResource("5_adtja")

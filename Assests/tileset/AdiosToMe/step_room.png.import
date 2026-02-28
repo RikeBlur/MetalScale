@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://byi8u7m0qd5i8"
-path="res://.godot/imported/cursor.png-b3bbb024aacf92cae5bf566b488d88ad.ctex"
+uid="uid://ybgxkqehxpha"
+path="res://.godot/imported/step_room.png-44f3cd103405452540fce976d094544c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assests/sprite/UI/cursor.png"
-dest_files=["res://.godot/imported/cursor.png-b3bbb024aacf92cae5bf566b488d88ad.ctex"]
+source_file="res://Assests/tileset/AdiosToMe/step_room.png"
+dest_files=["res://.godot/imported/step_room.png-44f3cd103405452540fce976d094544c.ctex"]
 
 [params]
 

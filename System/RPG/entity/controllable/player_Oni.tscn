@@ -37,7 +37,7 @@
 [ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="34_5qh6w"]
 [ext_resource type="AudioStream" uid="uid://bwe5povfpufyn" path="res://Assests/SFX/Character/Footsteps_walking.mp3" id="34_ipg3r"]
 [ext_resource type="Script" uid="uid://d0kslk43n7dye" path="res://Scripts/components/arrgo_component.gd" id="35_vnu8s"]
-[ext_resource type="PackedScene" uid="uid://gkd838orapi5" path="res://System/RPG/lighting/light_detector.tscn" id="36_5qh6w"]
+[ext_resource type="PackedScene" uid="uid://gkd838orapi5" path="res://System/RPG/lighting/component/light_detector.tscn" id="36_5qh6w"]
 [ext_resource type="AudioStream" uid="uid://hac2cumo6mqa" path="res://Assests/SFX/Character/Footsteps_ running.mp3" id="36_jkc22"]
 [ext_resource type="AudioStream" uid="uid://bo7pe7r677nvm" path="res://Assests/SFX/Character/Retro Event UI StereoUP 01.mp3" id="37_aooo5"]
 

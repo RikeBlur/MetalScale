@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bnrqip1fx0561"]
+[gd_scene format=3 uid="uid://bnrqip1fx0561"]
 
 [ext_resource type="Script" uid="uid://b1qwa7ctreuo0" path="res://Scripts/system/lighting/radial_light_source.gd" id="1_u6rv0"]
-[ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/point_radial_light_texture.tres" id="2_lrsov"]
+[ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/component/point_radial_light_texture.tres" id="2_lrsov"]
 
 [node name="radial_light" type="Node2D" groups=["light_source"]]
 script = ExtResource("1_u6rv0")

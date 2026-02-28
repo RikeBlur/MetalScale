@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ctcr1sh6whs5s"]
 
 [ext_resource type="Shader" uid="uid://g68h8mpjhpom" path="res://Effect/Shader/glowing_outline/glowingOutline.gdshader" id="2_o0lj8"]
-[ext_resource type="PackedScene" uid="uid://gkd838orapi5" path="res://System/RPG/lighting/light_detector.tscn" id="2_pord0"]
+[ext_resource type="PackedScene" uid="uid://gkd838orapi5" path="res://System/RPG/lighting/component/light_detector.tscn" id="2_pord0"]
 [ext_resource type="Texture2D" uid="uid://cprciedwjloep" path="res://Assests/sprite/Character/EYE/run/back-Sheet.png" id="3_o0lj8"]
 [ext_resource type="Texture2D" uid="uid://w1431mdjprvv" path="res://Assests/sprite/Character/EYE/run/back-left-Sheet.png" id="4_d8an1"]
 [ext_resource type="Texture2D" uid="uid://b57s6wncsbnxc" path="res://Assests/sprite/Character/EYE/run/back-right-Sheet.png" id="5_i8lql"]

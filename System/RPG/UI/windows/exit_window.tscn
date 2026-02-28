@@ -57,7 +57,7 @@ text = "确认要退出游戏吗？未保存的进度会丢失"
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_constants/separation = 50
+theme_override_constants/separation = 150
 
 [node name="yes" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/choices" unique_id=462563330]
 layout_mode = 2

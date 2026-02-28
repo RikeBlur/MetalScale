@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dn8hjlrnwp5uu"]
 
 [ext_resource type="Script" uid="uid://bcymdpg7pp327" path="res://Scripts/system/view/UI/NormalUI/opening_meun.gd" id="1_e1kxj"]
-[ext_resource type="Texture2D" uid="uid://dq80j3rf10ytp" path="res://Assests/sprite/UI/LOGO.png" id="2_kt0g7"]
+[ext_resource type="Texture2D" uid="uid://dq80j3rf10ytp" path="res://Assests/sprite/UI/NORMALUI/LOGO.png" id="2_kt0g7"]
 [ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="3_jkds0"]
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="4_yow4s"]
 [ext_resource type="AudioStream" uid="uid://bhx132gkd3s0w" path="res://Assests/SFX/UI/hoven_1.mp3" id="5_h4ysq"]

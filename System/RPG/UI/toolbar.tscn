@@ -7,8 +7,19 @@
 [ext_resource type="Texture2D" uid="uid://snuljwyie8pe" path="res://Assests/sprite/UI/TOOLBAR/toolbox/toobox-1.png" id="5_8qyhs"]
 [ext_resource type="Shader" uid="uid://dlce8kpjbo146" path="res://Effect/Shader/toolbox/toolbox.gdshader" id="6_3471v"]
 [ext_resource type="Texture2D" uid="uid://x3bn0gbxu1u7" path="res://Assests/sprite/UI/TOOLBAR/toolicon/EmergenceLight_icon.png" id="7_odrtv"]
+[ext_resource type="Texture2D" uid="uid://wsukm1uccita" path="res://Assests/sprite/UI/NORMALUI/lefthand-up-1_export-export.png" id="8_kj3o8"]
+[ext_resource type="Material" uid="uid://byti8qx4q8lu1" path="res://Effect/Shader/glowing_outline/glowingOutline.tres" id="8_mlc11"]
+[ext_resource type="Shader" uid="uid://g68h8mpjhpom" path="res://Effect/Shader/glowing_outline/glowingOutline.gdshader" id="10_wg1st"]
+[ext_resource type="Texture2D" uid="uid://b3tdw4bqxhbob" path="res://Assests/sprite/UI/NORMALUI/righthand-down-1-export-export-export.png" id="11_in7jj"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vcotx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mlc11"]
+shader = ExtResource("10_wg1st")
+shader_parameter/outline_width = 4.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
+shader_parameter/hit_flash_intensity = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3rp35"]
 shader = ExtResource("6_3471v")
@@ -88,6 +99,13 @@ shader_parameter/broken_blend = 0.7
 shader_parameter/broken_brightness = 0.4
 shader_parameter/pulse_speed = 1.5
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aqvo2"]
+shader = ExtResource("10_wg1st")
+shader_parameter/outline_width = 1.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
+shader_parameter/hit_flash_intensity = 0.0
+
 [node name="toolbar" type="Control" unique_id=1081575883]
 layout_mode = 3
 anchors_preset = 4
@@ -117,8 +135,9 @@ theme = ExtResource("2_0tvs6")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_vcotx")
 
 [node name="bb" type="Sprite2D" parent="leftoffset/PanelContainer" unique_id=1375108835]
-position = Vector2(45, 239.5)
-scale = Vector2(1.2, 1.2)
+material = SubResource("ShaderMaterial_mlc11")
+position = Vector2(44.999992, 239.5)
+scale = Vector2(0.9399998, 1.2)
 texture = ExtResource("3_dqrdw")
 
 [node name="MarginContainer" type="MarginContainer" parent="leftoffset/PanelContainer" unique_id=1125052047]
@@ -262,6 +281,16 @@ custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 expand_mode = 1
 
-[node name="hand-left-up" type="Sprite2D" parent="leftoffset" unique_id=790803968]
+[node name="Node2D" type="Node2D" parent="leftoffset" unique_id=973952666]
 
-[node name="hand-right-down" type="Sprite2D" parent="leftoffset" unique_id=1818075659]
+[node name="hand-left-up" type="Sprite2D" parent="leftoffset/Node2D" unique_id=790803968]
+material = ExtResource("8_mlc11")
+position = Vector2(92, -27.5)
+scale = Vector2(2, 2)
+texture = ExtResource("8_kj3o8")
+
+[node name="hand-right-down" type="Sprite2D" parent="leftoffset/Node2D" unique_id=1818075659]
+material = SubResource("ShaderMaterial_aqvo2")
+position = Vector2(88, 520.5)
+scale = Vector2(2, 2)
+texture = ExtResource("11_in7jj")
