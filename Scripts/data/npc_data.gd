@@ -1,10 +1,11 @@
 class_name NPCData
 extends Resource
 
-#======================= 状态 ====================
-
 # NPC对应的场景实例
 @export var npc_node: PackedScene
+
+#======================= 状态 ====================
+
 # NPC所在场景
 @export var current_scene: String
 # NPC在对应场景的全局坐标

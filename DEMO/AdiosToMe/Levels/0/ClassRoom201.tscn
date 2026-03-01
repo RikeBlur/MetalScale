@@ -6,6 +6,10 @@
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="4_p31ks"]
 [ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/interact/door/var1/door_front.tscn" id="5_de07k"]
 [ext_resource type="TileSet" uid="uid://dt350ynmnt232" path="res://Style/tilesets/Indoors.tres" id="5_pyw43"]
+[ext_resource type="PackedScene" uid="uid://coqgjvirs7uk3" path="res://System/RPG/object/table/var1/table_left.tscn" id="6_kfvax"]
+[ext_resource type="PackedScene" uid="uid://difsqq87telfp" path="res://System/RPG/object/table/var1/table_up.tscn" id="7_xn2q1"]
+[ext_resource type="PackedScene" uid="uid://bajrucetxnehm" path="res://System/RPG/object/table/var1/table_left_up.tscn" id="8_vousv"]
+[ext_resource type="PackedScene" uid="uid://cqhcioax0p174" path="res://System/RPG/object/table/var1/table_up_left.tscn" id="9_m8mnr"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
 script = ExtResource("2_2e0r4")
@@ -91,6 +95,24 @@ y_sort_enabled = true
 
 [node name="object" type="Node2D" parent="ObjectAndCharacter" unique_id=1999891148]
 y_sort_enabled = true
+
+[node name="tables" type="Node2D" parent="ObjectAndCharacter/object" unique_id=1248653312]
+y_sort_enabled = true
+
+[node name="table" parent="ObjectAndCharacter/object/tables" unique_id=1896627830 instance=ExtResource("6_kfvax")]
+position = Vector2(861, 387)
+
+[node name="table2" parent="ObjectAndCharacter/object/tables" unique_id=1365593744 instance=ExtResource("7_xn2q1")]
+position = Vector2(666, 296)
+
+[node name="table3" parent="ObjectAndCharacter/object/tables" unique_id=83137821 instance=ExtResource("8_vousv")]
+position = Vector2(762, 341)
+
+[node name="table4" parent="ObjectAndCharacter/object/tables" unique_id=1304511356 instance=ExtResource("9_m8mnr")]
+position = Vector2(579, 314)
+
+[node name="table5" parent="ObjectAndCharacter/object/tables" unique_id=1847517178 instance=ExtResource("7_xn2q1")]
+position = Vector2(478, 250)
 
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 

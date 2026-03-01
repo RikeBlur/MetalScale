@@ -1,13 +1,13 @@
-[gd_scene format=3 uid="uid://coqgjvirs7uk3"]
+[gd_scene format=3 uid="uid://difsqq87telfp"]
 
-[ext_resource type="Texture2D" uid="uid://cldiq6pcwqgdb" path="res://Assests/tileset/AdiosToMe/classroom_1.png" id="1_3dmpl"]
+[ext_resource type="Texture2D" uid="uid://cldiq6pcwqgdb" path="res://Assests/tileset/AdiosToMe/classroom_1.png" id="1_2wm2r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g5rtx"]
-atlas = ExtResource("1_3dmpl")
-region = Rect2(4, 0, 38, 65)
+atlas = ExtResource("1_2wm2r")
+region = Rect2(48, 0, 48, 49)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_70jhb"]
-size = Vector2(30, 26)
+size = Vector2(35, 25.625)
 
 [node name="table" type="Node2D" unique_id=1896627830]
 
@@ -15,12 +15,10 @@ size = Vector2(30, 26)
 z_index = 1
 y_sort_enabled = true
 texture = SubResource("AtlasTexture_g5rtx")
-offset = Vector2(0, -32)
+offset = Vector2(0, -24)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=786002945]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1355368753]
-z_index = 1
-y_sort_enabled = true
-position = Vector2(0, -34)
+position = Vector2(0.5, -30.1875)
 shape = SubResource("RectangleShape2D_70jhb")

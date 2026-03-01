@@ -25,15 +25,20 @@ const EYE_CHASE_DELAY: float = 3.0
 """
 # NPC对应的场景实例
 npc_node: PackedScene
+
 # NPC类型
 type: npc_type
+
 # NPC所在场景
 current_scene: String
+
 # NPC在对应场景的全局坐标和朝向
 npc_position: Vector2
 npc_direction: Vector2
+
 # 在场与否？
 is_inscene: bool = false 
+
 # npc状态
 state: int = 0
 	对于EYE：0 -> patrol ; 1 -> pursue 。
@@ -65,6 +70,9 @@ func _ready() -> void:
 	GameManager.Loading.connect(_on_game_loading)
 	# player_reseted 在新场景加载完成、玩家落位后才发出，是出场检测的正确时机
 	SceneManager.player_reseted.connect(_on_player_reseted)
+	# 初始化 Debug UI
+	if GameManager.debug and not _debug_canvas:
+		_create_debug_ui()
 
 
 func _process(delta: float) -> void:
@@ -73,6 +81,10 @@ func _process(delta: float) -> void:
 
 	# EYE特有的离场行为（游荡/急速追杀）
 	_update_eye_behaviors(delta)
+
+	# 更新 Debug UI
+	if GameManager.debug and _debug_label:
+		_update_debug_ui()
 
 # ====================================================================================================
 # ======================================== 1. 实例化NPC =============================================
@@ -305,3 +317,87 @@ func _find_base_level(node: Node) -> BaseLevel:
 		if result:
 			return result
 	return null
+
+# ====================================================================================================
+# ============================================ Debug UI =============================================
+# ====================================================================================================
+
+var _debug_canvas: CanvasLayer = null
+var _debug_label: Label = null
+
+func _create_debug_ui() -> void:
+	"""创建 Debug UI —— 左下角半透明面板，显示 npc_dict 中所有NPC的状态"""
+	_debug_canvas = CanvasLayer.new()
+	_debug_canvas.name = "NpcManagerDebugCanvas"
+	_debug_canvas.layer = 102
+	add_child(_debug_canvas)
+
+	var panel := PanelContainer.new()
+	panel.name = "NpcManagerDebugPanel"
+	_debug_canvas.add_child(panel)
+
+	var style_box := StyleBoxFlat.new()
+	style_box.bg_color = Color(0.05, 0.2, 0.05, 0.75)
+	style_box.border_color = Color(0.4, 1.0, 0.6, 0.9)
+	style_box.set_border_width_all(2)
+	style_box.set_corner_radius_all(8)
+	style_box.content_margin_left = 12
+	style_box.content_margin_right = 12
+	style_box.content_margin_top = 8
+	style_box.content_margin_bottom = 8
+	panel.add_theme_stylebox_override("panel", style_box)
+
+	_debug_label = Label.new()
+	_debug_label.name = "NpcManagerDebugLabel"
+	_debug_label.add_theme_color_override("font_color", Color(0.8, 1.0, 0.85, 1.0))
+	_debug_label.add_theme_font_size_override("font_size", 14)
+	panel.add_child(_debug_label)
+
+	# 固定左下角：左边缘贴屏幕左侧，向右向上增长
+	panel.anchor_left   = 0.0
+	panel.anchor_right  = 0.0
+	panel.anchor_top    = 1.0
+	panel.anchor_bottom = 1.0
+	panel.offset_left   = 10.0
+	panel.offset_bottom = -10.0
+	panel.grow_horizontal = Control.GROW_DIRECTION_END    # 向右增长
+	panel.grow_vertical   = Control.GROW_DIRECTION_BEGIN  # 向上增长
+
+	print("NpcManager: Debug UI 已创建")
+	_update_debug_ui()
+
+
+func _update_debug_ui() -> void:
+	"""刷新 Debug 面板内容"""
+	if not _debug_label:
+		return
+
+	var text := "[NPC_manager Debug]\n"
+	text += "\n[NPC Dict] (%d)\n" % npc_dict.size()
+
+	if npc_dict.is_empty():
+		text += "  (空)\n"
+	else:
+		for npc_id in npc_dict:
+			var data: NPCData = npc_dict[npc_id]
+			var type_name: String = npc_type.keys()[data.type] if data.type < npc_type.keys().size() else str(data.type)
+			var inscene_str: String = "在场" if data.is_inscene else "离场"
+			var state_str: String = _state_label(data.type, data.state)
+			text += "  [%s] %s | %s | state:%d(%s)\n" % [npc_id, type_name, inscene_str, data.state, state_str]
+			text += "    scene: %s\n" % data.current_scene
+			text += "    pos: (%.0f, %.0f)  dir: (%.1f, %.1f)\n" % [
+				data.npc_position.x, data.npc_position.y,
+				data.npc_direction.x, data.npc_direction.y
+			]
+
+	_debug_label.text = text
+
+
+func _state_label(type: npc_type, state: int) -> String:
+	"""将state整数转成可读文字"""
+	match type:
+		npc_type.EYE:
+			match state:
+				0: return "patrol"
+				1: return "pursue"
+	return "?"

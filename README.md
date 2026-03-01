@@ -6,6 +6,13 @@
 
 # UPDATE
 
+## 26.03.01
+
+npc管理器也需要 debug 信息 <br>
+
+二层地图急需完成，然后测试npc <br>
+
+
 ## 26.02.22
 
 ToolBar 改为 滑出/滑入（slide） 的模式 <br>
