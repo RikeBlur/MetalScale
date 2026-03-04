@@ -1,10 +1,10 @@
-[gd_scene format=3 uid="uid://bihhc5nho5e23"]
+[gd_scene format=3 uid="uid://cnsqkrs1vi1d5"]
 
-[ext_resource type="Texture2D" uid="uid://cldiq6pcwqgdb" path="res://Assests/tileset/AdiosToMe/classroom_1.png" id="1_w5qqv"]
+[ext_resource type="Texture2D" uid="uid://cldiq6pcwqgdb" path="res://Assests/tileset/AdiosToMe/classroom_1.png" id="1_cqahg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g5rtx"]
-atlas = ExtResource("1_w5qqv")
-region = Rect2(7, 64, 29, 48)
+atlas = ExtResource("1_cqahg")
+region = Rect2(7, 112, 29, 48)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_70jhb"]
 size = Vector2(23.5, 14)
