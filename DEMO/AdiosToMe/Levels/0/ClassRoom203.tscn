@@ -47,7 +47,7 @@ glow_enabled = true
 [node name="ClassRoom203" type="Node2D" unique_id=1940884473]
 y_sort_enabled = true
 script = ExtResource("1_4r0ao")
-player_initial_position = Array[Vector2]([Vector2(530, 250)])
+player_initial_position = Array[Vector2]([Vector2(530, 275)])
 player_initial_direction = Array[Vector2]([Vector2(0, 1)])
 interactables = Array[ExtResource("2_wukxl")]([SubResource("Resource_ax0f4")])
 
@@ -97,7 +97,7 @@ y_sort_enabled = true
 
 [node name="tables" type="Node2D" parent="ObjectAndCharacter/object" unique_id=66072110]
 y_sort_enabled = true
-position = Vector2(0, 40)
+position = Vector2(-4, 29)
 
 [node name="table" parent="ObjectAndCharacter/object/tables" unique_id=1896627830 instance=ExtResource("6_uk85n")]
 position = Vector2(425, 304)
@@ -195,6 +195,7 @@ position = Vector2(886, 211)
 
 [node name="chairs" type="Node2D" parent="ObjectAndCharacter/object" unique_id=384453051]
 y_sort_enabled = true
+position = Vector2(-4, -11)
 
 [node name="chair" parent="ObjectAndCharacter/object/chairs" unique_id=1175004562 instance=ExtResource("8_a6075")]
 position = Vector2(425, 319)
@@ -298,6 +299,7 @@ scene_to_index = 3
 y_sort_enabled = true
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
+y_sort_enabled = true
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="ObjectAndCharacter" unique_id=1437185051]
 visible = false

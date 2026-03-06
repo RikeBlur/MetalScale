@@ -17,7 +17,7 @@ atlas = ExtResource("3_jn4o2")
 region = Rect2(17, 21, 67, 78)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jn4o2"]
-size = Vector2(55, 52)
+size = Vector2(81, 75)
 
 [node name="door" type="Area2D" unique_id=105227598]
 script = ExtResource("1_jn4o2")
@@ -43,7 +43,7 @@ flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1546067317]
 modulate = Color(0.8776157, 0.8776158, 0.8776157, 1)
-position = Vector2(0.5, 5)
+position = Vector2(1.5, -8.5)
 shape = SubResource("RectangleShape2D_jn4o2")
 
 [node name="open_sfx" type="AudioStreamPlayer2D" parent="." unique_id=781156774]

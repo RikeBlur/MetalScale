@@ -35,11 +35,11 @@
 [ext_resource type="Material" uid="uid://udxyi4gcebgr" path="res://Effect/Shader/hit_flash/hit_flash.tres" id="33_axk6g"]
 [ext_resource type="Script" uid="uid://bwj03sov6w1te" path="res://Scripts/components/hurted_component.gd" id="33_qhkxi"]
 [ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="34_5qh6w"]
-[ext_resource type="AudioStream" uid="uid://bwe5povfpufyn" path="res://Assests/SFX/Character/Footsteps_walking.mp3" id="34_ipg3r"]
+[ext_resource type="AudioStream" uid="uid://bwe5povfpufyn" path="res://Assests/SFX/Character/Oni/Footsteps_walking.mp3" id="34_ipg3r"]
 [ext_resource type="Script" uid="uid://d0kslk43n7dye" path="res://Scripts/components/arrgo_component.gd" id="35_vnu8s"]
 [ext_resource type="PackedScene" uid="uid://gkd838orapi5" path="res://System/RPG/lighting/component/light_detector.tscn" id="36_5qh6w"]
-[ext_resource type="AudioStream" uid="uid://hac2cumo6mqa" path="res://Assests/SFX/Character/Footsteps_ running.mp3" id="36_jkc22"]
-[ext_resource type="AudioStream" uid="uid://bo7pe7r677nvm" path="res://Assests/SFX/Character/Retro Event UI StereoUP 01.mp3" id="37_aooo5"]
+[ext_resource type="AudioStream" uid="uid://hac2cumo6mqa" path="res://Assests/SFX/Character/Oni/Footsteps_ running.mp3" id="36_jkc22"]
+[ext_resource type="AudioStream" uid="uid://bo7pe7r677nvm" path="res://Assests/SFX/Character/Oni/Retro Event UI StereoUP 01.mp3" id="37_aooo5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jkc22"]
 radius = 11.111106
@@ -1787,6 +1787,7 @@ radius = 22.0
 height = 68.0
 
 [node name="Player_Oni" type="CharacterBody2D" unique_id=1051280514 groups=["player"]]
+y_sort_enabled = true
 motion_mode = 1
 wall_min_slide_angle = 0.0
 safe_margin = 1.0

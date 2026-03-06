@@ -14,6 +14,7 @@ extends NodeState
 #    脚本会自动获取并使用它进行寻路。
 
 @export var animated_sprite: AnimatedSprite2D
+@export var sfx: SFXPlayer = null
 
 # ── 8方向表（无Navigation fallback 用）────────────────────────────────────────
 

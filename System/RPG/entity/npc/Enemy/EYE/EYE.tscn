@@ -20,6 +20,11 @@
 [ext_resource type="Texture2D" uid="uid://byk323ikw2v3j" path="res://Assests/sprite/Character/EYE/walk/front-left-Sheet.png" id="17_a57qv"]
 [ext_resource type="Texture2D" uid="uid://bm6f30guraeim" path="res://Assests/sprite/Character/EYE/walk/front-right-Sheet.png" id="18_j4y6k"]
 [ext_resource type="Texture2D" uid="uid://d4i75ypcalckm" path="res://Assests/sprite/Character/EYE/walk/left-Sheet.png" id="19_2yemo"]
+[ext_resource type="AudioStream" uid="uid://b4wr5w25nv133" path="res://Assests/SFX/Character/EYE/breakin.mp3" id="21_5k2rh"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="21_t7jrn"]
+[ext_resource type="AudioStream" uid="uid://c6r5c40u5qdid" path="res://Assests/SFX/Character/EYE/hiss.mp3" id="23_ybxgd"]
+[ext_resource type="AudioStream" uid="uid://c3n7dh2ox0nq7" path="res://Assests/SFX/Character/EYE/Footsteps_walking_EYE.mp3" id="24_xt7ba"]
+[ext_resource type="AudioStream" uid="uid://copgggnk5h7iq" path="res://Assests/SFX/Character/EYE/Footsteps_ running_EYE.mp3" id="25_e0ijc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t7jrn"]
 shader = ExtResource("5_iio1o")
@@ -1121,37 +1126,68 @@ animations = [{
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3ftw8"]
 radius = 8.0
-height = 54.0
+height = 42.0
 
 [node name="Eye" type="CharacterBody2D" unique_id=431185256]
-z_index = 1
 y_sort_enabled = true
 motion_mode = 1
+wall_min_slide_angle = 0.0
 script = ExtResource("1_d7g1r")
 
 [node name="StateMachine" type="Node2D" parent="." unique_id=1886784812 node_paths=PackedStringArray("initial_node_state", "entity")]
 script = ExtResource("1_3ftw8")
-initial_node_state = NodePath("patrol")
+initial_node_state = NodePath("pursue")
 entity = NodePath("..")
 
-[node name="patrol" type="Node2D" parent="StateMachine" unique_id=1271286309 node_paths=PackedStringArray("animated_sprite")]
+[node name="patrol" type="Node2D" parent="StateMachine" unique_id=1271286309 node_paths=PackedStringArray("animated_sprite", "sfx")]
 script = ExtResource("3_3ftw8")
 animated_sprite = NodePath("../../AnimatedSprite")
+sfx = NodePath("../../SFXManager/run")
 
-[node name="pursue" type="Node2D" parent="StateMachine" unique_id=118162027 node_paths=PackedStringArray("animated_sprite")]
+[node name="pursue" type="Node2D" parent="StateMachine" unique_id=118162027 node_paths=PackedStringArray("animated_sprite", "sfx")]
 script = ExtResource("4_iio1o")
 animated_sprite = NodePath("../../AnimatedSprite")
+sfx = NodePath("../../SFXManager/run")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="." unique_id=1635367419]
 z_index = 1
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_t7jrn")
-position = Vector2(0, -17.999998)
+position = Vector2(0, -3.8146973e-06)
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_pjei4")
-animation = &"walk_front_left"
-offset = Vector2(0, -150)
+animation = &"run_front"
+offset = Vector2(0, -210)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=252321699]
-position = Vector2(0, -27)
+position = Vector2(0, -24)
 shape = SubResource("CapsuleShape2D_3ftw8")
+
+[node name="SFXManager" type="Node2D" parent="." unique_id=2051950631]
+
+[node name="breakin" type="AudioStreamPlayer2D" parent="SFXManager" unique_id=2016237097]
+stream = ExtResource("21_5k2rh")
+script = ExtResource("21_t7jrn")
+metadata/_custom_type_script = "uid://use5ds4i6ib4"
+
+[node name="hiss" type="AudioStreamPlayer2D" parent="SFXManager" unique_id=1217872405]
+stream = ExtResource("23_ybxgd")
+volume_db = -9.399
+script = ExtResource("21_t7jrn")
+one_shot = false
+metadata/_custom_type_script = "uid://use5ds4i6ib4"
+
+[node name="walk" type="AudioStreamPlayer2D" parent="SFXManager" unique_id=496317910]
+stream = ExtResource("24_xt7ba")
+volume_db = 3.976
+attenuation = 0.7845841
+panning_strength = 2.05
+script = ExtResource("21_t7jrn")
+one_shot = false
+metadata/_custom_type_script = "uid://use5ds4i6ib4"
+
+[node name="run" type="AudioStreamPlayer2D" parent="SFXManager" unique_id=555881707]
+stream = ExtResource("25_e0ijc")
+script = ExtResource("21_t7jrn")
+one_shot = false
+metadata/_custom_type_script = "uid://use5ds4i6ib4"

@@ -238,8 +238,6 @@ position = Vector2(414, 352)
 [node name="SavePoint" parent="ObjectAndCharacter/Interactable" unique_id=1721797248 instance=ExtResource("21_m0vy7")]
 position = Vector2(733, 217)
 
-[node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
-
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="ObjectAndCharacter" unique_id=1437185051]
 visible = false
 

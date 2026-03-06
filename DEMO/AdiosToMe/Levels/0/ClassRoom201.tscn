@@ -52,7 +52,7 @@ glow_enabled = true
 [node name="ClassRoom201" type="Node2D" unique_id=1940884473]
 y_sort_enabled = true
 script = ExtResource("1_ikrn3")
-player_initial_position = Array[Vector2]([Vector2(530, 250)])
+player_initial_position = Array[Vector2]([Vector2(530, 275)])
 player_initial_direction = Array[Vector2]([Vector2(0, 1)])
 interactables = Array[ExtResource("2_2e0r4")]([SubResource("Resource_ax0f4")])
 
@@ -175,6 +175,7 @@ scene_to_index = 1
 y_sort_enabled = true
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
+y_sort_enabled = true
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="ObjectAndCharacter" unique_id=1437185051]
 visible = false

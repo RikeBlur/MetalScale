@@ -6,6 +6,8 @@ extends NodeState
 @export var max_move_time: float = 2.5
 @export var ray_length: float = 80.0
 
+@export var sfx: SFXPlayer = null
+
 const DIRECTIONS_8: Array = [
 	Vector2.UP,
 	Vector2.DOWN,
@@ -28,14 +30,17 @@ func _on_enter() -> void:
 	npc_node.toPursue.connect(_on_to_pursue)
 	npc_node.state = 0
 	patrol_speed = npc_node.walking_speed
+	sfx.play_start()
 	_pick_new_direction()
 	print("Now State : PATROL")
+	
 
 
 func _on_exit() -> void:
 	if npc_node.toPursue.is_connected(_on_to_pursue):
 		npc_node.toPursue.disconnect(_on_to_pursue)
 	npc_node.velocity = Vector2.ZERO
+	sfx.play_stop()
 	if animated_sprite:
 		animated_sprite.stop()
 

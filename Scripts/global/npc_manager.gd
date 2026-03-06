@@ -14,11 +14,16 @@ enum npc_type { EYE }
 # EYE游荡：每隔多少秒随机换一个当前场景
 const EYE_WANDER_INTERVAL: float = 30.0
 # EYE追杀：收到 state==1 后多少秒入场
-const EYE_CHASE_DELAY: float = 3.0
+const EYE_CHASE_DELAY: float = 2.0
+
+
 # ====================================================================================================
 # ========================================= 数据结构 =================================================
 # ====================================================================================================
 
+
+# GameState != RUNNING 时为 true，所有NPC行为冻结
+var not_running: bool = true
 
 # ====================================================================================================
 # NPC数据字典。key: npc编号（如 "0-0"），value: NPCData
@@ -41,7 +46,7 @@ is_inscene: bool = false
 
 # npc状态
 state: int = 0
-	对于EYE：0 -> patrol ; 1 -> pursue 。
+	对于EYE：0 -> patrol ; 1 -> pursue ; -1 -> 不动。
 """
 
 var npc_dict: Dictionary = {
@@ -76,11 +81,14 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	# 实时同步在场NPC的位置/朝向到data
-	_update_inscene_npc_data()
+	# 实时同步 not_running：GameState != RUNNING 时冻结所有NPC行为
+	not_running = GameManager.get_game_state() != GameManager.GameState.RUNNING
 
-	# EYE特有的离场行为（游荡/急速追杀）
-	_update_eye_behaviors(delta)
+	if not not_running:
+		# 实时同步在场NPC的位置/朝向到data
+		_update_inscene_npc_data()
+		# EYE特有的离场行为（游荡/急速追杀）；state==-1的NPC在各自函数内已跳过
+		_update_eye_behaviors(delta)
 
 	# 更新 Debug UI
 	if GameManager.debug and _debug_label:
@@ -266,22 +274,18 @@ func _update_eye_chase(npc_id: String, data: NPCData, delta: float) -> void:
 
 func _spawn_eye_via_door(npc_id: String, data: NPCData) -> void:
 	"""
-	遍历当前场景 ObjectAndCharacter/Interactable/door 下的所有 BaseDoor，
-	找到 scene_to == EYE.current_scene 的门，取其 scene_to_index 实例化EYE；
-	若没有匹配的门，则随机取一个合法 scene_index 实例化。
+	从EYE上一所在场景的PackedScene里，找到 scene_to == 当前场景 的门，
+	取其 scene_to_index（该值指向当前场景 BaseLevel 的 spawn 点），以此实例化EYE。
+	若没有匹配门，则随机取一个合法 scene_index 实例化。
 	"""
 	var current_scene: Node = get_tree().current_scene
 	if not current_scene:
 		return
 
-	# 按用户描述的路径查找door容器，依次降级
-	var door_root: Node = current_scene.get_node_or_null("ObjectAndCharacter/Interactable/door")
-	if not door_root:
-		door_root = current_scene.get_node_or_null("ObjectAndCharacter/Interactable")
-	if not door_root:
-		door_root = current_scene
+	var current_key: String = SceneManager.get_current_scene_key()
 
-	var matched_index: int = _find_door_index_recursive(door_root, data.current_scene)
+	# 去EYE上一场景中找连向当前场景的门，取其 scene_to_index（指向当前场景的spawn点）
+	var matched_index: int = _find_entry_index_from_prev_scene(data.current_scene, current_key)
 
 	if matched_index >= 0:
 		instantiate_npc(npc_id, matched_index)
@@ -307,6 +311,39 @@ func _find_door_index_recursive(node: Node, target_scene: String) -> int:
 		if result >= 0:
 			return result
 	return -1
+
+
+func _find_entry_index_from_prev_scene(prev_scene_key: String, current_key: String) -> int:
+	"""
+	从 prev_scene 的 PackedScene 里找到 scene_to == current_key 的门，
+	返回其 scene_to_index（该值是 current_key 场景里的 spawn 点索引）；未找到返回 -1。
+	临时实例化不加入场景树，不触发 _ready / @onready，读完立即释放。
+	"""
+	var prev_path: String = SceneManager.get_scene_path(prev_scene_key)
+	if prev_path == "":
+		return -1
+
+	var packed := load(prev_path) as PackedScene
+	if not packed:
+		return -1
+
+	var temp: Node = packed.instantiate()
+	if not temp:
+		return -1
+
+	# 按统一路径查找door容器，依次降级
+	var door_root: Node = temp.get_node_or_null("ObjectAndCharacter/Interactable/door")
+	if not door_root:
+		door_root = temp.get_node_or_null("ObjectAndCharacter/Interactable")
+	if not door_root:
+		door_root = temp
+
+	var idx: int = _find_door_index_recursive(door_root, current_key)
+
+	# 不加入场景树，直接 free（@onready 未初始化，无副作用）
+	temp.free()
+
+	return idx
 
 
 func _find_base_level(node: Node) -> BaseLevel:
