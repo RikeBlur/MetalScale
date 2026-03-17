@@ -1796,7 +1796,7 @@ player_walk_speed_max = 150
 player_run_speed_max = 300
 player_walk_acceleration = 300
 player_run_acceleration = 300
-tool_available = Array[int]([0, 0, 0, 0, 0, 0])
+tool_available = Array[int]([0, 0, 0, 0, 0, 1])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1536282822]
 position = Vector2(0, -23)
@@ -1900,5 +1900,6 @@ detector = NodePath("lightdetector")
 player_node = NodePath("..")
 
 [node name="lightdetector" parent="arrgo_component" unique_id=605312149 instance=ExtResource("36_5qh6w")]
-position = Vector2(0, -25)
+position = Vector2(0, -38)
+extension_length = 30.0
 debug_mode = false

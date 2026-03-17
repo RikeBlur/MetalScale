@@ -1,10 +1,34 @@
 # AdiosToMe
 
 1. 主色调：（34，32，52）；（172，50，50） <br>
+
 2. Oni：30*90 pixel <br>
+
 3. 渲染顺序z轴： 地板0；人物与物体1（y-sort）；后墙2；后门3 <br>
 
+4. 场景树：
+**UI_LAYERS**  所有 UI 层 Canvas
+**terrain**  地板、墙壁、后墙等使用 TilemapLayer 的节点
+**ObjectAndCharacter**  Object; Light; Interactable; 人物和NPC
+**WorldOfWonder**  世界环境 <br>
+ 
+
+5. Arrgo系统：
+**player_arrgo** 0=无仇恨 1=仇恨中（0<aggro<100） 2=完全仇恨（aggro==100）
+**get_in_arrgo**   aggro_value 从0开始上升时 
+**arrgoed**       aggro_value 达到100时 
+**not_arrgoed**    aggro_value 从100降下、回到0时（与get_out_arrgo同时发出） 
+**get_out_arrgo**  aggro_value 归零时（与not_arrgoed同时发出） <br>
+
 # UPDATE
+
+## 26.03.14
+
+需完成： <br>
+完成 玩家aggro 与 EYE 追击行为 的 连接 <br>
+（待完善：切换场景后，arrgovalue 直接清 0 了）（已解决） <br>
+完成 死亡画面 <br>
+
 
 ## 26.03.01
 

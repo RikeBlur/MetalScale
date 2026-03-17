@@ -5,6 +5,12 @@ signal Preloaded
 signal Loading
 signal Loaded
 
+# Arrgo系统信号
+signal get_in_arrgo   # aggro_value 从0开始上升时
+signal arrgoed        # aggro_value 达到100时
+signal not_arrgoed    # aggro_value 从100降下、回到0时（与get_out_arrgo同时发出）
+signal get_out_arrgo  # aggro_value 归零时（与not_arrgoed同时发出）
+
 # ====================================================================================================
 # ========================================= 全局管理器路径 ===============================================
 # ====================================================================================================
@@ -51,8 +57,10 @@ var game_archive_msec: int = 0
 var start_scene: String = "0-0"
 #var start_position: Vector2 = Vector2(500, 300)
 
-# 玩家是否处于仇恨状态？
-var player_arrgo: bool = false
+# 玩家仇恨状态：0=无仇恨 1=仇恨中（0<aggro<100） 2=完全仇恨（aggro==100）
+var player_arrgo: int = 0
+var _prev_aggro_value: float = 0.0       # 上一帧的 aggro_value，用于边沿检测
+var _debug_signal_log: Array[String] = [] # 最近发出的 arrgo 信号日志（最多4条）
 
 # 全局配置数据（对应 user://config.tres）
 var config_data: ConfigData = null
@@ -110,6 +118,9 @@ func _process(delta: float) -> void:
 	# 兜底：MENU 状态下如果鼠标不可见，强制显示
 	if current_state == GameState.MENU and Input.mouse_mode != Input.MOUSE_MODE_VISIBLE:
 		InputEvents.show_mouse()
+	
+	# 实时监测 aggro_value 边沿，更新 player_arrgo 并发出对应信号
+	_update_player_arrgo()
 	
 	# 更新debug UI
 	if debug and debug_label:
@@ -240,25 +251,50 @@ func quit_game() -> void:
 
 
 func _connect_player_arrgo() -> void:
-	"""连接玩家 ArrgoComponent 的 get_caught/get_uncaught 到 game_manager.player_arrgo"""
-	var p = player_instance if (player_instance and is_instance_valid(player_instance)) else null
+	"""重置 arrgo 追踪状态（player_arrgo 由 _update_player_arrgo 每帧驱动，无需连接信号）"""
+	_prev_aggro_value = 0.0
+	player_arrgo = 0
+	_debug_signal_log.clear()
+
+
+func _update_player_arrgo() -> void:
+	"""每帧读取 player.aggro_value，检测边沿并发出对应信号"""
+	var p = get_player()
 	if not p or not is_instance_valid(p):
 		return
-	var arrgo = p.get_node_or_null("arrgo_component")
-	if not arrgo or not (arrgo is ArrgoComponent):
+	if not ("aggro_value" in p):
 		return
-	if not arrgo.get_caught.is_connected(_on_player_get_caught):
-		arrgo.get_caught.connect(_on_player_get_caught)
-	if not arrgo.get_uncaught.is_connected(_on_player_get_uncaught):
-		arrgo.get_uncaught.connect(_on_player_get_uncaught)
+
+	var val: float = p.aggro_value
+
+	# 边沿1：从0开始上升 → get_in_arrgo
+	if _prev_aggro_value == 0.0 and val > 0.0:
+		player_arrgo = 1
+		get_in_arrgo.emit()
+		_log_arrgo_signal("get_in_arrgo")
+
+	# 边沿2：到达100 → arrgoed
+	if _prev_aggro_value < 100.0 and val >= 100.0:
+		player_arrgo = 2
+		arrgoed.emit()
+		_log_arrgo_signal("arrgoed")
+
+	# 边沿3：归零 → not_arrgoed + get_out_arrgo
+	if _prev_aggro_value > 0.0 and val == 0.0:
+		player_arrgo = 0
+		not_arrgoed.emit()
+		get_out_arrgo.emit()
+		_log_arrgo_signal("not_arrgoed + get_out_arrgo")
+
+	_prev_aggro_value = val
 
 
-func _on_player_get_caught() -> void:
-	player_arrgo = true
-
-
-func _on_player_get_uncaught() -> void:
-	player_arrgo = false
+func _log_arrgo_signal(sig_name: String) -> void:
+	"""将信号记录追加到 debug 日志（最多保留4条）"""
+	var entry := "[%.1fs] %s" % [Time.get_ticks_msec() / 1000.0, sig_name]
+	_debug_signal_log.append(entry)
+	if _debug_signal_log.size() > 4:
+		_debug_signal_log.remove_at(0)
 
 
 # ====================================================================================================
@@ -591,8 +627,19 @@ func _update_debug_ui() -> void:
 	state_text += "\n[额外信息]\n"
 	state_text += "运行时长: %s\n" % get_runtime_formatted()
 	state_text += "存档时长: %.1fs\n" % (game_archive_msec / 1000.0)
-	state_text += "玩家仇恨: %s\n" % ("是" if player_arrgo else "否")
-	state_text += "Gamma: %.2f" % Gamma
+	var arrgo_state_name: String = (["无仇恨", "仇恨中", "完全仇恨"] as Array[String])[player_arrgo]
+	var aggro_val: float = 0.0
+	var p := get_player()
+	if p and is_instance_valid(p) and "aggro_value" in p:
+		aggro_val = p.aggro_value
+	state_text += "player_arrgo: %d (%s) | aggro: %.1f\n" % [player_arrgo, arrgo_state_name, aggro_val]
+	state_text += "Gamma: %.2f\n" % Gamma
+	state_text += "[Arrgo信号]"
+	if _debug_signal_log.is_empty():
+		state_text += "  (无)\n"
+	else:
+		for entry in _debug_signal_log:
+			state_text += "  %s\n" % entry
 	
 	debug_label.text = state_text
 

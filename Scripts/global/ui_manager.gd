@@ -93,8 +93,6 @@ var _settings_tween: Tween = null
 var _settings_shown_y: float = 0.0        # 记录settings"显示"时的position.y
 var _settings_y_initialized: bool = false  # 首次show后为true
 
-# ARRGOBAR 延迟隐藏控制
-var _arrgobar_should_hide: bool = false
 
 # Shader资源（需要时可以预加载）
 @export var ui_layers : Node
@@ -120,12 +118,16 @@ func refresh_ui_manager() -> void:
 	_initialize_layers()
 	# 初始化stage0的UI
 	_initialize_stage0_ui()
-	# 隐藏
+	# 隐藏（settings / toolbar 默认隐藏）
 	_hide_settings()
 	_hide_toolbar()
-	_hide_arrgobar()
-	# 连接玩家 ArrgoComponent 信号以控制 ARRGOBAR 显示
+	# 连接 GameManager arrgo 信号
 	_connect_arrgobar_signals()
+	# 根据当前仇恨状态恢复 ARRGOBAR 可见性（player_arrgo>0 说明仇恨中，保持显示）
+	if GameManager.player_arrgo > 0:
+		_show_arrgobar()
+	else:
+		_hide_arrgobar()
 	# 初始化 Debug UI（复用 GameManager.debug 开关）
 	if GameManager.debug and not _debug_canvas:
 		_create_debug_ui()
@@ -466,36 +468,15 @@ func _toolbar_slide(toolbar: Control, target_x: float) -> void:
 # -------------------------------------------- ARRGOBAR操作 -----------------------------------------
 # --------------------------------------------------------------------------------------------------
 func _connect_arrgobar_signals() -> void:
-	"""连接玩家 ArrgoComponent 的信号到 ARRGOBAR 显示控制"""
-	if not player_now or not is_instance_valid(player_now):
-		return
-	
-	var arrgo = player_now.get_node_or_null("arrgo_component")
-	if not arrgo or not (arrgo is ArrgoComponent):
-		return
-	
-	# 连接信号：get_caught 时显示，get_uncaught 时隐藏
-	if not arrgo.get_caught.is_connected(_on_player_get_caught):
-		arrgo.get_caught.connect(_on_player_get_caught)
-	if not arrgo.get_uncaught.is_connected(_on_player_get_uncaught):
-		arrgo.get_uncaught.connect(_on_player_get_uncaught)
-
-
-func _on_player_get_caught() -> void:
-	"""玩家被发现时显示 ARRGOBAR"""
-	_show_arrgobar()
-
-
-func _on_player_get_uncaught() -> void:
-	"""玩家脱离视线时隐藏 ARRGOBAR"""
-	_hide_arrgobar()
+	"""连接 GameManager 的 arrgo 信号到 ARRGOBAR 显示控制"""
+	if not GameManager.get_in_arrgo.is_connected(_show_arrgobar):
+		GameManager.get_in_arrgo.connect(_show_arrgobar)
+	if not GameManager.get_out_arrgo.is_connected(_hide_arrgobar):
+		GameManager.get_out_arrgo.connect(_hide_arrgobar)
 
 
 func _show_arrgobar() -> void:
 	"""显示 ARRGOBAR（立即显示）"""
-	# 取消任何待执行的隐藏
-	_arrgobar_should_hide = false
-	
 	var arrgobar = ui_instances.get(UI_component.ARRGOBAR)
 	if arrgobar and is_instance_valid(arrgobar):
 		arrgobar.show()
@@ -506,21 +487,12 @@ func _show_arrgobar() -> void:
 
 
 func _hide_arrgobar() -> void:
-	"""隐藏 ARRGOBAR（延迟约 5 秒后隐藏）"""
-	_arrgobar_should_hide = true
-	
-	# 延迟 5 秒
-	await get_tree().create_timer(5.0).timeout
-	
-	# 5 秒后检查是否仍需隐藏（期间可能又被 show 取消了）
-	if not _arrgobar_should_hide:
-		return
-	
+	"""隐藏 ARRGOBAR（立即隐藏）"""
 	var arrgobar = ui_instances.get(UI_component.ARRGOBAR)
 	if arrgobar and is_instance_valid(arrgobar):
 		arrgobar.hide()
 		_remove_ui_from_visible_list(UI_component.ARRGOBAR)
-		print("UI_manager: 隐藏 ARRGOBAR（延迟5秒后）")
+		print("UI_manager: 隐藏 ARRGOBAR")
 
 # --------------------------------------------------------------------------------------------------
 # ---------------------------------------- COLLECTWINDOW操作 ----------------------------------------

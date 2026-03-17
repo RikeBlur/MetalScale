@@ -75,6 +75,9 @@ func _ready() -> void:
 	GameManager.Loading.connect(_on_game_loading)
 	# player_reseted 在新场景加载完成、玩家落位后才发出，是出场检测的正确时机
 	SceneManager.player_reseted.connect(_on_player_reseted)
+	# 仇恨系统：arrgoed → 所有EYE进入追杀；not_arrgoed → 所有EYE回到巡逻
+	GameManager.arrgoed.connect(_on_arrgoed)
+	GameManager.not_arrgoed.connect(_on_not_arrgoed)
 	# 初始化 Debug UI
 	if GameManager.debug and not _debug_canvas:
 		_create_debug_ui()
@@ -149,6 +152,8 @@ func instantiate_npc(npc_id: String, scene_index: int = -1) -> void:
 	_npc_instances[npc_id] = npc_instance
 	data.is_inscene    = true
 	data.current_scene = SceneManager.get_current_scene_key()
+	# 将 data.state 同步到节点，并发出对应的状态切换信号
+	_apply_npc_initial_state(npc_instance, data)
 	print("NpcManager: 已实例化 '%s' 至场景 '%s'" % [npc_id, data.current_scene])
 
 # ====================================================================================================
@@ -298,6 +303,52 @@ func _spawn_eye_via_door(npc_id: String, data: NPCData) -> void:
 		print("NpcManager [EYE '%s'] 追杀未找到匹配door，使用随机index %d" % [npc_id, fallback])
 		instantiate_npc(npc_id, fallback)
 
+# 4.3 状态切换：EYE状态和 player arrgo 的关系 ──────────────────────────────────────────────────────────────────
+
+func _apply_npc_initial_state(inst: Node, data: NPCData) -> void:
+	"""将 data.state 写入 NPC 节点，并按类型发出对应的状态信号"""
+	if "state" in inst:
+		inst.state = data.state
+
+	match data.type:
+		npc_type.EYE:
+			match data.state:
+				0:
+					if inst.has_signal("toPatrol"):
+						inst.emit_signal("toPatrol")
+				1:
+					if inst.has_signal("toPursue"):
+						inst.emit_signal("toPursue")
+
+
+func _on_arrgoed() -> void:
+	"""GameManager.arrgoed：所有EYE切换到追杀状态（state=1），并通知节点"""
+	for npc_id in npc_dict:
+		var data: NPCData = npc_dict[npc_id]
+		if data.type != npc_type.EYE:
+			continue
+		data.state = 1
+		# 若EYE节点在场，发出 toPursue 信号
+		var inst: Node = _npc_instances.get(npc_id)
+		if inst and is_instance_valid(inst) and inst.has_signal("toPursue"):
+			inst.emit_signal("toPursue")
+	print("NpcManager: arrgoed — 所有EYE → state=1 (pursue)")
+
+
+func _on_not_arrgoed() -> void:
+	"""GameManager.not_arrgoed：所有EYE切换到巡逻状态（state=0），并通知节点"""
+	for npc_id in npc_dict:
+		var data: NPCData = npc_dict[npc_id]
+		if data.type != npc_type.EYE:
+			continue
+		data.state = 0
+		# 若EYE节点在场，发出 toPatrol 信号
+		var inst: Node = _npc_instances.get(npc_id)
+		if inst and is_instance_valid(inst) and inst.has_signal("toPatrol"):
+			inst.emit_signal("toPatrol")
+	print("NpcManager: not_arrgoed — 所有EYE → state=0 (patrol)")
+
+
 # ====================================================================================================
 # =========================================== 工具函数 ===============================================
 # ====================================================================================================
@@ -344,7 +395,6 @@ func _find_entry_index_from_prev_scene(prev_scene_key: String, current_key: Stri
 	temp.free()
 
 	return idx
-
 
 func _find_base_level(node: Node) -> BaseLevel:
 	if node is BaseLevel:

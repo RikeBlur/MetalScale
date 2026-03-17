@@ -1136,7 +1136,7 @@ script = ExtResource("1_d7g1r")
 
 [node name="StateMachine" type="Node2D" parent="." unique_id=1886784812 node_paths=PackedStringArray("initial_node_state", "entity")]
 script = ExtResource("1_3ftw8")
-initial_node_state = NodePath("pursue")
+initial_node_state = NodePath("patrol")
 entity = NodePath("..")
 
 [node name="patrol" type="Node2D" parent="StateMachine" unique_id=1271286309 node_paths=PackedStringArray("animated_sprite", "sfx")]

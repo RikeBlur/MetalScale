@@ -3,8 +3,8 @@ extends Node2D
 
 @export var light_sources: Array[LightSource] = []
 @export var detecte_offset: float = 100.0
-@export var update_rate : float = 0.2
-@export var grid_size : float = 5.0
+@export var update_rate : float = 0.5
+@export var grid_size : float = 20.0
 
 var occlusion_points: PackedVector2Array = []
 var detectors: Array[light_detector] = []
@@ -29,7 +29,7 @@ func _on_update_timer_timeout():
 	"""定时更新回调"""
 	update_light_sources()
 	update_detectors()
-	#update_occlusion_points()
+	update_occlusion_points()
 	assign_occlusion_to_lights()
 	assign_lights_to_detectors()
 

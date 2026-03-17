@@ -1,6 +1,29 @@
 [gd_scene format=3 uid="uid://cshu5sori0ea"]
 
 [ext_resource type="Script" uid="uid://cstyhvq7i7n6m" path="res://Scripts/system/view/UI/arrgobar.gd" id="1_ttghw"]
+[ext_resource type="Shader" uid="uid://c508pge2m6ttf" path="res://Effect/Shader/inline/inline.gdshader" id="2_l5tpq"]
+[ext_resource type="Texture2D" uid="uid://cyuwm8vgi03tv" path="res://Assests/sprite/UI/TOOLBAR/toolbox/bb.png" id="2_qip64"]
+[ext_resource type="Texture2D" uid="uid://chkewmds1tt7k" path="res://Assests/sprite/UI/NORMALUI/arrgo_eye.png" id="4_jaa1g"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jaa1g"]
+shader = ExtResource("2_l5tpq")
+shader_parameter/outline_width = 4.0
+shader_parameter/outline_color = Color(0.6745098, 0.19607843, 0.19607843, 1)
+shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
+shader_parameter/hit_flash_intensity = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ttghw"]
+bg_color = Color(0.13126019, 0.12350019, 0.20108739, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qip64"]
+bg_color = Color(0.6745098, 0.19607843, 0.19607843, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_inn5w"]
+shader = ExtResource("2_l5tpq")
+shader_parameter/outline_width = 2.0
+shader_parameter/outline_color = Color(0.6745098, 0.19607843, 0.19607843, 1)
+shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
+shader_parameter/hit_flash_intensity = 0.0
 
 [node name="Arrgobar" type="Control" unique_id=1291587924 node_paths=PackedStringArray("arrgo_bar")]
 layout_mode = 3
@@ -11,6 +34,12 @@ offset_right = -1152.0
 offset_bottom = -626.67206
 script = ExtResource("1_ttghw")
 arrgo_bar = NodePath("MarginContainer/ProcessBar")
+
+[node name="back" type="Sprite2D" parent="." unique_id=753670932]
+material = SubResource("ShaderMaterial_jaa1g")
+position = Vector2(1060, 316.50003)
+scale = Vector2(0.9799996, 1.242)
+texture = ExtResource("2_qip64")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1290040054]
 layout_mode = 0
@@ -38,6 +67,26 @@ theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 20
 
 [node name="ProcessBar" type="ProgressBar" parent="MarginContainer" unique_id=1665683209]
-custom_minimum_size = Vector2(0, 600)
+custom_minimum_size = Vector2(0, 500)
 layout_mode = 2
-fill_mode = 2
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_ttghw")
+theme_override_styles/fill = SubResource("StyleBoxFlat_qip64")
+fill_mode = 3
+show_percentage = false
+
+[node name="up" type="Sprite2D" parent="." unique_id=705474879]
+material = SubResource("ShaderMaterial_inn5w")
+position = Vector2(1058, 56.000004)
+scale = Vector2(2.0547953, 2.3384614)
+texture = ExtResource("4_jaa1g")
+region_enabled = true
+region_rect = Rect2(-11, -8, 73, 65)
+
+[node name="up2" type="Sprite2D" parent="." unique_id=629306758]
+material = SubResource("ShaderMaterial_inn5w")
+position = Vector2(1058, 585.00006)
+scale = Vector2(2.0547953, 2.3384614)
+texture = ExtResource("4_jaa1g")
+region_enabled = true
+region_rect = Rect2(-11, -8, 73, 65)

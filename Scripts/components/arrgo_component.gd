@@ -23,13 +23,21 @@ func _ready() -> void:
 		push_warning("ArrgoComponent: detector 未设置")
 		return
 	
-	# 初始化状态
+	# 重置计时器（防止场景切换后_decay_timer保留大值导致急速衰减）
+	_aggro_timer = 0.0
+	_decay_timer = 0.0
+	
+	# 先连接信号
+	if not get_caught.is_connected(on_into_arrgo):
+		get_caught.connect(on_into_arrgo)
+	if not get_uncaught.is_connected(on_out_arrgo):
+		get_uncaught.connect(on_out_arrgo)
+	
+	# 等一帧：让玩家落位（apply_initial_values_to_player）和光照检测稳定后
+	# 再初始化基准状态，避免第一帧 intensity_now 误判导致 aggro_value 短暂上升
+	await get_tree().process_frame
 	_update_caught_state()
 	_last_caught = caught
-	
-	# 连接信号
-	get_caught.connect(on_into_arrgo)
-	get_uncaught.connect(on_out_arrgo)
 
 
 func _process(delta: float) -> void:
@@ -85,9 +93,10 @@ func on_durring_arrgo(delta: float, intensity_now:float) -> void:
 	if not target_player:
 		return
 	
-	# 增长速度随时间递增（平方曲线）
+	# 增长速度随时间递增（线性）
 	_aggro_timer += delta
-	var growth = aggro_increase_rate * (1.0 + _aggro_timer * _aggro_timer) * intensity_now
+	#var growth = aggro_increase_rate * (1.0 + _aggro_timer * _aggro_timer) * intensity_now
+	var growth = aggro_increase_rate * 200.0 * intensity_now
 	target_player.aggro_value = clamp(target_player.aggro_value + growth * delta, 0.0, 100.0)
 
 func on_not_during_arrgo(delta: float) -> void:

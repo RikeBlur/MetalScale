@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://bx3o413gr76jv" path="res://System/RPG/object/painting/painting_3.tscn" id="12_m0vy7"]
 [ext_resource type="PackedScene" uid="uid://dsvj30b8127ij" path="res://System/RPG/object/painting/painting_4.tscn" id="13_va5wj"]
 [ext_resource type="Script" uid="uid://b37t7a67t8onx" path="res://Scripts/system/interact/dialogue/dialogue_flag.gd" id="14_my5dp"]
+[ext_resource type="PackedScene" uid="uid://uw1jl40lxyfx" path="res://System/RPG/lighting/ElectrionicScreen.tscn" id="14_pnopn"]
 [ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/data/dialogue_resource/DialogueResource.gd" id="15_u050n"]
 [ext_resource type="PackedScene" uid="uid://b6l44rib7dlyn" path="res://System/RPG/interact/dialogue/dialogue_component.tscn" id="16_b8ura"]
 [ext_resource type="Script" uid="uid://4p4vcldhkkvo" path="res://Scripts/data/dialogue_resource/DialogueTextResource.gd" id="16_ielik"]
@@ -184,10 +185,10 @@ position = Vector2(410, 282)
 position = Vector2(613, 222)
 
 [node name="Bookcase1" parent="ObjectAndCharacter/object" unique_id=1896627830 instance=ExtResource("8_0n24n")]
-position = Vector2(795, 222)
+position = Vector2(795, 211)
 
 [node name="Bookcase2" parent="ObjectAndCharacter/object" unique_id=55561355 instance=ExtResource("8_0n24n")]
-position = Vector2(794, 293)
+position = Vector2(794, 289)
 
 [node name="Plant3" parent="ObjectAndCharacter/object" unique_id=1623943168 instance=ExtResource("9_kcrlr")]
 position = Vector2(412, 462)
@@ -205,6 +206,11 @@ position = Vector2(672, 142)
 position = Vector2(561, 142)
 
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
+y_sort_enabled = true
+
+[node name="ElectrionicScreen" parent="ObjectAndCharacter/light" unique_id=987910373 instance=ExtResource("14_pnopn")]
+position = Vector2(612, 222)
+arrgo_color = Color(1.3300531, 0.29465923, 0.29657868, 1)
 
 [node name="Interactable" type="Node2D" parent="ObjectAndCharacter" unique_id=1164615803]
 y_sort_enabled = true

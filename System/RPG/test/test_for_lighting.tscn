@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://drxum6townqdh"]
+[gd_scene format=3 uid="uid://drxum6townqdh"]
 
 [ext_resource type="Script" uid="uid://dw4hvyigndglp" path="res://Scripts/system/view/camera.gd" id="1_5qjx8"]
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_by6gl"]
@@ -20,50 +20,49 @@ polygon = PackedVector2Array(-103, -58, 58, -58, 58, 275, -103, 275)
 ssao_enabled = true
 glow_enabled = true
 
-[node name="TestForLighting" type="Node2D"]
+[node name="TestForLighting" type="Node2D" unique_id=1568994514]
 y_sort_enabled = true
 
-[node name="UI_layer1" type="CanvasLayer" parent="."]
+[node name="UI_layer1" type="CanvasLayer" parent="." unique_id=2031862650]
 
-[node name="toolbar" parent="UI_layer1" node_paths=PackedStringArray("player_now") instance=ExtResource("7_urbdc")]
+[node name="toolbar" parent="UI_layer1" unique_id=1830203074 node_paths=PackedStringArray("player_now") instance=ExtResource("7_urbdc")]
 player_now = NodePath("../../Player_Oni")
 
-[node name="UI_layer2" type="CanvasLayer" parent="."]
+[node name="UI_layer2" type="CanvasLayer" parent="." unique_id=243743089]
 layer = 2
 
-[node name="settings" parent="UI_layer2" instance=ExtResource("2_su6pt")]
+[node name="settings" parent="UI_layer2" unique_id=1381864870 instance=ExtResource("2_su6pt")]
 
-[node name="terrian" type="Node2D" parent="."]
+[node name="terrian" type="Node2D" parent="." unique_id=1205501214]
 
-[node name="D1" parent="terrian" instance=ExtResource("1_by6gl")]
+[node name="D1" parent="terrian" unique_id=165180577 instance=ExtResource("1_by6gl")]
 position = Vector2(781.00006, 338)
 scale = Vector2(5.63955, 5.58333)
 
-[node name="obstacle" type="Node2D" parent="terrian"]
+[node name="obstacle" type="Node2D" parent="terrian" unique_id=1694917133]
 
-[node name="obstacle1" type="StaticBody2D" parent="terrian/obstacle"]
+[node name="obstacle1" type="StaticBody2D" parent="terrian/obstacle" unique_id=1566712689]
 position = Vector2(627, 240)
 
-[node name="Sprite2D" type="Sprite2D" parent="terrian/obstacle/obstacle1"]
+[node name="Sprite2D" type="Sprite2D" parent="terrian/obstacle/obstacle1" unique_id=1584890148]
 position = Vector2(-22.500006, 109.00002)
 scale = Vector2(0.14375003, 0.55666673)
 texture = ExtResource("2_ib32c")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="terrian/obstacle/obstacle1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="terrian/obstacle/obstacle1" unique_id=1627568844]
 position = Vector2(-22.5, 109.5)
 shape = SubResource("RectangleShape2D_8b8tj")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="terrian/obstacle/obstacle1" groups=["occlusion"]]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="terrian/obstacle/obstacle1" unique_id=1611904055 groups=["occlusion"]]
 occluder = SubResource("OccluderPolygon2D_f3pkm")
 
-[node name="Player_Oni" parent="." instance=ExtResource("2_l0tuh")]
-y_sort_enabled = true
+[node name="Player_Oni" parent="." unique_id=867524566 instance=ExtResource("2_l0tuh")]
 position = Vector2(410, 410)
 player_walk_speed_max = 120
 player_run_speed_max = 500
 player_walk_speed_min = 20
 
-[node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
+[node name="Camera" type="Camera2D" parent="." unique_id=758808168 node_paths=PackedStringArray("target")]
 position = Vector2(572, 326)
 script = ExtResource("1_5qjx8")
 target = NodePath("../Player_Oni")
@@ -71,29 +70,28 @@ edge_margin_left = 0.4
 edge_margin_right = 0.4
 edge_margin_top = 0.4
 edge_margin_bottom = 0.4
-y_offset = 0.0
 use_y_offset = false
 
-[node name="Dark" type="CanvasModulate" parent="."]
+[node name="Dark" type="CanvasModulate" parent="." unique_id=2074746423]
 color = Color(0.38431373, 0.3764706, 0.5019608, 1)
 
-[node name="manager_manager" type="Node2D" parent="."]
+[node name="manager_manager" type="Node2D" parent="." unique_id=1200214615]
 
-[node name="lighting_manager" type="Node2D" parent="manager_manager"]
+[node name="lighting_manager" type="Node2D" parent="manager_manager" unique_id=277952682]
 script = ExtResource("6_nudyg")
 detecte_offset = 50.0
 update_rate = 0.1
 grid_size = 20.0
 
-[node name="UI_manager" type="Node2D" parent="manager_manager" node_paths=PackedStringArray("player_now")]
+[node name="UI_manager" type="Node2D" parent="manager_manager" unique_id=1199566132 node_paths=PackedStringArray("player_now")]
 script = ExtResource("6_su6pt")
 player_now = NodePath("../../Player_Oni")
 
-[node name="WorldOfWonder" type="WorldEnvironment" parent="."]
+[node name="WorldOfWonder" type="WorldEnvironment" parent="." unique_id=1227703441]
 environment = SubResource("Environment_c6vp4")
 
-[node name="light_debug" type="Node2D" parent="."]
+[node name="light_debug" type="Node2D" parent="." unique_id=228916129]
 position = Vector2(-122, -140)
 
-[node name="NormalDemon" parent="." instance=ExtResource("9_su6pt")]
+[node name="NormalDemon" parent="." unique_id=1586573314 instance=ExtResource("9_su6pt")]
 position = Vector2(917, 124)
