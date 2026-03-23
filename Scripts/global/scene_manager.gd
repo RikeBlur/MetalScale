@@ -15,7 +15,8 @@ var scene_dict: Dictionary = {
 	"2-1": SceneData.new("res://DEMO/AdiosToMe/Levels/2/CorridorSecondFloor.tscn", "二层走廊", []),
 	"2-2": SceneData.new("res://DEMO/AdiosToMe/Levels/2/ClassRoom201.tscn", "201教室", []),
 	"2-3": SceneData.new("res://DEMO/AdiosToMe/Levels/2/ClassRoom202.tscn", "202教室", []),
-	"2-4": SceneData.new("res://DEMO/AdiosToMe/Levels/2/ClassRoom203.tscn", "203教室", [])
+	"2-4": SceneData.new("res://DEMO/AdiosToMe/Levels/2/ClassRoom203.tscn", "203教室", []),
+	"2-6": SceneData.new("res://DEMO/AdiosToMe/Levels/2/StepRoomSecondFloor.tscn", "二层楼梯间", [])
 }
 
 # 当前场景的key

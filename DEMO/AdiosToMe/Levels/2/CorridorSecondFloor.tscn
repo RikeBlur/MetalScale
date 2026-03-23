@@ -16,6 +16,7 @@
 [sub_resource type="Resource" id="Resource_awlan"]
 script = ExtResource("2_dpdbr")
 node_path = NodePath("ObjectAndCharacter/Interactable/door/door_up1")
+state = 1
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Resource" id="Resource_mmvxn"]
@@ -31,6 +32,11 @@ metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 [sub_resource type="Resource" id="Resource_0hjgw"]
 script = ExtResource("2_dpdbr")
 node_path = NodePath("ObjectAndCharacter/Interactable/door/door_down3")
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_0tkip"]
+script = ExtResource("2_dpdbr")
+node_path = NodePath("ObjectAndCharacter/Interactable/door/door_up4")
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Gradient" id="Gradient_336yt"]
@@ -65,9 +71,9 @@ glow_enabled = true
 [node name="CorridorSecondFloor" type="Node2D" unique_id=1940884473]
 y_sort_enabled = true
 script = ExtResource("1_6f53n")
-player_initial_position = Array[Vector2]([Vector2(245, 250), Vector2(245, 290), Vector2(590, 290), Vector2(920, 290)])
-player_initial_direction = Array[Vector2]([Vector2(0, 1), Vector2(0, -1), Vector2(0, -1), Vector2(0, -1)])
-interactables = Array[ExtResource("2_dpdbr")]([SubResource("Resource_awlan"), SubResource("Resource_mmvxn"), SubResource("Resource_dpdbr"), SubResource("Resource_0hjgw")])
+player_initial_position = Array[Vector2]([Vector2(245, 250), Vector2(245, 290), Vector2(590, 290), Vector2(920, 290), Vector2(570, 290), Vector2(825, 290), Vector2(960, 290)])
+player_initial_direction = Array[Vector2]([Vector2(0, 1), Vector2(0, -1), Vector2(0, -1), Vector2(0, -1), Vector2(0, 1), Vector2(0, 1), Vector2(0, 1)])
+interactables = Array[ExtResource("2_dpdbr")]([SubResource("Resource_awlan"), SubResource("Resource_mmvxn"), SubResource("Resource_dpdbr"), SubResource("Resource_0hjgw"), SubResource("Resource_0tkip")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 
@@ -166,6 +172,8 @@ scene_to = "2-4"
 
 [node name="door_up1" parent="ObjectAndCharacter/Interactable/door" unique_id=387604085 instance=ExtResource("8_hhn2e")]
 position = Vector2(239, 174)
+state = 1
+responding_key = 4
 scene_from = "2-1"
 scene_to = "2-0"
 

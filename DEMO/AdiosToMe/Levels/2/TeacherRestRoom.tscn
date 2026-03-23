@@ -13,9 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://sd3jma661c1d" path="res://System/RPG/object/painting/painting_2.tscn" id="11_jloiq"]
 [ext_resource type="PackedScene" uid="uid://bx3o413gr76jv" path="res://System/RPG/object/painting/painting_3.tscn" id="12_ko6ui"]
 [ext_resource type="PackedScene" uid="uid://dsvj30b8127ij" path="res://System/RPG/object/painting/painting_4.tscn" id="13_6jjus"]
-[ext_resource type="PackedScene" uid="uid://uw1jl40lxyfx" path="res://System/RPG/lighting/leptop/ElectrionicScreen.tscn" id="14_cpmog"]
 [ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/var1/door_back.tscn" id="15_03hib"]
-[ext_resource type="PackedScene" uid="uid://cvrcmavceo5nx" path="res://System/RPG/interact/collectable/collectable_key.tscn" id="16_digdp"]
 [ext_resource type="PackedScene" uid="uid://bw5wihigpecin" path="res://System/RPG/interact/collectable/collectable_emergencylight.tscn" id="17_ft3s1"]
 [ext_resource type="PackedScene" uid="uid://b6l44rib7dlyn" path="res://System/RPG/interact/dialogue/dialogue_component.tscn" id="18_gstyx"]
 [ext_resource type="Script" uid="uid://b37t7a67t8onx" path="res://Scripts/system/interact/dialogue/dialogue_flag.gd" id="19_k3vj0"]
@@ -28,14 +26,6 @@
 [sub_resource type="Resource" id="Resource_va5wj"]
 script = ExtResource("2_tc1l2")
 node_path = NodePath("ObjectAndCharacter/Interactable/door/door")
-state = 1
-metadata/_custom_type_script = "uid://dpl7usng0cfyl"
-
-[sub_resource type="Resource" id="Resource_lpvga"]
-script = ExtResource("2_tc1l2")
-node_path = NodePath("ObjectAndCharacter/Interactable/collectable/CollectableKey")
-type = 1
-state = 1
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Resource" id="Resource_0n24n"]
@@ -110,7 +100,7 @@ y_sort_enabled = true
 script = ExtResource("1_7028d")
 player_initial_position = Array[Vector2]([Vector2(630, 450)])
 player_initial_direction = Array[Vector2]([Vector2(0, -1)])
-interactables = Array[ExtResource("2_tc1l2")]([SubResource("Resource_va5wj"), SubResource("Resource_lpvga"), SubResource("Resource_0n24n")])
+interactables = Array[ExtResource("2_tc1l2")]([SubResource("Resource_va5wj"), SubResource("Resource_0n24n")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 
@@ -208,10 +198,6 @@ position = Vector2(561, 142)
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 y_sort_enabled = true
 
-[node name="ElectrionicScreen" parent="ObjectAndCharacter/light" unique_id=987910373 instance=ExtResource("14_cpmog")]
-position = Vector2(612, 222)
-arrgo_color = Color(1.3300531, 0.29465923, 0.29657868, 1)
-
 [node name="Interactable" type="Node2D" parent="ObjectAndCharacter" unique_id=1164615803]
 y_sort_enabled = true
 
@@ -220,16 +206,11 @@ y_sort_enabled = true
 
 [node name="door" parent="ObjectAndCharacter/Interactable/door" unique_id=105227598 instance=ExtResource("15_03hib")]
 position = Vector2(626, 537)
-state = 1
-responding_key = 4
 scene_from = "2-0"
 scene_to = "2-1"
 
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]
 y_sort_enabled = true
-
-[node name="CollectableKey" parent="ObjectAndCharacter/Interactable/collectable" unique_id=501211567 instance=ExtResource("16_digdp")]
-position = Vector2(460, 224)
 
 [node name="CollectableEmerganceLight" parent="ObjectAndCharacter/Interactable/collectable" unique_id=820129776 instance=ExtResource("17_ft3s1")]
 

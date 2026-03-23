@@ -10,7 +10,9 @@ enum Tool{
 	EMERGENCELIGHT, #1
 	FLASHLIGHT, #2
 	ADRENALINE, #3
-	KEY1_1 #4
+	KEYA, #4
+	KEYB, #5
+	KEYC #6
 }
 
 # 工具显示名字典
@@ -19,14 +21,14 @@ const TOOL_DISPLAY_NAMES = {
 	Tool.EMERGENCELIGHT: "应急光源",
 	Tool.FLASHLIGHT: "手电筒",
 	Tool.ADRENALINE: "肾上腺素",
-	Tool.KEY1_1: "教师休息室钥匙"
+	Tool.KEYA: "教师休息室钥匙"
 }
 
 # NOTE: Please replace with the actual paths to your scenes.
 const EMERGENCELIGHT_SCENE = preload("res://System/RPG/tools/Tool/EmergenceLight.tscn")
 const ADRENALINE_SCENE = preload("res://System/RPG/tools/Tool/adrenaline.tscn")
 const FLASHLIGHT_SCENE = preload("res://System/RPG/tools/Tool/FlashLight.tscn")
-const KEY1_1_SCENE = preload("res://System/RPG/tools/Tool/Key1-1.tscn")
+const KEYA_SCENE = preload("res://System/RPG/tools/Tool/Key1-1.tscn")
 
 @export var current_tool: Tool = Tool.NONE
 
@@ -37,8 +39,8 @@ var durability = {
 }
 
 var consumption = {
-	Tool.ADRENALINE: 2,
-	Tool.KEY1_1: 1
+	Tool.ADRENALINE: 0,
+	Tool.KEYA: 0
 }
 
 # Durability consumption rate per second. Can be adjusted in the inspector.
@@ -87,7 +89,7 @@ func _process(delta):
 				consumption[Tool.ADRENALINE] = 0
 				current_tool = Tool.NONE
 				player_now.tool_available[player_now.tool] = Tool.NONE
-		Tool.KEY1_1:
+		Tool.KEYA:
 			pass
 				
 	# 如果按下数字键，切换到当前的tool
@@ -130,5 +132,5 @@ func _on_tool_changed(new_tool: int):
 			var instance = ADRENALINE_SCENE.instantiate()
 			if consumption[Tool.ADRENALINE] > 0:
 				add_child(instance)
-		Tool.KEY1_1:
+		Tool.KEYA:
 			pass

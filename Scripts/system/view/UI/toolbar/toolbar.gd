@@ -6,7 +6,7 @@ const TOOL_ICONS = {
 	ToolManager.Tool.EMERGENCELIGHT: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/EmergenceLight_icon.png"),
 	ToolManager.Tool.FLASHLIGHT: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/FlashLight_icon.png"),
 	ToolManager.Tool.ADRENALINE: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/Adrenaline_icon.png"),
-	ToolManager.Tool.KEY1_1: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/key1-1_icon.png")
+	ToolManager.Tool.KEYA: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/key1-1_icon.png")
 }
 
 const TOOL_CONFIG = {
@@ -14,7 +14,7 @@ const TOOL_CONFIG = {
 	ToolManager.Tool.EMERGENCELIGHT: 1,
 	ToolManager.Tool.FLASHLIGHT: 1,
 	ToolManager.Tool.ADRENALINE: 2,
-	ToolManager.Tool.KEY1_1: 0
+	ToolManager.Tool.KEYA: 0
 }
 
 @export var player_now: CharacterBody2D

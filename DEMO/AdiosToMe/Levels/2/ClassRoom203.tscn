@@ -11,10 +11,18 @@
 [ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/interact/door/var1/door_front.tscn" id="9_jf8au"]
 [ext_resource type="PackedScene" uid="uid://2h6e6pd6osb7" path="res://System/RPG/object/podium/podium_right.tscn" id="9_vcvbw"]
 [ext_resource type="PackedScene" uid="uid://c7heym7vpxw4c" path="res://System/RPG/lighting/mul_media/mul_media_right.tscn" id="11_7ldhy"]
+[ext_resource type="PackedScene" uid="uid://cvrcmavceo5nx" path="res://System/RPG/interact/collectable/collectable_key.tscn" id="12_gwd28"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
 script = ExtResource("2_vcvbw")
 node_path = NodePath("ObjectAndCharacter/Interactable/door/door")
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_gwd28"]
+script = ExtResource("2_vcvbw")
+node_path = NodePath("ObjectAndCharacter/Interactable/collectable/CollectableKey")
+type = 1
+state = 1
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Gradient" id="Gradient_336yt"]
@@ -51,7 +59,7 @@ y_sort_enabled = true
 script = ExtResource("1_052n6")
 player_initial_position = Array[Vector2]([Vector2(530, 275)])
 player_initial_direction = Array[Vector2]([Vector2(0, 1)])
-interactables = Array[ExtResource("2_vcvbw")]([SubResource("Resource_ax0f4")])
+interactables = Array[ExtResource("2_vcvbw")]([SubResource("Resource_ax0f4"), SubResource("Resource_gwd28")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 
@@ -207,6 +215,9 @@ scene_to_index = 3
 
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]
 y_sort_enabled = true
+
+[node name="CollectableKey" parent="ObjectAndCharacter/Interactable/collectable" unique_id=820129776 instance=ExtResource("12_gwd28")]
+position = Vector2(858, 365)
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
 y_sort_enabled = true
