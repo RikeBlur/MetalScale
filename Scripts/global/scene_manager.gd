@@ -11,11 +11,11 @@ var scene_dict: Dictionary = {
 	#"level_1_2": SceneData.new("res://DEMO/demo1_1118/levels/level_1_2.tscn", "关卡 1-2", []),
 	#"level_2_1": SceneData.new("res://DEMO/demo1_1118/levels/level_2_1.tscn", "关卡 2-1", []),
 	#"level_2_2": SceneData.new("res://DEMO/demo1_1118/levels/level_2_2.tscn", "关卡 2-2", []),
-	"0-0": SceneData.new("res://DEMO/AdiosToMe/Levels/0/TeacherRestRoom.tscn", "教师休息室", []),
-	"0-1": SceneData.new("res://DEMO/AdiosToMe/Levels/0/CorridorSecondFloor.tscn", "二层走廊", []),
-	"0-2": SceneData.new("res://DEMO/AdiosToMe/Levels/0/ClassRoom201.tscn", "201教室", []),
-	"0-3": SceneData.new("res://DEMO/AdiosToMe/Levels/0/ClassRoom202.tscn", "202教室", []),
-	"0-4": SceneData.new("res://DEMO/AdiosToMe/Levels/0/ClassRoom203.tscn", "203教室", [])
+	"2-0": SceneData.new("res://DEMO/AdiosToMe/Levels/2/TeacherRestRoom.tscn", "教师休息室", []),
+	"2-1": SceneData.new("res://DEMO/AdiosToMe/Levels/2/CorridorSecondFloor.tscn", "二层走廊", []),
+	"2-2": SceneData.new("res://DEMO/AdiosToMe/Levels/2/ClassRoom201.tscn", "201教室", []),
+	"2-3": SceneData.new("res://DEMO/AdiosToMe/Levels/2/ClassRoom202.tscn", "202教室", []),
+	"2-4": SceneData.new("res://DEMO/AdiosToMe/Levels/2/ClassRoom203.tscn", "203教室", [])
 }
 
 # 当前场景的key

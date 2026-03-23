@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://c7heym7vpxw4c"]
+
+[ext_resource type="Script" uid="uid://6vrsjuv3urii" path="res://Scripts/system/lighting/electrionic_screen.gd" id="1_uobvr"]
+[ext_resource type="Script" uid="uid://b1qwa7ctreuo0" path="res://Scripts/system/lighting/radial_light_source.gd" id="2_gcr1i"]
+[ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/component/point_radial_light_texture.tres" id="3_1w16r"]
+[ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="4_hncmt"]
+[ext_resource type="Texture2D" uid="uid://b0qh0wtaqhfst" path="res://Effect/Shader/waving_noise/noise_0.tres" id="5_ue52y"]
+[ext_resource type="Texture2D" uid="uid://dqodm34c1861l" path="res://Assests/sprite/qa/矩形 1.png" id="6_i6xqf"]
+[ext_resource type="Texture2D" uid="uid://cldiq6pcwqgdb" path="res://Assests/tileset/AdiosToMe/classroom_1.png" id="7_1ofpj"]
+[ext_resource type="Texture2D" uid="uid://dcxvbj66efpnp" path="res://Assests/sprite/object/jiu.png" id="8_7kln6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0nj6o"]
+shader = ExtResource("4_hncmt")
+shader_parameter/wave_speed = 1.0
+shader_parameter/noise_scale = 5.0
+shader_parameter/wave_amplitude = 0.5
+shader_parameter/time_offset = 0.0
+shader_parameter/gradient_texture = ExtResource("5_ue52y")
+shader_parameter/use_gradient = true
+shader_parameter/base_color = Color(0.25882354, 0.25882354, 0.25882354, 1)
+shader_parameter/alpha_multiplier = 1.0000000475
+shader_parameter/color_mix_strength = 0.5
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h2cyv"]
+atlas = ExtResource("7_1ofpj")
+region = Rect2(176, 313, 10, 125)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_cg1dc"]
+polygon = PackedVector2Array(-22, -56, -8, -56, -8, -53, -22, -53)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_pyg44"]
+polygon = PackedVector2Array(-30.238491, -61.07892, -30.033772, -58.08591, -16.066406, -59.041264, -16.271126, -62.03427)
+
+[node name="ElectrionicScreen" type="Node2D" unique_id=987910373]
+script = ExtResource("1_uobvr")
+
+[node name="LightSource" type="Node2D" parent="." unique_id=1659965690 groups=["light_source"]]
+position = Vector2(-2, -92)
+script = ExtResource("2_gcr1i")
+sampling_rate = 24
+debug_mode = true
+
+[node name="PointLight2D" type="PointLight2D" parent="LightSource" unique_id=559647924]
+position = Vector2(-2, -10)
+shadow_enabled = true
+shadow_filter = 2
+shadow_filter_smooth = 1.0
+shadow_item_cull_mask = 3
+texture = ExtResource("3_1w16r")
+texture_scale = 8.0
+
+[node name="ScreenContent" type="Sprite2D" parent="." unique_id=158828935]
+visible = false
+z_index = 1
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_0nj6o")
+position = Vector2(1.1920929e-07, -9.536743e-07)
+scale = Vector2(0.030357141, 0.034166668)
+texture = ExtResource("6_i6xqf")
+offset = Vector2(0, -750)
+
+[node name="ScreenBody" type="Sprite2D" parent="." unique_id=1929611458]
+z_index = 1
+y_sort_enabled = true
+scale = Vector2(1.5, 1.5)
+texture = SubResource("AtlasTexture_h2cyv")
+offset = Vector2(0, -62)
+
+[node name="JIU" type="Sprite2D" parent="." unique_id=2016861912]
+visible = false
+z_index = 1
+y_sort_enabled = true
+texture = ExtResource("8_7kln6")
+offset = Vector2(0, -20)
+
+[node name="occlusion" type="Node2D" parent="." unique_id=2022629210]
+position = Vector2(0, 7)
+
+[node name="up" type="LightOccluder2D" parent="occlusion" unique_id=178654314 groups=["occlusion"]]
+position = Vector2(15, -84)
+occluder = SubResource("OccluderPolygon2D_cg1dc")
+
+[node name="right" type="LightOccluder2D" parent="occlusion" unique_id=457813602 groups=["occlusion"]]
+position = Vector2(19.000002, 1)
+rotation = 0.06829266
+occluder = SubResource("OccluderPolygon2D_pyg44")

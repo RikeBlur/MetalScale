@@ -54,7 +54,7 @@ var game_start_time_msec: int = 0
 var game_archive_msec: int = 0
 
 # 游戏初次加载时玩家的世界坐标位置
-var start_scene: String = "0-0"
+var start_scene: String = "2-0"
 #var start_position: Vector2 = Vector2(500, 300)
 
 # 玩家仇恨状态：0=无仇恨 1=仇恨中（0<aggro<100） 2=完全仇恨（aggro==100）

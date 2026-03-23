@@ -151,39 +151,39 @@ y_sort_enabled = true
 
 [node name="door_down1" parent="ObjectAndCharacter/Interactable/door" unique_id=105227598 instance=ExtResource("10_i5ykk")]
 position = Vector2(245, 363)
-scene_from = "0-1"
-scene_to = "0-2"
+scene_from = "2-1"
+scene_to = "2-2"
 
 [node name="door_down2" parent="ObjectAndCharacter/Interactable/door" unique_id=978287243 instance=ExtResource("10_i5ykk")]
 position = Vector2(595, 363)
-scene_from = "0-1"
-scene_to = "0-3"
+scene_from = "2-1"
+scene_to = "2-3"
 
 [node name="door_down3" parent="ObjectAndCharacter/Interactable/door" unique_id=816029834 instance=ExtResource("10_i5ykk")]
 position = Vector2(923, 363)
-scene_from = "0-1"
-scene_to = "0-4"
+scene_from = "2-1"
+scene_to = "2-4"
 
 [node name="door_up1" parent="ObjectAndCharacter/Interactable/door" unique_id=387604085 instance=ExtResource("8_hhn2e")]
 position = Vector2(239, 174)
-scene_from = "0-1"
-scene_to = "0-0"
+scene_from = "2-1"
+scene_to = "2-0"
 
 [node name="door_up4" parent="ObjectAndCharacter/Interactable/door" unique_id=754244130 instance=ExtResource("11_awlan")]
 position = Vector2(960, 187)
-scene_from = "0-1"
-scene_to = "0-0"
+scene_from = "2-1"
+scene_to = "2-6"
 
 [node name="door_up2" parent="ObjectAndCharacter/Interactable/door" unique_id=1318184628 instance=ExtResource("12_mmvxn")]
 position = Vector2(570, 191)
-scene_from = "0-1"
-scene_to = "0-0"
+scene_from = "2-1"
+scene_to = "2-5"
 
 [node name="door_up3" parent="ObjectAndCharacter/Interactable/door" unique_id=138944039 instance=ExtResource("11_awlan")]
 position = Vector2(822, 182)
 state = 2
-scene_from = "0-1"
-scene_to = "0-0"
+scene_from = "2-1"
+scene_to = "B"
 
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]
 y_sort_enabled = true
