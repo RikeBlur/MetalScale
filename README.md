@@ -20,6 +20,12 @@
 **not_arrgoed**    aggro_value 从100降下、回到0时（与get_out_arrgo同时发出） 
 **get_out_arrgo**  aggro_value 归零时（与not_arrgoed同时发出） <br>
 
+6. Interactable
+**state** 状态（根据type有不同含义）
+对于可拾取物，是否可收集？ 0 否 1 是 
+对于门，0 开 1 锁 2 不能从这一侧打开 
+对于对话，表示 current_flag <br>
+
 # UPDATE
 
 ## 26.03.23

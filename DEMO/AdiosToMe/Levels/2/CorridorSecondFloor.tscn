@@ -39,6 +39,17 @@ script = ExtResource("2_dpdbr")
 node_path = NodePath("ObjectAndCharacter/Interactable/door/door_up4")
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
+[sub_resource type="Resource" id="Resource_prh82"]
+script = ExtResource("2_dpdbr")
+node_path = NodePath("ObjectAndCharacter/Interactable/door/door_up2")
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_lnne8"]
+script = ExtResource("2_dpdbr")
+node_path = NodePath("ObjectAndCharacter/Interactable/door/door_up3")
+state = 2
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
 [sub_resource type="Gradient" id="Gradient_336yt"]
 offsets = PackedFloat32Array(0, 0.993506)
 
@@ -73,7 +84,7 @@ y_sort_enabled = true
 script = ExtResource("1_6f53n")
 player_initial_position = Array[Vector2]([Vector2(245, 250), Vector2(245, 290), Vector2(590, 290), Vector2(920, 290), Vector2(570, 290), Vector2(825, 290), Vector2(960, 290)])
 player_initial_direction = Array[Vector2]([Vector2(0, 1), Vector2(0, -1), Vector2(0, -1), Vector2(0, -1), Vector2(0, 1), Vector2(0, 1), Vector2(0, 1)])
-interactables = Array[ExtResource("2_dpdbr")]([SubResource("Resource_awlan"), SubResource("Resource_mmvxn"), SubResource("Resource_dpdbr"), SubResource("Resource_0hjgw"), SubResource("Resource_0tkip")])
+interactables = Array[ExtResource("2_dpdbr")]([SubResource("Resource_awlan"), SubResource("Resource_mmvxn"), SubResource("Resource_dpdbr"), SubResource("Resource_0hjgw"), SubResource("Resource_0tkip"), SubResource("Resource_prh82"), SubResource("Resource_lnne8")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 
@@ -191,7 +202,7 @@ scene_to = "2-5"
 position = Vector2(822, 182)
 state = 2
 scene_from = "2-1"
-scene_to = "B"
+scene_to = "B2"
 
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]
 y_sort_enabled = true

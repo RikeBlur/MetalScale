@@ -97,7 +97,7 @@ y_sort_enabled = true
 
 [node name="tables" type="Node2D" parent="ObjectAndCharacter/object" unique_id=66072110]
 y_sort_enabled = true
-position = Vector2(-4, 29)
+position = Vector2(-4, 81)
 
 [node name="table" parent="ObjectAndCharacter/object/tables" unique_id=1896627830 instance=ExtResource("6_qud1c")]
 position = Vector2(425, 304)
@@ -162,27 +162,6 @@ position = Vector2(702, 464)
 [node name="table21" parent="ObjectAndCharacter/object/tables" unique_id=996803775 instance=ExtResource("6_qud1c")]
 position = Vector2(655, 464)
 
-[node name="table22" parent="ObjectAndCharacter/object/tables" unique_id=1951008049 instance=ExtResource("6_qud1c")]
-position = Vector2(425, 548)
-
-[node name="table23" parent="ObjectAndCharacter/object/tables" unique_id=808046488 instance=ExtResource("6_qud1c")]
-position = Vector2(472, 548)
-
-[node name="table24" parent="ObjectAndCharacter/object/tables" unique_id=1555355483 instance=ExtResource("6_qud1c")]
-position = Vector2(827, 548)
-
-[node name="table25" parent="ObjectAndCharacter/object/tables" unique_id=1692058901 instance=ExtResource("6_qud1c")]
-position = Vector2(874, 548)
-
-[node name="table26" parent="ObjectAndCharacter/object/tables" unique_id=1346671201 instance=ExtResource("6_qud1c")]
-position = Vector2(608, 548)
-
-[node name="table27" parent="ObjectAndCharacter/object/tables" unique_id=129995101 instance=ExtResource("6_qud1c")]
-position = Vector2(702, 548)
-
-[node name="table28" parent="ObjectAndCharacter/object/tables" unique_id=91676387 instance=ExtResource("6_qud1c")]
-position = Vector2(655, 548)
-
 [node name="plants" type="Node2D" parent="ObjectAndCharacter/object" unique_id=1902801616]
 y_sort_enabled = true
 position = Vector2(0, 2)
@@ -195,7 +174,7 @@ position = Vector2(886, 211)
 
 [node name="chairs" type="Node2D" parent="ObjectAndCharacter/object" unique_id=384453051]
 y_sort_enabled = true
-position = Vector2(-4, -11)
+position = Vector2(-4, 41)
 
 [node name="chair" parent="ObjectAndCharacter/object/chairs" unique_id=1175004562 instance=ExtResource("8_l41jb")]
 position = Vector2(425, 319)
@@ -259,27 +238,6 @@ position = Vector2(825, 480)
 
 [node name="chair21" parent="ObjectAndCharacter/object/chairs" unique_id=1426181136 instance=ExtResource("8_l41jb")]
 position = Vector2(873, 480)
-
-[node name="chair22" parent="ObjectAndCharacter/object/chairs" unique_id=308835923 instance=ExtResource("8_l41jb")]
-position = Vector2(425, 565)
-
-[node name="chair23" parent="ObjectAndCharacter/object/chairs" unique_id=1309316035 instance=ExtResource("8_l41jb")]
-position = Vector2(469, 565)
-
-[node name="chair24" parent="ObjectAndCharacter/object/chairs" unique_id=1708548752 instance=ExtResource("8_l41jb")]
-position = Vector2(606, 565)
-
-[node name="chair25" parent="ObjectAndCharacter/object/chairs" unique_id=2114835143 instance=ExtResource("8_l41jb")]
-position = Vector2(653, 565)
-
-[node name="chair26" parent="ObjectAndCharacter/object/chairs" unique_id=1511606005 instance=ExtResource("8_l41jb")]
-position = Vector2(701, 565)
-
-[node name="chair27" parent="ObjectAndCharacter/object/chairs" unique_id=189417342 instance=ExtResource("8_l41jb")]
-position = Vector2(825, 565)
-
-[node name="chair28" parent="ObjectAndCharacter/object/chairs" unique_id=113924207 instance=ExtResource("8_l41jb")]
-position = Vector2(873, 565)
 
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 
