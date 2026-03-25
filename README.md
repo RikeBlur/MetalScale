@@ -31,7 +31,7 @@
 ## 26.03.23
 
 DEMO成型！！（五月之前）： <br>
-三层地图 / 一层地图 完成（绘制素材 pingpong table） <br>
+三层地图 / 一层地图 完成（绘制素材 pingpong table，meeting table） <br>
 melt 实现（绘制素材 melt） <br>
 cutscene_manager 实现（撰写文本） <br>
 get_in_arrgo 后的音效和shader / arrgoed 后的音效和shader <br>

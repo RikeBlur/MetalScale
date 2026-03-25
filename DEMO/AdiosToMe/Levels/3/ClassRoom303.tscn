@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://difsqq87telfp" path="res://System/RPG/object/table/var1/table_up.tscn" id="6_qud1c"]
 [ext_resource type="PackedScene" uid="uid://0d02haowqy1a" path="res://System/RPG/object/plant/plant_1.tscn" id="7_5jsck"]
 [ext_resource type="PackedScene" uid="uid://bty4ru7ludm8i" path="res://System/RPG/object/chair/var1/chair_down.tscn" id="8_l41jb"]
+[ext_resource type="PackedScene" uid="uid://c45c0h6sp68w" path="res://System/RPG/object/podium/podium_front.tscn" id="9_4ovce"]
 [ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/interact/door/var1/door_front.tscn" id="9_5fmio"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
@@ -47,7 +48,7 @@ glow_enabled = true
 [node name="ClassRoom203" type="Node2D" unique_id=1940884473]
 y_sort_enabled = true
 script = ExtResource("1_lmnf6")
-player_initial_position = Array[Vector2]([Vector2(530, 275)])
+player_initial_position = Array[Vector2]([Vector2(490, 275)])
 player_initial_direction = Array[Vector2]([Vector2(0, 1)])
 interactables = Array[ExtResource("2_4ovce")]([SubResource("Resource_ax0f4")])
 
@@ -97,70 +98,70 @@ y_sort_enabled = true
 
 [node name="tables" type="Node2D" parent="ObjectAndCharacter/object" unique_id=66072110]
 y_sort_enabled = true
-position = Vector2(-4, 81)
+position = Vector2(-4, 97)
 
 [node name="table" parent="ObjectAndCharacter/object/tables" unique_id=1896627830 instance=ExtResource("6_qud1c")]
-position = Vector2(425, 304)
+position = Vector2(425, 295)
 
 [node name="table2" parent="ObjectAndCharacter/object/tables" unique_id=948261374 instance=ExtResource("6_qud1c")]
-position = Vector2(472, 304)
+position = Vector2(472, 295)
 
 [node name="table6" parent="ObjectAndCharacter/object/tables" unique_id=867839006 instance=ExtResource("6_qud1c")]
-position = Vector2(827, 304)
+position = Vector2(827, 295)
 
 [node name="table7" parent="ObjectAndCharacter/object/tables" unique_id=455868845 instance=ExtResource("6_qud1c")]
-position = Vector2(874, 304)
+position = Vector2(874, 295)
 
 [node name="table3" parent="ObjectAndCharacter/object/tables" unique_id=436754001 instance=ExtResource("6_qud1c")]
-position = Vector2(608, 304)
+position = Vector2(608, 295)
 
 [node name="table5" parent="ObjectAndCharacter/object/tables" unique_id=1130503651 instance=ExtResource("6_qud1c")]
-position = Vector2(702, 304)
+position = Vector2(702, 295)
 
 [node name="table4" parent="ObjectAndCharacter/object/tables" unique_id=1510571082 instance=ExtResource("6_qud1c")]
-position = Vector2(655, 304)
+position = Vector2(655, 295)
 
 [node name="table8" parent="ObjectAndCharacter/object/tables" unique_id=2124310178 instance=ExtResource("6_qud1c")]
-position = Vector2(425, 385)
+position = Vector2(425, 387)
 
 [node name="table9" parent="ObjectAndCharacter/object/tables" unique_id=689032881 instance=ExtResource("6_qud1c")]
-position = Vector2(472, 385)
+position = Vector2(472, 387)
 
 [node name="table10" parent="ObjectAndCharacter/object/tables" unique_id=390766735 instance=ExtResource("6_qud1c")]
-position = Vector2(827, 385)
+position = Vector2(827, 387)
 
 [node name="table11" parent="ObjectAndCharacter/object/tables" unique_id=345766915 instance=ExtResource("6_qud1c")]
-position = Vector2(874, 385)
+position = Vector2(874, 387)
 
 [node name="table12" parent="ObjectAndCharacter/object/tables" unique_id=1649295892 instance=ExtResource("6_qud1c")]
-position = Vector2(608, 385)
+position = Vector2(608, 387)
 
 [node name="table13" parent="ObjectAndCharacter/object/tables" unique_id=794048675 instance=ExtResource("6_qud1c")]
-position = Vector2(702, 385)
+position = Vector2(702, 387)
 
 [node name="table14" parent="ObjectAndCharacter/object/tables" unique_id=1882449468 instance=ExtResource("6_qud1c")]
-position = Vector2(655, 385)
+position = Vector2(655, 387)
 
 [node name="table15" parent="ObjectAndCharacter/object/tables" unique_id=527170787 instance=ExtResource("6_qud1c")]
-position = Vector2(425, 464)
+position = Vector2(425, 483)
 
 [node name="table16" parent="ObjectAndCharacter/object/tables" unique_id=1648672382 instance=ExtResource("6_qud1c")]
-position = Vector2(472, 464)
+position = Vector2(472, 483)
 
 [node name="table17" parent="ObjectAndCharacter/object/tables" unique_id=848110506 instance=ExtResource("6_qud1c")]
-position = Vector2(827, 464)
+position = Vector2(827, 483)
 
 [node name="table18" parent="ObjectAndCharacter/object/tables" unique_id=176128507 instance=ExtResource("6_qud1c")]
-position = Vector2(874, 464)
+position = Vector2(874, 483)
 
 [node name="table19" parent="ObjectAndCharacter/object/tables" unique_id=1852921026 instance=ExtResource("6_qud1c")]
-position = Vector2(608, 464)
+position = Vector2(608, 483)
 
 [node name="table20" parent="ObjectAndCharacter/object/tables" unique_id=119845717 instance=ExtResource("6_qud1c")]
-position = Vector2(702, 464)
+position = Vector2(702, 483)
 
 [node name="table21" parent="ObjectAndCharacter/object/tables" unique_id=996803775 instance=ExtResource("6_qud1c")]
-position = Vector2(655, 464)
+position = Vector2(655, 483)
 
 [node name="plants" type="Node2D" parent="ObjectAndCharacter/object" unique_id=1902801616]
 y_sort_enabled = true
@@ -174,70 +175,73 @@ position = Vector2(886, 211)
 
 [node name="chairs" type="Node2D" parent="ObjectAndCharacter/object" unique_id=384453051]
 y_sort_enabled = true
-position = Vector2(-4, 41)
+position = Vector2(-4, 57)
 
 [node name="chair" parent="ObjectAndCharacter/object/chairs" unique_id=1175004562 instance=ExtResource("8_l41jb")]
-position = Vector2(425, 319)
+position = Vector2(425, 308)
 
 [node name="chair2" parent="ObjectAndCharacter/object/chairs" unique_id=696159180 instance=ExtResource("8_l41jb")]
-position = Vector2(469, 319)
+position = Vector2(469, 308)
 
 [node name="chair3" parent="ObjectAndCharacter/object/chairs" unique_id=1059893440 instance=ExtResource("8_l41jb")]
-position = Vector2(606, 319)
+position = Vector2(606, 308)
 
 [node name="chair4" parent="ObjectAndCharacter/object/chairs" unique_id=2094487640 instance=ExtResource("8_l41jb")]
-position = Vector2(653, 319)
+position = Vector2(653, 308)
 
 [node name="chair5" parent="ObjectAndCharacter/object/chairs" unique_id=1269885480 instance=ExtResource("8_l41jb")]
-position = Vector2(701, 319)
+position = Vector2(701, 308)
 
 [node name="chair6" parent="ObjectAndCharacter/object/chairs" unique_id=696961881 instance=ExtResource("8_l41jb")]
-position = Vector2(825, 319)
+position = Vector2(825, 308)
 
 [node name="chair7" parent="ObjectAndCharacter/object/chairs" unique_id=679977535 instance=ExtResource("8_l41jb")]
-position = Vector2(873, 319)
+position = Vector2(873, 308)
 
 [node name="chair8" parent="ObjectAndCharacter/object/chairs" unique_id=957668577 instance=ExtResource("8_l41jb")]
-position = Vector2(425, 400)
+position = Vector2(425, 402)
 
 [node name="chair9" parent="ObjectAndCharacter/object/chairs" unique_id=1048002391 instance=ExtResource("8_l41jb")]
-position = Vector2(469, 400)
+position = Vector2(469, 402)
 
 [node name="chair10" parent="ObjectAndCharacter/object/chairs" unique_id=677693728 instance=ExtResource("8_l41jb")]
-position = Vector2(606, 400)
+position = Vector2(606, 402)
 
 [node name="chair11" parent="ObjectAndCharacter/object/chairs" unique_id=770324808 instance=ExtResource("8_l41jb")]
-position = Vector2(653, 400)
+position = Vector2(653, 402)
 
 [node name="chair12" parent="ObjectAndCharacter/object/chairs" unique_id=852249212 instance=ExtResource("8_l41jb")]
-position = Vector2(701, 400)
+position = Vector2(701, 402)
 
 [node name="chair13" parent="ObjectAndCharacter/object/chairs" unique_id=936414281 instance=ExtResource("8_l41jb")]
-position = Vector2(825, 400)
+position = Vector2(825, 402)
 
 [node name="chair14" parent="ObjectAndCharacter/object/chairs" unique_id=1260198671 instance=ExtResource("8_l41jb")]
-position = Vector2(873, 400)
+position = Vector2(873, 402)
 
 [node name="chair15" parent="ObjectAndCharacter/object/chairs" unique_id=1416311845 instance=ExtResource("8_l41jb")]
-position = Vector2(425, 480)
+position = Vector2(425, 499)
 
 [node name="chair16" parent="ObjectAndCharacter/object/chairs" unique_id=621976903 instance=ExtResource("8_l41jb")]
-position = Vector2(469, 480)
+position = Vector2(469, 499)
 
 [node name="chair17" parent="ObjectAndCharacter/object/chairs" unique_id=367480271 instance=ExtResource("8_l41jb")]
-position = Vector2(606, 480)
+position = Vector2(606, 499)
 
 [node name="chair18" parent="ObjectAndCharacter/object/chairs" unique_id=296387561 instance=ExtResource("8_l41jb")]
-position = Vector2(653, 480)
+position = Vector2(653, 499)
 
 [node name="chair19" parent="ObjectAndCharacter/object/chairs" unique_id=1794134830 instance=ExtResource("8_l41jb")]
-position = Vector2(701, 480)
+position = Vector2(701, 499)
 
 [node name="chair20" parent="ObjectAndCharacter/object/chairs" unique_id=234909458 instance=ExtResource("8_l41jb")]
-position = Vector2(825, 480)
+position = Vector2(825, 499)
 
 [node name="chair21" parent="ObjectAndCharacter/object/chairs" unique_id=1426181136 instance=ExtResource("8_l41jb")]
-position = Vector2(873, 480)
+position = Vector2(873, 499)
+
+[node name="SofaFaceRight" parent="ObjectAndCharacter/object" unique_id=2027197509 instance=ExtResource("9_4ovce")]
+position = Vector2(663, 295)
 
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 
@@ -248,7 +252,7 @@ y_sort_enabled = true
 y_sort_enabled = true
 
 [node name="door" parent="ObjectAndCharacter/Interactable/door" unique_id=387604085 instance=ExtResource("9_5fmio")]
-position = Vector2(526, 174)
+position = Vector2(491, 174)
 scene_from = "0-4"
 scene_to = "0-1"
 scene_to_index = 3
