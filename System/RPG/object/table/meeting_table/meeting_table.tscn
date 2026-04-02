@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://bpe6y7pyegxxm"]
+
+[ext_resource type="Texture2D" uid="uid://c0ysvtd0pb0ii" path="res://Assests/tileset/AdiosToMe/function_room.png" id="1_h8mpw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1pmy3"]
+atlas = ExtResource("1_h8mpw")
+region = Rect2(0, 80, 256, 132)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_il1kj"]
+size = Vector2(250, 75)
+
+[node name="meeting_table" type="Node2D" unique_id=1896627830]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=381529373]
+z_index = 1
+y_sort_enabled = true
+texture = SubResource("AtlasTexture_1pmy3")
+offset = Vector2(0, -64)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=786002945]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1355368753]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(0, -67.5)
+shape = SubResource("RectangleShape2D_il1kj")

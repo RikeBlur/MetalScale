@@ -3,6 +3,7 @@ extends Node2D
 
 @export var detector : light_detector = null
 @export var get_caught_threshold : float = 0.05
+@export var arrgo_growth : float = 500.0
 @export var aggro_increase_rate : float = 0.2
 @export var aggro_decrease_rate : float = 0.15
 
@@ -43,7 +44,10 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if not detector:
 		return
-	
+		
+	if GameManager.current_state != game_manager.GameState.RUNNING:
+		return
+		
 	# 更新 caught 状态
 	_update_caught_state()
 	
@@ -96,7 +100,7 @@ func on_durring_arrgo(delta: float, intensity_now:float) -> void:
 	# 增长速度随时间递增（线性）
 	_aggro_timer += delta
 	#var growth = aggro_increase_rate * (1.0 + _aggro_timer * _aggro_timer) * intensity_now
-	var growth = aggro_increase_rate * 200.0 * intensity_now
+	var growth = aggro_increase_rate * arrgo_growth * intensity_now
 	target_player.aggro_value = clamp(target_player.aggro_value + growth * delta, 0.0, 100.0)
 
 func on_not_during_arrgo(delta: float) -> void:

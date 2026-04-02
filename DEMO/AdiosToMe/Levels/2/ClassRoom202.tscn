@@ -128,7 +128,7 @@ position = Vector2(699, 465)
 position = Vector2(811, 465)
 
 [node name="table9" parent="ObjectAndCharacter/object/tables" unique_id=406868036 instance=ExtResource("6_ln46q")]
-position = Vector2(823, 382)
+position = Vector2(811, 374)
 
 [node name="table2" parent="ObjectAndCharacter/object/tables" unique_id=1614035384 instance=ExtResource("6_ln46q")]
 position = Vector2(697, 237)
@@ -174,7 +174,7 @@ position = Vector2(611, 366)
 position = Vector2(716, 366)
 
 [node name="chair9" parent="ObjectAndCharacter/object/chairs" unique_id=63296296 instance=ExtResource("8_yuq75")]
-position = Vector2(891, 390)
+position = Vector2(831, 364)
 
 [node name="chair10" parent="ObjectAndCharacter/object/chairs" unique_id=1831921121 instance=ExtResource("8_yuq75")]
 position = Vector2(611, 454)

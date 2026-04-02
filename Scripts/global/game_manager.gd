@@ -55,7 +55,7 @@ var game_archive_msec: int = 0
 
 # 游戏初次加载时玩家的世界坐标位置
 var start_scene: String = "2-2"
-#var start_position: Vector2 = Vector2(500, 300)
+var start_position: Vector2 = Vector2(870, 290)
 
 # 玩家仇恨状态：0=无仇恨 1=仇恨中（0<aggro<100） 2=完全仇恨（aggro==100）
 var player_arrgo: int = 0
@@ -203,6 +203,8 @@ func start_new_game() -> void:
 	
 	# 临时添加玩家和摄像机到当前场景（SceneManager.change_scene 需要它们在场景树中）
 	var parent = get_tree().current_scene
+	# 设置初始坐标位置
+	player_instance.global_position = start_position
 	parent.add_child(player_instance)
 	parent.add_child(camera_instance)
 	camera_instance.target = player_instance
@@ -212,7 +214,7 @@ func start_new_game() -> void:
 	
 	# 调用 SceneManager 切换到起始场景
 	print("GameManager: 切换到起始场景 %s" % start_scene)
-	await SceneManager.change_scene(start_scene, 0)
+	await SceneManager.change_scene(start_scene, 0, start_position)
 	
 	# 刷新 UIManager
 	print("GameManager: 刷新 UI Manager")
@@ -259,6 +261,9 @@ func _connect_player_arrgo() -> void:
 
 func _update_player_arrgo() -> void:
 	"""每帧读取 player.aggro_value，检测边沿并发出对应信号"""
+	if current_state != GameState.RUNNING:
+		return
+
 	var p = get_player()
 	if not p or not is_instance_valid(p):
 		return

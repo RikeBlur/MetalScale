@@ -23,6 +23,10 @@ extends Node2D
 # 当前场景的 SceneData 引用（从 SceneManager 获取）
 var current_scene_data: SceneData = null
 
+# 「其他」类型隐藏时暂存 CollisionObject2D 的层掩码，用于恢复碰撞
+const _META_OTHER_SAVED_COLLISION_LAYER := &"_baselevel_other_saved_collision_layer"
+const _META_OTHER_SAVED_COLLISION_MASK := &"_baselevel_other_saved_collision_mask"
+
 
 func _ready():
 	# 加载新场景后初始化一次 UI系统
@@ -100,16 +104,18 @@ func apply_interactable_states() -> void:
 			push_warning("BaseLevel: 找不到节点 %s" % interactable.node_path)
 			continue
 		
-		# 根据类型应用状态
+		# 根据类型应用状态（与 InteractableData @export_enum 一致：门/可拾取物/对话/谜题/其他）
 		match interactable.type:
 			0:  # 门
 				_apply_door_state(node, interactable.state)
 			1:  # 可拾取物
 				_apply_collectible_state(node, interactable.state)
-			2: #对话
+			2:  # 对话
 				_apply_dialogue_state(node, interactable.state)
-			3:  # 其他机关
-				_apply_mechanism_state(node, interactable.state)
+			3:  # 谜题
+				_apply_puzzle_state(node, interactable.state)
+			4:  # 其他
+				_apply_other_state(node, interactable.state)
 			_:
 				push_warning("BaseLevel: 未知的 interactable 类型: %d" % interactable.type)
 	
@@ -170,21 +176,99 @@ func _apply_dialogue_state(dialogue_node: Node, state: int) -> void:
 	
 # ====================================================================================================
 
-func _apply_mechanism_state(mechanism_node: Node, state: int) -> void:
+func _apply_puzzle_state(puzzle_node: Node, state: int) -> void:
 	"""
-	应用其他机关的状态
+	应用谜题状态
 	
 	参数:
-		mechanism_node: 机关节点
-		state: 状态（0=可交互, 1=不可交互）
-	
-	TODO: 根据实际的机关类实现此方法
+		puzzle_node: 谜题根节点
+		state: 0=不可交互, 1=可交互
 	"""
-	# 示例实现（假设机关有 set_mechanism_state 方法）
-	# if mechanism_node.has_method("set_mechanism_state"):
-	#     mechanism_node.set_mechanism_state(state)
+	if state != 0 and state != 1:
+		push_warning("BaseLevel: 谜题状态应为 0 或 1，节点: %s，收到: %d" % [puzzle_node.name, state])
+	var interactable := state == 1
+	if puzzle_node.has_method("set_puzzle_state"):
+		puzzle_node.call("set_puzzle_state", state)
+		print("BaseLevel: 谜题 set_puzzle_state - 节点: %s, state: %d" % [puzzle_node.name, state])
+		return
+	if puzzle_node.has_method("set_puzzle_interactable"):
+		puzzle_node.call("set_puzzle_interactable", interactable)
+		print("BaseLevel: 谜题 set_puzzle_interactable - 节点: %s, %s" % [puzzle_node.name, interactable])
+		return
+	var interact_comps: Array[interact_component] = []
+	var interacted_comps: Array[interacted_component] = []
+	_collect_interact_components_recursive(puzzle_node, interact_comps)
+	_collect_interacted_components_recursive(puzzle_node, interacted_comps)
+	if interact_comps.is_empty() and interacted_comps.is_empty():
+		push_warning("BaseLevel: 谜题节点 %s 未实现 set_puzzle_state/set_puzzle_interactable，且子树中无 interact_component / interacted_component" % puzzle_node.name)
+		return
+	for ic in interact_comps:
+		var ar: Area2D = ic.interact_rage if ic.interact_rage else ic.get_parent() as Area2D
+		if ar:
+			ar.monitorable = interactable
+	for idc in interacted_comps:
+		var ar2: Area2D = idc.interacted_rage if idc.interacted_rage else idc.get_parent() as Area2D
+		if ar2:
+			ar2.monitorable = interactable
+	print("BaseLevel: 谜题状态应用 - 节点: %s, 可交互: %s (Area2D.monitorable)" % [puzzle_node.name, interactable])
+
+func _collect_interact_components_recursive(n: Node, out: Array[interact_component]) -> void:
+	if n is interact_component:
+		out.append(n as interact_component)
+	for c in n.get_children():
+		_collect_interact_components_recursive(c, out)
+
+func _collect_interacted_components_recursive(n: Node, out: Array[interacted_component]) -> void:
+	if n is interacted_component:
+		out.append(n as interacted_component)
+	for c in n.get_children():
+		_collect_interacted_components_recursive(c, out)
+
+# ====================================================================================================
+
+func _apply_other_state(other_node: Node, state: int) -> void:
+	"""
+	应用「其他」类型对象状态
 	
-	print("BaseLevel: 机关状态应用 - 节点: %s, 状态: %d (待实现)" % [mechanism_node.name, state])
+	参数:
+		other_node: 对象根节点
+		state: 0=不可见且不参与物理碰撞, 1=可见且恢复碰撞（子树内所有 CollisionObject2D）
+	"""
+	if state != 0 and state != 1:
+		push_warning("BaseLevel: 「其他」状态应为 0 或 1，节点: %s，收到: %d" % [other_node.name, state])
+	if other_node.has_method("set_other_visibility_state"):
+		other_node.call("set_other_visibility_state", state)
+		print("BaseLevel: 「其他」set_other_visibility_state - 节点: %s, state: %d" % [other_node.name, state])
+		return
+	if other_node is CanvasItem:
+		var visible := state == 1
+		(other_node as CanvasItem).visible = visible
+		_apply_other_collision_subtree(other_node, visible)
+		print("BaseLevel: 「其他」可见性/碰撞 - 节点: %s, visible: %s" % [other_node.name, visible])
+	else:
+		push_warning("BaseLevel: 「其他」节点 %s 不是 CanvasItem 且无 set_other_visibility_state，无法应用可见性" % other_node.name)
+
+func _apply_other_collision_subtree(root: Node, collision_enabled: bool) -> void:
+	if root is CollisionObject2D:
+		_apply_other_collision_object2d(root as CollisionObject2D, collision_enabled)
+	for c in root.get_children():
+		_apply_other_collision_subtree(c, collision_enabled)
+
+func _apply_other_collision_object2d(co: CollisionObject2D, collision_enabled: bool) -> void:
+	if collision_enabled:
+		if co.has_meta(_META_OTHER_SAVED_COLLISION_LAYER):
+			co.collision_layer = int(co.get_meta(_META_OTHER_SAVED_COLLISION_LAYER))
+			co.remove_meta(_META_OTHER_SAVED_COLLISION_LAYER)
+		if co.has_meta(_META_OTHER_SAVED_COLLISION_MASK):
+			co.collision_mask = int(co.get_meta(_META_OTHER_SAVED_COLLISION_MASK))
+			co.remove_meta(_META_OTHER_SAVED_COLLISION_MASK)
+	else:
+		if not co.has_meta(_META_OTHER_SAVED_COLLISION_LAYER):
+			co.set_meta(_META_OTHER_SAVED_COLLISION_LAYER, co.collision_layer)
+		if not co.has_meta(_META_OTHER_SAVED_COLLISION_MASK):
+			co.set_meta(_META_OTHER_SAVED_COLLISION_MASK, co.collision_mask)
+		co.collision_layer = 0
+		co.collision_mask = 0
 
 # ====================================================================================================
 

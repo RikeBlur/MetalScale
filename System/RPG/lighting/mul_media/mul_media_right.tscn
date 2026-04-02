@@ -23,7 +23,7 @@ shader_parameter/color_mix_strength = 0.5
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h2cyv"]
 atlas = ExtResource("7_1ofpj")
-region = Rect2(176, 313, 10, 125)
+region = Rect2(176, 304, 10, 125)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_cg1dc"]
 polygon = PackedVector2Array(-22, -56, -8, -56, -8, -53, -22, -53)

@@ -22,7 +22,7 @@ var scene_dict: Dictionary = {
 	"2-2": SceneData.new("res://DEMO/AdiosToMe/Levels/2/ClassRoom201.tscn", "201教室", []),
 	"2-3": SceneData.new("res://DEMO/AdiosToMe/Levels/2/ClassRoom202.tscn", "202教室", []),
 	"2-4": SceneData.new("res://DEMO/AdiosToMe/Levels/2/ClassRoom203.tscn", "203教室", []),
-	#"2-5": SceneData.new("res://DEMO/AdiosToMe/Levels/2/MeetingRoom.tscn", "会议室", []),
+	"2-5": SceneData.new("res://DEMO/AdiosToMe/Levels/2/MeetingRoom.tscn", "会议室", []),
 	"2-6": SceneData.new("res://DEMO/AdiosToMe/Levels/2/StepRoomSecondFloor.tscn", "二层楼梯间", []),
 	# ================================================================
 	#"3-0": SceneData.new("res://DEMO/AdiosToMe/Levels/3/SelfStudySpace.tscn", "自习空间", []),
@@ -145,13 +145,15 @@ func save_current_scene_as_packed() -> PackedScene:
 # ============================================ 场景切换 ================================================
 # ====================================================================================================
 
-func change_scene(scene_key: String, scene_to_index: int) -> void:
+func change_scene(scene_key: String, scene_to_index: int = 0, player_global_position_override: Variant = null) -> void:
 	"""
 	根据场景key切换场景
 	自动在场景中重新添加player和camera
 	
 	参数:
 		scene_key: 场景的key（在scene_dict中定义）
+		scene_to_index: BaseLevel 中初始位置/朝向数组下标
+		player_global_position_override: 若非 null 且为 Vector2，在应用 BaseLevel/默认落点后覆盖玩家全局坐标（如新游戏使用 GameManager.start_position）
 	"""
 	# 获取场景路径
 	var scene_path = get_scene_path(scene_key)
@@ -238,6 +240,9 @@ func change_scene(scene_key: String, scene_to_index: int) -> void:
 		# 如果没有BaseLevel，设置默认位置
 		current_player.global_position = Vector2.ZERO
 		print("SceneManager: 未找到BaseLevel，使用默认位置")
+	
+	if player_global_position_override is Vector2:
+		current_player.global_position = player_global_position_override
 	
 	# 重新添加camera到新场景
 	new_scene.add_child(current_camera)

@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://tn7qj5rsyu48"]
 
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_cnrfk"]
+[ext_resource type="Shader" uid="uid://dkx347hhlonq2" path="res://Effect/Shader/neo_dissolve/neo_dissolve.gdshader" id="1_vuk12"]
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="2_c2v2s"]
+[ext_resource type="Texture2D" uid="uid://b0qh0wtaqhfst" path="res://Effect/Shader/waving_noise/noise_0.tres" id="2_va5qb"]
 [ext_resource type="Script" uid="uid://c6jsg28nhcjsy" path="res://Scripts/system/view/animation.gd" id="3_n2ufk"]
 [ext_resource type="Material" uid="uid://bu51bywbbo0u2" path="res://Effect/Shader/dissolve/dissolve.tres" id="4_vuk12"]
 [ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="5_va5qb"]
@@ -9,6 +11,15 @@
 [ext_resource type="Shader" uid="uid://qvica54eevs6" path="res://Effect/Shader/dissolve/dissolve_shader.tres" id="6_mcguh"]
 [ext_resource type="Texture2D" uid="uid://dv2p3c4p3uk8e" path="res://Assests/sprite/Character/AX/dialogue/back_1.png" id="7_8h8q3"]
 [ext_resource type="Texture2D" uid="uid://bxngadho5jgwo" path="res://Assests/sprite/Character/AX/dialogue/back_2.png" id="8_mquxb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mcguh"]
+shader = ExtResource("1_vuk12")
+shader_parameter/DissolveValue = 0.0
+shader_parameter/noise_texture = ExtResource("2_va5qb")
+shader_parameter/noise_scale = 1.0
+shader_parameter/edge_color = Color(0.83, 0, 0, 1)
+shader_parameter/edge_width = 0.1
+shader_parameter/edge_intensity = 2.0
 
 [sub_resource type="Gradient" id="Gradient_3pxdc"]
 offsets = PackedFloat32Array(0, 0.993506)
@@ -61,6 +72,7 @@ animations = [{
 }]
 
 [node name="Statemachine" type="Control" unique_id=883631207]
+material = SubResource("ShaderMaterial_mcguh")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

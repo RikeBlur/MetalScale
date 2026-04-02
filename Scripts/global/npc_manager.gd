@@ -52,7 +52,7 @@ state: int = 0
 var npc_dict: Dictionary = {
 	"0-0": NPCData.new().setup(
 		preload("res://System/RPG/entity/npc/Enemy/EYE/EYE.tscn"),
-		npc_type.EYE, "0-1", Vector2(600,250), Vector2.DOWN, false, 1
+		npc_type.EYE, "1-1", Vector2(600,250), Vector2.DOWN, false, 0
 	),
 }
 # ====================================================================================================
@@ -370,6 +370,8 @@ func _find_entry_index_from_prev_scene(prev_scene_key: String, current_key: Stri
 	返回其 scene_to_index（该值是 current_key 场景里的 spawn 点索引）；未找到返回 -1。
 	临时实例化不加入场景树，不触发 _ready / @onready，读完立即释放。
 	"""
+	if not SceneManager.scene_dict.has(prev_scene_key):
+		return -1
 	var prev_path: String = SceneManager.get_scene_path(prev_scene_key)
 	if prev_path == "":
 		return -1

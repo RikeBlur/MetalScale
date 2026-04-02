@@ -93,6 +93,14 @@ var _settings_tween: Tween = null
 var _settings_shown_y: float = 0.0        # 记录settings"显示"时的position.y
 var _settings_y_initialized: bool = false  # 首次show后为true
 
+# Toolbar相关状态
+var is_arrgobar_showing: bool = true  # toolbar默认显示
+@export var arrgobar_x_offset: float = -300.0  # 隐藏时沿x负轴移出屏幕的距离，应 >= toolbar宽度
+const ARRGOBAR_SLIDE_DURATION: float = 0.3
+var _arrgobar_tween: Tween = null
+var _arrgobar_shown_x: float = 0.0       # 记录toolbar"显示"时的position.x
+var _arrgobar_x_initialized: bool = false # 首次hide后为true
+
 
 # Shader资源（需要时可以预加载）
 @export var ui_layers : Node
@@ -482,6 +490,7 @@ func _show_arrgobar() -> void:
 		arrgobar.show()
 		if arrgobar is Control:
 			arrgobar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			_arrgobar_slide(arrgobar, _arrgobar_shown_x)
 		_add_ui_to_visible_list(UI_component.ARRGOBAR)
 		print("UI_manager: 显示 ARRGOBAR")
 
@@ -490,9 +499,29 @@ func _hide_arrgobar() -> void:
 	"""隐藏 ARRGOBAR（立即隐藏）"""
 	var arrgobar = ui_instances.get(UI_component.ARRGOBAR)
 	if arrgobar and is_instance_valid(arrgobar):
-		arrgobar.hide()
-		_remove_ui_from_visible_list(UI_component.ARRGOBAR)
-		print("UI_manager: 隐藏 ARRGOBAR")
+		if not _arrgobar_x_initialized:
+			# 首次hide：记录"显示"原点，直接跳到隐藏位置，不播放动画
+			_arrgobar_shown_x = arrgobar.position.x
+			_arrgobar_x_initialized = true
+			arrgobar.position.x = _arrgobar_shown_x - arrgobar_x_offset
+		else:
+			_arrgobar_slide(arrgobar, _arrgobar_shown_x - arrgobar_x_offset)
+		if arrgobar is Control:
+			arrgobar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	is_arrgobar_showing = false
+	_remove_ui_from_visible_list(UI_component.ARRGOBAR)
+	print("UI_manager: 隐藏注目值")
+
+func _arrgobar_slide(arrgobar: Control, target_x: float) -> void:
+	"""以平滑曲线将toolbar的position.x tween到target_x"""
+	if _arrgobar_tween and _arrgobar_tween.is_valid():
+		_arrgobar_tween.kill()
+	_arrgobar_tween = create_tween()
+	_arrgobar_tween.set_trans(Tween.TRANS_CUBIC)
+	_arrgobar_tween.set_ease(Tween.EASE_IN_OUT)
+	_arrgobar_tween.tween_property(arrgobar, "position:x", target_x, ARRGOBAR_SLIDE_DURATION)
+
 
 # --------------------------------------------------------------------------------------------------
 # ---------------------------------------- COLLECTWINDOW操作 ----------------------------------------

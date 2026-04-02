@@ -34,6 +34,12 @@ node_path = NodePath("ObjectAndCharacter/Interactable/DialogueComponent")
 type = 2
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
+[sub_resource type="Resource" id="Resource_cu16r"]
+script = ExtResource("2_tc1l2")
+node_path = NodePath("ObjectAndCharacter/Interactable/1")
+type = 4
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
 [sub_resource type="Gradient" id="Gradient_336yt"]
 offsets = PackedFloat32Array(0, 0.993506)
 
@@ -100,7 +106,7 @@ y_sort_enabled = true
 script = ExtResource("1_7028d")
 player_initial_position = Array[Vector2]([Vector2(630, 450)])
 player_initial_direction = Array[Vector2]([Vector2(0, -1)])
-interactables = Array[ExtResource("2_tc1l2")]([SubResource("Resource_va5wj"), SubResource("Resource_0n24n")])
+interactables = Array[ExtResource("2_tc1l2")]([SubResource("Resource_va5wj"), SubResource("Resource_0n24n"), SubResource("Resource_cu16r")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 
