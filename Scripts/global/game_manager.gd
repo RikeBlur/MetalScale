@@ -19,6 +19,7 @@ const SCENE_MANAGER_PATH = "res://Scripts/global/scene_manager.gd"
 const ARCHIVE_MANAGER_PATH = "res://Scripts/global/archive_manager.gd"
 const UI_MANAGER_PATH = "res://Scripts/global/ui_manager.gd"
 const LIGHTING_MANAGER_PATH = "res://Scripts/system/lighting/lighting_manager.gd"
+const BGM_MANAGER_PATH = "res://Scripts/global/bgm_manager.gd"
 const CONFIG_PATH: String = "user://config.tres"
 
 # ====================================================================================================
@@ -106,7 +107,8 @@ func _ready() -> void:
 	if debug:
 		_create_debug_ui()
 	
-	preloading()
+	# _ready 期间根节点 blocked，defer 到下一帧再开始预加载
+	preloading.call_deferred()
 	# 加载完毕执行的函数
 	Loaded.connect(_on_loaded)
 	
@@ -174,7 +176,11 @@ func preloading() -> void:
 	# 5. 加载 LightingManager
 	# 负责光照系统管理
 	_install_manager(LIGHTING_MANAGER_PATH, "LightingManager")
-	
+
+	# 6. 加载 BGMManager
+	# 负责 BGM 播放和音量管理
+	_install_manager(BGM_MANAGER_PATH, "BGMManager")
+
 	# 等待一帧，确保所有节点都已进入场景树并执行了_ready
 	await get_tree().process_frame
 	
@@ -220,6 +226,10 @@ func start_new_game() -> void:
 	print("GameManager: 刷新 UI Manager")
 	UIManager.refresh_ui_manager()
 	
+	# 加载开场 cutscene
+	# CutsceneManager.play_cutscene("test")
+	# print("GameManager: 开场 cutscene 播放完成")
+
 	# 更新游戏状态为运行中
 	Loaded.emit()
 

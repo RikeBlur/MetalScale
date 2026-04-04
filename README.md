@@ -11,7 +11,6 @@
 **terrain**  地板、墙壁、后墙等使用 TilemapLayer 的节点
 **ObjectAndCharacter**  Object; Light; Interactable; 人物和NPC
 **WorldOfWonder**  世界环境 <br>
- 
 
 5. Arrgo系统：
 **player_arrgo** 0=无仇恨 1=仇恨中（0<aggro<100） 2=完全仇恨（aggro==100）
@@ -24,7 +23,9 @@
 **state** 状态（根据type有不同含义）
 对于可拾取物，是否可收集？ 0 否 1 是 
 对于门，0 开 1 锁 2 不能从这一侧打开 
-对于对话，表示 current_flag <br>
+对于对话，表示 current_flag 
+对于谜题，0 表示不可交互 1表示可交互
+对于其他。0 表示不可见且不参与碰撞 1 表示可见且恢复碰撞<br>
 
 # UPDATE
 
@@ -37,6 +38,7 @@ cutscene_manager 实现（撰写文本） <br>
 environment_manager 实现（每个场景的 WorldOfWonder 设定） <br>
 get_in_arrgo 后的音效和shader / arrgoed 后的音效和shader <br>
 把 对话npc本身（不是对话触发器）也作为 动态节点（扩展一下 baselevel？） 管理 <br>
+pursue_state 无 NavigationAgent2D 环境下的优化 <br>
 
 选做：
 puzzle_manager 实现 <br>

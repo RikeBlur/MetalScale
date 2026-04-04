@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://bnrgu0sa5wml3"]
 
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_3u3db"]
-[ext_resource type="Script" uid="uid://bkajs0slwr7ip" path="res://Scripts/system/view/cutscene.gd" id="1_6lr8p"]
+[ext_resource type="Script" uid="uid://bkajs0slwr7ip" path="res://Scripts/system/view/cutscene/cutscene.gd" id="1_6lr8p"]
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="2_sl00d"]
 [ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="3_qlqbd"]
 [ext_resource type="TileSet" uid="uid://dt350ynmnt232" path="res://Style/tilesets/Indoors.tres" id="4_tdl5s"]

@@ -1126,13 +1126,12 @@ animations = [{
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3ftw8"]
 radius = 8.0
-height = 42.0
 
 [node name="Eye" type="CharacterBody2D" unique_id=431185256]
 y_sort_enabled = true
 motion_mode = 1
-wall_min_slide_angle = 0.0
 script = ExtResource("1_d7g1r")
+running_speed = 300.0
 
 [node name="StateMachine" type="Node2D" parent="." unique_id=1886784812 node_paths=PackedStringArray("initial_node_state", "entity")]
 script = ExtResource("1_3ftw8")
@@ -1160,7 +1159,7 @@ animation = &"run_front"
 offset = Vector2(0, -210)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=252321699]
-position = Vector2(0, -24)
+position = Vector2(0, -16)
 shape = SubResource("CapsuleShape2D_3ftw8")
 
 [node name="SFXManager" type="Node2D" parent="." unique_id=2051950631]
@@ -1179,15 +1178,17 @@ metadata/_custom_type_script = "uid://use5ds4i6ib4"
 
 [node name="walk" type="AudioStreamPlayer2D" parent="SFXManager" unique_id=496317910]
 stream = ExtResource("24_xt7ba")
-volume_db = 3.976
-attenuation = 0.7845841
-panning_strength = 2.05
+volume_db = 2.0
+attenuation = 0.8122524
+panning_strength = 2.0
 script = ExtResource("21_t7jrn")
 one_shot = false
 metadata/_custom_type_script = "uid://use5ds4i6ib4"
 
 [node name="run" type="AudioStreamPlayer2D" parent="SFXManager" unique_id=555881707]
 stream = ExtResource("25_e0ijc")
+volume_db = 3.0
+panning_strength = 2.0
 script = ExtResource("21_t7jrn")
 one_shot = false
 metadata/_custom_type_script = "uid://use5ds4i6ib4"

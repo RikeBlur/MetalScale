@@ -36,7 +36,6 @@ script = ExtResource("1_ks8pa")
 [node name="LightSource" type="Node2D" parent="." unique_id=1659965690 groups=["light_source"]]
 position = Vector2(2, -18)
 script = ExtResource("2_cg1dc")
-radius = 100.0
 sampling_rate = 24
 debug_mode = true
 
@@ -47,7 +46,7 @@ shadow_filter = 2
 shadow_filter_smooth = 1.0
 shadow_item_cull_mask = 3
 texture = ExtResource("2_0w35k")
-texture_scale = 4.0
+texture_scale = 8.0
 
 [node name="ScreenContent" type="Sprite2D" parent="." unique_id=158828935]
 z_index = 1

@@ -1,0 +1,2 @@
+class_name environment_manager
+extends Node

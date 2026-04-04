@@ -5,9 +5,9 @@ var player_now: CharacterBody2D = null
 var activated: bool = false
 
 @export var normal_color_content : Color = Color(0.26, 0.26, 0.26, 1.0)
-@export var arrgo_color_content : Color = Color(0.675, 0.196, 0.196, 1.0)
-@export var normal_color : Color = Color(1.0, 1.0, 1.0, 1.0)
-@export var arrgo_color : Color = Color(0.675, 0.196, 0.196, 1.0)
+@export var arrgo_color_content : Color = Color(0.79, 0.103, 0.103, 1.0)
+@export var normal_color : Color = Color(0.665, 0.665, 0.665, 1.0)
+@export var arrgo_color : Color = Color(0.82, 0.115, 0.115, 1.0)
 @export var color_tween_duration: float = 0.4
 
 var _color_tween: Tween = null
@@ -15,6 +15,8 @@ var _color_tween: Tween = null
 @onready var point_light: PointLight2D = $LightSource/PointLight2D
 @onready var screen_content: Sprite2D = $ScreenContent
 @onready var jiu: Sprite2D = $JIU
+
+var fix: bool = false
 
 
 func _ready() -> void:
@@ -40,6 +42,10 @@ func _connect_arrgo_signals() -> void:
 		GameManager.get_in_arrgo.connect(on_get_in_arrgo)
 	if not GameManager.get_out_arrgo.is_connected(on_get_out_arrgo):
 		GameManager.get_out_arrgo.connect(on_get_out_arrgo)
+	if not GameManager.arrgoed.is_connected(on_arrgoed):
+		GameManager.arrgoed.connect(on_arrgoed)
+	if not GameManager.not_arrgoed.is_connected(on_not_arrgoed):
+		GameManager.not_arrgoed.connect(on_not_arrgoed)
 
 
 func _tween_both_colors(light_color: Color, content_color: Color, show_jiu: bool) -> void:
@@ -86,4 +92,16 @@ func on_get_in_arrgo() -> void:
 
 func on_get_out_arrgo() -> void:
 	"""get_out_arrgo 时：灯光和屏幕内容颜色平滑变至 normal 色，jiu 平滑隐藏"""
+	if fix:
+		return
 	_tween_both_colors(normal_color, normal_color_content, false)
+
+
+func on_arrgoed() -> void:
+	_tween_both_colors(arrgo_color, arrgo_color_content, true)
+	fix = true
+
+
+func on_not_arrgoed() -> void:
+	_tween_both_colors(normal_color, normal_color_content, false)
+	fix = false
