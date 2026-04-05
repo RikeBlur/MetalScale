@@ -1171,7 +1171,7 @@ metadata/_custom_type_script = "uid://use5ds4i6ib4"
 
 [node name="hiss" type="AudioStreamPlayer2D" parent="SFXManager" unique_id=1217872405]
 stream = ExtResource("23_ybxgd")
-volume_db = -9.399
+volume_db = -10.0
 script = ExtResource("21_t7jrn")
 one_shot = false
 metadata/_custom_type_script = "uid://use5ds4i6ib4"

@@ -39,6 +39,7 @@ environment_manager 实现（每个场景的 WorldOfWonder 设定） <br>
 get_in_arrgo 后的音效和shader / arrgoed 后的音效和shader <br>
 把 对话npc本身（不是对话触发器）也作为 动态节点（扩展一下 baselevel？） 管理 <br>
 pursue_state 无 NavigationAgent2D 环境下的优化 <br>
+npc_data 的 存档化！（困难） <br>
 
 选做：
 puzzle_manager 实现 <br>

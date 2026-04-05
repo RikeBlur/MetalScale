@@ -9,10 +9,12 @@
 [ext_resource type="PackedScene" uid="uid://0d02haowqy1a" path="res://System/RPG/object/plant/plant_1.tscn" id="6_sjp6x"]
 [ext_resource type="PackedScene" uid="uid://bx3o413gr76jv" path="res://System/RPG/object/painting/painting_3.tscn" id="7_j5tyw"]
 [ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/interact/door/var1/door_front.tscn" id="8_hhn2e"]
-[ext_resource type="PackedScene" uid="uid://bpe6y7pyegxxm" path="res://System/RPG/object/table/meeting_table/meeting_table.tscn" id="9_prh82"]
+[ext_resource type="PackedScene" uid="uid://bm7sbdqtub4l2" path="res://System/RPG/object/table/pingpong_table/pingpong_table.tscn" id="9_prh82"]
 [ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/var1/door_back.tscn" id="10_i5ykk"]
+[ext_resource type="PackedScene" uid="uid://gy5s7mt2h1j8" path="res://System/RPG/object/plant/plant_3.tscn" id="10_lnne8"]
 [ext_resource type="PackedScene" uid="uid://clwn3re40dgmx" path="res://System/RPG/interact/door/var2_invisible/door_invisible.tscn" id="11_awlan"]
 [ext_resource type="PackedScene" uid="uid://ckqqsxjg1mxqs" path="res://System/RPG/interact/door/var3_doubled/door_front_doubled.tscn" id="12_mmvxn"]
+[ext_resource type="Environment" uid="uid://sec1uc51yggp" path="res://Style/environment/WorldOfWonder.tres" id="15_hixpp"]
 
 [sub_resource type="Resource" id="Resource_awlan"]
 script = ExtResource("2_dpdbr")
@@ -76,10 +78,6 @@ shader_parameter/base_color = Color(0, 0, 0, 1)
 shader_parameter/alpha_multiplier = 1.0
 shader_parameter/color_mix_strength = 0.90000004275
 
-[sub_resource type="Environment" id="Environment_5n7gh"]
-ssao_enabled = true
-glow_enabled = true
-
 [node name="CorridorSecondFloor" type="Node2D" unique_id=1940884473]
 y_sort_enabled = true
 script = ExtResource("1_6f53n")
@@ -101,7 +99,7 @@ layer = 3
 
 [node name="D1" parent="terrian" unique_id=1525983742 instance=ExtResource("2_v3tei")]
 material = SubResource("ShaderMaterial_k8em8")
-position = Vector2(845, 340)
+position = Vector2(1245, 519)
 scale = Vector2(3.3419642, 2.878333)
 
 [node name="floor" type="Node2D" parent="terrian" unique_id=1913546815]
@@ -160,7 +158,10 @@ position = Vector2(1091, 214)
 position = Vector2(414, 120)
 
 [node name="pingpong_table" parent="ObjectAndCharacter/object" unique_id=1896627830 instance=ExtResource("9_prh82")]
-position = Vector2(1336, 284)
+position = Vector2(1336, 279)
+
+[node name="Plant4" parent="ObjectAndCharacter/object" unique_id=1537513870 instance=ExtResource("10_lnne8")]
+position = Vector2(1489, 413)
 
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 
@@ -215,7 +216,7 @@ y_sort_enabled = true
 y_sort_enabled = true
 
 [node name="WorldOfWonder" type="WorldEnvironment" parent="." unique_id=945717885]
-environment = SubResource("Environment_5n7gh")
+environment = ExtResource("15_hixpp")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="WorldOfWonder" unique_id=1776025020]
 color = Color(0.5, 0.375, 0.375, 1)
