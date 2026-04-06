@@ -52,7 +52,7 @@ state: int = 0
 var npc_dict: Dictionary = {
 	"0-0": NPCData.new().setup(
 		preload("res://System/RPG/entity/npc/Enemy/EYE/EYE.tscn"),
-		npc_type.EYE, "1-1", Vector2(600,250), Vector2.DOWN, false, 0
+		npc_type.EYE, "2-1", Vector2(600,250), Vector2.DOWN, false, 0
 	),
 }
 # ====================================================================================================
@@ -328,11 +328,14 @@ func _on_arrgoed() -> void:
 		if data.type != npc_type.EYE:
 			continue
 		data.state = 1
-		# 若EYE节点在场，发出 toPursue 信号
+		# 若EYE节点在场，设置 arrgoing=true 并发出 toPursue 信号
 		var inst: Node = _npc_instances.get(npc_id)
-		if inst and is_instance_valid(inst) and inst.has_signal("toPursue"):
-			inst.emit_signal("toPursue")
-	print("NpcManager: arrgoed — 所有EYE → state=1 (pursue)")
+		if inst and is_instance_valid(inst):
+			if "arrgoing" in inst:
+				inst.arrgoing = true
+			if inst.has_signal("toPursue"):
+				inst.emit_signal("toPursue")
+	print("NpcManager: arrgoed — 所有EYE → state=1 (pursue), arrgoing=true")
 
 
 func _on_not_arrgoed() -> void:
@@ -344,8 +347,11 @@ func _on_not_arrgoed() -> void:
 		data.state = 0
 		# 若EYE节点在场，发出 toPatrol 信号
 		var inst: Node = _npc_instances.get(npc_id)
-		if inst and is_instance_valid(inst) and inst.has_signal("toPatrol"):
-			inst.emit_signal("toPatrol")
+		if inst and is_instance_valid(inst):
+			if "arrgoing" in inst:
+				inst.arrgoing = false
+			#if inst.has_signal("toPatrol"):
+			#	inst.emit_signal("toPatrol")
 	print("NpcManager: not_arrgoed — 所有EYE → state=0 (patrol)")
 
 
