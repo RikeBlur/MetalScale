@@ -5,7 +5,10 @@ extends Node
 # ============================================ 枚举 ==================================================
 # ====================================================================================================
 
-enum npc_type { EYE }
+enum npc_type { 
+	EYE,
+	melt
+ }
 
 # ====================================================================================================
 # ============================================ 常量 ==================================================
@@ -47,12 +50,17 @@ is_inscene: bool = false
 # npc状态
 state: int = 0
 	对于EYE：0 -> patrol ; 1 -> pursue ; -1 -> 不动。
+	对于melt:0 -> patrol ; 1 -> pursue ; -1 -> 不动。
 """
 
 var npc_dict: Dictionary = {
 	"0-0": NPCData.new().setup(
 		preload("res://System/RPG/entity/npc/Enemy/EYE/EYE.tscn"),
 		npc_type.EYE, "2-1", Vector2(600,250), Vector2.DOWN, false, 0
+	),
+	"1-0": NPCData.new().setup(
+		preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
+		npc_type.melt, "2-1", Vector2(800,250), Vector2.DOWN, false, 0
 	),
 }
 # ====================================================================================================
@@ -492,6 +500,10 @@ func _state_label(type: npc_type, state: int) -> String:
 	"""将state整数转成可读文字"""
 	match type:
 		npc_type.EYE:
+			match state:
+				0: return "patrol"
+				1: return "pursue"
+		npc_type.melt:
 			match state:
 				0: return "patrol"
 				1: return "pursue"

@@ -1,16 +1,21 @@
 [gd_scene format=3 uid="uid://5yatj0fnvtx4"]
 
 [ext_resource type="Script" uid="uid://dmbyhedqvu3rn" path="res://Scripts/system/tools/emergence_light.gd" id="1_d2w5c"]
-[ext_resource type="PackedScene" uid="uid://bnrqip1fx0561" path="res://System/RPG/lighting/component/radial_light.tscn" id="1_lmf6b"]
+[ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/component/point_radial_light_texture.tres" id="2_s5eha"]
 
-[node name="EmergenceLight" type="Node2D" groups=["tool"]]
+[node name="EmergenceLight" type="Node2D" unique_id=608276164 groups=["tool"]]
 script = ExtResource("1_d2w5c")
 
-[node name="toolbody" type="Node2D" parent="."]
+[node name="toolbody" type="Node2D" parent="." unique_id=387292997]
 
-[node name="Sprite2D" type="Sprite2D" parent="toolbody"]
+[node name="Sprite2D" type="Sprite2D" parent="toolbody" unique_id=363946541]
 
-[node name="radial_light" parent="." instance=ExtResource("1_lmf6b")]
-debug_mode = false
+[node name="SuccessSFX" type="AudioStreamPlayer2D" parent="." unique_id=2129080652]
 
-[node name="SuccessSFX" type="AudioStreamPlayer2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=2112942377]
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 0.5
+shadow_item_cull_mask = 2
+texture = ExtResource("2_s5eha")
+texture_scale = 8.0

@@ -1827,7 +1827,7 @@ sfx = NodePath("../../SFX_manager/run_stepsound")
 
 [node name="Animate" type="AnimatedSprite2D" parent="." unique_id=389095850]
 modulate = Color(0.7786492, 0, 0.21302938, 1)
-light_mask = 2
+light_mask = 3
 z_index = 1
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_axk6g")
