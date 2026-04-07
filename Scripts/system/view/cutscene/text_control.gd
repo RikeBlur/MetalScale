@@ -20,6 +20,9 @@ signal cutscene_finished_partly
 ## 进入场景后是否自动开始按顺序播放
 @export var autoplay: bool = true
 
+## 进入场景后等待多少秒再开始播放
+@export_range(0.0, 60.0, 0.05) var setup_time: float = 0.0
+
 var _rich_text_labels: Array[RichTextLabel] = []
 var _playing: bool = false
 
@@ -37,6 +40,10 @@ func start_playback() -> void:
 		cutscene_finished_partly.emit()
 		return
 	_playing = true
+	for lbl in _rich_text_labels:
+		lbl.visible_characters = 0
+	if setup_time > 0.0:
+		await get_tree().create_timer(setup_time).timeout
 	await _run_sequence()
 	_playing = false
 

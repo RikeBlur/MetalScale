@@ -1,6 +1,8 @@
 class_name cutscene_manager
 extends Node
 
+signal cutscene_playback_finished
+
 # ====================================================================================================
 # ====================================================================================================
 # ====================================================================================================
@@ -12,7 +14,7 @@ extends Node
 ## 过场动画层级（CanvasLayer.layer）
 const CANVAS_LAYER_INDEX: int = 5
 ## 淡入/淡出时长（秒）
-const FADE_DURATION: float = 0.4
+const FADE_DURATION: float = 0.5
 
 # ====================================================================================================
 # ===================================== 数据表 ======================================================
@@ -38,6 +40,7 @@ var _cutscene_signal_map: Dictionary = {
 var _active_canvas_layer: CanvasLayer = null
 var _active_cutscene_node: Node = null
 var _active_tween: Tween = null
+var _active_fade_duration: float = FADE_DURATION
 
 # 播放前快照，用于恢复
 var _prev_running_state: GameManager.RunningState = GameManager.RunningState.NOPE
@@ -97,6 +100,7 @@ func play_cutscene(key: String) -> void:
 	_active_cutscene_node = packed.instantiate()
 	_active_cutscene_node.modulate.a = 0.0
 	_active_canvas_layer.add_child(_active_cutscene_node)
+	_active_fade_duration = _resolve_fade_duration(_active_cutscene_node)
 
 	# 等一帧，确保 _ready 执行完毕后再连接信号和淡入
 	await get_tree().process_frame
@@ -111,7 +115,7 @@ func play_cutscene(key: String) -> void:
 	_active_canvas_layer.visible = true
 	_kill_active_tween()
 	_active_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-	_active_tween.tween_property(_active_cutscene_node, "modulate:a", 1.0, FADE_DURATION)
+	_active_tween.tween_property(_active_cutscene_node, "modulate:a", 1.0, _active_fade_duration)
 
 	print("CutsceneManager: 过场动画 '%s' 开始播放" % key)
 
@@ -132,9 +136,9 @@ func _on_cutscene_finished() -> void:
 	_kill_active_tween()
 	_active_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	if is_instance_valid(_active_cutscene_node):
-		_active_tween.tween_property(_active_cutscene_node, "modulate:a", 0.0, FADE_DURATION)
+		_active_tween.tween_property(_active_cutscene_node, "modulate:a", 0.0, _active_fade_duration)
 	else:
-		_active_tween.tween_interval(FADE_DURATION)
+		_active_tween.tween_interval(_active_fade_duration)
 
 	var tween_ref := _active_tween
 	await tween_ref.finished
@@ -148,6 +152,7 @@ func _on_cutscene_finished() -> void:
 	_active_canvas_layer = null
 	_active_cutscene_node = null
 	_active_tween = null
+	_active_fade_duration = FADE_DURATION
 
 	# 恢复游戏状态
 	GameManager.set_running_state(_prev_running_state)
@@ -159,6 +164,7 @@ func _on_cutscene_finished() -> void:
 		p.can_interact = _prev_player_can_interact
 
 	print("CutsceneManager: 过场动画播放完毕，状态已恢复")
+	cutscene_playback_finished.emit()
 
 # ====================================================================================================
 # ===================================== 过场动画信号 ================================================
@@ -227,6 +233,16 @@ func _kill_active_tween() -> void:
 	if _active_tween and _active_tween.is_valid():
 		_active_tween.kill()
 	_active_tween = null
+
+
+func _resolve_fade_duration(cutscene_node: Node) -> float:
+	if not cutscene_node:
+		return FADE_DURATION
+	if "fadein_time" in cutscene_node:
+		var fade_time: float = float(cutscene_node.fadein_time)
+		if fade_time > 0.0:
+			return fade_time
+	return FADE_DURATION
 
 # ====================================================================================================
 # ====================================================================================================

@@ -89,12 +89,12 @@ theme = ExtResource("3_jkds0")
 text = "退出"
 
 [node name="D1" parent="." unique_id=2115307938 instance=ExtResource("4_yow4s")]
-position = Vector2(-273.95004, 325.75043)
-scale = Vector2(0.7838393, 1.1225014)
+position = Vector2(-426.5, 325.75043)
+scale = Vector2(1.05625, 1.1225014)
 
 [node name="D2" parent="." unique_id=527845371 instance=ExtResource("4_yow4s")]
-position = Vector2(1405, 323.00003)
-scale = Vector2(0.7394596, 1.1329784)
+position = Vector2(1582.4513, 323.00003)
+scale = Vector2(1.056337, 1.1329784)
 
 [node name="SFXManager" type="Node2D" parent="." unique_id=1177245303]
 

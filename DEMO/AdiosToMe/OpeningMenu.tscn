@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://coj35ec54m524"]
 
+[ext_resource type="Texture2D" uid="uid://dwhhxj5557qrb" path="res://DEMO/Bin/demo/assets/shadow.png" id="2_1u77a"]
 [ext_resource type="PackedScene" uid="uid://dn8hjlrnwp5uu" path="res://System/RPG/UI/OpeningMenu.tscn" id="4_dr64k"]
 [ext_resource type="Script" uid="uid://b3v26rgbib2s4" path="res://Scripts/system/lighting/lighting_manager.gd" id="11_i6vwo"]
 
@@ -8,6 +9,12 @@
 [node name="OpeningMenu" type="CanvasLayer" parent="." unique_id=1903540263]
 
 [node name="OpeningMenu" parent="OpeningMenu" unique_id=1916706883 instance=ExtResource("4_dr64k")]
+
+[node name="mask" type="Sprite2D" parent="OpeningMenu" unique_id=50478684]
+visible = false
+position = Vector2(606, 310.00003)
+scale = Vector2(34.707695, 52.38333)
+texture = ExtResource("2_1u77a")
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=729197380]
 

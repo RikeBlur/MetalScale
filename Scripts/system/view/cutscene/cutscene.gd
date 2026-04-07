@@ -6,6 +6,7 @@ signal cutscene_finished
 
 var _remaining_partly: int = 0
 
+@export var fadein_time : float = 0.5 
 
 func _ready() -> void:
 	# 延后一帧，确保子节点脚本已注册信号

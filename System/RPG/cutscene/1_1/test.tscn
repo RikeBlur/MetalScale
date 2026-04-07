@@ -40,6 +40,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6lr8p")
+fadein_time = 0.3
 
 [node name="D1" parent="." unique_id=2129294719 instance=ExtResource("1_3u3db")]
 material = SubResource("ShaderMaterial_mci5n")
@@ -54,6 +55,7 @@ offset_bottom = -0.11199951
 script = ExtResource("4_r21hu")
 text_speed = 12.0
 label_time = 1.0
+setup_time = 1.0
 
 [node name="1" type="RichTextLabel" parent="text_control" unique_id=417140611]
 layout_mode = 0

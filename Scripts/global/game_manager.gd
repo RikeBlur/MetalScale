@@ -220,6 +220,24 @@ func start_new_game() -> void:
 	# 等待一帧确保节点完全进入场景树
 	await get_tree().process_frame
 	
+	# 将 OpeningMenu/mask 从透明淡入到不透明（与 cutscene 并行）
+	var mask_tween: Tween = null
+	var opening_menu: Node = get_tree().current_scene.get_node_or_null("OpeningMenu")
+	if opening_menu:
+		var mask: Sprite2D = opening_menu.get_node_or_null("mask")
+		if mask:
+			mask.modulate.a = 0.0
+			mask.visible = true
+			mask_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+			mask_tween.tween_property(mask, "modulate:a", 1.0, CutsceneManager.FADE_DURATION)
+
+	# 加载开场 cutscene，并与 mask 淡入同步并行
+	CutsceneManager.play_cutscene("test")
+	if mask_tween:
+		await mask_tween.finished
+	await CutsceneManager.cutscene_playback_finished
+	print("GameManager: 开场 cutscene 播放完成")
+	
 	# 调用 SceneManager 切换到起始场景
 	print("GameManager: 切换到起始场景 %s" % start_scene)
 	await SceneManager.change_scene(start_scene, 0, start_position)
@@ -227,10 +245,6 @@ func start_new_game() -> void:
 	# 刷新 UIManager
 	print("GameManager: 刷新 UI Manager")
 	UIManager.refresh_ui_manager()
-	
-	# 加载开场 cutscene
-	# CutsceneManager.play_cutscene("test")
-	# print("GameManager: 开场 cutscene 播放完成")
 
 	# 更新游戏状态为运行中
 	Loaded.emit()

@@ -89,6 +89,8 @@ void fragment() {
     final_color.a *= alpha_multiplier;
 	// 仅在原图非透明区域显示噪声效果
     final_color.a *= source_tex.a;
-	
+	// 响应节点的 modulate.a（包括父节点的淡入淡出）
+	final_color.a *= COLOR.a;
+
     COLOR = final_color;
 }
