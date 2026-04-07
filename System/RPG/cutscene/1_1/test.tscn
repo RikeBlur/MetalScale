@@ -3,6 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_3u3db"]
 [ext_resource type="Script" uid="uid://bkajs0slwr7ip" path="res://Scripts/system/view/cutscene/cutscene.gd" id="1_6lr8p"]
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="2_sl00d"]
+[ext_resource type="Script" uid="uid://c36tca7psw8t6" path="res://Scripts/system/view/cutscene/text_control.gd" id="4_r21hu"]
+[ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="5_5jqud"]
+[ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="6_s2qde"]
 
 [sub_resource type="Gradient" id="Gradient_3pxdc"]
 offsets = PackedFloat32Array(0, 0.993506)
@@ -41,3 +44,39 @@ script = ExtResource("1_6lr8p")
 [node name="D1" parent="." unique_id=2129294719 instance=ExtResource("1_3u3db")]
 material = SubResource("ShaderMaterial_mci5n")
 position = Vector2(675, 319)
+
+[node name="text_control" type="Control" parent="." unique_id=806291952]
+layout_mode = 1
+anchor_right = 0.99700004
+anchor_bottom = 0.994
+offset_right = 0.45593262
+offset_bottom = -0.11199951
+script = ExtResource("4_r21hu")
+text_speed = 12.0
+label_time = 1.0
+
+[node name="1" type="RichTextLabel" parent="text_control" unique_id=417140611]
+layout_mode = 0
+offset_left = 262.0
+offset_top = 86.0
+offset_right = 1059.0
+offset_bottom = 296.0
+theme = ExtResource("5_5jqud")
+theme_override_fonts/normal_font = ExtResource("6_s2qde")
+theme_override_font_sizes/normal_font_size = 64
+text = "无 无 明
+
+亦 无 无 明 尽"
+
+[node name="2" type="RichTextLabel" parent="text_control" unique_id=466301021]
+layout_mode = 0
+offset_left = 262.0
+offset_top = 333.0
+offset_right = 1059.0
+offset_bottom = 543.0
+theme = ExtResource("5_5jqud")
+theme_override_fonts/normal_font = ExtResource("6_s2qde")
+theme_override_font_sizes/normal_font_size = 64
+text = "乃 至 无 老 死
+
+亦 无 老 死 尽"

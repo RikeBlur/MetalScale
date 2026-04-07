@@ -32,14 +32,16 @@
 ## 26.03.23
 
 DEMO成型！！（五月之前）： <br>
+
 三层地图 / 一层地图 完成（绘制素材 pingpong table，meeting table） <br>
-melt 实现（绘制素材 melt） <br>
-cutscene_manager 实现（撰写文本） <br>
-environment_manager 实现（每个场景的 WorldOfWonder 设定） <br>
-get_in_arrgo 后的音效和shader / arrgoed 后的音效和shader <br>
-把 对话npc本身（不是对话触发器）也作为 动态节点（扩展一下 baselevel？） 管理 <br>
-pursue_state 无 NavigationAgent2D 环境下的优化 <br>
 npc_data 的 存档化！（困难） <br>
+get_in_arrgo 后的音效和shader / arrgoed 后的音效和shader <br>
+
+melt 实现（绘制素材 melt）√ <br>
+cutscene_manager 实现（撰写文本）√ <br>
+environment_manager 实现（每个场景的 WorldOfWonder 设定）√ <br>
+把 对话npc本身（不是对话触发器）也作为 动态节点（扩展一下 baselevel？） 管理 √ <br>
+pursue_state 无 NavigationAgent2D 环境下的优化 √ <br>
 
 选做：
 puzzle_manager 实现 <br>
