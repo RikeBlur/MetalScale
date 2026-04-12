@@ -67,7 +67,7 @@ func _on_enter() -> void:
 	speed_max = Character_body.player_walk_speed_max
 	accelaration = Character_body.player_walk_acceleration
 	sfx.play_start()
-	print("Now State : WALK")
+	#print("Now State : WALK")
 
 func _on_exit() -> void:
 	Character_body.velocity = Vector2.ZERO

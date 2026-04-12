@@ -66,7 +66,7 @@ func _on_enter() -> void:
 	speed_min = Character_body.player_run_speed_min
 	speed_max = Character_body.player_run_speed_max
 	accelaration = Character_body.player_run_acceleration
-	print("Now State : RUN")
+	#print("Now State : RUN")
 	sfx.play_start()
 
 func _on_exit() -> void:

@@ -50,7 +50,7 @@ func _on_next_transitions() -> void:
 func _on_enter() -> void:
 	var state_machine: NodeStateMachine = get_parent()
 	Character_body = state_machine.entity
-	print("Now State : IDLE")
+	#print("Now State : IDLE")
 
 func _on_exit() -> void:
 	Animated_Sprite.stop()

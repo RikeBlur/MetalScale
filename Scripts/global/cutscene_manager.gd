@@ -3,6 +3,25 @@ extends Node
 
 signal cutscene_playback_finished
 
+class SkipRingIndicator:
+	extends Control
+
+	var progress: float = 0.0
+
+	func set_progress(value: float) -> void:
+		progress = clamp(value, 0.0, 1.0)
+		visible = progress > 0.0
+		queue_redraw()
+
+	func _draw() -> void:
+		var center: Vector2 = size * 0.5
+		var radius: float = min(size.x, size.y) * 0.36
+		var start_angle: float = -PI * 0.5
+		var end_angle: float = start_angle + TAU * progress
+		draw_arc(center, radius, 0.0, TAU, 96, Color(0.0, 0.0, 0.0, 0.45), 7.0, true)
+		if progress > 0.0:
+			draw_arc(center, radius, start_angle, end_angle, 96, Color(1.0, 1.0, 1.0, 0.95), 5.0, true)
+
 # ====================================================================================================
 # ====================================================================================================
 # ====================================================================================================
@@ -15,6 +34,8 @@ signal cutscene_playback_finished
 const CANVAS_LAYER_INDEX: int = 5
 ## 淡入/淡出时长（秒）
 const FADE_DURATION: float = 0.5
+
+@export var skipping_time_limit: float = 1.5
 
 # ====================================================================================================
 # ===================================== 数据表 ======================================================
@@ -41,6 +62,9 @@ var _active_canvas_layer: CanvasLayer = null
 var _active_cutscene_node: Node = null
 var _active_tween: Tween = null
 var _active_fade_duration: float = FADE_DURATION
+var _skip_hold_time: float = 0.0
+var _skip_indicator: SkipRingIndicator = null
+var _is_finishing_cutscene: bool = false
 
 # 播放前快照，用于恢复
 var _prev_running_state: GameManager.RunningState = GameManager.RunningState.NOPE
@@ -73,6 +97,9 @@ func play_cutscene(key: String) -> void:
 		push_warning("CutsceneManager: 已有过场动画正在播放，忽略 '%s'" % key)
 		return
 
+	_is_finishing_cutscene = false
+	_reset_skip_state()
+
 	var packed: PackedScene = cutscene_scenes[key]
 	if not packed:
 		push_warning("CutsceneManager: 过场动画场景为 null: '%s'" % key)
@@ -101,6 +128,7 @@ func play_cutscene(key: String) -> void:
 	_active_cutscene_node.modulate.a = 0.0
 	_active_canvas_layer.add_child(_active_cutscene_node)
 	_active_fade_duration = _resolve_fade_duration(_active_cutscene_node)
+	_create_skip_indicator()
 
 	# 等一帧，确保 _ready 执行完毕后再连接信号和淡入
 	await get_tree().process_frame
@@ -131,6 +159,11 @@ func _on_cutscene_finished() -> void:
 	"""接收到 cutscene_finished 后：淡出 → 销毁 → 恢复状态"""
 	if not is_instance_valid(_active_canvas_layer):
 		return
+	if _is_finishing_cutscene:
+		return
+
+	_is_finishing_cutscene = true
+	_reset_skip_state()
 
 	# 淡出
 	_kill_active_tween()
@@ -140,7 +173,7 @@ func _on_cutscene_finished() -> void:
 	else:
 		_active_tween.tween_interval(_active_fade_duration)
 
-	var tween_ref := _active_tween
+	var tween_ref: Tween = _active_tween
 	await tween_ref.finished
 
 	# 淡出完成后销毁（仅在 tween 未被中断时执行）
@@ -153,6 +186,8 @@ func _on_cutscene_finished() -> void:
 	_active_cutscene_node = null
 	_active_tween = null
 	_active_fade_duration = FADE_DURATION
+	_skip_indicator = null
+	_is_finishing_cutscene = false
 
 	# 恢复游戏状态
 	GameManager.set_running_state(_prev_running_state)
@@ -165,6 +200,10 @@ func _on_cutscene_finished() -> void:
 
 	print("CutsceneManager: 过场动画播放完毕，状态已恢复")
 	cutscene_playback_finished.emit()
+
+
+func _process(delta: float) -> void:
+	_update_skip_input(delta)
 
 # ====================================================================================================
 # ===================================== 过场动画信号 ================================================
@@ -228,6 +267,55 @@ func emit_cutscene_signal(key: String) -> void:
 # ====================================================================================================
 # ===================================== 工具函数 ====================================================
 # ====================================================================================================
+
+func _update_skip_input(delta: float) -> void:
+	if not is_instance_valid(_active_canvas_layer) or _is_finishing_cutscene:
+		_reset_skip_state()
+		return
+
+	if not Input.is_key_pressed(KEY_ESCAPE):
+		_reset_skip_state()
+		return
+
+	var limit: float = max(skipping_time_limit, 0.001)
+	_skip_hold_time = min(_skip_hold_time + delta, limit)
+	_set_skip_indicator_progress(_skip_hold_time / limit)
+
+	if _skip_hold_time >= limit:
+		finish_cutscene()
+
+
+func _create_skip_indicator() -> void:
+	if not is_instance_valid(_active_canvas_layer):
+		return
+	if is_instance_valid(_skip_indicator):
+		return
+
+	_skip_indicator = SkipRingIndicator.new()
+	_skip_indicator.name = "CutsceneSkipIndicator"
+	_skip_indicator.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_skip_indicator.custom_minimum_size = Vector2(64.0, 64.0)
+	_skip_indicator.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	_skip_indicator.offset_left = 24.0
+	_skip_indicator.offset_right = 88.0
+	_skip_indicator.offset_top = -88.0
+	_skip_indicator.offset_bottom = -24.0
+	_skip_indicator.set_progress(0.0)
+	_active_canvas_layer.add_child(_skip_indicator)
+
+
+func _set_skip_indicator_progress(progress: float) -> void:
+	if not is_instance_valid(_skip_indicator):
+		_create_skip_indicator()
+	if is_instance_valid(_skip_indicator):
+		_skip_indicator.set_progress(progress)
+
+
+func _reset_skip_state() -> void:
+	_skip_hold_time = 0.0
+	if is_instance_valid(_skip_indicator):
+		_skip_indicator.set_progress(0.0)
+
 
 func _kill_active_tween() -> void:
 	if _active_tween and _active_tween.is_valid():
