@@ -1,5 +1,5 @@
 class_name dialogue_dual
-extends Node2D
+extends Control
 
 const DialogueButtonPreload = preload("res://System/RPG/interact/dialogue/botton.tscn")
 

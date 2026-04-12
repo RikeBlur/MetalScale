@@ -1,10 +1,8 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://byti8qx4q8lu1"]
 
-[ext_resource type="Shader" uid="uid://g68h8mpjhpom" path="res://Effect/Shader/glowing_outline/glowingOutline.gdshader" id="1_jyoyy"]
+[ext_resource type="Shader" uid="uid://ci8ym7gk7b0i5" path="res://Effect/Shader/dialogue_dark/dialogue_dark.gdshader" id="1_jyoyy"]
 
 [resource]
 shader = ExtResource("1_jyoyy")
-shader_parameter/outline_width = 8.0
-shader_parameter/outline_color = Color(1, 1, 1, 1)
-shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
-shader_parameter/hit_flash_intensity = 0.0
+shader_parameter/brightness = 0.1
+shader_parameter/contrast = 0.99

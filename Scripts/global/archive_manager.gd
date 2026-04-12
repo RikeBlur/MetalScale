@@ -164,6 +164,61 @@ func _deserialize_all_scenes(scenes_dict: Dictionary) -> Dictionary:
 	
 	return result
 
+func _get_npc_manager() -> npc_manager:
+	return get_node_or_null("/root/NPCManager") as npc_manager
+
+func _serialize_all_npcs(npc_mgr: npc_manager) -> Dictionary:
+	var result := {}
+	if not npc_mgr:
+		return result
+
+	if npc_mgr.has_method("_update_inscene_npc_data"):
+		npc_mgr._update_inscene_npc_data()
+
+	for npc_id in npc_mgr.npc_dict.keys():
+		var npc_data: NPCData = npc_mgr.npc_dict[npc_id]
+		if not npc_data:
+			continue
+
+		var data := npc_data.to_dict()
+		if npc_data.npc_node:
+			data["npc_node_path"] = npc_data.npc_node.resource_path
+		result[npc_id] = data
+
+	return result
+
+func _deserialize_all_npcs(npc_mgr: npc_manager, npc_dict_data: Dictionary) -> void:
+	if not npc_mgr or npc_dict_data.is_empty():
+		return
+
+	npc_mgr._npc_instances.clear()
+	npc_mgr._eye_wander_timers.clear()
+	npc_mgr._eye_chase_timers.clear()
+
+	for npc_id in npc_dict_data.keys():
+		var data: Dictionary = npc_dict_data[npc_id]
+		var npc_data: NPCData = npc_mgr.npc_dict.get(npc_id)
+
+		if not npc_data:
+			var npc_scene_path: String = data.get("npc_node_path", "")
+			var npc_scene: PackedScene = null
+			if npc_scene_path != "":
+				npc_scene = load(npc_scene_path) as PackedScene
+			if not npc_scene:
+				push_warning("ArchiveManager: skip unknown NPC '%s' without a valid scene path" % npc_id)
+				continue
+			npc_data = NPCData.new()
+			npc_data.npc_node = npc_scene
+			npc_mgr.npc_dict[npc_id] = npc_data
+
+		npc_data.from_dict(data)
+
+	print("ArchiveManager: restored NPC data")
+
+func _refresh_current_scene_npcs(npc_mgr: npc_manager) -> void:
+	if npc_mgr and npc_mgr.has_method("_on_player_reseted"):
+		npc_mgr._on_player_reseted()
+
 # ====================================================================================================
 # ====================================================================================================
 # ====================================================================================================
@@ -192,6 +247,8 @@ func game_save(index : int) -> bool:
 		return false
 	
 	# 构建存档数据
+	var npc_mgr := _get_npc_manager()
+
 	var save_data = {
 		"version": "1.0",
 		"timestamp": Time.get_datetime_string_from_system(),
@@ -206,8 +263,8 @@ func game_save(index : int) -> bool:
 			"scene_dict": _serialize_all_scenes(scene_mgr)
 		},
 		
-		# NPC信息（暂时空着）
-		"npc": {}
+		# NPC信息
+		"npc": _serialize_all_npcs(npc_mgr)
 	}
 	
 	# 转换为JSON字符串
@@ -272,9 +329,14 @@ func game_load(index : int) -> bool:
 		return false
 	
 	# Step 1: 用保存好的SceneData重置scene_manager的字典
+	var npc_mgr := _get_npc_manager()
+
 	if save_data["scene"].has("scene_dict"):
 		scene_mgr.scene_dict = _deserialize_all_scenes(save_data["scene"]["scene_dict"])
 		print("ArchiveManager: 已恢复场景字典")
+
+	if save_data.has("npc"):
+		_deserialize_all_npcs(npc_mgr, save_data["npc"])
 	
 	# 获取scene_now
 	var scene_now = save_data["scene"].get("scene_now", "")
@@ -324,6 +386,8 @@ func game_load(index : int) -> bool:
 		# 重新获取player节点引用
 		player_node = GameManager.get_player()
 	
+	_refresh_current_scene_npcs(npc_mgr)
+
 	# 恢复player参数
 	if player_node and save_data.has("player"):
 		_deserialize_player_data(player_node, save_data["player"])
@@ -395,6 +459,8 @@ func quick_save() -> bool:
 		return false
 	
 	# 构建存档数据
+	var npc_mgr := _get_npc_manager()
+
 	var save_data = {
 		"version": "1.0",
 		"timestamp": Time.get_datetime_string_from_system(),
@@ -408,8 +474,8 @@ func quick_save() -> bool:
 			"scene_dict": _serialize_all_scenes(scene_mgr)
 		},
 		
-		# NPC信息（暂时空着）
-		"npc": {}
+		# NPC信息
+		"npc": _serialize_all_npcs(npc_mgr)
 	}
 	
 	# 转换为JSON字符串
@@ -470,9 +536,14 @@ func quick_load() -> bool:
 		return false
 	
 	# Step 1: 用保存好的SceneData重置scene_manager的字典
+	var npc_mgr := _get_npc_manager()
+
 	if save_data["scene"].has("scene_dict"):
 		scene_mgr.scene_dict = _deserialize_all_scenes(save_data["scene"]["scene_dict"])
 		print("ArchiveManager: 已恢复场景字典")
+
+	if save_data.has("npc"):
+		_deserialize_all_npcs(npc_mgr, save_data["npc"])
 	
 	# 获取scene_now
 	var scene_now = save_data["scene"].get("scene_now", "")
@@ -519,6 +590,8 @@ func quick_load() -> bool:
 		# 重新获取player节点引用
 		player_node = GameManager.get_player()
 	
+	_refresh_current_scene_npcs(npc_mgr)
+
 	# 恢复player参数
 	if player_node and save_data.has("player"):
 		_deserialize_player_data(player_node, save_data["player"])

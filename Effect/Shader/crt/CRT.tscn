@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://bq2xffs03213x"]
 
 [ext_resource type="Texture2D" uid="uid://bdutmm8j37wyd" path="res://icon.svg" id="1_cia1e"]
-[ext_resource type="Shader" uid="uid://r1a171se7m6v" path="res://Effect/Shader/crt/CRT.gdshader" id="2_fcmhq"]
+[ext_resource type="Shader" uid="uid://r1a171se7m6v" path="res://Effect/Shader/crt/CRT.gdshader" id="3_dq1qy"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_34fja"]
-shader = ExtResource("2_fcmhq")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_syxjy"]
+shader = ExtResource("3_dq1qy")
 shader_parameter/overlay = true
 shader_parameter/scanlines_opacity = 0.4
 shader_parameter/scanlines_width = 0.25
@@ -22,14 +22,10 @@ shader_parameter/static_noise_intensity = 0.06
 shader_parameter/aberration = 0.03
 shader_parameter/brightness = 1.4
 shader_parameter/discolor = true
-shader_parameter/warp_amount = 1.0
-shader_parameter/clip_warp = true
+shader_parameter/warp_amount = 0.0
+shader_parameter/clip_warp = false
 shader_parameter/vignette_intensity = 0.4
 shader_parameter/vignette_opacity = 0.5
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wsrqv"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_syxjy"]
 
 [node name="CanvasLayer" type="CanvasLayer" unique_id=122830247]
 
@@ -45,25 +41,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_cia1e")
 
-[node name="效果1" type="ColorRect" parent="." unique_id=1991395902]
-material = SubResource("ShaderMaterial_34fja")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="效果2" type="ColorRect" parent="." unique_id=1382009930]
-visible = false
-material = SubResource("ShaderMaterial_wsrqv")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="效果3" type="ColorRect" parent="." unique_id=933574655]
-visible = false
+[node name="effect3" type="ColorRect" parent="." unique_id=933574655]
 material = SubResource("ShaderMaterial_syxjy")
 anchors_preset = 15
 anchor_right = 1.0

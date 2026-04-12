@@ -7,20 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dv2p3c4p3uk8e" path="res://Assests/sprite/Character/AX/dialogue/back_1.png" id="5_pd8p1"]
 [ext_resource type="Texture2D" uid="uid://bxngadho5jgwo" path="res://Assests/sprite/Character/AX/dialogue/back_2.png" id="6_kevsi"]
 [ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="7_q0g5b"]
-[ext_resource type="Texture2D" uid="uid://coyfaxpajqp33" path="res://Assests/sprite/Character/AX/dialogue/idle/f0.png" id="8_0qbkj"]
-[ext_resource type="Texture2D" uid="uid://cegrvxm4fwvav" path="res://Assests/sprite/Character/AX/dialogue/idle/f1.png" id="9_eisfc"]
-[ext_resource type="Texture2D" uid="uid://br5bnxa37vr4m" path="res://Assests/sprite/Character/AX/dialogue/idle/f2.png" id="10_dxbsj"]
-[ext_resource type="Texture2D" uid="uid://uwkkdtefraht" path="res://Assests/sprite/Character/AX/dialogue/idle/f3.png" id="11_ynqyr"]
-[ext_resource type="Texture2D" uid="uid://blvsm6mqt1cg7" path="res://Assests/sprite/Character/AX/dialogue/idle/f4.png" id="12_5a22y"]
-[ext_resource type="Texture2D" uid="uid://dr4kaxldynbhx" path="res://Assests/sprite/Character/AX/dialogue/idle/f6.png" id="13_kls04"]
-[ext_resource type="Texture2D" uid="uid://celwsg7w4y8ia" path="res://Assests/sprite/Character/AX/dialogue/idle/f7.png" id="14_euo3b"]
-[ext_resource type="Texture2D" uid="uid://c4pgvdvgnyhd7" path="res://Assests/sprite/Character/AX/dialogue/idle/f8.png" id="15_1vomk"]
-[ext_resource type="Texture2D" uid="uid://bfsud2frovg7f" path="res://Assests/sprite/Character/AX/dialogue/idle/f9.png" id="16_j8mo4"]
-[ext_resource type="Texture2D" uid="uid://befvrs7frqxd6" path="res://Assests/sprite/Character/AX/dialogue/idle/f10.png" id="17_l651e"]
-[ext_resource type="Texture2D" uid="uid://cbkhcpqik2m5p" path="res://Assests/sprite/Character/AX/dialogue/idle/f12.png" id="18_drkks"]
-[ext_resource type="Texture2D" uid="uid://f6w53bshqnue" path="res://Assests/sprite/Character/AX/dialogue/idle/f13.png" id="19_nwlpj"]
-[ext_resource type="Texture2D" uid="uid://xagk61xvbgju" path="res://Assests/sprite/Character/AX/dialogue/idle/f14.png" id="20_527m5"]
-[ext_resource type="Texture2D" uid="uid://ckrntq8bgpwwk" path="res://Assests/sprite/Character/AX/dialogue/idle/f15.png" id="21_5a2vn"]
+[ext_resource type="Texture2D" uid="uid://cn1go27sg71n0" path="res://Assests/sprite/Character/AX/dialogue/idle_neo_ax.png" id="8_jjsu0"]
 
 [sub_resource type="Resource" id="Resource_3s3v0"]
 script = ExtResource("3_conxp")
@@ -44,50 +31,11 @@ animations = [{
 "speed": 1.0
 }]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_8vbb1"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_k1k0v"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("8_0qbkj")
-}, {
-"duration": 0.5,
-"texture": ExtResource("9_eisfc")
-}, {
-"duration": 0.5,
-"texture": ExtResource("10_dxbsj")
-}, {
-"duration": 0.5,
-"texture": ExtResource("11_ynqyr")
-}, {
-"duration": 1.0,
-"texture": ExtResource("12_5a22y")
-}, {
-"duration": 0.5,
-"texture": ExtResource("13_kls04")
-}, {
-"duration": 0.5,
-"texture": ExtResource("14_euo3b")
-}, {
-"duration": 0.5,
-"texture": ExtResource("15_1vomk")
-}, {
-"duration": 1.0,
-"texture": ExtResource("16_j8mo4")
-}, {
-"duration": 1.0,
-"texture": ExtResource("17_l651e")
-}, {
-"duration": 1.0,
-"texture": ExtResource("18_drkks")
-}, {
-"duration": 1.0,
-"texture": ExtResource("19_nwlpj")
-}, {
-"duration": 1.0,
-"texture": ExtResource("20_527m5")
-}, {
-"duration": 1.0,
-"texture": ExtResource("21_5a2vn")
+"texture": ExtResource("8_jjsu0")
 }],
 "loop": true,
 "name": &"idle",
@@ -161,9 +109,8 @@ size_flags_stretch_ratio = 0.0
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1896062791]
 
-[node name="illustrate" type="AnimatedSprite2D" parent="." unique_id=341558159]
-position = Vector2(-387, -143)
-scale = Vector2(0.47, 0.47)
-sprite_frames = SubResource("SpriteFrames_8vbb1")
+[node name="illustrate" type="AnimatedSprite2D" parent="." unique_id=300888933]
+position = Vector2(-370.00003, -67)
+scale = Vector2(0.4, 0.4)
+sprite_frames = SubResource("SpriteFrames_k1k0v")
 animation = &"idle"
-flip_h = true

@@ -38,6 +38,7 @@ metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 script = ExtResource("2_tc1l2")
 node_path = NodePath("ObjectAndCharacter/Interactable/1")
 type = 4
+state = 1
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Gradient" id="Gradient_336yt"]

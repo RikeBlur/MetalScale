@@ -49,18 +49,18 @@ is_inscene: bool = false
 
 # npc状态
 state: int = 0
-	对于EYE：0 -> patrol ; 1 -> pursue ; -1 -> 不动。
-	对于melt:0 -> patrol ; 1 -> pursue ; -1 -> 不动。
+	对于EYE：0 -> patrol ; 1 -> pursue ; -1 -> 死亡。
+	对于melt:0 -> patrol ; 1 -> pursue ; -1 -> 死亡。
 """
 
 var npc_dict: Dictionary = {
 	"0-0": NPCData.new().setup(
 		preload("res://System/RPG/entity/npc/Enemy/EYE/EYE.tscn"),
-		npc_type.EYE, "2-1", Vector2(600,250), Vector2.DOWN, false, 0
+		npc_type.EYE, "1-1", Vector2(600,250), Vector2.DOWN, false, 0
 	),
 	"1-0": NPCData.new().setup(
 		preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
-		npc_type.melt, "2-1", Vector2(800,250), Vector2.DOWN, false, 0
+		npc_type.melt, "1-1", Vector2(800,250), Vector2.DOWN, false, 0
 	),
 }
 # ====================================================================================================

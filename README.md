@@ -27,6 +27,12 @@
 对于谜题，0 表示不可交互 1表示可交互
 对于其他。0 表示不可见且不参与碰撞 1 表示可见且恢复碰撞<br>
 
+7. Dialogue 
+一个 DialogueComponent 对应一个 可对话区域
+每个 DialogueComponent 可以有多个 dialogue
+一个 TriggerFlag 对应一组对话， 通过 CurrentFlag 和 NextFlag 方便控制
+同一个区域的多个对话组。Flag 和 Content 的对应关系不变  <br>
+
 # UPDATE
 
 ## 26.03.23
@@ -34,10 +40,11 @@
 DEMO成型！！（五月之前）： <br>
 
 三层地图 / 一层地图 完成（绘制素材 pingpong table，meeting table） <br>
-npc_data 的 存档化！（困难） <br>
-get_in_arrgo 后的音效和shader / arrgoed 后的音效和shader <br>
+get_in_arrgo 后的音效和 shader <br>
+arrgoed 后的音效和 shader（可用 CRT） <br>
 
 melt 实现（绘制素材 melt）√ <br>
+npc_data 的 存档化！（困难）√ <br>
 cutscene_manager 实现（撰写文本）√ <br>
 environment_manager 实现（每个场景的 WorldOfWonder 设定）√ <br>
 把 对话npc本身（不是对话触发器）也作为 动态节点（扩展一下 baselevel？） 管理 √ <br>
