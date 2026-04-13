@@ -25,6 +25,7 @@
 [ext_resource type="AudioStream" uid="uid://c6r5c40u5qdid" path="res://Assests/SFX/Character/EYE/hiss.mp3" id="23_ybxgd"]
 [ext_resource type="AudioStream" uid="uid://c3n7dh2ox0nq7" path="res://Assests/SFX/Character/EYE/Footsteps_walking_EYE.mp3" id="24_xt7ba"]
 [ext_resource type="AudioStream" uid="uid://copgggnk5h7iq" path="res://Assests/SFX/Character/EYE/Footsteps_ running_EYE.mp3" id="25_e0ijc"]
+[ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/component/point_radial_light_texture.tres" id="26_e0ijc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t7jrn"]
 shader = ExtResource("5_iio1o")
@@ -1154,7 +1155,7 @@ material = SubResource("ShaderMaterial_t7jrn")
 position = Vector2(0, -3.8146973e-06)
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_pjei4")
-animation = &"run_back"
+animation = &"run_back_left"
 offset = Vector2(0, -210)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=252321699]
@@ -1191,3 +1192,11 @@ panning_strength = 2.0
 script = ExtResource("21_t7jrn")
 one_shot = false
 metadata/_custom_type_script = "uid://use5ds4i6ib4"
+
+[node name="ambient_light" type="PointLight2D" parent="." unique_id=94143044]
+position = Vector2(-20.999998, -86)
+scale = Vector2(0.50000006, 0.49242425)
+color = Color(0.9, 0.27899998, 0.27899998, 1)
+energy = 0.3
+shadow_enabled = true
+texture = ExtResource("26_e0ijc")

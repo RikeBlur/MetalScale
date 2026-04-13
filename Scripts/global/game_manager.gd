@@ -60,6 +60,7 @@ var start_position: Vector2 = Vector2(870, 290)
 
 # 玩家仇恨状态：0=无仇恨 1=仇恨中（0<aggro<100） 2=完全仇恨（aggro==100）
 var player_arrgo: int = 0
+var arrgo_in_threshold: float = 25.0
 var _prev_aggro_value: float = 0.0       # 上一帧的 aggro_value，用于边沿检测
 var _debug_signal_log: Array[String] = [] # 最近发出的 arrgo 信号日志（最多4条）
 
@@ -298,8 +299,8 @@ func _update_player_arrgo() -> void:
 
 	var val: float = p.aggro_value
 
-	# 边沿1：从0开始上升 → get_in_arrgo
-	if _prev_aggro_value == 0.0 and val > 0.0:
+	# 边沿1：从0上升到阈值 → get_in_arrgo
+	if player_arrgo == 0 and _prev_aggro_value < arrgo_in_threshold and val >= arrgo_in_threshold:
 		player_arrgo = 1
 		get_in_arrgo.emit()
 		_log_arrgo_signal("get_in_arrgo")

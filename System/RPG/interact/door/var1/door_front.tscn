@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="4_n1w2s"]
 [ext_resource type="AudioStream" uid="uid://c56u1rqb2tere" path="res://Assests/SFX/Object/door_lock.mp3" id="6_ef6gj"]
 [ext_resource type="AudioStream" uid="uid://wkxra0wohxcp" path="res://Assests/SFX/Object/lock_open.mp3" id="7_b5slr"]
+[ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/component/point_radial_light_texture.tres" id="8_e86k8"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2psln"]
 radius = 34.0
@@ -51,3 +52,10 @@ script = ExtResource("4_n1w2s")
 [node name="use_key_sfx" type="AudioStreamPlayer2D" parent="." unique_id=2043841304]
 stream = ExtResource("7_b5slr")
 script = ExtResource("4_n1w2s")
+
+[node name="ambient_light" type="PointLight2D" parent="." unique_id=205415147]
+position = Vector2(1.0728836e-06, -10)
+scale = Vector2(1.0312501, 1.015625)
+color = Color(0.7047, 0.768065, 0.87, 1)
+energy = 0.2
+texture = ExtResource("8_e86k8")

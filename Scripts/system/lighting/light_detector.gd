@@ -97,18 +97,18 @@ func calculate_intensities(is_now : bool) -> float:
 			if average_intensity > light.find_detector_threshold:
 				if not light.find_detector:
 					light.find_detector = true
-					print("LightDetector: 光源 %s 照射到了检测器 (intensity: %.3f > threshold: %.3f)" % [light.name, average_intensity, light.find_detector_threshold])
+					#print("LightDetector: 光源 %s 照射到了检测器 (intensity: %.3f > threshold: %.3f)" % [light.name, average_intensity, light.find_detector_threshold])
 			else:
 				if light.find_detector:
 					light.find_detector = false
-					print("LightDetector: 光源 %s 失去了检测器 (intensity: %.3f <= threshold: %.3f)" % [light.name, average_intensity, light.find_detector_threshold])
+					#print("LightDetector: 光源 %s 失去了检测器 (intensity: %.3f <= threshold: %.3f)" % [light.name, average_intensity, light.find_detector_threshold])
 			
 			if debug_mode: _update_visualize()
 		else:
 			# 无有效检测点，光源未照射到检测器
 			if light.find_detector:
 				light.find_detector = false
-				print("LightDetector: 光源 %s 失去了检测器 (无有效检测点)" % light.name)
+				#print("LightDetector: 光源 %s 失去了检测器 (无有效检测点)" % light.name)
 		#	print("光源: ", light.name, " 无有效检测点")
 	
 	return total_intensity
@@ -116,19 +116,19 @@ func calculate_intensities(is_now : bool) -> float:
 func set_radius(new_radius: float):
 	"""设置检测半径"""
 	radius = new_radius
-	print("检测半径设置为: ", radius)
+	#print("检测半径设置为: ", radius)
 
 func set_update_rate(new_rate: float):
 	"""设置更新频率"""
 	update_rate = new_rate
 	if update_timer:
 		update_timer.wait_time = update_rate
-	print("更新频率设置为: ", update_rate, " 秒")
+	#print("更新频率设置为: ", update_rate, " 秒")
 
 func set_extension_length(new_length: float):
 	"""设置扩展长度"""
 	extension_length = new_length
-	print("扩展长度设置为: ", extension_length)
+	#print("扩展长度设置为: ", extension_length)
 
 func get_nearby_lights_count() -> int:
 	"""获取附近光源数量"""

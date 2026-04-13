@@ -40,6 +40,7 @@
 [ext_resource type="PackedScene" uid="uid://gkd838orapi5" path="res://System/RPG/lighting/component/light_detector.tscn" id="36_5qh6w"]
 [ext_resource type="AudioStream" uid="uid://hac2cumo6mqa" path="res://Assests/SFX/Character/Oni/Footsteps_ running.mp3" id="36_jkc22"]
 [ext_resource type="AudioStream" uid="uid://bo7pe7r677nvm" path="res://Assests/SFX/Character/Oni/Retro Event UI StereoUP 01.mp3" id="37_aooo5"]
+[ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/component/point_radial_light_texture.tres" id="41_aooo5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jkc22"]
 radius = 11.111106
@@ -1904,3 +1905,11 @@ position = Vector2(0, -38)
 extension_length = 15.0
 future_length = 50.0
 debug_mode = false
+
+[node name="ambient_light" type="PointLight2D" parent="." unique_id=1497612009]
+position = Vector2(1.0728836e-06, -32.5)
+scale = Vector2(1.0312501, 1.015625)
+color = Color(0.51000005, 0.62333333, 0.85, 1)
+energy = 0.2
+shadow_enabled = true
+texture = ExtResource("41_aooo5")
