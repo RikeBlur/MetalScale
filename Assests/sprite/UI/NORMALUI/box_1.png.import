@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4y6e1apbeqxx"
-path="res://.godot/imported/idle_neo_ax.png-6df1c9c726a90d545a53cd966c09db73.ctex"
+uid="uid://q7og4ijuav7h"
+path="res://.godot/imported/box_1.png-b06cf471db35c4261f1d61a19f10e93a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assests/sprite/Character/AX/dialogue/idle_neo_ax.png"
-dest_files=["res://.godot/imported/idle_neo_ax.png-6df1c9c726a90d545a53cd966c09db73.ctex"]
+source_file="res://Assests/sprite/UI/NORMALUI/box_1.png"
+dest_files=["res://.godot/imported/box_1.png-b06cf471db35c4261f1d61a19f10e93a.ctex"]
 
 [params]
 

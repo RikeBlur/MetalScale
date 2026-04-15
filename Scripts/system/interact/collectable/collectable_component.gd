@@ -13,6 +13,9 @@ var can_collect_reminder = preload("res://System/RPG/interact/collectable/collec
 var reminder_instance: Node = null
 @export var reminder_offset = Vector2(50, -80)
 
+# 可拾取物的实例，可能没有
+@export var content: Sprite2D = null
+
 # 视觉标识物
 @onready var flashpoint: AnimatedSprite2D = $flashpoint
 @onready var light: PointLight2D = $light
@@ -53,6 +56,8 @@ func _disappear_literually() -> void:
 	collectable_state = 0
 	light.visible = false
 	flashpoint.visible = false
+	if content != null :
+		content.visible = false
 	_destroy_reminder()
 	interacted_component_node.be_interactable.disconnect(_spawn_reminder)
 	interacted_component_node.be_not_interactable.disconnect(_destroy_reminder)

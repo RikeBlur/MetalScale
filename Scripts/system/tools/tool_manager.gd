@@ -24,6 +24,15 @@ const TOOL_DISPLAY_NAMES = {
 	Tool.KEYA: "教师休息室钥匙"
 }
 
+# 工具显示名字典
+const TOOL_DESCRIPTION = {
+	Tool.NONE: "无",
+	Tool.EMERGENCELIGHT: "提灯模样的备用光源，照明范围有限",
+	Tool.FLASHLIGHT: "手电筒",
+	Tool.ADRENALINE: "肾上腺素",
+	Tool.KEYA: "教师休息室钥匙"
+}
+
 # NOTE: Please replace with the actual paths to your scenes.
 const EMERGENCELIGHT_SCENE = preload("res://System/RPG/tools/Tool/EmergenceLight.tscn")
 const ADRENALINE_SCENE = preload("res://System/RPG/tools/Tool/adrenaline.tscn")

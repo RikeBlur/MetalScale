@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://c36tca7psw8t6" path="res://Scripts/system/view/cutscene/text_control.gd" id="4_r21hu"]
 [ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="5_5jqud"]
 [ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="6_s2qde"]
+[ext_resource type="Texture2D" uid="uid://byi42k5gpxpci" path="res://Assests/sprite/UI/ESC.png" id="7_s2qde"]
 
 [sub_resource type="Gradient" id="Gradient_3pxdc"]
 offsets = PackedFloat32Array(0, 0.993506)
@@ -82,3 +83,9 @@ theme_override_font_sizes/normal_font_size = 64
 text = "乃 至 无 老 死
 
 亦 无 老 死 尽"
+
+[node name="ESC" type="Sprite2D" parent="." unique_id=1007561769]
+modulate = Color(1, 1, 1, 0.10980392)
+position = Vector2(54, 592)
+scale = Vector2(0.25390625, 0.25390625)
+texture = ExtResource("7_s2qde")

@@ -17,6 +17,7 @@ shader_type canvas_item;
 // change all "overlay ? screen_texture : TEXTURE" to only "screen_texture" on lines 129-140, and "vec2 uv = overlay ? warp(SCREEN_UV) : warp(UV);"
 // to "vec2 uv = warp(SCREEN_UV);" on line 98.
 uniform bool overlay = false;
+uniform float effect_opacity : hint_range(0.0, 1.0) = 1.0;
 
 uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
 
@@ -228,4 +229,5 @@ void fragment()
 	}
 	
 	COLOR = text;
+	COLOR.a *= effect_opacity;
 }

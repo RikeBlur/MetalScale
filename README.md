@@ -39,8 +39,11 @@
 
 DEMO成型！！（五月之前）： <br>
 
-三层地图 / 一层地图 完成（绘制素材 pingpong table，meeting table） <br>
+一层地图 完成 <br>
+三层地图 完成 <br>
+Gone 的 idle/walk/run 动画 <br>
 
+player_info 界面（角色状态显示；自言自语显示；物品栏显示，悬浮显示说明） <br>
 get_in_arrgo 后的音效和 shader √ <br>
 arrgoed 后的音效和 shader（可用 CRT） √ <br>
 melt 实现（绘制素材 melt）√ <br>

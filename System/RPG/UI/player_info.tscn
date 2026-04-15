@@ -1,0 +1,389 @@
+[gd_scene format=3 uid="uid://dkqdjf61yhu7h"]
+
+[ext_resource type="Script" uid="uid://c8q4uv3umclee" path="res://Scripts/system/view/UI/player_info/player_info.gd" id="1_w38yq"]
+[ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="2_8xlno"]
+[ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="3_tqbbf"]
+[ext_resource type="Texture2D" uid="uid://kpj6cxsovv6h" path="res://Assests/sprite/Character/Oni/dialogue/idle_neo/idle_neo.png" id="4_tqbbf"]
+[ext_resource type="Theme" uid="uid://beojeuc7ptq0g" path="res://Style/UI/theme_tool_bar.tres" id="5_0w5gx"]
+[ext_resource type="Script" uid="uid://qxjk3fvacpsj" path="res://Scripts/system/view/UI/player_info/toolbox_info.gd" id="6_rcdol"]
+[ext_resource type="Texture2D" uid="uid://q7og4ijuav7h" path="res://Assests/sprite/UI/NORMALUI/box_1.png" id="7_0w5gx"]
+[ext_resource type="Shader" uid="uid://dlce8kpjbo146" path="res://Effect/Shader/toolbox/toolbox.gdshader" id="8_36qr7"]
+[ext_resource type="Texture2D" uid="uid://x3bn0gbxu1u7" path="res://Assests/sprite/UI/TOOLBAR/toolicon/EmergenceLight_icon.png" id="9_dcodx"]
+[ext_resource type="Material" uid="uid://byti8qx4q8lu1" path="res://Effect/Shader/glowing_outline/glowingOutline.tres" id="10_dcodx"]
+[ext_resource type="Texture2D" uid="uid://wsukm1uccita" path="res://Assests/sprite/UI/NORMALUI/lefthand-up-1_export-export.png" id="11_b7a3m"]
+[ext_resource type="Shader" uid="uid://g68h8mpjhpom" path="res://Effect/Shader/glowing_outline/glowingOutline.gdshader" id="12_rcdol"]
+[ext_resource type="Texture2D" uid="uid://b3tdw4bqxhbob" path="res://Assests/sprite/UI/NORMALUI/righthand-down-1-export-export-export.png" id="13_y01q2"]
+[ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="14_b7a3m"]
+[ext_resource type="Texture2D" uid="uid://c8rtq46bxm8d3" path="res://Assests/sprite/UI/NORMALUI/self-talk.png" id="15_y01q2"]
+[ext_resource type="PackedScene" uid="uid://cl7ua8y1i1jpu" path="res://System/RPG/UI/windows/tool_info_window.tscn" id="16_y01q2"]
+
+[sub_resource type="Gradient" id="Gradient_eh63m"]
+offsets = PackedFloat32Array(0, 0.993506)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lj701"]
+offset = Vector3(0, 140.35, 0)
+fractal_type = 2
+domain_warp_enabled = true
+domain_warp_type = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gwi4v"]
+noise = SubResource("FastNoiseLite_lj701")
+color_ramp = SubResource("Gradient_eh63m")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dpsrs"]
+shader = ExtResource("3_tqbbf")
+shader_parameter/wave_speed = 0.25
+shader_parameter/noise_scale = 3.0
+shader_parameter/wave_amplitude = 0.5
+shader_parameter/time_offset = 0.0
+shader_parameter/gradient_texture = SubResource("NoiseTexture2D_gwi4v")
+shader_parameter/use_gradient = true
+shader_parameter/base_color = Color(0.15431167, 0.14629999, 0.19, 1)
+shader_parameter/alpha_multiplier = 1.0
+shader_parameter/color_mix_strength = 0.99
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b7a3m"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rcdol"]
+shader = ExtResource("8_36qr7")
+shader_parameter/state = 1
+shader_parameter/glow_intensity = 2.0
+shader_parameter/glow_color = Color(1, 0.95, 0.8, 1)
+shader_parameter/glow_size = 2.0
+shader_parameter/inactive_brightness = 0.5
+shader_parameter/inactive_saturation = 0.6
+shader_parameter/broken_tint = Color(0.6, 0.2, 0.2, 1)
+shader_parameter/broken_blend = 0.7
+shader_parameter/broken_brightness = 0.4
+shader_parameter/pulse_speed = 1.5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_y01q2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ymnra"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ydsfa"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qwf86"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m6s7s"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ymnra"]
+shader = ExtResource("12_rcdol")
+shader_parameter/outline_width = 1.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
+shader_parameter/hit_flash_intensity = 0.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rcdol"]
+
+[node name="PlayerInfo" type="Control" unique_id=339872355]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w38yq")
+
+[node name="D1" parent="." unique_id=1653279044 instance=ExtResource("2_8xlno")]
+material = SubResource("ShaderMaterial_dpsrs")
+position = Vector2(579.5112, 328)
+scale = Vector2(0.9087027, 0.92333335)
+
+[node name="oni" type="Sprite2D" parent="." unique_id=794728129]
+position = Vector2(247, 329)
+scale = Vector2(0.35489315, 0.35489315)
+texture = ExtResource("4_tqbbf")
+
+[node name="tool_info" type="Control" parent="." unique_id=1432799892]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PanelContainer" type="PanelContainer" parent="tool_info" unique_id=2031606257]
+layout_mode = 0
+offset_left = 773.0
+offset_top = 83.0
+offset_right = 1039.0
+offset_bottom = 578.0
+theme = ExtResource("5_0w5gx")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_b7a3m")
+
+[node name="MarginContainer" type="MarginContainer" parent="tool_info/PanelContainer" unique_id=1498056250]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="tool_info/PanelContainer/MarginContainer" unique_id=955241244]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="tool_bar_left" type="VBoxContainer" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer" unique_id=807579860]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="tool1" type="Container" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_left" unique_id=7510647]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("5_0w5gx")
+script = ExtResource("6_rcdol")
+
+[node name="back" type="TextureRect" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_left/tool1" unique_id=944342037]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("7_0w5gx")
+expand_mode = 1
+
+[node name="Icon" type="TextureRect" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_left/tool1" unique_id=126942084]
+material = SubResource("ShaderMaterial_rcdol")
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("9_dcodx")
+expand_mode = 1
+
+[node name="Button" type="Button" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_left/tool1" unique_id=101707097]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_y01q2")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ymnra")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ydsfa")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_qwf86")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_m6s7s")
+
+[node name="tool2" type="Container" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_left" unique_id=1423865414]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("5_0w5gx")
+script = ExtResource("6_rcdol")
+
+[node name="back" type="TextureRect" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_left/tool2" unique_id=780521481]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("7_0w5gx")
+expand_mode = 1
+
+[node name="Icon" type="TextureRect" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_left/tool2" unique_id=1291012949]
+material = SubResource("ShaderMaterial_rcdol")
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("9_dcodx")
+expand_mode = 1
+
+[node name="Button" type="Button" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_left/tool2" unique_id=1437070456]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_y01q2")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ymnra")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ydsfa")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_qwf86")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_m6s7s")
+
+[node name="tool3" type="Container" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_left" unique_id=173070001]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("5_0w5gx")
+script = ExtResource("6_rcdol")
+
+[node name="back" type="TextureRect" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_left/tool3" unique_id=863498571]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("7_0w5gx")
+expand_mode = 1
+
+[node name="Icon" type="TextureRect" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_left/tool3" unique_id=1249070054]
+material = SubResource("ShaderMaterial_rcdol")
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("9_dcodx")
+expand_mode = 1
+
+[node name="Button" type="Button" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_left/tool3" unique_id=1305620056]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_y01q2")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ymnra")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ydsfa")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_qwf86")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_m6s7s")
+
+[node name="tool_bar_right" type="VBoxContainer" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer" unique_id=1005843949]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="tool4" type="Container" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_right" unique_id=2111892889]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("5_0w5gx")
+script = ExtResource("6_rcdol")
+
+[node name="back" type="TextureRect" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_right/tool4" unique_id=1655957807]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("7_0w5gx")
+expand_mode = 1
+
+[node name="Icon" type="TextureRect" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_right/tool4" unique_id=1051286984]
+material = SubResource("ShaderMaterial_rcdol")
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("9_dcodx")
+expand_mode = 1
+
+[node name="Button" type="Button" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_right/tool4" unique_id=1434846031]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_y01q2")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ymnra")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ydsfa")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_qwf86")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_m6s7s")
+
+[node name="tool5" type="Container" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_right" unique_id=1869299135]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("5_0w5gx")
+script = ExtResource("6_rcdol")
+
+[node name="back" type="TextureRect" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_right/tool5" unique_id=782557186]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("7_0w5gx")
+expand_mode = 1
+
+[node name="Icon" type="TextureRect" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_right/tool5" unique_id=282548315]
+material = SubResource("ShaderMaterial_rcdol")
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("9_dcodx")
+expand_mode = 1
+
+[node name="Button" type="Button" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_right/tool5" unique_id=1003324623]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_y01q2")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ymnra")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ydsfa")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_qwf86")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_m6s7s")
+
+[node name="tool6" type="Container" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_right" unique_id=655720390]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("5_0w5gx")
+script = ExtResource("6_rcdol")
+
+[node name="back" type="TextureRect" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_right/tool6" unique_id=1728169824]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("7_0w5gx")
+expand_mode = 1
+
+[node name="Icon" type="TextureRect" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_right/tool6" unique_id=1472413829]
+material = SubResource("ShaderMaterial_rcdol")
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("9_dcodx")
+expand_mode = 1
+
+[node name="Button" type="Button" parent="tool_info/PanelContainer/MarginContainer/HBoxContainer/tool_bar_right/tool6" unique_id=1545967149]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_y01q2")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ymnra")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ydsfa")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_qwf86")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_m6s7s")
+
+[node name="hands" type="Node2D" parent="tool_info" unique_id=1683456628]
+position = Vector2(780, 85)
+
+[node name="hand-left-up" type="Sprite2D" parent="tool_info/hands" unique_id=34095543]
+material = ExtResource("10_dcodx")
+position = Vector2(110, 10)
+scale = Vector2(2, 2)
+texture = ExtResource("11_b7a3m")
+
+[node name="hand-right-down" type="Sprite2D" parent="tool_info/hands" unique_id=1524957475]
+material = SubResource("ShaderMaterial_ymnra")
+position = Vector2(118, 480)
+scale = Vector2(2, 2)
+texture = ExtResource("13_y01q2")
+
+[node name="self_talk" type="PanelContainer" parent="." unique_id=1284151577]
+layout_mode = 0
+offset_left = 433.0
+offset_top = 280.0
+offset_right = 743.0
+offset_bottom = 555.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_rcdol")
+
+[node name="talk" type="MarginContainer" parent="self_talk" unique_id=149678026]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 20
+
+[node name="label" type="RichTextLabel" parent="self_talk/talk" unique_id=991505626]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("14_b7a3m")
+theme_override_font_sizes/normal_font_size = 32
+text = "“空气太浑浊了...”"
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="self_talk" unique_id=1851017683]
+layout_mode = 2
+texture = ExtResource("15_y01q2")
+
+[node name="player_data" type="VBoxContainer" parent="." unique_id=1706332878]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 427.0
+offset_top = 105.0
+offset_right = -405.0
+offset_bottom = -371.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Name" type="RichTextLabel" parent="player_data" unique_id=832363984]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("14_b7a3m")
+theme_override_font_sizes/normal_font_size = 32
+text = "姓名：O_ni_______"
+
+[node name="State" type="RichTextLabel" parent="player_data" unique_id=1399376585]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("14_b7a3m")
+theme_override_font_sizes/normal_font_size = 32
+text = "状态：健康"
+
+[node name="ToolInfoWindow" parent="." unique_id=977050762 instance=ExtResource("16_y01q2")]
+layout_mode = 1

@@ -37,7 +37,6 @@ script = ExtResource("1_2ks4h")
 position = Vector2(8, -92)
 script = ExtResource("2_uiy4a")
 sampling_rate = 24
-debug_mode = true
 
 [node name="PointLight2D" type="PointLight2D" parent="LightSource" unique_id=559647924]
 position = Vector2(-2, -10)

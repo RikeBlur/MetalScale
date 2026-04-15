@@ -49,7 +49,7 @@ shader_parameter/color_mix_strength = 0.90000004275
 ssao_enabled = true
 glow_enabled = true
 
-[node name="ClassRoom201" type="Node2D" unique_id=1940884473]
+[node name="ClassRoom101" type="Node2D" unique_id=1940884473]
 y_sort_enabled = true
 script = ExtResource("1_ikrn3")
 player_initial_position = Array[Vector2]([Vector2(530, 275)])

@@ -9,18 +9,21 @@ const ARRGOING_SHADER_PARAMETERS: Array[StringName] = [
 	&"scanlines_width",
 	&"grille_opacity"
 ]
+const EFFECT_OPACITY_PARAMETER: StringName = &"effect_opacity"
 const ARRGOING_PARAMETER_MAX: float = 0.25
 
 @export_file("*.tscn") var arrgoing_scene_path: String = "res://Effect/Shader/crt/arrgoing.tscn"
 @export_file("*.tscn") var arrgoed_scene_path: String = "res://Effect/Shader/crt/arrgoed.tscn"
 @export var arrgo_effect_layer: int = 4
-@export var arrgo_fade_in_duration: float = 0.35
+@export var arrgo_fade_in_duration: float = 0.5
 @export var arrgo_fade_out_duration: float = 1.0
 
 var _arrgo_effect_layer: CanvasLayer = null
 var _arrgo_effect_nodes: Dictionary = {}
 var _arrgo_effect_rects: Dictionary = {}
 var _arrgo_effect_fade_targets: Dictionary = {}
+var _arrgo_effect_materials: Dictionary = {}
+var _arrgo_effect_opacities: Dictionary = {}
 var _arrgo_effect_tweens: Dictionary = {}
 var _arrgo_effect_scenes: Dictionary = {}
 
@@ -88,7 +91,8 @@ func _fade_in_arrgo_effect(effect_key: String) -> void:
 	tween = create_tween()
 	tween.set_trans(Tween.TRANS_CUBIC)
 	tween.set_ease(Tween.EASE_OUT)
-	tween.tween_property(fade_target, "modulate:a", 1.0, arrgo_fade_in_duration)
+	var start_opacity: float = float(_arrgo_effect_opacities.get(effect_key, fade_target.modulate.a))
+	tween.tween_method(_set_arrgo_effect_opacity.bind(effect_key), start_opacity, 1.0, arrgo_fade_in_duration)
 	_arrgo_effect_tweens[effect_key] = tween
 
 	if effect_key == ARRGOING_EFFECT_KEY:
@@ -113,7 +117,8 @@ func _fade_out_arrgo_effect(effect_key: String) -> void:
 	tween = create_tween()
 	tween.set_trans(Tween.TRANS_CUBIC)
 	tween.set_ease(Tween.EASE_IN)
-	tween.tween_property(fade_target, "modulate:a", 0.0, arrgo_fade_out_duration)
+	var start_opacity: float = float(_arrgo_effect_opacities.get(effect_key, fade_target.modulate.a))
+	tween.tween_method(_set_arrgo_effect_opacity.bind(effect_key), start_opacity, 0.0, arrgo_fade_out_duration)
 	tween.finished.connect(_on_arrgo_effect_faded_out.bind(effect_key, effect_node))
 	_arrgo_effect_tweens[effect_key] = tween
 
@@ -147,13 +152,15 @@ func _get_or_create_arrgo_effect_node(effect_key: String) -> Node:
 		return null
 
 	_prepare_color_rect(effect_rect)
+	var effect_materials: Array[ShaderMaterial] = _prepare_effect_materials(effect_node)
 	var fade_target := _get_fade_target(effect_node, effect_rect)
-	fade_target.modulate.a = 0.0
 	fade_target.visible = true
 
 	_arrgo_effect_nodes[effect_key] = effect_node
 	_arrgo_effect_rects[effect_key] = effect_rect
 	_arrgo_effect_fade_targets[effect_key] = fade_target
+	_arrgo_effect_materials[effect_key] = effect_materials
+	_set_arrgo_effect_opacity(0.0, effect_key)
 
 	return effect_node
 
@@ -201,13 +208,44 @@ func _prepare_color_rect(rect: ColorRect) -> void:
 	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	rect.visible = true
 
-	if rect.material:
-		rect.material = rect.material.duplicate(true)
+func _prepare_effect_materials(effect_node: Node) -> Array[ShaderMaterial]:
+	var materials: Array[ShaderMaterial] = []
+	_collect_effect_materials(effect_node, materials)
+	return materials
+
+func _collect_effect_materials(node: Node, materials: Array[ShaderMaterial]) -> void:
+	if node is CanvasItem:
+		var canvas_item: CanvasItem = node as CanvasItem
+		if canvas_item.material is ShaderMaterial:
+			var material: ShaderMaterial = (canvas_item.material as ShaderMaterial).duplicate(true) as ShaderMaterial
+			canvas_item.material = material
+			materials.append(material)
+
+	for child in node.get_children():
+		_collect_effect_materials(child, materials)
 
 func _get_fade_target(effect_node: Node, effect_rect: ColorRect) -> CanvasItem:
 	if effect_node is CanvasItem:
 		return effect_node as CanvasItem
 	return effect_rect
+
+func _set_arrgo_effect_opacity(opacity: float, effect_key: String) -> void:
+	var clamped_opacity: float = clamp(opacity, 0.0, 1.0)
+	_arrgo_effect_opacities[effect_key] = clamped_opacity
+
+	var has_shader_opacity: bool = false
+	var materials_value: Variant = _arrgo_effect_materials.get(effect_key, [])
+	if materials_value is Array:
+		for material_value in materials_value:
+			if _is_valid_instance(material_value):
+				var material: ShaderMaterial = material_value as ShaderMaterial
+				material.set_shader_parameter(EFFECT_OPACITY_PARAMETER, clamped_opacity)
+				has_shader_opacity = true
+
+	var fade_target := _get_valid_canvas_item(_arrgo_effect_fade_targets, effect_key)
+	if fade_target:
+		fade_target.modulate.a = 1.0 if has_shader_opacity else clamped_opacity
+		fade_target.visible = clamped_opacity > 0.0
 
 func _update_arrgoing_material_parameters() -> void:
 	var rect := _get_valid_color_rect(_arrgo_effect_rects, ARRGOING_EFFECT_KEY)
@@ -249,6 +287,8 @@ func _erase_effect_refs(effect_key: String) -> void:
 	_arrgo_effect_nodes.erase(effect_key)
 	_arrgo_effect_rects.erase(effect_key)
 	_arrgo_effect_fade_targets.erase(effect_key)
+	_arrgo_effect_materials.erase(effect_key)
+	_arrgo_effect_opacities.erase(effect_key)
 	_arrgo_effect_tweens.erase(effect_key)
 
 func _ensure_arrgo_effect_layer() -> CanvasLayer:

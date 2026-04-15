@@ -4,10 +4,10 @@ extends Node2D
 var player_now: CharacterBody2D = null
 var activated: bool = false
 
-@export var normal_color_content : Color = Color(0.26, 0.26, 0.26, 1.0)
-@export var arrgo_color_content : Color = Color(0.79, 0.103, 0.103, 1.0)
-@export var normal_color : Color = Color(0.665, 0.665, 0.665, 1.0)
-@export var arrgo_color : Color = Color(0.82, 0.115, 0.115, 1.0)
+@export var normal_color_content : Color = Color(0.5, 0.25, 0.275, 1.0)
+@export var arrgo_color_content : Color = Color(0.85, 0.0, 0.0, 1.0)
+@export var normal_color : Color = Color(0.5, 0.25, 0.275, 1.0)
+@export var arrgo_color : Color = Color(0.89, 0.018, 0.018, 1.0)
 @export var color_tween_duration: float = 0.4
 
 var _color_tween: Tween = null

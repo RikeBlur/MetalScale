@@ -1797,7 +1797,9 @@ player_walk_speed_max = 150
 player_run_speed_max = 300
 player_walk_acceleration = 300
 player_run_acceleration = 300
-tool_available = Array[int]([0, 0, 0, 0, 0, 1])
+character_name = "Oni"
+self_talk = "“宇宙冷漠”"
+tool_available = Array[int]([0, 0, 0, 0, 0, 0])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1536282822]
 position = Vector2(0, -23)
@@ -1907,9 +1909,9 @@ future_length = 50.0
 debug_mode = false
 
 [node name="ambient_light" type="PointLight2D" parent="." unique_id=1497612009]
-position = Vector2(1.0728836e-06, -32.5)
-scale = Vector2(1.0312501, 1.015625)
+position = Vector2(-0.4999979, -32)
+scale = Vector2(1.109375, 1.1093749)
 color = Color(0.51000005, 0.62333333, 0.85, 1)
-energy = 0.2
+energy = 0.25
 shadow_enabled = true
 texture = ExtResource("41_aooo5")

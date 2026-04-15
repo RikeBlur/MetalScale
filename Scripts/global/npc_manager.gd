@@ -17,7 +17,7 @@ enum npc_type {
 # EYE游荡：每隔多少秒随机换一个当前场景
 const EYE_WANDER_INTERVAL: float = 30.0
 # EYE追杀：收到 state==1 后多少秒入场
-const EYE_CHASE_DELAY: float = 2.0
+const EYE_CHASE_DELAY: float = 1.5
 
 
 # ====================================================================================================
@@ -60,7 +60,7 @@ var npc_dict: Dictionary = {
 	),
 	"1-0": NPCData.new().setup(
 		preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
-		npc_type.melt, "1-1", Vector2(800,250), Vector2.DOWN, false, 0
+		npc_type.melt, "2-6", Vector2(720,350), Vector2.DOWN, false, 0
 	),
 }
 # ====================================================================================================

@@ -10,7 +10,8 @@ enum UI_component {
 	SAVEGAMEWINDOW,
 	LOADGAMEWINDOW,
 	ARRGOBAR,
-	COLLECTWINDOW
+	COLLECTWINDOW,
+	PLAYERINFO
 }
 
 # UI统一数据结构：name(UI_component)、scene、layer、stage
@@ -30,6 +31,12 @@ const UI_DATA = {
 	UI_component.GAMECONFIG: {
 		"name": UI_component.GAMECONFIG,
 		"scene": preload("res://System/RPG/UI/game_config.tscn"),
+		"layer": 2,
+		"stage": -1
+	},
+	UI_component.PLAYERINFO: {
+		"name": UI_component.PLAYERINFO,
+		"scene": preload("res://System/RPG/UI/player_info.tscn"),
 		"layer": 2,
 		"stage": -1
 	},
@@ -246,7 +253,7 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 			ui_instance.own_manager = self
 		_add_ui_to_visible_list(UI_component.LOADGAMEWINDOW)
 		
-		# 特殊处理：为arrgobar设置own_manager引用和player引用，且隐藏掉
+	# 特殊处理：为arrgobar设置own_manager引用和player引用，且隐藏掉
 	if ui_type == UI_component.ARRGOBAR :
 		if "own_manager" in ui_instance:
 			ui_instance.own_manager = self
@@ -259,8 +266,15 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 		if "own_manager" in ui_instance:
 			ui_instance.own_manager = self
 		_add_ui_to_visible_list(UI_component.COLLECTWINDOW)
-			
-	
+
+	# 特殊处理：为playerinfo设置own_manager引用和player引用
+	if ui_type == UI_component.PLAYERINFO :
+		if "own_manager" in ui_instance:
+			ui_instance.own_manager = self
+		if "player_now" in ui_instance:
+			ui_instance.player_now = player_now
+		_add_ui_to_visible_list(UI_component.PLAYERINFO)
+		
 	# 添加到对应layer
 	target_layer.add_child(ui_instance)
 	

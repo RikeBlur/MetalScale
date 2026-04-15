@@ -56,11 +56,11 @@ func _process(delta: float) -> void:
 		if caught:
 			# 从 false 变为 true，被发现
 			emit_signal("get_caught")
-			print("ArrgoComponent: 被发现！intensity: %.3f > threshold: %.3f" % [detector.intensity_now, get_caught_threshold])
+			#print("ArrgoComponent: 被发现！intensity: %.3f > threshold: %.3f" % [detector.intensity_now, get_caught_threshold])
 		else:
 			# 从 true 变为 false，脱离视线
 			emit_signal("get_uncaught")
-			print("ArrgoComponent: 脱离视线。intensity: %.3f <= threshold: %.3f" % [detector.intensity_now, get_caught_threshold])
+			#print("ArrgoComponent: 脱离视线。intensity: %.3f <= threshold: %.3f" % [detector.intensity_now, get_caught_threshold])
 		
 		_last_caught = caught
 	
