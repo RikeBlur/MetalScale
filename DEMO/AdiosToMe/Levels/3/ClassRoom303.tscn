@@ -241,7 +241,7 @@ position = Vector2(825, 499)
 position = Vector2(873, 499)
 
 [node name="SofaFaceRight" parent="ObjectAndCharacter/object" unique_id=2027197509 instance=ExtResource("9_4ovce")]
-position = Vector2(663, 295)
+position = Vector2(663, 266)
 
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 

@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://j4ht3hbbyl5m"]
+
+[ext_resource type="Texture2D" uid="uid://dantba0n7e12r" path="res://Assests/tileset/AdiosToMe/plant.png" id="1_6nktv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ng58k"]
+atlas = ExtResource("1_6nktv")
+region = Rect2(79, 146, 28, 31)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yr5qk"]
+size = Vector2(35, 6)
+
+[node name="Plant1" type="Node2D" unique_id=1623943168]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=434571147]
+z_index = 1
+y_sort_enabled = true
+texture = SubResource("AtlasTexture_ng58k")
+offset = Vector2(0, -13)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1838709609]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1799511613]
+position = Vector2(-0.5, -18)
+shape = SubResource("RectangleShape2D_yr5qk")

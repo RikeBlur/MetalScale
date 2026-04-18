@@ -13,6 +13,7 @@ script = ExtResource("1_d2w5c")
 [node name="SuccessSFX" type="AudioStreamPlayer2D" parent="." unique_id=2129080652]
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=2112942377]
+energy = 0.0
 shadow_enabled = true
 shadow_filter = 1
 shadow_filter_smooth = 0.5

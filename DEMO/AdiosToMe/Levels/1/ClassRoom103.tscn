@@ -12,8 +12,12 @@
 [ext_resource type="PackedScene" uid="uid://0d02haowqy1a" path="res://System/RPG/object/plant/plant_1.tscn" id="10_er074"]
 [ext_resource type="PackedScene" uid="uid://bty4ru7ludm8i" path="res://System/RPG/object/chair/var1/chair_down.tscn" id="11_l0am8"]
 [ext_resource type="PackedScene" uid="uid://bihhc5nho5e23" path="res://System/RPG/object/chair/var1/chair_left.tscn" id="12_6r7r5"]
-[ext_resource type="PackedScene" uid="uid://cnsqkrs1vi1d5" path="res://System/RPG/object/chair/var1/chair_right.tscn" id="13_pc0tl"]
 [ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/interact/door/var1/door_front.tscn" id="14_cs841"]
+[ext_resource type="PackedScene" uid="uid://dbe22w2vs2dh8" path="res://System/RPG/object/plant/plant_2.tscn" id="16_r3e5g"]
+[ext_resource type="PackedScene" uid="uid://c45c0h6sp68w" path="res://System/RPG/object/podium/podium_front.tscn" id="16_vjfgf"]
+[ext_resource type="PackedScene" uid="uid://bx3o413gr76jv" path="res://System/RPG/object/OnWall/painting/painting_3.tscn" id="17_in8a0"]
+[ext_resource type="PackedScene" uid="uid://ckj84phtk4o8e" path="res://System/RPG/object/OnWall/blackboard/blackboard.tscn" id="17_xc1xw"]
+[ext_resource type="PackedScene" uid="uid://b6ux4rxe6mohk" path="res://System/RPG/object/OnWall/painting/painting_6.tscn" id="18_5u4yy"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
 script = ExtResource("2_fke0q")
@@ -49,10 +53,10 @@ shader_parameter/color_mix_strength = 0.90000004275
 ssao_enabled = true
 glow_enabled = true
 
-[node name="ClassRoom103" type="Node2D" unique_id=1940884473]
+[node name="ClassRoom101" type="Node2D" unique_id=1940884473]
 y_sort_enabled = true
 script = ExtResource("1_tf04s")
-player_initial_position = Array[Vector2]([Vector2(530, 275)])
+player_initial_position = Array[Vector2]([Vector2(500, 275)])
 player_initial_direction = Array[Vector2]([Vector2(0, 1)])
 interactables = Array[ExtResource("2_fke0q")]([SubResource("Resource_ax0f4")])
 
@@ -104,58 +108,58 @@ y_sort_enabled = true
 y_sort_enabled = true
 
 [node name="table" parent="ObjectAndCharacter/object/tables" unique_id=1896627830 instance=ExtResource("6_5u4yy")]
-position = Vector2(861, 387)
+position = Vector2(880, 464)
 
 [node name="table9" parent="ObjectAndCharacter/object/tables" unique_id=919702001 instance=ExtResource("6_5u4yy")]
-position = Vector2(433, 322)
+position = Vector2(433, 332)
 
 [node name="table8" parent="ObjectAndCharacter/object/tables" unique_id=1451741259 instance=ExtResource("6_5u4yy")]
-position = Vector2(646, 434)
+position = Vector2(838, 431)
 
 [node name="table2" parent="ObjectAndCharacter/object/tables" unique_id=1365593744 instance=ExtResource("7_w1ny0")]
 position = Vector2(666, 354)
 
 [node name="table6" parent="ObjectAndCharacter/object/tables" unique_id=907542721 instance=ExtResource("7_w1ny0")]
-position = Vector2(767, 257)
+position = Vector2(767, 275)
 
 [node name="table3" parent="ObjectAndCharacter/object/tables" unique_id=83137821 instance=ExtResource("8_vjfgf")]
-position = Vector2(796, 295)
-
-[node name="table7" parent="ObjectAndCharacter/object/tables" unique_id=1825700084 instance=ExtResource("8_vjfgf")]
-position = Vector2(447, 410)
+position = Vector2(795, 318)
 
 [node name="table4" parent="ObjectAndCharacter/object/tables" unique_id=1304511356 instance=ExtResource("9_xc1xw")]
-position = Vector2(608, 335)
+position = Vector2(820, 469)
 
 [node name="table5" parent="ObjectAndCharacter/object/tables" unique_id=1847517178 instance=ExtResource("7_w1ny0")]
-position = Vector2(454, 273)
+position = Vector2(413, 467)
 
 [node name="plants" type="Node2D" parent="ObjectAndCharacter/object" unique_id=715022267]
 y_sort_enabled = true
 
-[node name="Plant1" parent="ObjectAndCharacter/object/plants" unique_id=1623943168 instance=ExtResource("10_er074")]
-position = Vector2(410, 213)
-
 [node name="Plant2" parent="ObjectAndCharacter/object/plants" unique_id=202341214 instance=ExtResource("10_er074")]
-position = Vector2(893, 213)
+position = Vector2(892, 210)
 
 [node name="chairs" type="Node2D" parent="ObjectAndCharacter/object" unique_id=479620348]
 y_sort_enabled = true
 
 [node name="chair" parent="ObjectAndCharacter/object/chairs" unique_id=2055431799 instance=ExtResource("11_l0am8")]
-position = Vector2(665, 326)
+position = Vector2(665, 331)
 
 [node name="chair4" parent="ObjectAndCharacter/object/chairs" unique_id=1447986011 instance=ExtResource("11_l0am8")]
-position = Vector2(469, 365)
+position = Vector2(687, 263)
 
 [node name="chair2" parent="ObjectAndCharacter/object/chairs" unique_id=791235310 instance=ExtResource("12_6r7r5")]
-position = Vector2(663, 433)
+position = Vector2(442, 464)
 
 [node name="chair5" parent="ObjectAndCharacter/object/chairs" unique_id=1504831449 instance=ExtResource("12_6r7r5")]
-position = Vector2(797, 231)
+position = Vector2(888, 258)
 
-[node name="chair3" parent="ObjectAndCharacter/object/chairs" unique_id=1734922485 instance=ExtResource("13_pc0tl")]
-position = Vector2(880, 297)
+[node name="desolate" type="Node2D" parent="ObjectAndCharacter/object" unique_id=26913867]
+y_sort_enabled = true
+
+[node name="SofaFaceRight" parent="ObjectAndCharacter/object" unique_id=2027197509 instance=ExtResource("16_vjfgf")]
+position = Vector2(666, 245)
+
+[node name="notice" parent="ObjectAndCharacter/object" unique_id=1517452730 instance=ExtResource("17_xc1xw")]
+position = Vector2(666, 165)
 
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 
@@ -166,7 +170,7 @@ y_sort_enabled = true
 y_sort_enabled = true
 
 [node name="door" parent="ObjectAndCharacter/Interactable/door" unique_id=387604085 instance=ExtResource("14_cs841")]
-position = Vector2(526, 174)
+position = Vector2(494, 174)
 scene_from = "0-2"
 scene_to = "0-1"
 scene_to_index = 1
@@ -185,3 +189,12 @@ environment = SubResource("Environment_5n7gh")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="WorldOfWonder" unique_id=1776025020]
 color = Color(0.5, 0.375, 0.375, 1)
+
+[node name="Plant2" parent="." unique_id=1623943168 instance=ExtResource("16_r3e5g")]
+position = Vector2(415, 213)
+
+[node name="Plant1" parent="." unique_id=1977275475 instance=ExtResource("17_in8a0")]
+position = Vector2(856, 140)
+
+[node name="Plant3" parent="." unique_id=257748596 instance=ExtResource("18_5u4yy")]
+position = Vector2(421, 131)

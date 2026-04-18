@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://c8q4uv3umclee" path="res://Scripts/system/view/UI/player_info/player_info.gd" id="1_w38yq"]
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="2_8xlno"]
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="3_tqbbf"]
-[ext_resource type="Texture2D" uid="uid://kpj6cxsovv6h" path="res://Assests/sprite/Character/Oni/dialogue/idle_neo/idle_neo.png" id="4_tqbbf"]
+[ext_resource type="Texture2D" uid="uid://c3msbd55w8raf" path="res://Assests/sprite/Character/Oni/dialogue/idle_neo/idle_neo_white.png" id="4_y01q2"]
 [ext_resource type="Theme" uid="uid://beojeuc7ptq0g" path="res://Style/UI/theme_tool_bar.tres" id="5_0w5gx"]
 [ext_resource type="Script" uid="uid://qxjk3fvacpsj" path="res://Scripts/system/view/UI/player_info/toolbox_info.gd" id="6_rcdol"]
 [ext_resource type="Texture2D" uid="uid://q7og4ijuav7h" path="res://Assests/sprite/UI/NORMALUI/box_1.png" id="7_0w5gx"]
@@ -93,7 +93,7 @@ scale = Vector2(0.9087027, 0.92333335)
 [node name="oni" type="Sprite2D" parent="." unique_id=794728129]
 position = Vector2(247, 329)
 scale = Vector2(0.35489315, 0.35489315)
-texture = ExtResource("4_tqbbf")
+texture = ExtResource("4_y01q2")
 
 [node name="tool_info" type="Control" parent="." unique_id=1432799892]
 anchors_preset = 0
@@ -318,6 +318,7 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_qwf86")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_m6s7s")
 
 [node name="hands" type="Node2D" parent="tool_info" unique_id=1683456628]
+visible = false
 position = Vector2(780, 85)
 
 [node name="hand-left-up" type="Sprite2D" parent="tool_info/hands" unique_id=34095543]

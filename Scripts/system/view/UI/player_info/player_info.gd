@@ -1,14 +1,6 @@
 class_name PlayerInfo
 extends Control
 
-const TOOL_ICONS = {
-	ToolManager.Tool.NONE: null,
-	ToolManager.Tool.EMERGENCELIGHT: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/EmergenceLight_icon.png"),
-	ToolManager.Tool.FLASHLIGHT: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/FlashLight_icon.png"),
-	ToolManager.Tool.ADRENALINE: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/Adrenaline_icon.png"),
-	ToolManager.Tool.KEYA: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/key1-1_icon.png")
-}
-
 const TOOL_INFO_WINDOW_SCENE = preload("res://System/RPG/UI/windows/tool_info_window.tscn")
 const TOOL_INFO_WINDOW_FADE_DURATION: float = 0.15
 
@@ -52,9 +44,9 @@ func toolbox_info_on_hoven(toolbox_info_node: ToolboxInfo) -> void:
 	tool_info_window.global_position = toolbox_info_node.global_position
 
 	if tool_info_window.name_info:
-		tool_info_window.name_info.text = ToolManager.TOOL_DISPLAY_NAMES.get(tool_type, "")
+		tool_info_window.name_info.text = ToolManager.get_tool_display_name(tool_type)
 	if tool_info_window.description_info:
-		tool_info_window.description_info.text = ToolManager.TOOL_DESCRIPTION.get(tool_type, "")
+		tool_info_window.description_info.text = ToolManager.get_tool_description(tool_type)
 
 	_fade_in_tool_info_window()
 
@@ -155,7 +147,7 @@ func _update_tool_info() -> void:
 			tool_type = player_now.tool_available[i]
 
 		var toolbox_info_node = tool_boxes[i]
-		toolbox_info_node.set_tool_info(tool_type, TOOL_ICONS.get(tool_type, null))
+		toolbox_info_node.set_tool_info(tool_type, ToolManager.get_tool_icon_static(tool_type))
 
 func _fade_in_tool_info_window() -> void:
 	if _tool_info_window_tween and _tool_info_window_tween.is_valid():

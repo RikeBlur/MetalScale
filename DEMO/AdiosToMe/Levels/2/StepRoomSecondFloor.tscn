@@ -7,6 +7,7 @@
 [ext_resource type="TileSet" uid="uid://dt350ynmnt232" path="res://Style/tilesets/Indoors.tres" id="5_70pry"]
 [ext_resource type="PackedScene" uid="uid://0d02haowqy1a" path="res://System/RPG/object/plant/plant_1.tscn" id="7_44nab"]
 [ext_resource type="PackedScene" uid="uid://clwn3re40dgmx" path="res://System/RPG/interact/door/var2_invisible/door_invisible.tscn" id="7_ceo14"]
+[ext_resource type="PackedScene" uid="uid://byrriyn7pfasj" path="res://System/RPG/object/step/step_1.tscn" id="7_gbryb"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
 script = ExtResource("2_lnqok")
@@ -47,8 +48,8 @@ glow_enabled = true
 [node name="ClassRoom202" type="Node2D" unique_id=1940884473]
 y_sort_enabled = true
 script = ExtResource("1_rrgpc")
-player_initial_position = Array[Vector2]([Vector2(720, 450)])
-player_initial_direction = Array[Vector2]([Vector2(0, -1)])
+player_initial_position = Array[Vector2]([Vector2(720, 450), Vector2(600, 330), Vector2(800, 330)])
+player_initial_direction = Array[Vector2]([Vector2(0, -1), Vector2(0, 1), Vector2(0, 1)])
 interactables = Array[ExtResource("2_lnqok")]([SubResource("Resource_ax0f4")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
@@ -111,6 +112,9 @@ position = Vector2(526, 447)
 [node name="Plant2" parent="ObjectAndCharacter/object/plants" unique_id=1695571833 instance=ExtResource("7_44nab")]
 position = Vector2(879, 448)
 
+[node name="step" parent="ObjectAndCharacter/object" unique_id=2027197509 instance=ExtResource("7_gbryb")]
+position = Vector2(704, 298)
+
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 
 [node name="Interactable" type="Node2D" parent="ObjectAndCharacter" unique_id=1164615803]
@@ -124,6 +128,18 @@ position = Vector2(708, 551)
 scene_from = "2-6"
 scene_to = "2-1"
 scene_to_index = 6
+
+[node name="door2" parent="ObjectAndCharacter/Interactable/door" unique_id=744820268 instance=ExtResource("7_ceo14")]
+position = Vector2(600, 287)
+scene_from = "2-6"
+scene_to = "1-6"
+scene_to_index = 1
+
+[node name="door3" parent="ObjectAndCharacter/Interactable/door" unique_id=1855940272 instance=ExtResource("7_ceo14")]
+position = Vector2(800, 286)
+scene_from = "2-6"
+scene_to = "3-6"
+scene_to_index = 2
 
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]
 y_sort_enabled = true

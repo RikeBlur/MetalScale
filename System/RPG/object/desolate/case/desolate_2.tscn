@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bfm40l5vk46qm"]
+
+[ext_resource type="Texture2D" uid="uid://b6ulr802s7mc1" path="res://Assests/tileset/AdiosToMe/storageroom.png" id="1_hdyg1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g5rtx"]
+atlas = ExtResource("1_hdyg1")
+region = Rect2(128, 91, 32, 42)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_70jhb"]
+size = Vector2(24, 17)
+
+[node name="case2" type="Node2D" unique_id=1896627830]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=381529373]
+z_index = 1
+y_sort_enabled = true
+texture = SubResource("AtlasTexture_g5rtx")
+offset = Vector2(0, -21)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=786002945]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1355368753]
+position = Vector2(0, -20.5)
+shape = SubResource("RectangleShape2D_70jhb")

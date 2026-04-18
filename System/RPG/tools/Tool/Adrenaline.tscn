@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cfblv4ldvx771"]
+[gd_scene format=3 uid="uid://cfblv4ldvx771"]
 
 [ext_resource type="Script" uid="uid://b7rgsxyx4qirt" path="res://Scripts/system/tools/adrenaline.gd" id="1_28d5o"]
 
-[node name="Adrenaline" type="Node2D"]
+[node name="Adrenaline" type="Node2D" unique_id=1283016102]
 script = ExtResource("1_28d5o")
+
+[node name="SuccessSFX" type="AudioStreamPlayer2D" parent="." unique_id=565640419]

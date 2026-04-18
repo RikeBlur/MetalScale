@@ -5,6 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="3_abv04"]
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="4_laxaa"]
 [ext_resource type="TileSet" uid="uid://dt350ynmnt232" path="res://Style/tilesets/Indoors.tres" id="5_x5bvj"]
+[ext_resource type="PackedScene" uid="uid://crroybfvtuhor" path="res://System/RPG/object/OnWall/painting/painting_8.tscn" id="6_dvlic"]
+[ext_resource type="PackedScene" uid="uid://bu723s56bbckd" path="res://System/RPG/object/OnWall/painting/notice.tscn" id="6_pfjua"]
+[ext_resource type="PackedScene" uid="uid://bnctcqatfmyr" path="res://System/RPG/object/desolate/other/desolate_4.tscn" id="6_xfibv"]
+[ext_resource type="PackedScene" uid="uid://bihuxb3wvtow2" path="res://System/RPG/object/OnWall/painting/painting_5.tscn" id="7_mq3r0"]
+[ext_resource type="PackedScene" uid="uid://bfm40l5vk46qm" path="res://System/RPG/object/desolate/case/desolate_2.tscn" id="7_vr6nh"]
 [ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/var1/door_back.tscn" id="9_hcrp8"]
 [ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/interact/door/var1/door_front.tscn" id="10_dlufa"]
 [ext_resource type="PackedScene" uid="uid://clwn3re40dgmx" path="res://System/RPG/interact/door/var2_invisible/door_invisible.tscn" id="11_tsdrs"]
@@ -140,6 +145,24 @@ y_sort_enabled = true
 
 [node name="object" type="Node2D" parent="ObjectAndCharacter" unique_id=1999891148]
 y_sort_enabled = true
+
+[node name="other1" parent="ObjectAndCharacter/object" unique_id=1896627830 instance=ExtResource("6_xfibv")]
+position = Vector2(1209, 296)
+
+[node name="case2" parent="ObjectAndCharacter/object" unique_id=1366181503 instance=ExtResource("7_vr6nh")]
+position = Vector2(81, 201)
+
+[node name="onwall" type="Node2D" parent="ObjectAndCharacter/object" unique_id=1787895320]
+y_sort_enabled = true
+
+[node name="Plant2" parent="ObjectAndCharacter/object/onwall" unique_id=1623943168 instance=ExtResource("6_dvlic")]
+position = Vector2(1165, 150)
+
+[node name="notice" parent="ObjectAndCharacter/object/onwall" unique_id=498575570 instance=ExtResource("6_pfjua")]
+position = Vector2(676, 136)
+
+[node name="Plant1" parent="ObjectAndCharacter/object/onwall" unique_id=121486742 instance=ExtResource("7_mq3r0")]
+position = Vector2(120, 135)
 
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 

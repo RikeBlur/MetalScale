@@ -1799,7 +1799,7 @@ player_walk_acceleration = 300
 player_run_acceleration = 300
 character_name = "Oni"
 self_talk = "“宇宙冷漠”"
-tool_available = Array[int]([0, 0, 0, 0, 0, 0])
+tool_available = Array[int]([0, 1, 4, 2, 3, 0])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1536282822]
 position = Vector2(0, -23)

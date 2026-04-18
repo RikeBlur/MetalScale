@@ -17,7 +17,9 @@ extends Resource
 @export var can_interact: bool = true
 
 # 角色类型
-@export var character: String = "Oni"
+@export var character_name: String = "Oni"
+@export var self_talk: String = ""
+@export var player_state_info: String = ""
 
 # 方向信息
 @export var player_direction: Vector2 = Vector2.DOWN
@@ -84,7 +86,7 @@ func _init(
 	player_run_acceleration = p_run_acceleration
 	can_move = p_can_move
 	can_interact = p_can_interact
-	character = p_character
+	character_name = p_character
 	player_direction = p_player_direction
 	player_last_direction = p_player_last_direction
 	tool = p_tool
@@ -112,7 +114,9 @@ func from_player_node(player_node: player) -> void:
 	player_run_acceleration = player_node.player_run_acceleration
 	can_move = player_node.can_move
 	can_interact = player_node.can_interact
-	character = player_node.character
+	character_name = player_node.character_name
+	self_talk = player_node.self_talk
+	player_state_info = player_node.player_state_info
 	player_direction = player_node.player_direction
 	player_last_direction = player_node.player_last_direction
 	tool = player_node.tool
@@ -140,7 +144,9 @@ func apply_to_player_node(player_node: player) -> void:
 	player_node.player_run_acceleration = player_run_acceleration
 	player_node.can_move = can_move
 	player_node.can_interact = can_interact
-	player_node.character = character
+	player_node.character_name = character_name
+	player_node.self_talk = self_talk
+	player_node.player_state_info = player_state_info
 	player_node.player_direction = player_direction
 	player_node.player_last_direction = player_last_direction
 	player_node.tool = tool
@@ -165,7 +171,10 @@ func to_dict() -> Dictionary:
 		"player_run_acceleration": player_run_acceleration,
 		"can_move": can_move,
 		"can_interact": can_interact,
-		"character": character,
+		"character_name": character_name,
+		"character": character_name,
+		"self_talk": self_talk,
+		"player_state_info": player_state_info,
 		"player_direction": {"x": player_direction.x, "y": player_direction.y},
 		"player_last_direction": {"x": player_last_direction.x, "y": player_last_direction.y},
 		"tool": tool,
@@ -202,8 +211,14 @@ func from_dict(data: Dictionary) -> void:
 		can_move = data["can_move"]
 	if data.has("can_interact"):
 		can_interact = data["can_interact"]
-	if data.has("character"):
-		character = data["character"]
+	if data.has("character_name"):
+		character_name = data["character_name"]
+	elif data.has("character"):
+		character_name = data["character"]
+	if data.has("self_talk"):
+		self_talk = data["self_talk"]
+	if data.has("player_state_info"):
+		player_state_info = data["player_state_info"]
 	if data.has("player_direction"):
 		player_direction = Vector2(data["player_direction"]["x"], data["player_direction"]["y"])
 	if data.has("player_last_direction"):

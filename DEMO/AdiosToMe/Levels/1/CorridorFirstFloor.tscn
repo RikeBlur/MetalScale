@@ -6,7 +6,7 @@
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="4_cubsr"]
 [ext_resource type="TileSet" uid="uid://dt350ynmnt232" path="res://Style/tilesets/Indoors.tres" id="5_6djfc"]
 [ext_resource type="PackedScene" uid="uid://gy5s7mt2h1j8" path="res://System/RPG/object/plant/plant_3.tscn" id="6_b6odn"]
-[ext_resource type="PackedScene" uid="uid://sd3jma661c1d" path="res://System/RPG/object/painting/painting_2.tscn" id="6_p24ck"]
+[ext_resource type="PackedScene" uid="uid://sd3jma661c1d" path="res://System/RPG/object/OnWall/painting/painting_2.tscn" id="6_p24ck"]
 [ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/var1/door_back.tscn" id="6_ttqxj"]
 [ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/interact/door/var1/door_front.tscn" id="8_vpc0n"]
 [ext_resource type="PackedScene" uid="uid://clwn3re40dgmx" path="res://System/RPG/interact/door/var2_invisible/door_invisible.tscn" id="9_dhfq3"]

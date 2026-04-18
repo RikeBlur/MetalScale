@@ -11,6 +11,7 @@
 [ext_resource type="Material" uid="uid://byti8qx4q8lu1" path="res://Effect/Shader/glowing_outline/glowingOutline.tres" id="8_mlc11"]
 [ext_resource type="Shader" uid="uid://g68h8mpjhpom" path="res://Effect/Shader/glowing_outline/glowingOutline.gdshader" id="10_wg1st"]
 [ext_resource type="Texture2D" uid="uid://b3tdw4bqxhbob" path="res://Assests/sprite/UI/NORMALUI/righthand-down-1-export-export-export.png" id="11_in7jj"]
+[ext_resource type="Texture2D" uid="uid://uceui5ynv5cd" path="res://Assests/sprite/UI/R_key.png" id="12_wg1st"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vcotx"]
 
@@ -294,3 +295,11 @@ material = SubResource("ShaderMaterial_aqvo2")
 position = Vector2(88, 520.5)
 scale = Vector2(2, 2)
 texture = ExtResource("11_in7jj")
+
+[node name="use_reminder" type="TextureRect" parent="." unique_id=1892022858]
+visible = false
+layout_mode = 0
+offset_right = 46.0
+offset_bottom = 46.0
+texture = ExtResource("12_wg1st")
+expand_mode = 1

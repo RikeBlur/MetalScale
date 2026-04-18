@@ -1,102 +1,121 @@
 class_name Toolbar
 extends Control
 
-const TOOL_ICONS = {
-	ToolManager.Tool.NONE: null,
-	ToolManager.Tool.EMERGENCELIGHT: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/EmergenceLight_icon.png"),
-	ToolManager.Tool.FLASHLIGHT: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/FlashLight_icon.png"),
-	ToolManager.Tool.ADRENALINE: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/Adrenaline_icon.png"),
-	ToolManager.Tool.KEYA: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/key1-1_icon.png")
-}
-
-const TOOL_CONFIG = {
-	ToolManager.Tool.NONE: 0,
-	ToolManager.Tool.EMERGENCELIGHT: 1,
-	ToolManager.Tool.FLASHLIGHT: 1,
-	ToolManager.Tool.ADRENALINE: 2,
-	ToolManager.Tool.KEYA: 0
-}
-
 @export var player_now: CharacterBody2D
+@export var use_reminder: Control = null
+@export var use_reminder_offset: Vector2 = Vector2(85, 0)
 
 var tool_boxes: Array = []
+var tool_bar: VBoxContainer = null
+var tool_manager: ToolManager = null
 
-var tool_bar : VBoxContainer = null
+func _ready() -> void:
+	if not player_now:
+		return
 
-var tool_manager : ToolManager = null
-
-func _ready():
-	if not player_now: return
-	
 	tool_bar = $leftoffset/PanelContainer/MarginContainer/tool_bar
-	tool_manager = player_now.get_node("ToolManager")
+	tool_manager = player_now.get_node("ToolManager") as ToolManager
+	if not use_reminder:
+		use_reminder = find_child("use_reminder", true, false) as Control
+	if use_reminder:
+		use_reminder.hide()
 
-	# 从tool_bar节点下读取现有的工具箱
 	_initialize_tool_boxes()
-	# 根据玩家已有的tool更新toolbox
 	call_deferred("_update_toolbar")
+	call_deferred("_update_use_reminder")
 
-func _initialize_tool_boxes():
+func _initialize_tool_boxes() -> void:
 	tool_boxes.clear()
 	for child in tool_bar.get_children():
-		if child is Toolbox :
+		if child is Toolbox:
 			tool_boxes.append(child)
 
-func _process(_delta):
-	if not player_now: return
-	if not tool_manager: return
-	
+func _process(_delta: float) -> void:
+	if not player_now:
+		return
+	if not tool_manager:
+		return
+
 	call_deferred("_update_toolbar")
 	call_deferred("_update_consumption")
 	call_deferred("_update_progressbar")
-	
+	call_deferred("_update_use_reminder")
+
 func _update_consumption() -> void:
-	for i in range(tool_boxes.size()):
-		if tool_boxes[i].consumption == null:
+	for toolbox in tool_boxes:
+		if toolbox.consumption == null:
 			continue
-		else:
-			var tool_type = tool_boxes[i].tool
-			var consumption_label_node = tool_boxes[i].consumption
-			if tool_manager.consumption.has(tool_type):
-				consumption_label_node.text = str(tool_manager.consumption[tool_type])
+
+		var tool_type = toolbox.tool
+		var tool_consumption = tool_manager.get_tool_consumption(tool_type)
+		if tool_consumption >= 0:
+			toolbox.consumption.text = str(tool_consumption)
 
 func _update_progressbar() -> void:
-	for i in range(tool_boxes.size()):
-		if tool_boxes[i].durability == null:
+	for toolbox in tool_boxes:
+		if toolbox.durability == null:
 			continue
-		else:
-			var tool_type = tool_boxes[i].tool
-			var durability_bar = tool_boxes[i].durability
-			if tool_manager.durability.has(tool_type):
-				durability_bar.value = tool_manager.durability[tool_type]
-				durability_bar.update_color()
 
+		var tool_type = toolbox.tool
+		var durability_max = tool_manager.get_tool_durability_max(tool_type)
+		var durability_value = tool_manager.get_tool_durability(tool_type)
+		if durability_max >= 0.0 and durability_value >= 0.0:
+			toolbox.durability.max_value = durability_max
+			toolbox.durability.value = durability_value
+			toolbox.durability.update_color()
 
-func _update_toolbar():
-	if not player_now or tool_boxes.is_empty(): return
+func _update_toolbar() -> void:
+	if not player_now or tool_boxes.is_empty():
+		return
 
-	for i in range(player_now.tool_available.size()):
+	var box_count: int = min(player_now.tool_available.size(), tool_boxes.size())
+	for i in range(box_count):
 		var tool_type = player_now.tool_available[i]
-		var icon = tool_boxes[i].icon
-		tool_boxes[i].tool = tool_type
-		tool_boxes[i].config = TOOL_CONFIG[tool_type] #这里就会执行update_children_based_on_config
-		icon.texture = TOOL_ICONS.get(tool_type)
-		
-		var progressbar = tool_boxes[i].durability
-		
-		# 设置工具箱状态和图标shader状态
-		var activated_tool = player_now.tool_available[player_now.tool]
-		var new_state = 0
-		if tool_type == activated_tool:
-			new_state = 1
-		elif tool_boxes[i].config == 1 and tool_manager and tool_manager.durability.has(tool_type):
-			progressbar.max_value = ToolManager.max_durability
-			progressbar.value = tool_manager.durability[tool_type]
-			if progressbar.value == 0.0:
-				new_state = 2
-		
-		# 同步更新状态
-		tool_boxes[i].state = new_state
-		
-		# 设置 shader 参数
-		icon.material.set_shader_parameter("state", new_state)
+		var toolbox: Toolbox = tool_boxes[i]
+		var icon: TextureRect = toolbox.icon
+
+		toolbox.tool = tool_type
+		toolbox.config = tool_manager.get_tool_type(tool_type)
+		if icon:
+			icon.texture = tool_manager.get_tool_icon(tool_type)
+
+		if toolbox.config == ToolData.TYPE_DURABILITY and toolbox.durability:
+			var durability_max = tool_manager.get_tool_durability_max(tool_type)
+			var durability_value = tool_manager.get_tool_durability(tool_type)
+			if durability_max >= 0.0 and durability_value >= 0.0:
+				toolbox.durability.max_value = durability_max
+				toolbox.durability.value = durability_value
+				toolbox.durability.update_color()
+
+		var new_state = tool_manager.get_tool_state(tool_type)
+		if tool_type == ToolManager.Tool.NONE:
+			new_state = ToolData.STATE_UNSELECTED
+		toolbox.state = new_state
+
+		if icon and icon.material:
+			icon.material.set_shader_parameter("state", new_state)
+
+func _update_use_reminder() -> void:
+	if not use_reminder or not player_now or not tool_manager:
+		return
+	if player_now.tool < 0 or player_now.tool >= tool_boxes.size():
+		use_reminder.hide()
+		return
+	if player_now.tool >= player_now.tool_available.size():
+		use_reminder.hide()
+		return
+
+	var selected_tool = player_now.tool_available[player_now.tool]
+	if selected_tool == ToolManager.Tool.NONE:
+		use_reminder.hide()
+		return
+	if not tool_manager.is_tool_useable(selected_tool):
+		use_reminder.hide()
+		return
+	if tool_manager.get_tool_state(selected_tool) == ToolData.STATE_BROKEN:
+		use_reminder.hide()
+		return
+
+	var selected_toolbox: Toolbox = tool_boxes[player_now.tool]
+	use_reminder.global_position = selected_toolbox.global_position + use_reminder_offset
+	use_reminder.show()

@@ -1,10 +1,11 @@
 shader_type canvas_item;
 
 // 工具箱状态常量
-// 0 = 未激活 (Inactive)
-// 1 = 激活 (Active)
-// 2 = 损坏 (Broken)
-uniform int state : hint_range(0, 2) = 0;
+// 0 = 未选取
+// 1 = 选取
+// 2 = 激活
+// 3 = 损坏
+uniform int state : hint_range(0, 3) = 0;
 
 // 激活状态 - 辉光参数
 uniform float glow_intensity : hint_range(0.0, 2.0) = 0.3;  // 辉光强度
@@ -64,6 +65,11 @@ void fragment() {
 			
 			final_color.rgb = mix(original_color.rgb, glowing, edge_factor * 0.6);
 			
+		} else if (state == 2) {
+			float pulse = sin(TIME * pulse_speed * 1.4) * 0.5 + 0.5;
+			vec3 activated = original_color.rgb + vec3(0.45, 0.75, 1.0) * glow_intensity * (0.9 + pulse * 0.4);
+			final_color.rgb = mix(original_color.rgb, activated, 0.75);
+
 		} else if (state == 0) {
 			// ===== 未激活状态：降低明度和饱和度 =====
 			// 转换到HSV色彩空间进行调整
@@ -76,7 +82,7 @@ void fragment() {
 			// 转换回RGB
 			final_color.rgb = hsv_to_rgb(hsv);
 			
-		} else if (state == 2) {
+		} else if (state == 3) {
 			// ===== 损坏状态：暗红色调 =====
 			// 首先降低整体明度
 			vec3 darkened = original_color.rgb * broken_brightness;

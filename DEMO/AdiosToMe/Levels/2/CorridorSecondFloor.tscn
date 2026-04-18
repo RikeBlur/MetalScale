@@ -7,7 +7,7 @@
 [ext_resource type="TileSet" uid="uid://dt350ynmnt232" path="res://Style/tilesets/Indoors.tres" id="4_5avmu"]
 [ext_resource type="PackedScene" uid="uid://dbe22w2vs2dh8" path="res://System/RPG/object/plant/plant_2.tscn" id="5_246ut"]
 [ext_resource type="PackedScene" uid="uid://0d02haowqy1a" path="res://System/RPG/object/plant/plant_1.tscn" id="6_sjp6x"]
-[ext_resource type="PackedScene" uid="uid://bx3o413gr76jv" path="res://System/RPG/object/painting/painting_3.tscn" id="7_j5tyw"]
+[ext_resource type="PackedScene" uid="uid://bx3o413gr76jv" path="res://System/RPG/object/OnWall/painting/painting_3.tscn" id="7_j5tyw"]
 [ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/interact/door/var1/door_front.tscn" id="8_hhn2e"]
 [ext_resource type="PackedScene" uid="uid://bm7sbdqtub4l2" path="res://System/RPG/object/table/pingpong_table/pingpong_table.tscn" id="9_prh82"]
 [ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/var1/door_back.tscn" id="10_i5ykk"]
