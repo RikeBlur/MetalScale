@@ -144,6 +144,36 @@ func _process(_delta: float) -> void:
 
 	_sync_runtime_lookup()
 
+# ============================== 消耗 ============================
+
+func consumption_changed(tool_used: Tool, count: int) -> void:
+	var data := get_tool_data(tool_used)
+	if not data or data.type != ToolData.TYPE_CONSUMABLE:
+		return
+
+	data.consumption = max(data.consumption + count, 0)
+	if data.consumption == 0:
+		_remove_consumed_tool_from_available(tool_used)
+
+	_sync_runtime_lookup()
+
+
+func durability_changed(tool_used: Tool, amount: float) -> void:
+	var data := get_tool_data(tool_used)
+	if not data or data.type != ToolData.TYPE_DURABILITY:
+		return
+
+	data.durability = max(data.durability + amount, 0.0)
+	if data.durability <= 0.0:
+		data.state = ToolData.STATE_BROKEN
+
+	_sync_runtime_lookup()
+
+# ==============================================================
+# =========================== 工具函数 ===========================
+# ==============================================================
+
+
 func get_tool_data(tool: Tool) -> ToolData:
 	return tool_data.get(tool, null)
 
@@ -171,17 +201,6 @@ func get_tool_consumption(tool: Tool) -> int:
 	var data := get_tool_data(tool)
 	return data.consumption if data and data.has_consumption() else -1
 
-func consumption_changed(tool_used: Tool, count: int) -> void:
-	var data := get_tool_data(tool_used)
-	if not data or data.type != ToolData.TYPE_CONSUMABLE:
-		return
-
-	data.consumption = max(data.consumption + count, 0)
-	if data.consumption == 0:
-		_remove_consumed_tool_from_available(tool_used)
-
-	_sync_runtime_lookup()
-
 func is_tool_useable(tool: Tool) -> bool:
 	var data := get_tool_data(tool)
 	return data.is_useable() if data else false
@@ -189,6 +208,8 @@ func is_tool_useable(tool: Tool) -> bool:
 func set_tool_state(tool: Tool, new_state: int) -> void:
 	var data := get_tool_data(tool)
 	if not data:
+		return
+	if data.state == ToolData.STATE_BROKEN and new_state != ToolData.STATE_BROKEN:
 		return
 	data.state = clampi(new_state, ToolData.STATE_UNSELECTED, ToolData.STATE_BROKEN)
 
@@ -201,14 +222,12 @@ func _on_tool_changed(new_tool_index: int) -> void:
 	var old_tool: Tool = current_tool
 	var new_tool: Tool = player_now.tool_available[new_tool_index]
 
-	if old_tool != new_tool:
-		_release_tool_after_switch(old_tool)
-
-	current_tool = new_tool
-	_current_tool_index = new_tool_index
-	player_now.tool = new_tool_index
-
 	if new_tool == Tool.NONE:
+		if old_tool != new_tool:
+			_release_tool_after_switch(old_tool)
+		current_tool = new_tool
+		_current_tool_index = new_tool_index
+		player_now.tool = new_tool_index
 		_sync_runtime_lookup()
 		return
 
@@ -221,6 +240,13 @@ func _on_tool_changed(new_tool_index: int) -> void:
 		_play_failure_sfx()
 		_sync_runtime_lookup()
 		return
+
+	if old_tool != new_tool:
+		_release_tool_after_switch(old_tool)
+
+	current_tool = new_tool
+	_current_tool_index = new_tool_index
+	player_now.tool = new_tool_index
 
 	if data.state != ToolData.STATE_ACTIVE:
 		data.state = ToolData.STATE_SELECTED
@@ -259,10 +285,10 @@ func _sync_available_tool_changes() -> void:
 		var new_count: int = new_counts.get(tool, 0)
 		var data := get_tool_data(tool)
 
-		if old_count == 0 and new_count > 0 and data and data.state != ToolData.STATE_ACTIVE:
+		if old_count == 0 and new_count > 0 and data and data.state != ToolData.STATE_ACTIVE and data.state != ToolData.STATE_BROKEN:
 			data.reset_runtime_values()
 
-		if new_count == 0 and data and data.state != ToolData.STATE_ACTIVE:
+		if new_count == 0 and data and data.state != ToolData.STATE_ACTIVE and data.state != ToolData.STATE_BROKEN:
 			data.state = ToolData.STATE_UNSELECTED
 			_free_tool_instance(tool)
 

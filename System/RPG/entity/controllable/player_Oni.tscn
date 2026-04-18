@@ -1840,11 +1840,6 @@ offset = Vector2(0, -220)
 [node name="HitFlash" type="AnimationPlayer" parent="Animate" unique_id=77563793]
 libraries/ = SubResource("AnimationLibrary_vnu8s")
 
-[node name="ToolManager" type="Node2D" parent="." unique_id=1607170863 node_paths=PackedStringArray("player_now", "failure_sfx")]
-script = ExtResource("32_okprr")
-player_now = NodePath("..")
-failure_sfx = NodePath("../SFX_manager/FailureSFX")
-
 [node name="hurted_component" type="Node2D" parent="." unique_id=617251570 node_paths=PackedStringArray("hurted_area", "hit_flash_player", "hurted_audio", "entity")]
 modulate = Color(1.412422, 0.9849966, 1.1019353, 1)
 material = ExtResource("33_axk6g")
@@ -1912,3 +1907,7 @@ color = Color(0.51000005, 0.62333333, 0.85, 1)
 energy = 0.25
 shadow_enabled = true
 texture = ExtResource("41_aooo5")
+
+[node name="ToolManager" type="Node2D" parent="." unique_id=48120702]
+script = ExtResource("32_okprr")
+metadata/_custom_type_script = "uid://dkkcxq5sww6a6"

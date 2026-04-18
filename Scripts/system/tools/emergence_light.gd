@@ -15,11 +15,21 @@ func _ready() -> void:
 	_sync_state_from_tool_manager()
 	_apply_light_energy_for_state(false)
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	var previous_state := state
 	_sync_state_from_tool_manager()
 	if previous_state != state:
-		_apply_light_energy_for_state(true)
+		if state == ToolData.STATE_BROKEN:
+			_fade_light_energy(0.0)
+		else:
+			_apply_light_energy_for_state(true)
+
+	if state == ToolData.STATE_ACTIVE and tool_manager:
+		var previous_state_after_consumption := state
+		tool_manager.durability_changed(ToolManager.Tool.EMERGENCELIGHT, -tool_manager.emergencelight_durability_consumption * delta)
+		_sync_state_from_tool_manager()
+		if previous_state_after_consumption != state and state == ToolData.STATE_BROKEN:
+			_fade_light_energy(0.0)
 
 	if _can_toggle() and InputEvents.consume_once():
 		_toggle_light()

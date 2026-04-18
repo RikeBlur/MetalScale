@@ -219,6 +219,99 @@ func _refresh_current_scene_npcs(npc_mgr: npc_manager) -> void:
 	if npc_mgr and npc_mgr.has_method("_on_player_reseted"):
 		npc_mgr._on_player_reseted()
 
+func _get_player_tool_manager(player_node: player) -> ToolManager:
+	if not player_node:
+		return null
+	return player_node.get_node_or_null("ToolManager") as ToolManager
+
+func _resource_to_path(resource: Resource) -> String:
+	if not resource:
+		return ""
+	return resource.resource_path
+
+func _serialize_tool_data(data: ToolData) -> Dictionary:
+	if not data:
+		return {}
+
+	return {
+		"display_name": data.display_name,
+		"description": data.description,
+		"packed_scene_path": _resource_to_path(data.packed_scene),
+		"icon_path": _resource_to_path(data.icon),
+		"type": data.type,
+		"durability": data.durability,
+		"durability_max": data.durability_max,
+		"consumption": data.consumption,
+		"consumption_max": data.consumption_max,
+		"state": data.state,
+		"useable": data.useable
+	}
+
+func _deserialize_tool_data(data: Dictionary) -> ToolData:
+	var result := ToolData.new()
+	if data.is_empty():
+		return result
+
+	result.display_name = data.get("display_name", "")
+	result.description = data.get("description", "")
+
+	var packed_scene_path: String = data.get("packed_scene_path", "")
+	if packed_scene_path != "":
+		result.packed_scene = load(packed_scene_path) as PackedScene
+
+	var icon_path: String = data.get("icon_path", "")
+	if icon_path != "":
+		result.icon = load(icon_path) as Texture2D
+
+	result.type = int(data.get("type", ToolData.TYPE_PERMANENT))
+	result.durability = float(data.get("durability", -1.0))
+	result.durability_max = float(data.get("durability_max", -1.0))
+	result.consumption = int(data.get("consumption", -1))
+	result.consumption_max = int(data.get("consumption_max", -1))
+	result.state = int(data.get("state", ToolData.STATE_UNSELECTED))
+	result.useable = int(data.get("useable", ToolData.USEABLE_FALSE))
+
+	return result
+
+func _serialize_player_tool_data(player_node: player) -> Dictionary:
+	var result := {}
+	var tool_mgr := _get_player_tool_manager(player_node)
+	if not tool_mgr:
+		return result
+
+	for tool_key in tool_mgr.tool_data.keys():
+		var data: ToolData = tool_mgr.tool_data[tool_key]
+		result[str(int(tool_key))] = _serialize_tool_data(data)
+
+	return result
+
+func _deserialize_player_tool_data(tool_data_dict: Dictionary) -> Dictionary:
+	var result := {}
+
+	for tool_key in tool_data_dict.keys():
+		var tool_id := int(str(tool_key))
+		var data: Dictionary = tool_data_dict[tool_key]
+		result[tool_id] = _deserialize_tool_data(data)
+
+	return result
+
+func _restore_player_tool_data(player_node: player, tool_data_dict: Dictionary) -> void:
+	if not player_node or tool_data_dict.is_empty():
+		return
+
+	var tool_mgr := _get_player_tool_manager(player_node)
+	if not tool_mgr:
+		push_warning("ArchiveManager: 未找到player的ToolManager，无法恢复工具数据")
+		return
+
+	tool_mgr.tool_data = _deserialize_player_tool_data(tool_data_dict)
+	tool_mgr.current_tool = ToolManager.Tool.NONE
+	if player_node.tool >= 0 and player_node.tool < player_node.tool_available.size():
+		tool_mgr.current_tool = player_node.tool_available[player_node.tool]
+	tool_mgr._current_tool_index = player_node.tool
+	tool_mgr._sync_runtime_lookup()
+	print("ArchiveManager: 已恢复工具数据")
+
 # ====================================================================================================
 # ====================================================================================================
 # ====================================================================================================
@@ -256,6 +349,7 @@ func game_save(index : int) -> bool:
 		
 		# 玩家信息
 		"player": _serialize_player_data(player_node),
+		"tool": _serialize_player_tool_data(player_node),
 		
 		# 场景信息
 		"scene": {
@@ -395,6 +489,9 @@ func game_load(index : int) -> bool:
 		# 再次显式设置位置，确保覆盖 BaseLevel 的初始位置设置
 		var saved_position = Vector2(save_data["player"]["global_position"]["x"], save_data["player"]["global_position"]["y"])
 		player_node.global_position = saved_position
+
+		if save_data.has("tool"):
+			_restore_player_tool_data(player_node, save_data["tool"])
 		
 		print("ArchiveManager: 已恢复玩家数据")
 	else:
@@ -467,6 +564,7 @@ func quick_save() -> bool:
 		
 		# 玩家信息
 		"player": _serialize_player_data(player_node),
+		"tool": _serialize_player_tool_data(player_node),
 		
 		# 场景信息
 		"scene": {
@@ -599,6 +697,9 @@ func quick_load() -> bool:
 		# 再次显式设置位置，确保覆盖 BaseLevel 的初始位置设置
 		var saved_position = Vector2(save_data["player"]["global_position"]["x"], save_data["player"]["global_position"]["y"])
 		player_node.global_position = saved_position
+
+		if save_data.has("tool"):
+			_restore_player_tool_data(player_node, save_data["tool"])
 		
 		print("ArchiveManager: 已恢复玩家数据")
 	else:

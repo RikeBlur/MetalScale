@@ -100,6 +100,8 @@ var debug_label: Label = null
 var gamma_canvas_layer: CanvasLayer = null
 var gamma_screen_rect: ColorRect = null
 var gamma_material: ShaderMaterial = null
+var _opening_menu_mask_tween: Tween = null
+var _opening_menu_mask_transition_id: int = 0
 
 # ====================================================================================================
 # ====================================================================================================
@@ -195,7 +197,7 @@ func preloading() -> void:
 	
 	# 切换状态到 MENU
 	set_game_state(GameState.MENU)
-	await _fade_out_opening_menu_mask()
+	_fade_out_opening_menu_mask()
 
 
 func start_new_game() -> void:
@@ -232,21 +234,11 @@ func start_new_game() -> void:
 	# 等待一帧确保节点完全进入场景树
 	await get_tree().process_frame
 	
-	# 将 OpeningMenu/mask 从透明淡入到不透明（与 cutscene 并行）
-	var mask_tween: Tween = null
-	var opening_menu: Node = get_tree().current_scene.get_node_or_null("OpeningMenu")
-	if opening_menu:
-		var mask: Sprite2D = opening_menu.get_node_or_null("mask")
-		if mask:
-			mask.modulate.a = 0.0
-			mask.visible = true
-			mask_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-			mask_tween.tween_property(mask, "modulate:a", 1.0, CutsceneManager.FADE_DURATION)
+	# 先把 OpeningMenu/mask 淡入到不透明，避免开场 cutscene 前露出菜单
+	await _fade_in_opening_menu_mask()
 
-	# 加载开场 cutscene，并与 mask 淡入同步并行
+	# 加载开场 cutscene
 	CutsceneManager.play_cutscene("test")
-	if mask_tween:
-		await mask_tween.finished
 	await CutsceneManager.cutscene_playback_finished
 	print("GameManager: 开场 cutscene 播放完成")
 	
@@ -360,27 +352,54 @@ func _return_to_opening_menu_after_death() -> void:
 
 
 func _fade_out_opening_menu_mask() -> void:
-	var mask: Sprite2D = null
-	for _i in range(5):
-		var current_scene := get_tree().current_scene
-		if current_scene:
-			mask = current_scene.get_node_or_null("OpeningMenu/mask") as Sprite2D
-			if mask:
-				break
-		await get_tree().process_frame
+	await _fade_opening_menu_mask(0.0, true)
 
+
+func _fade_in_opening_menu_mask() -> void:
+	await _fade_opening_menu_mask(1.0, false)
+
+
+func _fade_opening_menu_mask(target_alpha: float, hide_on_finish: bool) -> void:
+	var transition_id := _begin_opening_menu_mask_transition()
+	var mask := await _get_opening_menu_mask()
+	if transition_id != _opening_menu_mask_transition_id:
+		return
 	if not mask:
 		push_warning("GameManager: OpeningMenu/mask not found")
 		return
 
-	mask.modulate.a = 1.0
 	mask.visible = true
 
-	var mask_tween := create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-	# 淡入 OpeningMenu
-	mask_tween.tween_property(mask, "modulate:a", 0.0, 1.0)
-	await mask_tween.finished
-	mask.visible = false
+	_opening_menu_mask_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	_opening_menu_mask_tween.tween_property(mask, "modulate:a", target_alpha, CutsceneManager.FADE_DURATION)
+	await _opening_menu_mask_tween.finished
+
+	if transition_id != _opening_menu_mask_transition_id:
+		return
+
+	if hide_on_finish:
+		mask.visible = false
+	_opening_menu_mask_tween = null
+
+
+func _begin_opening_menu_mask_transition() -> int:
+	_opening_menu_mask_transition_id += 1
+	if _opening_menu_mask_tween and _opening_menu_mask_tween.is_valid():
+		_opening_menu_mask_tween.kill()
+	_opening_menu_mask_tween = null
+	return _opening_menu_mask_transition_id
+
+
+func _get_opening_menu_mask() -> Sprite2D:
+	for _i in range(5):
+		var current_scene := get_tree().current_scene
+		if current_scene:
+			var mask := current_scene.get_node_or_null("OpeningMenu/mask") as Sprite2D
+			if mask:
+				return mask
+		await get_tree().process_frame
+
+	return null
 
 
 # ====================================================================================================
