@@ -11,6 +11,7 @@ var bgm_list: Dictionary = {
 	"default": "res://Assests/SFX/bgm/Rain_Medium_2.mp3",
 	"arrgoing": "res://Assests/SFX/bgm/white-noise.mp3",
 	"arrgoed": "res://Assests/SFX/bgm/scary-slam.mp3",
+	"death": "res://Assests/SFX/bin/horror/Gore_Wet_4.wav",
 	# "battle":  "res://Assests/BGM/battle.mp3",
 }
 
@@ -22,6 +23,7 @@ var bgm_player: AudioStreamPlayer2D = null
 var _current_key: String = ""
 var _bgm_fade_tweens: Dictionary = {}
 var _arrgoed_sfx_players: Array[AudioStreamPlayer2D] = []
+var _death_sfx_players: Array[AudioStreamPlayer2D] = []
 
 @export var bgm_crossfade_duration: float = 0.75
 
@@ -31,6 +33,7 @@ var _arrgoed_sfx_players: Array[AudioStreamPlayer2D] = []
 
 func _ready() -> void:
 	_connect_arrgo_signals()
+	_connect_player_died_signal()
 	_setup_bgm_player.call_deferred()
 
 func _setup_bgm_player() -> void:
@@ -70,6 +73,10 @@ func _apply_volume() -> void:
 	for arrgoed_player in _arrgoed_sfx_players:
 		if arrgoed_player and is_instance_valid(arrgoed_player):
 			_apply_player_volume(arrgoed_player)
+
+	for death_player in _death_sfx_players:
+		if death_player and is_instance_valid(death_player):
+			_apply_player_volume(death_player)
 
 func _get_target_volume_db(fade: float = 1.0) -> float:
 	var gain: float = clamp(GameManager.BGM_gain, 0.0, 100.0) / 100.0
@@ -140,6 +147,10 @@ func _connect_arrgo_signals() -> void:
 	if not GameManager.arrgoed.is_connected(_on_arrgoed):
 		GameManager.arrgoed.connect(_on_arrgoed)
 
+func _connect_player_died_signal() -> void:
+	if not GameManager.player_died.is_connected(_on_player_died):
+		GameManager.player_died.connect(_on_player_died)
+
 func _on_get_in_arrgo() -> void:
 	set_bgm("arrgoing")
 
@@ -148,6 +159,10 @@ func _on_get_out_arrgo() -> void:
 
 func _on_arrgoed() -> void:
 	_play_arrgoed_one_shot()
+
+func _on_player_died() -> void:
+	_play_death_one_shot()
+	set_bgm("default")
 
 func _play_arrgoed_one_shot() -> void:
 	var stream: AudioStream = _load_stream("arrgoed", false)
@@ -164,6 +179,24 @@ func _play_arrgoed_one_shot() -> void:
 
 func _on_arrgoed_sfx_finished(sfx_player: AudioStreamPlayer2D) -> void:
 	_arrgoed_sfx_players.erase(sfx_player)
+	if sfx_player and is_instance_valid(sfx_player):
+		sfx_player.queue_free()
+
+func _play_death_one_shot() -> void:
+	var stream: AudioStream = _load_stream("death", false)
+	if not stream:
+		return
+
+	var sfx_player: AudioStreamPlayer2D = _create_audio_player("death_sfx_player")
+	sfx_player.stream = stream
+	_set_player_fade(1.0, sfx_player)
+	add_child(sfx_player)
+	_death_sfx_players.append(sfx_player)
+	sfx_player.finished.connect(_on_death_sfx_finished.bind(sfx_player))
+	sfx_player.play()
+
+func _on_death_sfx_finished(sfx_player: AudioStreamPlayer2D) -> void:
+	_death_sfx_players.erase(sfx_player)
 	if sfx_player and is_instance_valid(sfx_player):
 		sfx_player.queue_free()
 

@@ -176,13 +176,13 @@ position = Vector2(716, 319)
 position = Vector2(830, 319)
 
 [node name="chair7" parent="ObjectAndCharacter/object/chairs" unique_id=647086773 instance=ExtResource("8_yuq75")]
-position = Vector2(611, 366)
+position = Vector2(611, 360)
 
 [node name="chair8" parent="ObjectAndCharacter/object/chairs" unique_id=93167230 instance=ExtResource("8_yuq75")]
-position = Vector2(716, 366)
+position = Vector2(716, 357)
 
 [node name="chair9" parent="ObjectAndCharacter/object/chairs" unique_id=63296296 instance=ExtResource("8_yuq75")]
-position = Vector2(831, 364)
+position = Vector2(831, 355)
 
 [node name="chair10" parent="ObjectAndCharacter/object/chairs" unique_id=1831921121 instance=ExtResource("8_yuq75")]
 position = Vector2(611, 465)

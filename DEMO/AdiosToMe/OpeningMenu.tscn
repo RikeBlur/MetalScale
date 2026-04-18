@@ -11,7 +11,6 @@
 [node name="OpeningMenu" parent="OpeningMenu" unique_id=1916706883 instance=ExtResource("4_dr64k")]
 
 [node name="mask" type="Sprite2D" parent="OpeningMenu" unique_id=50478684]
-visible = false
 position = Vector2(606, 310.00003)
 scale = Vector2(34.707695, 52.38333)
 texture = ExtResource("2_1u77a")

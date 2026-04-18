@@ -31,5 +31,21 @@ var is_died : bool = false
 
 signal player_hurted
 
+func _process(_delta: float) -> void:
+	if InputEvents.suicide():
+		player_died()
 
+func player_died() -> void:
+	if is_died:
+		return
+
+	is_died = true
+	health_now = 0.0
+	can_move = false
+	can_interact = false
+	can_act = false
+	velocity = Vector2.ZERO
+	InputEvents.player_input_blocked = true
+
+	GameManager.notify_player_died(self)
  

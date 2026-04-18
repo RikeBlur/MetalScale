@@ -4,6 +4,7 @@ extends Node
 signal Preloaded
 signal Loading
 signal Loaded
+signal player_died
 
 # Arrgo系统信号
 signal get_in_arrgo   # aggro_value 从0开始上升时
@@ -20,13 +21,18 @@ const ARCHIVE_MANAGER_PATH = "res://Scripts/global/archive_manager.gd"
 const UI_MANAGER_PATH = "res://Scripts/global/ui_manager.gd"
 const LIGHTING_MANAGER_PATH = "res://Scripts/system/lighting/lighting_manager.gd"
 const BGM_MANAGER_PATH = "res://Scripts/global/bgm_manager.gd"
+const PLAYER_SCENE_PATH = "res://System/RPG/entity/controllable/player_Oni.tscn"
+const CAMERA_SCENE_PATH = "res://System/RPG/entity/camera.tscn"
+const OPENING_MENU_SCENE_PATH = "res://DEMO/AdiosToMe/OpeningMenu.tscn"
 const CONFIG_PATH: String = "user://config.tres"
 
 # ====================================================================================================
 # ============================================ 游戏状态枚举 =============================================
 # ====================================================================================================
 
-var debug : bool = true
+# ！！！   DEBUG 选项    ！！！
+var debug : bool = false
+# ！！！   DEBUG 选项    ！！！
 
 # 游戏状态枚举
 enum GameState {
@@ -60,9 +66,10 @@ var start_position: Vector2 = Vector2(870, 290)
 
 # 玩家仇恨状态：0=无仇恨 1=仇恨中（0<aggro<100） 2=完全仇恨（aggro==100）
 var player_arrgo: int = 0
-var arrgo_in_threshold: float = 25.0
+var arrgo_in_threshold: float = 10.0
 var _prev_aggro_value: float = 0.0       # 上一帧的 aggro_value，用于边沿检测
 var _debug_signal_log: Array[String] = [] # 最近发出的 arrgo 信号日志（最多4条）
+var _is_player_death_flow_running: bool = false
 
 # 全局配置数据（对应 user://config.tres）
 var config_data: ConfigData = null
@@ -114,6 +121,8 @@ func _ready() -> void:
 	preloading.call_deferred()
 	# 加载完毕执行的函数
 	Loaded.connect(_on_loaded)
+	if not player_died.is_connected(_on_player_died):
+		player_died.connect(_on_player_died)
 	
 func _process(delta: float) -> void:
 	# 仅在运行状态下累加存档时长（毫秒）
@@ -150,13 +159,7 @@ func preloading() -> void:
 	print("GameManager: 开始预加载流程...")
 	
 	# 1. 加载 Player 和 Camera 实例
-	# 加载 Player 场景
-	var player_scene: PackedScene = load("res://System/RPG/entity/controllable/player_Oni.tscn")
-	player_instance = player_scene.instantiate()
-	# 加载 Camera 场景
-	var camera_scene: PackedScene = load("res://System/RPG/entity/camera.tscn")
-	camera_instance = camera_scene.instantiate()
-	camera_instance.target = player_instance
+	_ensure_player_and_camera_instances()
 	
 	# 2. 加载 SceneManager
 	# 负责场景切换和节点存储
@@ -182,7 +185,7 @@ func preloading() -> void:
 
 	# 6. 加载 BGMManager
 	# 负责 BGM 播放和音量管理
-	_install_manager(BGM_MANAGER_PATH, "BGMManager")
+	_install_manager(BGM_MANAGER_PATH, "BgmManager")
 
 	# 等待一帧，确保所有节点都已进入场景树并执行了_ready
 	await get_tree().process_frame
@@ -192,6 +195,7 @@ func preloading() -> void:
 	
 	# 切换状态到 MENU
 	set_game_state(GameState.MENU)
+	await _fade_out_opening_menu_mask()
 
 
 func start_new_game() -> void:
@@ -204,11 +208,18 @@ func start_new_game() -> void:
 		- 刷新 UIManager
 		- 更新游戏状态为 RUNNING
 	"""
+	if current_state != GameState.MENU:
+		print("GameManager: start_new_game ignored because current state is %s" % GameState.keys()[current_state])
+		return
+
 	print("GameManager: 开始新游戏")
 	
 	# 更新游戏状态
 	set_game_state(GameState.LOADING)
 	game_archive_msec = 0
+	_is_player_death_flow_running = false
+	_ensure_player_and_camera_instances()
+	_reset_player_runtime_state()
 	
 	# 临时添加玩家和摄像机到当前场景（SceneManager.change_scene 需要它们在场景树中）
 	var parent = get_tree().current_scene
@@ -258,6 +269,8 @@ func _on_loaded() -> void:
 	"""
 	set_game_state(GameState.RUNNING)
 	set_running_state(RunningState.CONTROL)
+	InputEvents.player_input_blocked = false
+	_is_player_death_flow_running = false
 	print("GameManager: 新游戏启动完成，当前状态: RUNNING")
 	InputEvents.hide_mouse()
 	_connect_player_arrgo()
@@ -272,6 +285,102 @@ func quit_game() -> void:
 	"""
 	print("GameManager: 退出游戏")
 	get_tree().quit()
+
+# ============================================= 死了 ==============================================
+
+func notify_player_died(dead_player: player = null) -> void:
+	"""
+	玩家死亡入口：
+		- 标记 player.is_died
+		- 切换 RunningState → AUTO
+		- 阻塞玩家输入
+		- 发出 player_died 信号通知各监听方
+	"""
+	if _is_player_death_flow_running:
+		return
+
+	var p: player = dead_player
+	if not p or not is_instance_valid(p):
+		p = get_player()
+	if not p or not is_instance_valid(p):
+		push_warning("GameManager: notify_player_died ignored because player is missing")
+		return
+
+	_is_player_death_flow_running = true
+	player_instance = p
+	p.is_died = true
+	p.health_now = 0.0
+	p.can_move = false
+	p.can_interact = false
+	p.can_act = false
+	p.velocity = Vector2.ZERO
+	InputEvents.player_input_blocked = true
+	set_running_state(RunningState.AUTO)
+
+	print("GameManager: player died")
+	player_died.emit()
+
+
+func _on_player_died() -> void:
+	"""
+	GameManager 自身监听 player_died：
+	等待死亡过场完成后，回到 OpeningMenu。
+	"""
+	print("GameManager: 等待死亡过场动画完成")
+	if CutsceneManager.has_signal("death_cutscene_finished"):
+		await CutsceneManager.death_cutscene_finished
+	else:
+		await get_tree().process_frame
+
+	await _return_to_opening_menu_after_death()
+
+
+func _return_to_opening_menu_after_death() -> void:
+	set_game_state(GameState.LOADING)
+	InputEvents.show_mouse()
+
+	var result = get_tree().change_scene_to_file(OPENING_MENU_SCENE_PATH)
+	if result != OK:
+		push_error("GameManager: 无法切换到 OpeningMenu: %s" % OPENING_MENU_SCENE_PATH)
+		return
+
+	await _fade_out_opening_menu_mask()
+
+	player_instance = null
+	camera_instance = null
+	player_arrgo = 0
+	_prev_aggro_value = 0.0
+	_debug_signal_log.clear()
+	_ensure_player_and_camera_instances()
+	_reset_player_runtime_state()
+	set_game_state(GameState.MENU)
+	set_running_state(RunningState.NOPE)
+	_is_player_death_flow_running = false
+	print("GameManager: 玩家死亡流程结束，已返回 OpeningMenu")
+
+
+func _fade_out_opening_menu_mask() -> void:
+	var mask: Sprite2D = null
+	for _i in range(5):
+		var current_scene := get_tree().current_scene
+		if current_scene:
+			mask = current_scene.get_node_or_null("OpeningMenu/mask") as Sprite2D
+			if mask:
+				break
+		await get_tree().process_frame
+
+	if not mask:
+		push_warning("GameManager: OpeningMenu/mask not found")
+		return
+
+	mask.modulate.a = 1.0
+	mask.visible = true
+
+	var mask_tween := create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	# 淡入 OpeningMenu
+	mask_tween.tween_property(mask, "modulate:a", 0.0, 1.0)
+	await mask_tween.finished
+	mask.visible = false
 
 
 # ====================================================================================================
@@ -332,6 +441,40 @@ func _log_arrgo_signal(sig_name: String) -> void:
 # ====================================================================================================
 # ======================================= 获取Player和Camera =========================================
 # ====================================================================================================
+
+func _ensure_player_and_camera_instances() -> void:
+	"""确保全局 player / camera 实例可用；死亡回主菜单后会重新创建。"""
+	if not player_instance or not is_instance_valid(player_instance):
+		var player_scene: PackedScene = load(PLAYER_SCENE_PATH)
+		if not player_scene:
+			push_error("GameManager: 无法加载 Player 场景: %s" % PLAYER_SCENE_PATH)
+			return
+		player_instance = player_scene.instantiate()
+
+	if not camera_instance or not is_instance_valid(camera_instance):
+		var camera_scene: PackedScene = load(CAMERA_SCENE_PATH)
+		if not camera_scene:
+			push_error("GameManager: 无法加载 Camera 场景: %s" % CAMERA_SCENE_PATH)
+			return
+		camera_instance = camera_scene.instantiate()
+
+	if camera_instance and is_instance_valid(camera_instance):
+		camera_instance.target = player_instance
+
+
+func _reset_player_runtime_state() -> void:
+	"""重置玩家单局运行时状态，供新游戏和死亡回菜单后复用。"""
+	if not player_instance or not is_instance_valid(player_instance):
+		return
+
+	player_instance.is_died = false
+	player_instance.health_now = player_instance.health_max
+	player_instance.can_move = true
+	player_instance.can_interact = true
+	player_instance.can_act = true
+	player_instance.velocity = Vector2.ZERO
+	InputEvents.player_input_blocked = false
+
 
 func get_player() -> player:
 	"""获取存储的player节点"""

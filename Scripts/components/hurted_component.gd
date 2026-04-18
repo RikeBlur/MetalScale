@@ -84,6 +84,11 @@ func _on_hurt(amount : float) -> void:
 # 死亡处理
 func on_died() -> void:
 	is_died = true
+	entity.health_now = 0.0
+	health = 0.0
+	if entity is player and entity.has_method("player_died"):
+		entity.player_died()
+		return
 	entity.is_died = true
 	# 没做死亡特效，暂时先用受伤特效，否则最后击杀目标后没有任何特效
 	#_hurted_effect()

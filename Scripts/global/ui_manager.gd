@@ -100,7 +100,7 @@ var _settings_tween: Tween = null
 var _settings_shown_y: float = 0.0        # 记录settings"显示"时的position.y
 var _settings_y_initialized: bool = false  # 首次show后为true
 
-# Toolbar相关状态
+# arrgobar相关状态
 var is_arrgobar_showing: bool = true  # toolbar默认显示
 @export var arrgobar_x_offset: float = -300.0  # 隐藏时沿x负轴移出屏幕的距离，应 >= toolbar宽度
 const ARRGOBAR_SLIDE_DURATION: float = 0.3

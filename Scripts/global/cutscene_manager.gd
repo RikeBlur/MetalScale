@@ -2,6 +2,7 @@ class_name cutscene_manager
 extends Node
 
 signal cutscene_playback_finished
+signal death_cutscene_finished
 
 class SkipRingIndicator:
 	extends Control
@@ -45,7 +46,8 @@ const FADE_DURATION: float = 0.5
 # 在此处填写过场动画，例如：
 #   "intro": preload("res://System/Cutscenes/intro.tscn"),
 var cutscene_scenes: Dictionary = {
-	"test": preload("res://System/RPG/cutscene/1_1/test.tscn")
+	"test": preload("res://System/RPG/cutscene/1_1/test.tscn"),
+	"death": preload("res://System/RPG/cutscene/1_1/test.tscn")
 }
 
 # 过场动画信号注册表：key → Array[Callable]
@@ -65,11 +67,16 @@ var _active_fade_duration: float = FADE_DURATION
 var _skip_hold_time: float = 0.0
 var _skip_indicator: SkipRingIndicator = null
 var _is_finishing_cutscene: bool = false
+var _death_blackout_layer: CanvasLayer = null
 
 # 播放前快照，用于恢复
 var _prev_running_state: GameManager.RunningState = GameManager.RunningState.NOPE
 var _prev_player_can_move: bool = true
 var _prev_player_can_interact: bool = true
+
+func _ready() -> void:
+	if not GameManager.player_died.is_connected(_on_player_died):
+		GameManager.player_died.connect(_on_player_died)
 
 # ====================================================================================================
 # ===================================== 过场动画播放 ================================================
@@ -204,6 +211,43 @@ func _on_cutscene_finished() -> void:
 
 func _process(delta: float) -> void:
 	_update_skip_input(delta)
+
+# ============================= 死了 ========================
+
+func _on_player_died() -> void:
+	"""
+	玩家死亡过场入口。
+	实际死亡动画内容待填充：后续只要在 cutscene_scenes 中注册 "death" 即可复用通用过场播放流程。
+	"""
+	GameManager.set_running_state(GameManager.RunningState.AUTO)
+	_create_death_blackout_layer()
+	if cutscene_scenes.has("death"):
+		play_cutscene("death")
+		await cutscene_playback_finished
+	else:
+		await get_tree().process_frame
+
+	death_cutscene_finished.emit()
+
+
+func _create_death_blackout_layer() -> void:
+	if is_instance_valid(_death_blackout_layer):
+		return
+	if not get_tree().current_scene:
+		return
+
+	_death_blackout_layer = CanvasLayer.new()
+	_death_blackout_layer.name = "DeathBlackoutLayer"
+	_death_blackout_layer.layer = CANVAS_LAYER_INDEX - 1
+
+	var black_rect := ColorRect.new()
+	black_rect.name = "Blackout"
+	black_rect.color = Color.BLACK
+	black_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	black_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_death_blackout_layer.add_child(black_rect)
+
+	get_tree().current_scene.add_child(_death_blackout_layer)
 
 # ====================================================================================================
 # ===================================== 过场动画信号 ================================================

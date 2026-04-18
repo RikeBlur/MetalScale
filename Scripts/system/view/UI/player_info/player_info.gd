@@ -41,6 +41,11 @@ func toolbox_info_on_hoven(toolbox_info_node: ToolboxInfo) -> void:
 
 	_hovered_toolbox_info = toolbox_info_node
 	var tool_type: ToolManager.Tool = toolbox_info_node.tool
+	if tool_type == ToolManager.Tool.NONE:
+		_hovered_toolbox_info = null
+		_fade_out_tool_info_window()
+		return
+
 	tool_info_window.global_position = toolbox_info_node.global_position
 
 	if tool_info_window.name_info:

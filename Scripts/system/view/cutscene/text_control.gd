@@ -86,10 +86,6 @@ func _play_text_resource(label: RichTextLabel) -> void:
 	var character_timer: float = 0.0
 
 	while label.visible_characters < total_character:
-		if Input.is_action_just_pressed("skip"):
-			label.visible_characters = total_character
-			break
-
 		character_timer += get_process_delta_time()
 
 		if character_timer >= (1.0 / text_speed) or text_without_square_brackets[label.visible_characters] == "":
@@ -106,8 +102,6 @@ func _play_text_resource(label: RichTextLabel) -> void:
 func _wait_inter_label_delay() -> void:
 	var elapsed: float = 0.0
 	while elapsed < label_time:
-		if Input.is_action_just_pressed("skip"):
-			break
 		elapsed += get_process_delta_time()
 		await get_tree().process_frame
 

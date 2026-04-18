@@ -30,6 +30,7 @@ static var _last_consume_timestamp: float = 0.0
 const CONSUME_COOLDOWN: float = 0.2 
 const QUIT_COOLDOWN: float = 0.2
 
+# ============================= 移动类 =============================
 
 func _physics_process(delta: float) -> void:
 	if start_flag == true:
@@ -95,6 +96,8 @@ static func is_running() -> bool:
 	else:
 		return false
 
+# ================================================================
+
 static func is_act() -> bool:
 	# block!输入
 	if player_input_blocked:
@@ -149,6 +152,16 @@ static func to_tool() -> int:
 	else :
 		return -1	
 
+# suicide
+static func suicide() -> bool:
+	# block!输入
+	if player_input_blocked:
+		return false
+		
+	if Input.is_action_pressed("suicide"):
+		return true
+	else:
+		return false
 
 #============================================ 工具函数 ===============================================
 # 新增：获取最后一个有效移动方向的函数
