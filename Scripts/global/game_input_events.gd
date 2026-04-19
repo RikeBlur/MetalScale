@@ -16,19 +16,36 @@ static var last_time : float = 0.03
 # 是否正在奔跑
 static var running : bool = false
 
-#var target_position = Vector2.ZERO
-#var is_dragging = false
-
+# 鼠标输入阻塞标志
+static var mouse_input_blocked : bool = false
 # 如果 player_input_blocked，所有返回都设为false
 static var player_input_blocked : bool = false
 
-# 鼠标输入阻塞标志
-static var mouse_input_blocked : bool = false
+static func set_player_input_blocked(blocked: bool) -> void:
+	player_input_blocked = blocked
+	_sync_player_input_blocked_to_player(blocked)
+
+static func _sync_player_input_blocked_to_player(blocked: bool) -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null:
+		return
+
+	var game_manager_node := tree.root.get_node_or_null("GameManager")
+	if game_manager_node == null or not game_manager_node.has_method("get_player"):
+		return
+
+	var player_node = game_manager_node.get_player()
+	if player_node != null and is_instance_valid(player_node) and "player_input_blocked" in player_node:
+		player_node.player_input_blocked = blocked
 
 # 确保单次按键不要重复触发
 static var _last_consume_timestamp: float = 0.0
 const CONSUME_COOLDOWN: float = 0.2 
 const QUIT_COOLDOWN: float = 0.2
+
+#var target_position = Vector2.ZERO
+#var is_dragging = false
+
 
 # ============================= 移动类 =============================
 

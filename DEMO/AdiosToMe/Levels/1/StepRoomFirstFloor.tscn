@@ -148,8 +148,8 @@ y_sort_enabled = true
 
 [node name="door" parent="ObjectAndCharacter/Interactable/door" unique_id=387604085 instance=ExtResource("8_7hp8k")]
 position = Vector2(708, 551)
-scene_from = "2-6"
-scene_to = "2-1"
+scene_from = "1-6"
+scene_to = "1-1"
 scene_to_index = 6
 
 [node name="door2" parent="ObjectAndCharacter/Interactable/door" unique_id=744820268 instance=ExtResource("8_7hp8k")]

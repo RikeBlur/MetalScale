@@ -78,7 +78,7 @@ glow_enabled = true
 [node name="CorridorFirstFloor" type="Node2D" unique_id=1940884473]
 y_sort_enabled = true
 script = ExtResource("1_410n1")
-player_initial_position = Array[Vector2]([Vector2(245, 250), Vector2(245, 290), Vector2(590, 290), Vector2(920, 290), Vector2(570, 290), Vector2(825, 290), Vector2(960, 290)])
+player_initial_position = Array[Vector2]([Vector2(245, 250), Vector2(245, 290), Vector2(590, 290), Vector2(920, 290), Vector2(570, 250), Vector2(825, 250), Vector2(960, 250)])
 player_initial_direction = Array[Vector2]([Vector2(0, 1), Vector2(0, -1), Vector2(0, -1), Vector2(0, -1), Vector2(0, 1), Vector2(0, 1), Vector2(0, 1)])
 interactables = Array[ExtResource("2_56krx")]([SubResource("Resource_awlan"), SubResource("Resource_mmvxn"), SubResource("Resource_dpdbr"), SubResource("Resource_0hjgw"), SubResource("Resource_0tkip"), SubResource("Resource_njo3k"), SubResource("Resource_pfjua")])
 

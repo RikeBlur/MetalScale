@@ -8,9 +8,14 @@ extends CharacterBody2D
 @export var player_run_speed_min : int = 200
 @export var player_walk_acceleration : int = 10
 @export var player_run_acceleration : int = 30
+
+# 输入控制
+var player_input_blocked : bool = false
 var can_move : bool = true
 var can_interact : bool = true
 var can_act : bool = true
+
+# 方向控制
 var player_direction : Vector2 = Vector2.DOWN
 var player_last_direction : Vector2 = Vector2.DOWN
 
@@ -23,8 +28,10 @@ var player_last_direction : Vector2 = Vector2.DOWN
 @export var tool_available : Array[ToolManager.Tool]
 @export var tool : int = -1
 
+# Arrgo
 var aggro_value : float = 0.0
 
+# 战斗系统 ———— 受伤
 var health_max : float = 100.0
 var health_now : float = 100.0
 var is_died : bool = false
@@ -32,8 +39,14 @@ var is_died : bool = false
 signal player_hurted
 
 func _process(_delta: float) -> void:
+	if player_input_blocked != InputEvents.player_input_blocked:
+		player_input_blocked = InputEvents.player_input_blocked
+
 	if InputEvents.suicide():
 		player_died()
+
+
+# ============================= 死了 ==========================
 
 func player_died() -> void:
 	if is_died:
@@ -45,7 +58,7 @@ func player_died() -> void:
 	can_interact = false
 	can_act = false
 	velocity = Vector2.ZERO
-	InputEvents.player_input_blocked = true
+	InputEvents.set_player_input_blocked(true)
 
 	GameManager.notify_player_died(self)
  

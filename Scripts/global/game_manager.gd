@@ -261,7 +261,6 @@ func _on_loaded() -> void:
 	"""
 	set_game_state(GameState.RUNNING)
 	set_running_state(RunningState.CONTROL)
-	InputEvents.player_input_blocked = false
 	_is_player_death_flow_running = false
 	print("GameManager: 新游戏启动完成，当前状态: RUNNING")
 	InputEvents.hide_mouse()
@@ -306,7 +305,6 @@ func notify_player_died(dead_player: player = null) -> void:
 	p.can_interact = false
 	p.can_act = false
 	p.velocity = Vector2.ZERO
-	InputEvents.player_input_blocked = true
 	set_running_state(RunningState.AUTO)
 
 	print("GameManager: player died")
@@ -492,7 +490,7 @@ func _reset_player_runtime_state() -> void:
 	player_instance.can_interact = true
 	player_instance.can_act = true
 	player_instance.velocity = Vector2.ZERO
-	InputEvents.player_input_blocked = false
+	InputEvents.set_player_input_blocked(false)
 
 
 func get_player() -> player:
@@ -718,6 +716,10 @@ func set_running_state(new_state: RunningState) -> void:
 		new_state: 新的运行状态
 	"""
 	current_runnnig_state = new_state
+	if new_state == RunningState.AUTO:
+		InputEvents.set_player_input_blocked(true)
+	elif new_state == RunningState.CONTROL or new_state == RunningState.NOPE:
+		InputEvents.set_player_input_blocked(false)
 	print("GameManager: 运行状态已更改为: %s" % RunningState.keys()[new_state])
 	
 	# 更新debug UI

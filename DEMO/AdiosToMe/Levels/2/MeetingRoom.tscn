@@ -187,7 +187,7 @@ y_sort_enabled = true
 position = Vector2(626, 537)
 scene_from = "2-5"
 scene_to = "2-1"
-scene_to_index = 1
+scene_to_index = 5
 
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]
 y_sort_enabled = true

@@ -5,6 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://c0uhqsqoqjy5y" path="res://Assests/SFX/Object/door_open_[cut_0sec].mp3" id="4_lohvp"]
 [ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="5_6sdmj"]
 [ext_resource type="AudioStream" uid="uid://c56u1rqb2tere" path="res://Assests/SFX/Object/door_lock.mp3" id="6_ok6pq"]
+[ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/component/point_radial_light_texture.tres" id="7_jqukf"]
 [ext_resource type="AudioStream" uid="uid://wkxra0wohxcp" path="res://Assests/SFX/Object/lock_open.mp3" id="7_o26ht"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2psln"]
@@ -45,3 +46,10 @@ script = ExtResource("5_6sdmj")
 [node name="use_key_sfx" type="AudioStreamPlayer2D" parent="." unique_id=2043841304]
 stream = ExtResource("7_o26ht")
 script = ExtResource("5_6sdmj")
+
+[node name="ambient_light" type="PointLight2D" parent="." unique_id=148240251]
+position = Vector2(-2.2649765e-06, -31.079548)
+scale = Vector2(1.46875, 1.278764)
+color = Color(0.7047, 0.768065, 0.87, 1)
+energy = 0.2
+texture = ExtResource("7_jqukf")

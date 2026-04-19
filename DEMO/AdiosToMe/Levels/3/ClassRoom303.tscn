@@ -10,6 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://bty4ru7ludm8i" path="res://System/RPG/object/chair/var1/chair_down.tscn" id="8_l41jb"]
 [ext_resource type="PackedScene" uid="uid://c45c0h6sp68w" path="res://System/RPG/object/podium/podium_front.tscn" id="9_4ovce"]
 [ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/interact/door/var1/door_front.tscn" id="9_5fmio"]
+[ext_resource type="PackedScene" uid="uid://bu723s56bbckd" path="res://System/RPG/object/OnWall/painting/notice.tscn" id="10_6osee"]
+[ext_resource type="PackedScene" uid="uid://j4ht3hbbyl5m" path="res://System/RPG/object/OnWall/painting/painting_9.tscn" id="11_7cwow"]
+[ext_resource type="PackedScene" uid="uid://ddogc5usl1gwh" path="res://System/RPG/lighting/mul_media/mul_media_front.tscn" id="12_7cwow"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
 script = ExtResource("2_4ovce")
@@ -243,6 +246,18 @@ position = Vector2(873, 499)
 [node name="SofaFaceRight" parent="ObjectAndCharacter/object" unique_id=2027197509 instance=ExtResource("9_4ovce")]
 position = Vector2(663, 266)
 
+[node name="Onwall" type="Node2D" parent="ObjectAndCharacter/object" unique_id=1244029470]
+y_sort_enabled = true
+
+[node name="Plant1" parent="ObjectAndCharacter/object/Onwall" unique_id=647407878 instance=ExtResource("11_7cwow")]
+position = Vector2(413, 137)
+
+[node name="notice" parent="ObjectAndCharacter/object/Onwall" unique_id=2141939027 instance=ExtResource("10_6osee")]
+position = Vector2(879, 128)
+
+[node name="ElectrionicScreen" parent="ObjectAndCharacter/object/Onwall" unique_id=987910373 instance=ExtResource("12_7cwow")]
+position = Vector2(666, 167)
+
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 
 [node name="Interactable" type="Node2D" parent="ObjectAndCharacter" unique_id=1164615803]
@@ -253,8 +268,8 @@ y_sort_enabled = true
 
 [node name="door" parent="ObjectAndCharacter/Interactable/door" unique_id=387604085 instance=ExtResource("9_5fmio")]
 position = Vector2(491, 174)
-scene_from = "0-4"
-scene_to = "0-1"
+scene_from = "3-4"
+scene_to = "3-1"
 scene_to_index = 3
 
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]

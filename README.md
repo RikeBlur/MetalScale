@@ -35,14 +35,23 @@
 
 # UPDATE
 
+## 26.04.19
+
+8 种管理器的操作指南已完成 <br>
+
+RunningState 设为 AUTO 时，通过 GameInputEvent 直接 block 输入，保底 <br>
+
+
 ## 26.03.23
 
 DEMO成型！！（五月之前）： <br>
 
-一层地图 完成 <br>
-三层地图 完成 <br>
+未完成：<br>
 Gone 的 idle/walk/run 动画 <br>
 
+已完成：<br>
+一层地图 完成 （天呐那是接近的）<br>
+三层地图 完成 （天呐那是接近的） <br>
 player_info 界面（角色状态显示；自言自语显示；物品栏显示，悬浮显示说明） <br>
 get_in_arrgo 后的音效和 shader √ <br>
 arrgoed 后的音效和 shader（可用 CRT） √ <br>
