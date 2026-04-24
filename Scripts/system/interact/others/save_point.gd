@@ -41,6 +41,9 @@ func _on_interacted() -> void:
 		return
 
 	# 防止重复创建
+	if GameManager.player_arrgo != 0:
+		return
+
 	if _window_opened and is_instance_valid(save_window_inst):
 		return
 

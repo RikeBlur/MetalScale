@@ -16,6 +16,17 @@ script = ExtResource("2_5mt4r")
 node_path = NodePath("ObjectAndCharacter/Interactable/door/door")
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
+[sub_resource type="Resource" id="Resource_23f8u"]
+script = ExtResource("2_5mt4r")
+node_path = NodePath("ObjectAndCharacter/Interactable/door/door2")
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_ki5ic"]
+script = ExtResource("2_5mt4r")
+node_path = NodePath("ObjectAndCharacter/Interactable/door/door3")
+state = 2
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
 [sub_resource type="Gradient" id="Gradient_336yt"]
 offsets = PackedFloat32Array(0, 0.993506)
 
@@ -52,7 +63,7 @@ y_sort_enabled = true
 script = ExtResource("1_0mqha")
 player_initial_position = Array[Vector2]([Vector2(720, 450), Vector2(600, 330), Vector2(800, 330)])
 player_initial_direction = Array[Vector2]([Vector2(0, -1), Vector2(0, 1), Vector2(0, 1)])
-interactables = Array[ExtResource("2_5mt4r")]([SubResource("Resource_ax0f4")])
+interactables = Array[ExtResource("2_5mt4r")]([SubResource("Resource_ax0f4"), SubResource("Resource_23f8u"), SubResource("Resource_ki5ic")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 
@@ -119,6 +130,9 @@ position = Vector2(513, 469)
 
 [node name="Plant3" parent="ObjectAndCharacter/object" unique_id=681767264 instance=ExtResource("9_6mvpw")]
 position = Vector2(888, 312)
+
+[node name="Plant5" parent="ObjectAndCharacter/object" unique_id=460682536 instance=ExtResource("9_6mvpw")]
+position = Vector2(703, 312)
 
 [node name="Plant4" parent="ObjectAndCharacter/object" unique_id=1990701957 instance=ExtResource("9_6mvpw")]
 position = Vector2(519, 316)

@@ -42,7 +42,8 @@
 [ext_resource type="AudioStream" uid="uid://bo7pe7r677nvm" path="res://Assests/SFX/Character/Oni/Retro Event UI StereoUP 01.mp3" id="37_aooo5"]
 [ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/component/point_radial_light_texture.tres" id="41_aooo5"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jkc22"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_aooo5"]
+radius = 12.962957
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_axk6g"]
 shader = ExtResource("6_lnjpj")
@@ -1799,9 +1800,9 @@ self_talk = "“宇宙冷漠”"
 tool_available = Array[int]([0, 1, 4, 2, 3, 0])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1536282822]
-position = Vector2(0, -23)
+position = Vector2(0, -20)
 scale = Vector2(1.0800005, 1.3259015)
-shape = SubResource("CapsuleShape2D_jkc22")
+shape = SubResource("CircleShape2D_aooo5")
 
 [node name="StateMachine" type="Node2D" parent="." unique_id=95761580 node_paths=PackedStringArray("initial_node_state", "entity")]
 script = ExtResource("2_o2obw")

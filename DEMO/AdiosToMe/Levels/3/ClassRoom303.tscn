@@ -48,7 +48,7 @@ shader_parameter/color_mix_strength = 0.90000004275
 ssao_enabled = true
 glow_enabled = true
 
-[node name="ClassRoom203" type="Node2D" unique_id=1940884473]
+[node name="ClassRoom303" type="Node2D" unique_id=1940884473]
 y_sort_enabled = true
 script = ExtResource("1_lmnf6")
 player_initial_position = Array[Vector2]([Vector2(490, 275)])
@@ -243,8 +243,8 @@ position = Vector2(825, 499)
 [node name="chair21" parent="ObjectAndCharacter/object/chairs" unique_id=1426181136 instance=ExtResource("8_l41jb")]
 position = Vector2(873, 499)
 
-[node name="SofaFaceRight" parent="ObjectAndCharacter/object" unique_id=2027197509 instance=ExtResource("9_4ovce")]
-position = Vector2(663, 266)
+[node name="podium" parent="ObjectAndCharacter/object" unique_id=2027197509 instance=ExtResource("9_4ovce")]
+position = Vector2(663, 269)
 
 [node name="Onwall" type="Node2D" parent="ObjectAndCharacter/object" unique_id=1244029470]
 y_sort_enabled = true

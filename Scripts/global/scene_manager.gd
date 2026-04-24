@@ -7,15 +7,15 @@ extends Node
 
 # 场景数据字典，key为场景名，value为SceneData资源, Interactables 先全部设为 []
 var scene_dict: Dictionary = {
-	#"1-0": SceneData.new("res://DEMO/AdiosToMe/Levels/1/SelfStudySpaceFirstFloorA.tscn", "一层自习室A", []),
+	"1-0": SceneData.new("res://DEMO/AdiosToMe/Levels/1/SelfStudySpaceFirstFloorA.tscn", "一层自习室A", []),
 	"1-1": SceneData.new("res://DEMO/AdiosToMe/Levels/1/CorridorFirstFloor.tscn", "一层走廊", []),
 	"1-2": SceneData.new("res://DEMO/AdiosToMe/Levels/1/ClassRoom101.tscn", "101教室", []),
 	"1-3": SceneData.new("res://DEMO/AdiosToMe/Levels/1/ClassRoom102.tscn", "102教室", []),
 	"1-4": SceneData.new("res://DEMO/AdiosToMe/Levels/1/ClassRoom103.tscn", "103教室", []),
-	#"1-5": SceneData.new("res://DEMO/AdiosToMe/Levels/1/SelfStudySpaceFirstFloorB", "一层自习室B", []),
+	"1-5": SceneData.new("res://DEMO/AdiosToMe/Levels/1/SelfStudySpaceFirstFloorB.tscn", "一层自习室B", []),
 	"1-6": SceneData.new("res://DEMO/AdiosToMe/Levels/1/StepRoomFirstFloor.tscn", "一层楼梯间", []),
-	#"1-7": SceneData.new("res://DEMO/AdiosToMe/Levels/1/SelfStudySpaceFirstFloorC", "一层自习室C", []),
-	#"1-8": SceneData.new("res://DEMO/AdiosToMe/Levels/1/SelfStudySpaceFirstFloorD", "一层自习室D", []),
+	"1-7": SceneData.new("res://DEMO/AdiosToMe/Levels/1/SelfStudySpaceFirstFloorC.tscn", "一层自习室C", []),
+	"1-8": SceneData.new("res://DEMO/AdiosToMe/Levels/1/SelfStudySpaceFirstFloorD.tscn", "一层自习室D", []),
 	# ================================================================
 	"2-0": SceneData.new("res://DEMO/AdiosToMe/Levels/2/TeacherRestRoom.tscn", "教师休息室", []),
 	"2-1": SceneData.new("res://DEMO/AdiosToMe/Levels/2/CorridorSecondFloor.tscn", "二层走廊", []),
@@ -27,12 +27,12 @@ var scene_dict: Dictionary = {
 	# ================================================================
 	"3-0": SceneData.new("res://DEMO/AdiosToMe/Levels/3/SelfStudySpaceThirdFloor.tscn", "三层自习室", []),
 	"3-1": SceneData.new("res://DEMO/AdiosToMe/Levels/3/CorridorThirdFloor.tscn", "三层走廊", []),
-	#"3-2": SceneData.new("res://DEMO/AdiosToMe/Levels/3/ClassRoom301.tscn", "301教室", []),
-	#"3-3": SceneData.new("res://DEMO/AdiosToMe/Levels/3/ClassRoom302.tscn", "302教室", []),
+	"3-2": SceneData.new("res://DEMO/AdiosToMe/Levels/3/ClassRoom301.tscn", "301教室", []),
+	"3-3": SceneData.new("res://DEMO/AdiosToMe/Levels/3/ClassRoom302.tscn", "302教室", []),
 	"3-4": SceneData.new("res://DEMO/AdiosToMe/Levels/3/ClassRoom303.tscn", "303教室", []),
-	#"3-5": SceneData.new("res://DEMO/AdiosToMe/Levels/3/StorageRoom.tscn", "储物间", [])，
+	"3-5": SceneData.new("res://DEMO/AdiosToMe/Levels/3/StorageRoom.tscn", "储物间", []),
 	"3-6": SceneData.new("res://DEMO/AdiosToMe/Levels/3/StepRoomThirdFloor.tscn", "三层楼梯间", []),
-	#"3-7": SceneData.new("res://DEMO/AdiosToMe/Levels/3/SwitchRoom.tscn", "配电室", [])
+	"3-7": SceneData.new("res://DEMO/AdiosToMe/Levels/3/SwitchRoom.tscn", "配电室", [])
 }
 
 # 当前场景的key
