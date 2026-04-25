@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cyricrdxtajgh" path="res://System/RPG/object/sofa/var_1/sofa_face_left.tscn" id="6_qr03t"]
 [ext_resource type="PackedScene" uid="uid://c6aav3q035s44" path="res://System/RPG/object/sofa/var_1/sofa_face_right.tscn" id="7_dmmh3"]
 [ext_resource type="PackedScene" uid="uid://b1xhnxykyofy2" path="res://System/RPG/object/sofa/var_1/sofa_face_front.tscn" id="8_7bfiw"]
-[ext_resource type="PackedScene" uid="uid://cxeexvvqjko1k" path="res://System/RPG/object/bookcase/bookcase1.tscn" id="9_7koet"]
+[ext_resource type="PackedScene" uid="uid://cxeexvvqjko1k" path="res://System/RPG/object/bookcase/var1/bookcase1.tscn" id="9_7koet"]
 [ext_resource type="PackedScene" uid="uid://gy5s7mt2h1j8" path="res://System/RPG/object/plant/plant_3.tscn" id="10_mihcj"]
 [ext_resource type="PackedScene" uid="uid://sd3jma661c1d" path="res://System/RPG/object/OnWall/painting/painting_2.tscn" id="11_jloiq"]
 [ext_resource type="PackedScene" uid="uid://bx3o413gr76jv" path="res://System/RPG/object/OnWall/painting/painting_3.tscn" id="12_ko6ui"]

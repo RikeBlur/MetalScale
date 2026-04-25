@@ -7,14 +7,17 @@
 [ext_resource type="TileSet" uid="uid://dt350ynmnt232" path="res://Style/tilesets/Indoors.tres" id="5_vmihh"]
 [ext_resource type="PackedScene" uid="uid://0d02haowqy1a" path="res://System/RPG/object/plant/plant_1.tscn" id="7_gi8m3"]
 [ext_resource type="PackedScene" uid="uid://j4ht3hbbyl5m" path="res://System/RPG/object/OnWall/painting/painting_9.tscn" id="8_0grkb"]
+[ext_resource type="PackedScene" uid="uid://bx3o413gr76jv" path="res://System/RPG/object/OnWall/painting/painting_3.tscn" id="9_512av"]
 [ext_resource type="PackedScene" uid="uid://cddrjil4xbhl8" path="res://System/RPG/object/OnWall/painting/painting_7.tscn" id="9_ohdpp"]
 [ext_resource type="PackedScene" uid="uid://bdom62ifg6y8o" path="res://System/RPG/object/chair/var2/chair_up_2.tscn" id="11_6k48y"]
+[ext_resource type="PackedScene" uid="uid://d3gse5stw5c8s" path="res://System/RPG/object/chair/var2/chair_right_2.tscn" id="12_qkwge"]
 [ext_resource type="PackedScene" uid="uid://btsw1tesdtpdo" path="res://System/RPG/object/chair/var2/chair_down_2.tscn" id="12_v1wsk"]
 [ext_resource type="PackedScene" uid="uid://d3lcsusrovdto" path="res://System/RPG/object/table/var2/table_3x.tscn" id="13_jehja"]
+[ext_resource type="PackedScene" uid="uid://b5gwqy1f8nfkr" path="res://System/RPG/object/bookcase/var3/bookcase7.tscn" id="14_512av"]
 [ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/interact/door/var1/door_front.tscn" id="15_mpkap"]
-[ext_resource type="PackedScene" uid="uid://dc53jxdhevw51" path="res://System/RPG/object/bookcase/bookcase2.tscn" id="19_usxr8"]
-[ext_resource type="PackedScene" uid="uid://bktvof6cs2bn7" path="res://System/RPG/object/bookcase/bookcase3.tscn" id="20_3rttg"]
-[ext_resource type="PackedScene" uid="uid://cesh5dg8t3wmw" path="res://System/RPG/object/bookcase/bookcase4.tscn" id="22_qmi2t"]
+[ext_resource type="PackedScene" uid="uid://c4xikfk7cmmps" path="res://System/RPG/object/bookcase/var3/bookcase6.tscn" id="15_qkwge"]
+[ext_resource type="PackedScene" uid="uid://c4uw5a0f3bn6" path="res://System/RPG/object/bookcase/var2/bookcase5.tscn" id="16_3k3i7"]
+[ext_resource type="PackedScene" uid="uid://c6jgihpkj07sl" path="res://System/RPG/object/chair/var2/chair_left_2.tscn" id="18_wohvt"]
 [ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/var1/door_back.tscn" id="23_8ogn8"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
@@ -121,10 +124,13 @@ y_sort_enabled = true
 position = Vector2(416, 138)
 
 [node name="Plant5" parent="ObjectAndCharacter/object/plant" unique_id=210534273 instance=ExtResource("9_ohdpp")]
-position = Vector2(484, 150)
+position = Vector2(885, 148)
 
 [node name="Plant1" parent="ObjectAndCharacter/object/plant" unique_id=1623943168 instance=ExtResource("7_gi8m3")]
 position = Vector2(895, 558)
+
+[node name="Plant3" parent="ObjectAndCharacter/object/plant" unique_id=1451950391 instance=ExtResource("9_512av")]
+position = Vector2(568, 135)
 
 [node name="longtable" type="Node2D" parent="ObjectAndCharacter/object" unique_id=1670178683]
 y_sort_enabled = true
@@ -134,7 +140,7 @@ position = Vector2(-7, -24)
 position = Vector2(411, 339)
 
 [node name="chair5" parent="ObjectAndCharacter/object/longtable" unique_id=1509095701 instance=ExtResource("11_6k48y")]
-position = Vector2(470, 338)
+position = Vector2(470, 349)
 
 [node name="chair6" parent="ObjectAndCharacter/object/longtable" unique_id=1057282962 instance=ExtResource("11_6k48y")]
 position = Vector2(525, 339)
@@ -142,8 +148,8 @@ position = Vector2(525, 339)
 [node name="chair2" parent="ObjectAndCharacter/object/longtable" unique_id=1683904934 instance=ExtResource("12_v1wsk")]
 position = Vector2(417, 242)
 
-[node name="chair3" parent="ObjectAndCharacter/object/longtable" unique_id=866934231 instance=ExtResource("12_v1wsk")]
-position = Vector2(470, 242)
+[node name="chair3" parent="ObjectAndCharacter/object/longtable" unique_id=949929612 instance=ExtResource("12_qkwge")]
+position = Vector2(466, 257)
 
 [node name="chair4" parent="ObjectAndCharacter/object/longtable" unique_id=796789931 instance=ExtResource("12_v1wsk")]
 position = Vector2(525, 241)
@@ -158,23 +164,20 @@ position = Vector2(192, -24)
 [node name="chair" parent="ObjectAndCharacter/object/longtable4" unique_id=126915093 instance=ExtResource("11_6k48y")]
 position = Vector2(411, 339)
 
-[node name="chair5" parent="ObjectAndCharacter/object/longtable4" unique_id=912966008 instance=ExtResource("11_6k48y")]
-position = Vector2(470, 338)
-
 [node name="chair6" parent="ObjectAndCharacter/object/longtable4" unique_id=393923805 instance=ExtResource("11_6k48y")]
-position = Vector2(525, 339)
+position = Vector2(525, 349)
 
 [node name="chair2" parent="ObjectAndCharacter/object/longtable4" unique_id=286975009 instance=ExtResource("12_v1wsk")]
-position = Vector2(417, 240)
+position = Vector2(417, 258)
 
 [node name="chair3" parent="ObjectAndCharacter/object/longtable4" unique_id=1589926627 instance=ExtResource("12_v1wsk")]
-position = Vector2(470, 241)
+position = Vector2(470, 231)
 
 [node name="chair4" parent="ObjectAndCharacter/object/longtable4" unique_id=1015389459 instance=ExtResource("12_v1wsk")]
-position = Vector2(525, 238)
+position = Vector2(525, 248)
 
 [node name="table" parent="ObjectAndCharacter/object/longtable4" unique_id=8558804 instance=ExtResource("13_jehja")]
-position = Vector2(468, 312)
+position = Vector2(468, 318)
 
 [node name="longtable2" type="Node2D" parent="ObjectAndCharacter/object" unique_id=4568279]
 y_sort_enabled = true
@@ -192,14 +195,11 @@ position = Vector2(525, 345)
 [node name="chair2" parent="ObjectAndCharacter/object/longtable2" unique_id=912844233 instance=ExtResource("12_v1wsk")]
 position = Vector2(417, 256)
 
-[node name="chair3" parent="ObjectAndCharacter/object/longtable2" unique_id=573892876 instance=ExtResource("12_v1wsk")]
-position = Vector2(470, 259)
-
 [node name="chair4" parent="ObjectAndCharacter/object/longtable2" unique_id=218832317 instance=ExtResource("12_v1wsk")]
-position = Vector2(525, 257)
+position = Vector2(499, 262)
 
 [node name="table" parent="ObjectAndCharacter/object/longtable2" unique_id=1948252288 instance=ExtResource("13_jehja")]
-position = Vector2(468, 321)
+position = Vector2(463, 321)
 
 [node name="longtable3" type="Node2D" parent="ObjectAndCharacter/object" unique_id=1748539891]
 y_sort_enabled = true
@@ -209,10 +209,10 @@ position = Vector2(192, 152)
 position = Vector2(411, 346)
 
 [node name="chair5" parent="ObjectAndCharacter/object/longtable3" unique_id=1193813434 instance=ExtResource("11_6k48y")]
-position = Vector2(470, 345)
+position = Vector2(448, 345)
 
 [node name="chair6" parent="ObjectAndCharacter/object/longtable3" unique_id=1805713068 instance=ExtResource("11_6k48y")]
-position = Vector2(525, 346)
+position = Vector2(693, 386)
 
 [node name="chair2" parent="ObjectAndCharacter/object/longtable3" unique_id=873211786 instance=ExtResource("12_v1wsk")]
 position = Vector2(417, 256)
@@ -221,31 +221,22 @@ position = Vector2(417, 256)
 position = Vector2(470, 259)
 
 [node name="chair4" parent="ObjectAndCharacter/object/longtable3" unique_id=624505693 instance=ExtResource("12_v1wsk")]
-position = Vector2(525, 257)
+position = Vector2(525, 277)
 
 [node name="table" parent="ObjectAndCharacter/object/longtable3" unique_id=260765839 instance=ExtResource("13_jehja")]
-position = Vector2(468, 321)
+position = Vector2(453, 321)
 
 [node name="bookcases" type="Node2D" parent="ObjectAndCharacter/object" unique_id=1991534289]
 y_sort_enabled = true
 
-[node name="Bookcase1" parent="ObjectAndCharacter/object/bookcases" unique_id=216176770 instance=ExtResource("19_usxr8")]
-position = Vector2(881, 318)
+[node name="Bookcase7" parent="ObjectAndCharacter/object" unique_id=1357872163 instance=ExtResource("14_512av")]
+position = Vector2(880, 223)
 
-[node name="Bookcase2" parent="ObjectAndCharacter/object/bookcases" unique_id=831008077 instance=ExtResource("20_3rttg")]
-position = Vector2(830, 319)
+[node name="Bookcase1" parent="ObjectAndCharacter/object" unique_id=2118389245 instance=ExtResource("15_qkwge")]
+position = Vector2(879, 313)
 
-[node name="Bookcase5" parent="ObjectAndCharacter/object/bookcases" unique_id=621005641 instance=ExtResource("22_qmi2t")]
-position = Vector2(858, 236)
-
-[node name="Bookcase6" parent="ObjectAndCharacter/object/bookcases" unique_id=583494729 instance=ExtResource("20_3rttg")]
-position = Vector2(893, 236)
-
-[node name="Bookcase8" parent="ObjectAndCharacter/object/bookcases" unique_id=1869792901 instance=ExtResource("22_qmi2t")]
-position = Vector2(862, 419)
-
-[node name="Bookcase9" parent="ObjectAndCharacter/object/bookcases" unique_id=1156022783 instance=ExtResource("20_3rttg")]
-position = Vector2(893, 419)
+[node name="Bookcase2" parent="ObjectAndCharacter/object" unique_id=378282965 instance=ExtResource("16_3k3i7")]
+position = Vector2(828, 313)
 
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 
@@ -279,3 +270,6 @@ environment = SubResource("Environment_5n7gh")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="WorldOfWonder" unique_id=1776025020]
 color = Color(0.5, 0.375, 0.375, 1)
+
+[node name="chair" parent="." unique_id=758088342 instance=ExtResource("18_wohvt")]
+position = Vector2(661, 308)

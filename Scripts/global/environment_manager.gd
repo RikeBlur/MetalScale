@@ -17,6 +17,7 @@ const ARRGOING_PARAMETER_MAX: float = 0.25
 @export var arrgo_effect_layer: int = 4
 @export var arrgo_fade_in_duration: float = 0.5
 @export var arrgo_fade_out_duration: float = 1.0
+var arrgo_vfx_intensity: float = 0.5
 
 var _arrgo_effect_layer: CanvasLayer = null
 var _arrgo_effect_nodes: Dictionary = {}
@@ -92,7 +93,7 @@ func _fade_in_arrgo_effect(effect_key: String) -> void:
 	tween.set_trans(Tween.TRANS_CUBIC)
 	tween.set_ease(Tween.EASE_OUT)
 	var start_opacity: float = float(_arrgo_effect_opacities.get(effect_key, fade_target.modulate.a))
-	tween.tween_method(_set_arrgo_effect_opacity.bind(effect_key), start_opacity, 1.0, arrgo_fade_in_duration)
+	tween.tween_method(_set_arrgo_effect_opacity.bind(effect_key), start_opacity, arrgo_vfx_intensity, arrgo_fade_in_duration)
 	_arrgo_effect_tweens[effect_key] = tween
 
 	if effect_key == ARRGOING_EFFECT_KEY:

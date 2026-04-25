@@ -50,6 +50,13 @@ func _on_to_pursue() -> void:
 
 
 func _on_physics_process(_delta: float) -> void:
+	if "is_reacting_to_pursue" in npc_node and npc_node.is_reacting_to_pursue:
+		npc_node.velocity = Vector2.ZERO
+		npc_node.move_and_slide()
+		if animated_sprite:
+			animated_sprite.stop()
+		return
+
 	move_timer -= _delta
 	if move_timer <= 0.0:
 		_pick_new_direction()

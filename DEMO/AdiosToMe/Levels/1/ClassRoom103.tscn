@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://0d02haowqy1a" path="res://System/RPG/object/plant/plant_1.tscn" id="10_er074"]
 [ext_resource type="PackedScene" uid="uid://bty4ru7ludm8i" path="res://System/RPG/object/chair/var1/chair_down.tscn" id="11_l0am8"]
 [ext_resource type="PackedScene" uid="uid://bihhc5nho5e23" path="res://System/RPG/object/chair/var1/chair_left.tscn" id="12_6r7r5"]
+[ext_resource type="PackedScene" uid="uid://byhi6k3wo6g5y" path="res://System/RPG/object/desolate/other/desolate_7.tscn" id="13_5u4yy"]
 [ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/interact/door/var1/door_front.tscn" id="14_cs841"]
 [ext_resource type="PackedScene" uid="uid://dbe22w2vs2dh8" path="res://System/RPG/object/plant/plant_2.tscn" id="16_r3e5g"]
 [ext_resource type="PackedScene" uid="uid://c45c0h6sp68w" path="res://System/RPG/object/podium/podium_front.tscn" id="16_vjfgf"]
@@ -111,10 +112,10 @@ y_sort_enabled = true
 position = Vector2(880, 464)
 
 [node name="table9" parent="ObjectAndCharacter/object/tables" unique_id=919702001 instance=ExtResource("6_5u4yy")]
-position = Vector2(433, 332)
+position = Vector2(418, 325)
 
 [node name="table8" parent="ObjectAndCharacter/object/tables" unique_id=1451741259 instance=ExtResource("6_5u4yy")]
-position = Vector2(838, 431)
+position = Vector2(835, 431)
 
 [node name="table2" parent="ObjectAndCharacter/object/tables" unique_id=1365593744 instance=ExtResource("7_w1ny0")]
 position = Vector2(666, 354)
@@ -151,6 +152,12 @@ position = Vector2(442, 464)
 
 [node name="chair5" parent="ObjectAndCharacter/object/chairs" unique_id=1504831449 instance=ExtResource("12_6r7r5")]
 position = Vector2(888, 258)
+
+[node name="other3" parent="ObjectAndCharacter/object/chairs" unique_id=73843141 instance=ExtResource("13_5u4yy")]
+position = Vector2(405, 294)
+
+[node name="other4" parent="ObjectAndCharacter/object/chairs" unique_id=1692753199 instance=ExtResource("13_5u4yy")]
+position = Vector2(894, 426)
 
 [node name="desolate" type="Node2D" parent="ObjectAndCharacter/object" unique_id=26913867]
 y_sort_enabled = true

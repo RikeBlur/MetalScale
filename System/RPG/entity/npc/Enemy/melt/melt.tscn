@@ -13,6 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://dwankmymuah6v" path="res://Assests/sprite/Character/melt/walk/front-right-Sheet.png" id="11_4atho"]
 [ext_resource type="Texture2D" uid="uid://co0ntwlevfr3y" path="res://Assests/sprite/Character/melt/walk/left-Sheet.png" id="12_urueo"]
 [ext_resource type="Texture2D" uid="uid://oc6uwgv2luh8" path="res://Assests/sprite/Character/melt/walk/right-Sheet.png" id="13_qd1a0"]
+[ext_resource type="Script" uid="uid://bwj03sov6w1te" path="res://Scripts/components/hurted_component.gd" id="19_q7uvl"]
+[ext_resource type="Script" uid="uid://ddwl07r1qf4dk" path="res://Scripts/components/damage_component.gd" id="20_n3nx0"]
 [ext_resource type="AudioStream" uid="uid://b4wr5w25nv133" path="res://Assests/SFX/Character/EYE/breakin.mp3" id="21_wwia4"]
 [ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="22_8b7pq"]
 [ext_resource type="AudioStream" uid="uid://c6r5c40u5qdid" path="res://Assests/SFX/Character/EYE/hiss.mp3" id="23_duo56"]
@@ -1009,6 +1011,10 @@ animations = [{
 radius = 7.0
 height = 34.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q7uvl"]
+radius = 18.0
+height = 70.0
+
 [node name="melt" type="CharacterBody2D" unique_id=431185256]
 y_sort_enabled = true
 motion_mode = 1
@@ -1076,3 +1082,34 @@ stream = ExtResource("25_n7jwr")
 script = ExtResource("22_8b7pq")
 one_shot = false
 metadata/_custom_type_script = "uid://use5ds4i6ib4"
+
+[node name="hurted_component" type="Node2D" parent="." unique_id=820776124 node_paths=PackedStringArray("hurted_area", "entity")]
+script = ExtResource("19_q7uvl")
+hurted_area = NodePath("HitBox")
+entity = NodePath("..")
+metadata/_custom_type_script = "uid://bwj03sov6w1te"
+
+[node name="HitBox" type="Area2D" parent="hurted_component" unique_id=1535348553]
+collision_layer = 16
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurted_component/HitBox" unique_id=700367685]
+position = Vector2(0, -41)
+shape = SubResource("CapsuleShape2D_q7uvl")
+
+[node name="damage_component" type="Node2D" parent="." unique_id=1750478479 node_paths=PackedStringArray("damage_area", "entity")]
+script = ExtResource("20_n3nx0")
+damage_area = NodePath("DamageArea")
+entity = NodePath("..")
+target_group = "player"
+base_damage_num = 100.0
+damage_cooldown = 0.5
+metadata/_custom_type_script = "uid://ddwl07r1qf4dk"
+
+[node name="DamageArea" type="Area2D" parent="damage_component" unique_id=399951024]
+collision_layer = 32
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="damage_component/DamageArea" unique_id=131557867]
+position = Vector2(0, -35)
+shape = SubResource("CapsuleShape2D_q7uvl")

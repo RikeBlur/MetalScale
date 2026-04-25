@@ -26,6 +26,8 @@
 [ext_resource type="AudioStream" uid="uid://c3n7dh2ox0nq7" path="res://Assests/SFX/Character/EYE/Footsteps_walking_EYE.mp3" id="24_xt7ba"]
 [ext_resource type="AudioStream" uid="uid://copgggnk5h7iq" path="res://Assests/SFX/Character/EYE/Footsteps_ running_EYE.mp3" id="25_e0ijc"]
 [ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/component/point_radial_light_texture.tres" id="26_e0ijc"]
+[ext_resource type="Script" uid="uid://bwj03sov6w1te" path="res://Scripts/components/hurted_component.gd" id="27_nairt"]
+[ext_resource type="Script" uid="uid://ddwl07r1qf4dk" path="res://Scripts/components/damage_component.gd" id="28_62jar"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t7jrn"]
 shader = ExtResource("5_iio1o")
@@ -1128,6 +1130,14 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3ftw8"]
 radius = 8.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_62jar"]
+radius = 18.0
+height = 70.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vhy2x"]
+radius = 18.0
+height = 70.0
+
 [node name="Eye" type="CharacterBody2D" unique_id=431185256]
 y_sort_enabled = true
 motion_mode = 1
@@ -1200,3 +1210,34 @@ color = Color(0.9, 0.27899998, 0.27899998, 1)
 energy = 0.3
 shadow_enabled = true
 texture = ExtResource("26_e0ijc")
+
+[node name="hurted_component" type="Node2D" parent="." unique_id=2045802359 node_paths=PackedStringArray("hurted_area", "entity")]
+script = ExtResource("27_nairt")
+hurted_area = NodePath("HitBox")
+entity = NodePath("..")
+metadata/_custom_type_script = "uid://bwj03sov6w1te"
+
+[node name="HitBox" type="Area2D" parent="hurted_component" unique_id=1428681512]
+collision_layer = 16
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurted_component/HitBox" unique_id=1541143290]
+position = Vector2(0, -37)
+shape = SubResource("CapsuleShape2D_62jar")
+
+[node name="damage_component" type="Node2D" parent="." unique_id=1920720781 node_paths=PackedStringArray("damage_area", "entity")]
+script = ExtResource("28_62jar")
+damage_area = NodePath("DamageArea")
+entity = NodePath("..")
+target_group = "player"
+base_damage_num = 100.0
+damage_cooldown = 0.5
+metadata/_custom_type_script = "uid://ddwl07r1qf4dk"
+
+[node name="DamageArea" type="Area2D" parent="damage_component" unique_id=1436301255]
+collision_layer = 32
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="damage_component/DamageArea" unique_id=461963307]
+position = Vector2(0, -35)
+shape = SubResource("CapsuleShape2D_vhy2x")

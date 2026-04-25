@@ -25,6 +25,7 @@ const PLAYER_SCENE_PATH = "res://System/RPG/entity/controllable/player_Oni.tscn"
 const CAMERA_SCENE_PATH = "res://System/RPG/entity/camera.tscn"
 const OPENING_MENU_SCENE_PATH = "res://DEMO/AdiosToMe/OpeningMenu.tscn"
 const CONFIG_PATH: String = "user://config.tres"
+const DEFAULT_GLOBAL_VFX_SHADER_PATH: String = "res://Effect/Shader/default_global_vfx/global_vfx_vhs.gdshader"
 
 # ====================================================================================================
 # ============================================ 游戏状态枚举 =============================================
@@ -100,6 +101,10 @@ var debug_label: Label = null
 var gamma_canvas_layer: CanvasLayer = null
 var gamma_screen_rect: ColorRect = null
 var gamma_material: ShaderMaterial = null
+var default_global_vfx_canvas_layer: CanvasLayer = null
+var default_global_vfx_screen_rect: ColorRect = null
+var default_global_vfx_material: ShaderMaterial = null
+var _viewport_size_changed_connected: bool = false
 var _opening_menu_mask_tween: Tween = null
 var _opening_menu_mask_transition_id: int = 0
 
@@ -157,6 +162,7 @@ func preloading() -> void:
 		- 存档管理器
 		- UI管理器
 		- 光照管理器
+		- 默认视觉效果
 	"""	
 	print("GameManager: 开始预加载流程...")
 	
@@ -190,6 +196,7 @@ func preloading() -> void:
 	_install_manager(BGM_MANAGER_PATH, "BgmManager")
 
 	# 等待一帧，确保所有节点都已进入场景树并执行了_ready
+	_ensure_default_global_vfx_layer()
 	await get_tree().process_frame
 	
 	print("GameManager: 所有管理器加载完成")
@@ -605,11 +612,12 @@ func _ensure_gamma_postprocess_layer() -> void:
 		gamma_screen_rect = ColorRect.new()
 		gamma_screen_rect.name = "GlobalGammaScreenRect"
 		gamma_screen_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		gamma_screen_rect.color = Color.WHITE
 		gamma_canvas_layer.add_child(gamma_screen_rect)
 		# CanvasLayer 不是 Control，anchors 无效，必须手动设置 size
 		gamma_screen_rect.position = Vector2.ZERO
 		gamma_screen_rect.size = get_viewport().get_visible_rect().size
-		get_viewport().size_changed.connect(_on_viewport_size_changed)
+		_ensure_viewport_size_changed_connected()
 	
 	if not gamma_material or not is_instance_valid(gamma_material):
 		gamma_material = ShaderMaterial.new()
@@ -625,10 +633,11 @@ void fragment() {
 	float safe_gamma = max(gamma_value, 0.001);
 	src.rgb = pow(src.rgb, vec3(1.0 / safe_gamma));
 	COLOR = src;
-}
+	}
 """
 		gamma_material.shader = shader
 	if gamma_screen_rect:
+		_ensure_viewport_size_changed_connected()
 		gamma_screen_rect.material = gamma_material
 	
 	# 节点刚挂载完，立即同步当前 Gamma 值
@@ -640,10 +649,54 @@ func _apply_gamma() -> void:
 		return
 	gamma_material.set_shader_parameter("gamma_value", Gamma)
 
+func _ensure_default_global_vfx_layer() -> void:
+	"""纭繚榛樿鍏ㄥ眬 VHS 婊ら暅灞傚瓨鍦紝鍦?GameManager 鑺傜偣涓嬭鐩栨暣涓绐椼€?"""
+	if default_global_vfx_canvas_layer and is_instance_valid(default_global_vfx_canvas_layer):
+		return
+
+	var existing = get_node_or_null("DefaultGlobalVFXCanvasLayer")
+	if existing and existing is CanvasLayer:
+		default_global_vfx_canvas_layer = existing
+		default_global_vfx_screen_rect = default_global_vfx_canvas_layer.get_node_or_null("DefaultGlobalVFXScreenRect")
+	else:
+		default_global_vfx_canvas_layer = CanvasLayer.new()
+		default_global_vfx_canvas_layer.name = "DefaultGlobalVFXCanvasLayer"
+		default_global_vfx_canvas_layer.layer = 9
+		add_child(default_global_vfx_canvas_layer)
+
+		default_global_vfx_screen_rect = ColorRect.new()
+		default_global_vfx_screen_rect.name = "DefaultGlobalVFXScreenRect"
+		default_global_vfx_screen_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		default_global_vfx_screen_rect.color = Color.WHITE
+		default_global_vfx_canvas_layer.add_child(default_global_vfx_screen_rect)
+		default_global_vfx_screen_rect.position = Vector2.ZERO
+		default_global_vfx_screen_rect.size = get_viewport().get_visible_rect().size
+		_ensure_viewport_size_changed_connected()
+
+	if not default_global_vfx_material or not is_instance_valid(default_global_vfx_material):
+		var shader := load(DEFAULT_GLOBAL_VFX_SHADER_PATH) as Shader
+		if not shader:
+			push_warning("GameManager: 鏃犳硶鍔犺浇榛樿鍏ㄥ眬 VHS Shader: %s" % DEFAULT_GLOBAL_VFX_SHADER_PATH)
+			return
+		default_global_vfx_material = ShaderMaterial.new()
+		default_global_vfx_material.shader = shader
+
+	if default_global_vfx_screen_rect:
+		_ensure_viewport_size_changed_connected()
+		default_global_vfx_screen_rect.material = default_global_vfx_material
+
+func _ensure_viewport_size_changed_connected() -> void:
+	if _viewport_size_changed_connected:
+		return
+	get_viewport().size_changed.connect(_on_viewport_size_changed)
+	_viewport_size_changed_connected = true
+
 func _on_viewport_size_changed() -> void:
 	"""视窗尺寸变化时同步更新后处理层的覆盖尺寸"""
 	if gamma_screen_rect and is_instance_valid(gamma_screen_rect):
 		gamma_screen_rect.size = get_viewport().get_visible_rect().size
+	if default_global_vfx_screen_rect and is_instance_valid(default_global_vfx_screen_rect):
+		default_global_vfx_screen_rect.size = get_viewport().get_visible_rect().size
 
 	
 # ====================================================================================================

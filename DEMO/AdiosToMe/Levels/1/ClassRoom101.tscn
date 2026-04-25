@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://bty4ru7ludm8i" path="res://System/RPG/object/chair/var1/chair_down.tscn" id="11_eytph"]
 [ext_resource type="PackedScene" uid="uid://bihhc5nho5e23" path="res://System/RPG/object/chair/var1/chair_left.tscn" id="12_12hse"]
 [ext_resource type="PackedScene" uid="uid://cmnqnke841c2a" path="res://System/RPG/object/desolate/case/desolate_1.tscn" id="13_fgnys"]
-[ext_resource type="PackedScene" uid="uid://cxeexvvqjko1k" path="res://System/RPG/object/bookcase/bookcase1.tscn" id="14_b5xd0"]
+[ext_resource type="PackedScene" uid="uid://cxeexvvqjko1k" path="res://System/RPG/object/bookcase/var1/bookcase1.tscn" id="14_b5xd0"]
 [ext_resource type="PackedScene" uid="uid://c45c0h6sp68w" path="res://System/RPG/object/podium/podium_front.tscn" id="15_b5xd0"]
 [ext_resource type="PackedScene" uid="uid://ckj84phtk4o8e" path="res://System/RPG/object/OnWall/blackboard/blackboard.tscn" id="17_r6s1s"]
 

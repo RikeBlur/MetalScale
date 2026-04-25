@@ -42,8 +42,7 @@
 [ext_resource type="AudioStream" uid="uid://bo7pe7r677nvm" path="res://Assests/SFX/Character/Oni/Retro Event UI StereoUP 01.mp3" id="37_aooo5"]
 [ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/component/point_radial_light_texture.tres" id="41_aooo5"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_aooo5"]
-radius = 12.962957
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_aooo5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_axk6g"]
 shader = ExtResource("6_lnjpj")
@@ -1797,12 +1796,12 @@ player_walk_acceleration = 300
 player_run_acceleration = 300
 character_name = "Oni"
 self_talk = "“宇宙冷漠”"
-tool_available = Array[int]([0, 1, 4, 2, 3, 0])
+tool_available = Array[int]([0, 1, 4, 0, 3, 0])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1536282822]
-position = Vector2(0, -20)
+position = Vector2(0, -22.000002)
 scale = Vector2(1.0800005, 1.3259015)
-shape = SubResource("CircleShape2D_aooo5")
+shape = SubResource("CapsuleShape2D_aooo5")
 
 [node name="StateMachine" type="Node2D" parent="." unique_id=95761580 node_paths=PackedStringArray("initial_node_state", "entity")]
 script = ExtResource("2_o2obw")
@@ -1855,7 +1854,7 @@ collision_layer = 16
 collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hurted_component/HitBox" unique_id=237600506]
-position = Vector2(0, -41)
+position = Vector2(0, -42)
 shape = SubResource("CapsuleShape2D_lnjpj")
 debug_color = Color(0.6906085, 0.38889268, 0.7999413, 0.41960785)
 

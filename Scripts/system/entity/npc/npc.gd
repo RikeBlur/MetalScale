@@ -6,5 +6,8 @@ extends CharacterBody2D
 
 var npc_direction : Vector2 = Vector2.DOWN
 
+var health_max : float = 100.0
+var health_now : float = 100.0
+
 var state: int = 0
 # 对于EYE ： 0 -> patrol ; 1 -> pursue

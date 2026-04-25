@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://0d02haowqy1a" path="res://System/RPG/object/plant/plant_1.tscn" id="10_0eyte"]
 [ext_resource type="PackedScene" uid="uid://dppt7jeyw3kx3" path="res://System/RPG/object/OnWall/painting/worldmap.tscn" id="11_h6280"]
 [ext_resource type="PackedScene" uid="uid://bty4ru7ludm8i" path="res://System/RPG/object/chair/var1/chair_down.tscn" id="11_imane"]
+[ext_resource type="PackedScene" uid="uid://byhi6k3wo6g5y" path="res://System/RPG/object/desolate/other/desolate_7.tscn" id="12_ge0q3"]
 [ext_resource type="PackedScene" uid="uid://bihhc5nho5e23" path="res://System/RPG/object/chair/var1/chair_left.tscn" id="12_m7n8r"]
 [ext_resource type="PackedScene" uid="uid://bfm40l5vk46qm" path="res://System/RPG/object/desolate/case/desolate_2.tscn" id="14_i0vay"]
 [ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/interact/door/var1/door_front.tscn" id="14_inwx0"]
@@ -145,6 +146,12 @@ position = Vector2(830, 139)
 
 [node name="chairs" type="Node2D" parent="ObjectAndCharacter/object" unique_id=479620348]
 y_sort_enabled = true
+
+[node name="other3" parent="ObjectAndCharacter/object/chairs" unique_id=2019814968 instance=ExtResource("12_ge0q3")]
+position = Vector2(487, 436)
+
+[node name="other4" parent="ObjectAndCharacter/object/chairs" unique_id=434324582 instance=ExtResource("12_ge0q3")]
+position = Vector2(400, 362)
 
 [node name="chair" parent="ObjectAndCharacter/object/chairs" unique_id=2055431799 instance=ExtResource("11_imane")]
 position = Vector2(677, 318)

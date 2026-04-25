@@ -121,6 +121,8 @@ y_sort_enabled = true
 
 [node name="door" parent="ObjectAndCharacter/Interactable/door" unique_id=105227598 instance=ExtResource("10_lklki")]
 position = Vector2(624, 538)
+scene_from = "3-7"
+scene_to = "3-5"
 
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]
 y_sort_enabled = true
