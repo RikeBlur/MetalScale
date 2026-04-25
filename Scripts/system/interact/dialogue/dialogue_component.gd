@@ -7,10 +7,13 @@ extends Node2D
 @export var dialogue_content : Array[DialogueResource]
 @export var camera : Camera2D = null
 @export var current_flag : int = 0
+@export var dialogue_fade_time: float = 0.2
 
 var dialogue_style : Array = []
 var dialogue_inst : Array = []
 var camera_position : Vector2 = Vector2.ZERO
+var _dialogue_fade_tweens: Dictionary = {}
+var _dialogues_finishing: Dictionary = {}
 #var camera_offset : Vector2 = Vector2(-576, -324)
 
 # 一个示例预加载的对话场景（可移除/替换）
@@ -198,13 +201,15 @@ func _spawn_dual_dialogue(style: int, start: int, end: int, a_index: Array[int],
 	inst.b_index = b_index
 	# 设置 scene_root 引用，让对话框能正确解析相对路径
 	inst.scene_root = self
+	inst.modulate.a = 0.0
 	canvas_layer.add_child(inst)
+	_fade_in_dialogue(inst)
 	GameManager.set_running_state(GameManager.RunningState.AUTO)
-	inst.tree_exited.connect(_on_dialogue_node_exited, CONNECT_ONE_SHOT)
+	inst.tree_exited.connect(_on_dialogue_node_exited.bind(inst), CONNECT_ONE_SHOT)
 	
 	# 如果对话场景提供了 dialogue_finished 信号，连接它以便自动回收实例
 	if inst.has_signal("dialogue_finished"):
-		inst.connect("dialogue_finished", Callable(self, "_on_dialogue_finished"), [inst])
+		inst.connect("dialogue_finished", Callable(self, "_on_dialogue_finished").bind(inst), CONNECT_ONE_SHOT)
 	# 否则可以根据需要设定自动回收或由对话场景自行回收
 
 
@@ -230,27 +235,70 @@ func _spawn_dialogue(style: int, start: int, end: int) -> void:
 	inst.dialogue = dialogue_content.slice(start,end)
 	# 设置 scene_root 引用，让对话框能正确解析相对路径
 	inst.scene_root = self
+	inst.modulate.a = 0.0
 	canvas_layer.add_child(inst)
+	_fade_in_dialogue(inst)
 	GameManager.set_running_state(GameManager.RunningState.AUTO)
-	inst.tree_exited.connect(_on_dialogue_node_exited, CONNECT_ONE_SHOT)
+	inst.tree_exited.connect(_on_dialogue_node_exited.bind(inst), CONNECT_ONE_SHOT)
 
 	# 如果对话场景提供了 dialogue_finished 信号，连接它以便自动回收实例
 	if inst.has_signal("dialogue_finished"):
-		inst.connect("dialogue_finished", Callable(self, "_on_dialogue_finished"), [inst])
+		inst.connect("dialogue_finished", Callable(self, "_on_dialogue_finished").bind(inst), CONNECT_ONE_SHOT)
 	# 否则可以根据需要设定自动回收或由对话场景自行回收
 
 
 # 当对话节点发出结束信号时回收
 func _on_dialogue_finished(inst: Node) -> void:
-	if is_instance_valid(inst):
-		inst.queue_free()
-	_restore_running_state_after_dialogue()
+	await _fade_out_and_free_dialogue(inst)
 
-func _on_dialogue_node_exited() -> void:
+func _on_dialogue_node_exited(inst: Node = null) -> void:
+	if inst:
+		_dialogues_finishing.erase(inst)
+		if inst is CanvasItem:
+			_dialogue_fade_tweens.erase(inst)
 	_restore_running_state_after_dialogue()
 
 func _restore_running_state_after_dialogue() -> void:
 	GameManager.set_running_state(GameManager.RunningState.CONTROL)
+
+func _fade_in_dialogue(inst: CanvasItem) -> void:
+	if not is_instance_valid(inst):
+		return
+	_kill_dialogue_fade_tween(inst)
+	var tween := create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	_dialogue_fade_tweens[inst] = tween
+	tween.tween_property(inst, "modulate:a", 1.0, max(dialogue_fade_time, 0.0))
+	await tween.finished
+	if _dialogue_fade_tweens.get(inst) == tween:
+		_dialogue_fade_tweens.erase(inst)
+
+func _fade_out_and_free_dialogue(inst: Node) -> void:
+	if not inst or not is_instance_valid(inst):
+		_restore_running_state_after_dialogue()
+		return
+	if _dialogues_finishing.has(inst):
+		return
+
+	_dialogues_finishing[inst] = true
+	inst.process_mode = Node.PROCESS_MODE_DISABLED
+	if inst is CanvasItem:
+		var canvas_item := inst as CanvasItem
+		_kill_dialogue_fade_tween(canvas_item)
+		var tween := create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		_dialogue_fade_tweens[canvas_item] = tween
+		tween.tween_property(canvas_item, "modulate:a", 0.0, max(dialogue_fade_time, 0.0))
+		await tween.finished
+		if _dialogue_fade_tweens.get(canvas_item) == tween:
+			_dialogue_fade_tweens.erase(canvas_item)
+
+	if is_instance_valid(inst):
+		inst.queue_free()
+
+func _kill_dialogue_fade_tween(inst: CanvasItem) -> void:
+	var tween = _dialogue_fade_tweens.get(inst)
+	if tween and tween.is_valid():
+		tween.kill()
+	_dialogue_fade_tweens.erase(inst)
 		
 func _spawn_reminder(area: Area2D) -> void:
 	# current_flag == -1 时表示该对话已停用：不再显示reminder

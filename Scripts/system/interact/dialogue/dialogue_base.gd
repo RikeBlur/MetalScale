@@ -1,6 +1,8 @@
 class_name dialogue_base
 extends Control
 
+signal dialogue_finished
+
 const DialogueButtonPreload = preload("res://System/RPG/interact/dialogue/botton.tscn")
 
 @export var back_sprite : AnimatedSprite2D = null
@@ -12,6 +14,7 @@ const DialogueButtonPreload = preload("res://System/RPG/interact/dialogue/botton
 @export var dialogue: Array[DialogueResource]
 var current_dialogue_item : int = 0
 var next_item : bool = true
+var _dialogue_finished_emitted: bool = false
 
 var player_node : CharacterBody2D
 var scene_root : Node = null  # 用于存储场景根节点引用，解决相对路径问题
@@ -38,7 +41,7 @@ func _process(_delta: float) -> void:
 			return
 		player_node.can_move = true
 		player_node.can_interact = true
-		queue_free()
+		_finish_dialogue()
 		return
 		
 	if next_item == true:
@@ -213,6 +216,12 @@ func _text_without_square_brackets(text: String) -> String:
 			result += i
 			
 	return result
+
+func _finish_dialogue() -> void:
+	if _dialogue_finished_emitted:
+		return
+	_dialogue_finished_emitted = true
+	dialogue_finished.emit()
 	
 func get_into_dark(is_a : bool) -> void:
 	# z坐标下降（被另一个dialogue覆盖）

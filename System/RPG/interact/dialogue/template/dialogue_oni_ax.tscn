@@ -7,10 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://dv2p3c4p3uk8e" path="res://Assests/sprite/Character/AX/dialogue/back_1.png" id="5_ac6ew"]
 [ext_resource type="Texture2D" uid="uid://bxngadho5jgwo" path="res://Assests/sprite/Character/AX/dialogue/back_2.png" id="6_w2r3y"]
 [ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="7_dy21y"]
-[ext_resource type="Texture2D" uid="uid://cn1go27sg71n0" path="res://Assests/sprite/Character/AX/dialogue/idle_neo_ax.png" id="8_775ty"]
+[ext_resource type="Texture2D" uid="uid://c4y6e1apbeqxx" path="res://Assests/sprite/Character/AX/dialogue/idle_neo_ax.png" id="8_775ty"]
 [ext_resource type="Texture2D" uid="uid://bqugtmn8twlpo" path="res://Assests/sprite/Character/Oni/dialogue/back_1.png" id="22_obwhh"]
 [ext_resource type="Texture2D" uid="uid://6mrcy46rb3n5" path="res://Assests/sprite/Character/Oni/dialogue/back_2.png" id="23_r6pv0"]
-[ext_resource type="Texture2D" uid="uid://xvkyadfugxdv" path="res://Assests/sprite/Character/Oni/dialogue/idle_neo/idle_neo.png" id="25_qm7ah"]
+[ext_resource type="Texture2D" uid="uid://kpj6cxsovv6h" path="res://Assests/sprite/Character/Oni/dialogue/idle_neo/idle_neo.png" id="25_qm7ah"]
 
 [sub_resource type="Resource" id="Resource_amcn1"]
 script = ExtResource("3_aaaqr")

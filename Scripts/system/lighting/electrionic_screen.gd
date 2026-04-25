@@ -4,6 +4,12 @@ extends Node2D
 var player_now: CharacterBody2D = null
 var activated: bool = false
 
+@export var turned_on: bool = true:
+	set(value):
+		turned_on = value
+		if is_node_ready():
+			_apply_turned_on_state()
+
 @export var normal_color_content : Color = Color(0.5, 0.25, 0.275, 1.0)
 @export var arrgo_color_content : Color = Color(0.85, 0.0, 0.0, 1.0)
 @export var normal_color : Color = Color(0.5, 0.25, 0.275, 1.0)
@@ -12,16 +18,18 @@ var activated: bool = false
 
 var _color_tween: Tween = null
 
-@onready var point_light: PointLight2D = $LightSource/PointLight2D
-@onready var screen_content: Sprite2D = $ScreenContent
-@onready var jiu: Sprite2D = $JIU
+@onready var light_source: Node2D = get_node_or_null("LightSource") as Node2D
+@onready var point_light: PointLight2D = get_node_or_null("LightSource/PointLight2D") as PointLight2D
+@onready var screen_content: Sprite2D = get_node_or_null("ScreenContent") as Sprite2D
+@onready var jiu: Sprite2D = get_node_or_null("JIU") as Sprite2D
 
 var fix: bool = false
 
 
 func _ready() -> void:
 	player_now = GameManager.get_player()
-	point_light.color = normal_color
+	if point_light:
+		point_light.color = normal_color
 	# 确保屏幕内容有独立材质，并初始化 basecolor
 	if screen_content and screen_content.material:
 		screen_content.material = screen_content.material.duplicate(true)
@@ -31,8 +39,13 @@ func _ready() -> void:
 		jiu.modulate.a = 0.0
 		jiu.visible = false
 	_connect_arrgo_signals()
+	_apply_turned_on_state()
 
 func _process(_delta: float) -> void:
+	if not turned_on:
+		activated = false
+		return
+	activated = GameManager.player_arrgo
 	# 持续从 GameManager 同步玩家仇恨状态
 	activated = GameManager.player_arrgo
 
@@ -49,6 +62,8 @@ func _connect_arrgo_signals() -> void:
 
 
 func _tween_both_colors(light_color: Color, content_color: Color, show_jiu: bool) -> void:
+	if not turned_on:
+		return
 	"""将 point_light 颜色、screen_content basecolor、jiu 的 modulate.a 同时平滑过渡"""
 	if _color_tween and _color_tween.is_valid():
 		_color_tween.kill()
@@ -56,7 +71,8 @@ func _tween_both_colors(light_color: Color, content_color: Color, show_jiu: bool
 	_color_tween.set_trans(Tween.TRANS_CUBIC)
 	_color_tween.set_ease(Tween.EASE_IN_OUT)
 	_color_tween.set_parallel(true)
-	_color_tween.tween_property(point_light, "color", light_color, color_tween_duration)
+	if point_light:
+		_color_tween.tween_property(point_light, "color", light_color, color_tween_duration)
 	if screen_content and screen_content.material:
 		var mat = screen_content.material
 		var from_c = mat.get("shader_parameter/basecolor")
@@ -86,11 +102,15 @@ func _tween_both_colors(light_color: Color, content_color: Color, show_jiu: bool
 
 
 func on_get_in_arrgo() -> void:
+	if not turned_on:
+		return
 	"""get_in_arrgo 时：灯光和屏幕内容颜色平滑变至 arrgo 色，jiu 平滑显示"""
 	_tween_both_colors(arrgo_color, arrgo_color_content, true)
 
 
 func on_get_out_arrgo() -> void:
+	if not turned_on:
+		return
 	"""get_out_arrgo 时：灯光和屏幕内容颜色平滑变至 normal 色，jiu 平滑隐藏"""
 	if fix:
 		return
@@ -98,10 +118,64 @@ func on_get_out_arrgo() -> void:
 
 
 func on_arrgoed() -> void:
+	if not turned_on:
+		return
 	_tween_both_colors(arrgo_color, arrgo_color_content, true)
 	fix = true
 
 
 func on_not_arrgoed() -> void:
+	if not turned_on:
+		return
 	_tween_both_colors(normal_color, normal_color_content, false)
 	fix = false
+
+
+func _apply_turned_on_state() -> void:
+	if _color_tween and _color_tween.is_valid():
+		_color_tween.kill()
+	_color_tween = null
+
+	if light_source:
+		light_source.visible = turned_on
+		light_source.process_mode = Node.PROCESS_MODE_INHERIT if turned_on else Node.PROCESS_MODE_DISABLED
+		if turned_on:
+			if not light_source.is_in_group("light_source"):
+				light_source.add_to_group("light_source")
+		elif light_source.is_in_group("light_source"):
+			light_source.remove_from_group("light_source")
+
+	if point_light:
+		point_light.visible = turned_on
+		point_light.enabled = turned_on
+
+	if screen_content:
+		screen_content.visible = turned_on
+
+	if jiu and not turned_on:
+		jiu.modulate.a = 0.0
+		jiu.visible = false
+
+	if not turned_on:
+		activated = false
+		return
+
+	activated = GameManager.player_arrgo
+	if GameManager.player_arrgo > 0:
+		if point_light:
+			point_light.color = arrgo_color
+		if screen_content and screen_content.material:
+			screen_content.material.set("shader_parameter/basecolor", arrgo_color_content)
+		if jiu:
+			jiu.modulate.a = 1.0
+			jiu.visible = true
+		fix = GameManager.player_arrgo >= 2
+	else:
+		if point_light:
+			point_light.color = normal_color
+		if screen_content and screen_content.material:
+			screen_content.material.set("shader_parameter/basecolor", normal_color_content)
+		if jiu:
+			jiu.modulate.a = 0.0
+			jiu.visible = false
+		fix = false

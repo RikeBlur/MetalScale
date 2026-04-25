@@ -16,8 +16,8 @@ uniform float contrast : hint_range(0.5, 1.5) = 1.04;
 uniform float black_lift : hint_range(0.0, 0.08) = 0.004;
 uniform float highlight_rolloff : hint_range(0.5, 1.0) = 0.92;
 uniform float shadow_protection_start : hint_range(0.0, 0.3) = 0.03;
-uniform float shadow_protection_end : hint_range(0.05, 0.5) = 0.2;
-uniform float shadow_effect_floor : hint_range(0.0, 1.0) = 0.14;
+uniform float shadow_protection_end : hint_range(0.05, 0.5) = 0.15;
+uniform float shadow_effect_floor : hint_range(0.0, 1.0) = 0.25;
 
 float hash1(float n) {
 	return fract(sin(n * 127.1 + 311.7) * 43758.5453123);

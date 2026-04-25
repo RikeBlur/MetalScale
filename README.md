@@ -33,6 +33,12 @@
 一个 TriggerFlag 对应一组对话， 通过 CurrentFlag 和 NextFlag 方便控制
 同一个区域的多个对话组。Flag 和 Content 的对应关系不变  <br>
 
+8. GLOBAL_VFX
+vhs 版：
+shadow_protection_start：从多暗开始保护
+shadow_protection_end：到多亮恢复完整 VHS 效果
+shadow_effect_floor：暗部至少保留多少滤镜存在感 <br>
+
 # UPDATE
 
 ## 26.04.25

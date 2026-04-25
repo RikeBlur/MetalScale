@@ -75,7 +75,7 @@ metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 ssao_enabled = true
 glow_enabled = true
 
-[node name="ClassRoom202" type="Node2D" unique_id=1940884473]
+[node name="ClassRoom201" type="Node2D" unique_id=1940884473]
 y_sort_enabled = true
 script = ExtResource("1_jnect")
 player_initial_position = Array[Vector2]([Vector2(530, 275)])
@@ -221,6 +221,7 @@ position = Vector2(480, 373)
 
 [node name="ElectrionicScreen" parent="ObjectAndCharacter/light" unique_id=987910373 instance=ExtResource("10_a8sa1")]
 position = Vector2(392, 391)
+turned_on = false
 
 [node name="Interactable" type="Node2D" parent="ObjectAndCharacter" unique_id=1164615803]
 y_sort_enabled = true
@@ -240,6 +241,7 @@ y_sort_enabled = true
 [node name="DialogueComponent" parent="ObjectAndCharacter/Interactable" unique_id=1786519888 instance=ExtResource("12_4vpct")]
 trigger_flag = Array[ExtResource("13_deq6h")]([SubResource("Resource_it5e3")])
 dialogue_content = Array[ExtResource("14_k6kj6")]([SubResource("Resource_qqq1q"), SubResource("Resource_k6kj6")])
+dialogue_fade_time = 0.5
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
 y_sort_enabled = true

@@ -5,7 +5,8 @@
 [ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/data/dialogue_resource/DialogueResource.gd" id="2_nld3x"]
 [ext_resource type="Texture2D" uid="uid://bqugtmn8twlpo" path="res://Assests/sprite/Character/Oni/dialogue/back_1.png" id="2_rqtrr"]
 [ext_resource type="Texture2D" uid="uid://6mrcy46rb3n5" path="res://Assests/sprite/Character/Oni/dialogue/back_2.png" id="3_pmorv"]
-[ext_resource type="Texture2D" uid="uid://xvkyadfugxdv" path="res://Assests/sprite/Character/Oni/dialogue/idle_neo/idle_neo.png" id="6_3otb0"]
+[ext_resource type="Texture2D" uid="uid://kpj6cxsovv6h" path="res://Assests/sprite/Character/Oni/dialogue/idle_neo/idle_neo.png" id="6_3otb0"]
+[ext_resource type="Material" uid="uid://c6iibsowe5ub8" path="res://Effect/Shader/dialogue_dark/dialogue_dark.tres" id="6_adbbw"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_e6sdg"]
 animations = [{
@@ -102,6 +103,7 @@ size_flags_stretch_ratio = 0.0
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=615311639]
 
 [node name="illustrate2" type="AnimatedSprite2D" parent="." unique_id=1597265970]
+material = ExtResource("6_adbbw")
 position = Vector2(400.9999, -86)
 scale = Vector2(0.395703, 0.392072)
 sprite_frames = SubResource("SpriteFrames_adbbw")

@@ -7,7 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://dv2p3c4p3uk8e" path="res://Assests/sprite/Character/AX/dialogue/back_1.png" id="5_qkr5h"]
 [ext_resource type="Texture2D" uid="uid://bxngadho5jgwo" path="res://Assests/sprite/Character/AX/dialogue/back_2.png" id="6_sbg1f"]
 [ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="7_vpctg"]
-[ext_resource type="Texture2D" uid="uid://cn1go27sg71n0" path="res://Assests/sprite/Character/AX/dialogue/idle_neo_ax.png" id="8_1j520"]
+[ext_resource type="Texture2D" uid="uid://c4y6e1apbeqxx" path="res://Assests/sprite/Character/AX/dialogue/idle_neo_ax.png" id="8_1j520"]
+[ext_resource type="Shader" uid="uid://ci8ym7gk7b0i5" path="res://Effect/Shader/dialogue_dark/dialogue_dark.gdshader" id="8_u1tgc"]
 
 [sub_resource type="Resource" id="Resource_3s3v0"]
 script = ExtResource("3_v7av7")
@@ -30,6 +31,11 @@ animations = [{
 "name": &"default",
 "speed": 1.0
 }]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h8xgc"]
+shader = ExtResource("8_u1tgc")
+shader_parameter/brightness = 0.750000035625
+shader_parameter/contrast = 0.99
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_u1tgc"]
 animations = [{
@@ -110,6 +116,7 @@ size_flags_stretch_ratio = 0.0
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1896062791]
 
 [node name="illustrate" type="AnimatedSprite2D" parent="." unique_id=237529087]
+material = SubResource("ShaderMaterial_h8xgc")
 position = Vector2(406.9625, -76)
 scale = Vector2(0.4, 0.4)
 sprite_frames = SubResource("SpriteFrames_u1tgc")

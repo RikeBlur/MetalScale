@@ -40,7 +40,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_x35id")
-fadein_time = 0.1
 any_key_continue = true
 any_key_continue_time = 1.0
 

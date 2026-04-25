@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://gy5s7mt2h1j8" path="res://System/RPG/object/plant/plant_3.tscn" id="10_lnne8"]
 [ext_resource type="PackedScene" uid="uid://clwn3re40dgmx" path="res://System/RPG/interact/door/var2_invisible/door_invisible.tscn" id="11_awlan"]
 [ext_resource type="PackedScene" uid="uid://ckqqsxjg1mxqs" path="res://System/RPG/interact/door/var3_doubled/door_front_doubled.tscn" id="12_mmvxn"]
+[ext_resource type="PackedScene" uid="uid://dqcap280yv4rh" path="res://System/RPG/interact/doorplate.tscn" id="15_4p02l"]
 [ext_resource type="Environment" uid="uid://sec1uc51yggp" path="res://Style/environment/WorldOfWonder.tres" id="15_hixpp"]
 
 [sub_resource type="Resource" id="Resource_awlan"]
@@ -219,6 +220,10 @@ scene_to = "B2"
 
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]
 y_sort_enabled = true
+
+[node name="Doorplate" parent="ObjectAndCharacter/Interactable" unique_id=1822776458 instance=ExtResource("15_4p02l")]
+position = Vector2(657, 115)
+door_name = "会议室"
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=435539595]
 y_sort_enabled = true

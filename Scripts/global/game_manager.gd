@@ -120,6 +120,7 @@ func _ready() -> void:
 	load_config()
 	# _ready 期间父节点正在初始化，defer 到下一帧再挂载后处理层（届时会读取 Gamma）
 	_ensure_gamma_postprocess_layer.call_deferred()
+	_remove_legacy_global_opening_menu_mask_layer.call_deferred()
 	
 	# 创建debug UI
 	if debug:
@@ -341,12 +342,21 @@ func _on_player_died() -> void:
 func _return_to_opening_menu_after_death() -> void:
 	set_game_state(GameState.LOADING)
 	InputEvents.show_mouse()
+	var death_return_blackout := _create_death_return_blackout()
 
 	var result = get_tree().change_scene_to_file(OPENING_MENU_SCENE_PATH)
 	if result != OK:
+		_free_death_return_blackout(death_return_blackout)
 		push_error("GameManager: 无法切换到 OpeningMenu: %s" % OPENING_MENU_SCENE_PATH)
 		return
 
+	var mask := await _get_opening_menu_mask()
+	if mask:
+		mask.visible = true
+		mask.modulate.a = 1.0
+	else:
+		push_warning("GameManager: OpeningMenu/mask not found after death return")
+	_free_death_return_blackout(death_return_blackout)
 	await _fade_out_opening_menu_mask()
 
 	player_instance = null
@@ -412,6 +422,35 @@ func _get_opening_menu_mask() -> Sprite2D:
 		await get_tree().process_frame
 
 	return null
+
+
+func _create_death_return_blackout() -> CanvasLayer:
+	var layer := CanvasLayer.new()
+	layer.name = "DeathReturnBlackoutLayer"
+	layer.layer = 1000
+	get_tree().root.add_child(layer)
+
+	var black_rect := ColorRect.new()
+	black_rect.name = "Blackout"
+	black_rect.color = Color.BLACK
+	black_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	layer.add_child(black_rect)
+	black_rect.position = Vector2.ZERO
+	black_rect.size = get_viewport().get_visible_rect().size
+
+	return layer
+
+
+func _free_death_return_blackout(layer: CanvasLayer) -> void:
+	if layer and is_instance_valid(layer):
+		layer.visible = false
+		layer.queue_free()
+
+
+func _remove_legacy_global_opening_menu_mask_layer() -> void:
+	var legacy_layer := get_tree().root.get_node_or_null("GlobalOpeningMenuMaskCanvasLayer")
+	if legacy_layer:
+		legacy_layer.queue_free()
 
 
 # ====================================================================================================

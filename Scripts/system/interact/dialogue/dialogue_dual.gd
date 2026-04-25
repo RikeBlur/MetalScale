@@ -1,6 +1,8 @@
 class_name dialogue_dual
 extends Control
 
+signal dialogue_finished
+
 const DialogueButtonPreload = preload("res://System/RPG/interact/dialogue/botton.tscn")
 
 @export var back_sprite : Array[AnimatedSprite2D]
@@ -20,6 +22,7 @@ var next_item : bool = true
 var player_node : CharacterBody2D
 var which : int
 var dialogue_node : Array[Node2D]
+var _dialogue_finished_emitted: bool = false
 var scene_root : Node = null  # 用于存储场景根节点引用，解决相对路径问题
 
 func _ready() -> void:
@@ -51,13 +54,13 @@ func _ready() -> void:
 		which = 0
 		_get_into_dark(1)
 		dialogue_node[0].z_index = 10
-		speaker_sprite[0].material.set_shader_parameter("brightness", 1)
+		speaker_sprite[0].material.set_shader_parameter("brightness", 0.75)
 		speaker_sprite[0].material.set_shader_parameter("contrast", 1)
 	else:
 		which = 1
 		_get_into_dark(0)
 		dialogue_node[1].z_index = 10
-		speaker_sprite[1].material.set_shader_parameter("brightness", 1)
+		speaker_sprite[1].material.set_shader_parameter("brightness", 0.75)
 		speaker_sprite[1].material.set_shader_parameter("contrast", 1)
 		
 func _process(_delta: float) -> void:
@@ -71,7 +74,7 @@ func _process(_delta: float) -> void:
 			return
 		player_node.can_move = true
 		player_node.can_interact = true
-		queue_free()
+		_finish_dialogue()
 		return
 	
 	if current_dialogue_item in a_index:
@@ -272,11 +275,11 @@ func _get_into_dark(index : int) -> void:
 	if speaker_sprite[index]:
 		speaker_sprite[index].stop()
 		speaker_sprite[index].material.set_shader_parameter("brightness", 0.1)
-		speaker_sprite[index].material.set_shader_parameter("contrast", 0.99)
+		speaker_sprite[index].material.set_shader_parameter("contrast", 0.95)
 	if back_sprite[index]:
 		back_sprite[index].stop()
 		back_sprite[index].material.set_shader_parameter("brightness", 0.1)
-		back_sprite[index].material.set_shader_parameter("contrast", 0.99)	
+		back_sprite[index].material.set_shader_parameter("contrast", 0.95)	
 	
 	# 隐藏按钮容器
 	if botton_container:
@@ -301,11 +304,17 @@ func _back_to_light(index : int) -> void:
 	# 动画停止
 	if speaker_sprite[index]:
 		speaker_sprite[index].play("idle")
-		speaker_sprite[index].material.set_shader_parameter("brightness", 1)
+		speaker_sprite[index].material.set_shader_parameter("brightness", 0.75)
 		speaker_sprite[index].material.set_shader_parameter("contrast", 1)
 	if back_sprite[index]:
 		back_sprite[index].play()
-		back_sprite[index].material.set_shader_parameter("brightness", 1)
+		back_sprite[index].material.set_shader_parameter("brightness", 0.75)
 		back_sprite[index].material.set_shader_parameter("contrast", 1)	
+
+func _finish_dialogue() -> void:
+	if _dialogue_finished_emitted:
+		return
+	_dialogue_finished_emitted = true
+	dialogue_finished.emit()
 
 	
