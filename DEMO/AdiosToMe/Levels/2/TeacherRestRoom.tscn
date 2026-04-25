@@ -76,15 +76,33 @@ metadata/_custom_type_script = "uid://b37t7a67t8onx"
 
 [sub_resource type="Resource" id="Resource_m0vy7"]
 script = ExtResource("19_k3vj0")
-next_flag = 1
+next_flag = 2
 style = Array[int]([2])
 start = Array[int]([2])
-end = Array[int]([3])
+end = Array[int]([4])
+metadata/_custom_type_script = "uid://b37t7a67t8onx"
+
+[sub_resource type="Resource" id="Resource_tc1l2"]
+script = ExtResource("19_k3vj0")
+next_flag = 2
+style = Array[int]([2])
+start = Array[int]([4])
+end = Array[int]([5])
 metadata/_custom_type_script = "uid://b37t7a67t8onx"
 
 [sub_resource type="Resource" id="Resource_t31br"]
 script = ExtResource("21_snavj")
-text = "啊，这个还是给你吧。"
+text = "真是稀奇，我还以为没有活人了"
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+
+[sub_resource type="Resource" id="Resource_cb74a"]
+script = ExtResource("21_snavj")
+text = "... 我的处境和你差不多，没什么头绪"
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+
+[sub_resource type="Resource" id="Resource_7028d"]
+script = ExtResource("21_snavj")
+text = "啊，这个可能对你有用吧"
 metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 
 [sub_resource type="Resource" id="Resource_pnopn"]
@@ -223,8 +241,8 @@ y_sort_enabled = true
 
 [node name="DialogueComponent" parent="ObjectAndCharacter/Interactable" unique_id=1786519888 instance=ExtResource("18_gstyx")]
 position = Vector2(418, 325)
-trigger_flag = Array[ExtResource("19_k3vj0")]([SubResource("Resource_gxc2u"), SubResource("Resource_m0vy7")])
-dialogue_content = Array[ExtResource("20_i3ugv")]([SubResource("Resource_t31br"), SubResource("Resource_pnopn"), SubResource("Resource_aosta")])
+trigger_flag = Array[ExtResource("19_k3vj0")]([SubResource("Resource_gxc2u"), SubResource("Resource_m0vy7"), SubResource("Resource_tc1l2")])
+dialogue_content = Array[ExtResource("20_i3ugv")]([SubResource("Resource_t31br"), SubResource("Resource_cb74a"), SubResource("Resource_7028d"), SubResource("Resource_pnopn"), SubResource("Resource_aosta")])
 
 [node name="1" parent="ObjectAndCharacter/Interactable" unique_id=1293804823 instance=ExtResource("23_wqw74")]
 position = Vector2(414, 352)

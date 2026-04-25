@@ -62,13 +62,13 @@ metadata/_custom_type_script = "uid://b37t7a67t8onx"
 [sub_resource type="Resource" id="Resource_qqq1q"]
 script = ExtResource("15_up1qi")
 speaker_entity = "Oni"
-text = "教学楼吗 ...... 怎么在这种地方醒过来了"
+text = "嗯 ...... 这是 ...... 教学楼吗"
 metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 
 [sub_resource type="Resource" id="Resource_k6kj6"]
 script = ExtResource("15_up1qi")
 speaker_entity = "Oni"
-text = "得赶紧回去了啊"
+text = "搞什么啊 ...... 怎么在这种地方睡着了"
 metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 
 [sub_resource type="Environment" id="Environment_5n7gh"]

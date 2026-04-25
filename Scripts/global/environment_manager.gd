@@ -75,6 +75,29 @@ func _on_arrgoed() -> void:
 func _on_not_arrgoed() -> void:
 	_fade_out_arrgo_effect(ARRGOED_EFFECT_KEY)
 
+func clear_all_visual_effects() -> void:
+	for tween_value in _arrgo_effect_tweens.values():
+		if _is_valid_instance(tween_value):
+			var tween := tween_value as Tween
+			if tween and tween.is_valid():
+				tween.kill()
+
+	for effect_node_value in _arrgo_effect_nodes.values():
+		if _is_valid_instance(effect_node_value):
+			var effect_node := effect_node_value as Node
+			effect_node.queue_free()
+
+	if _arrgo_effect_layer and is_instance_valid(_arrgo_effect_layer):
+		for child in _arrgo_effect_layer.get_children():
+			child.queue_free()
+
+	_arrgo_effect_nodes.clear()
+	_arrgo_effect_rects.clear()
+	_arrgo_effect_fade_targets.clear()
+	_arrgo_effect_materials.clear()
+	_arrgo_effect_opacities.clear()
+	_arrgo_effect_tweens.clear()
+
 func _fade_in_arrgo_effect(effect_key: String) -> void:
 	var effect_node := _get_or_create_arrgo_effect_node(effect_key)
 	if not effect_node:

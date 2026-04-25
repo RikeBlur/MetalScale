@@ -34,6 +34,7 @@ extends Resource
 @export var health_max: float = 100.0
 @export var health_now: float = 100.0
 @export var is_died: bool = false
+@export var aggro_value: float = 0.0
 
 # 位置信息（用于存档）
 @export var global_position: Vector2 = Vector2.ZERO
@@ -55,6 +56,7 @@ func _init(
 	p_health_max: float = 100.0,
 	p_health_now: float = 100.0,
 	p_is_died: bool = false,
+	p_aggro_value: float = 0.0,
 	p_global_position: Vector2 = Vector2.ZERO
 ):
 	"""
@@ -93,6 +95,7 @@ func _init(
 	health_max = p_health_max
 	health_now = p_health_now
 	is_died = p_is_died
+	aggro_value = p_aggro_value
 	global_position = p_global_position
 
 func from_player_node(player_node: player) -> void:
@@ -123,6 +126,7 @@ func from_player_node(player_node: player) -> void:
 	health_max = player_node.health_max
 	health_now = player_node.health_now
 	is_died = player_node.is_died
+	aggro_value = player_node.aggro_value
 	global_position = player_node.global_position
 
 func apply_to_player_node(player_node: player) -> void:
@@ -153,6 +157,7 @@ func apply_to_player_node(player_node: player) -> void:
 	player_node.health_max = health_max
 	player_node.health_now = health_now
 	player_node.is_died = is_died
+	player_node.aggro_value = aggro_value
 	player_node.global_position = global_position
 
 func to_dict() -> Dictionary:
@@ -181,6 +186,7 @@ func to_dict() -> Dictionary:
 		"health_max": health_max,
 		"health_now": health_now,
 		"is_died": is_died,
+		"aggro_value": aggro_value,
 		"global_position": {"x": global_position.x, "y": global_position.y}
 	}
 
@@ -231,5 +237,6 @@ func from_dict(data: Dictionary) -> void:
 		health_now = data["health_now"]
 	if data.has("is_died"):
 		is_died = data["is_died"]
+	aggro_value = data.get("aggro_value", 0.0)
 	if data.has("global_position"):
 		global_position = Vector2(data["global_position"]["x"], data["global_position"]["y"])

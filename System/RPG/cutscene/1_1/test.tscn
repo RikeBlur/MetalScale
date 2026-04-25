@@ -3,6 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="1_3u3db"]
 [ext_resource type="Script" uid="uid://bkajs0slwr7ip" path="res://Scripts/system/view/cutscene/cutscene.gd" id="1_6lr8p"]
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="2_sl00d"]
+[ext_resource type="Texture2D" uid="uid://wjm0foi0q4i4" path="res://Assests/sprite/CG/test_1-Sheet.png" id="4_20743"]
+[ext_resource type="Shader" uid="uid://c508pge2m6ttf" path="res://Effect/Shader/inline/inline.gdshader" id="4_bnrl5"]
 [ext_resource type="Script" uid="uid://c36tca7psw8t6" path="res://Scripts/system/view/cutscene/text_control.gd" id="4_r21hu"]
 [ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="5_5jqud"]
 [ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="6_s2qde"]
@@ -33,6 +35,42 @@ shader_parameter/base_color = Color(0, 0, 0, 1)
 shader_parameter/alpha_multiplier = 1.0
 shader_parameter/color_mix_strength = 0.99
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1s363"]
+shader = ExtResource("4_bnrl5")
+shader_parameter/outline_width = 8.0
+shader_parameter/outline_color = Color(0.46, 0, 0, 1)
+shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
+shader_parameter/hit_flash_intensity = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bnrl5"]
+atlas = ExtResource("4_20743")
+region = Rect2(0, 0, 1152, 648)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1s363"]
+atlas = ExtResource("4_20743")
+region = Rect2(1152, 0, 1152, 648)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2sbjx"]
+atlas = ExtResource("4_20743")
+region = Rect2(2304, 0, 1152, 648)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1utan"]
+animations = [{
+"frames": [{
+"duration": 4.0,
+"texture": SubResource("AtlasTexture_bnrl5")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_1s363")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2sbjx")
+}],
+"loop": false,
+"name": &"default",
+"speed": 0.1
+}]
+
 [node name="Statemachine" type="Control" unique_id=883631207]
 layout_mode = 3
 anchors_preset = 15
@@ -47,6 +85,13 @@ fadein_time = 0.3
 material = SubResource("ShaderMaterial_mci5n")
 position = Vector2(675, 319)
 
+[node name="CG1" type="AnimatedSprite2D" parent="." unique_id=570472010]
+material = SubResource("ShaderMaterial_1s363")
+position = Vector2(579, 326)
+sprite_frames = SubResource("SpriteFrames_1utan")
+autoplay = "default"
+frame_progress = 0.7245848
+
 [node name="text_control" type="Control" parent="." unique_id=806291952]
 layout_mode = 1
 anchor_right = 0.99700004
@@ -54,35 +99,93 @@ anchor_bottom = 0.994
 offset_right = 0.45593262
 offset_bottom = -0.11199951
 script = ExtResource("4_r21hu")
-text_speed = 12.0
+text_speed = 15.0
 label_time = 1.0
-setup_time = 1.0
+setup_time = 3.0
 
 [node name="1" type="RichTextLabel" parent="text_control" unique_id=417140611]
 layout_mode = 0
-offset_left = 262.0
-offset_top = 86.0
-offset_right = 1059.0
-offset_bottom = 296.0
+offset_left = -129.0
+offset_top = -6.0
+offset_right = 668.0
+offset_bottom = 204.0
 theme = ExtResource("5_5jqud")
 theme_override_fonts/normal_font = ExtResource("6_s2qde")
-theme_override_font_sizes/normal_font_size = 64
-text = "无 无 明
+theme_override_font_sizes/normal_font_size = 48
+text = "“再见”
+"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-亦 无 无 明 尽"
-
-[node name="2" type="RichTextLabel" parent="text_control" unique_id=466301021]
+[node name="5" type="RichTextLabel" parent="text_control" unique_id=1236809526]
 layout_mode = 0
-offset_left = 262.0
-offset_top = 333.0
-offset_right = 1059.0
-offset_bottom = 543.0
+offset_left = 637.0
+offset_top = 456.0
+offset_right = 1434.0
+offset_bottom = 666.0
+theme = ExtResource("5_5jqud")
+theme_override_fonts/normal_font = ExtResource("6_s2qde")
+theme_override_font_sizes/normal_font_size = 32
+text = "“再见”
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="4" type="RichTextLabel" parent="text_control" unique_id=712209208]
+layout_mode = 0
+offset_left = -212.0
+offset_top = 320.0
+offset_right = 585.0
+offset_bottom = 530.0
+theme = ExtResource("5_5jqud")
+theme_override_fonts/normal_font = ExtResource("6_s2qde")
+theme_override_font_sizes/normal_font_size = 96
+text = "“再见”
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="6" type="RichTextLabel" parent="text_control" unique_id=250957153]
+layout_mode = 0
+offset_left = 131.0
+offset_top = -43.0
+offset_right = 928.0
+offset_bottom = 167.0
 theme = ExtResource("5_5jqud")
 theme_override_fonts/normal_font = ExtResource("6_s2qde")
 theme_override_font_sizes/normal_font_size = 64
-text = "乃 至 无 老 死
+text = "“再见”
+"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-亦 无 老 死 尽"
+[node name="2" type="RichTextLabel" parent="text_control" unique_id=407928104]
+layout_mode = 0
+offset_left = 577.0
+offset_top = 191.0
+offset_right = 1374.0
+offset_bottom = 401.0
+theme = ExtResource("5_5jqud")
+theme_override_fonts/normal_font = ExtResource("6_s2qde")
+theme_override_font_sizes/normal_font_size = 48
+text = "“再见”
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="3" type="RichTextLabel" parent="text_control" unique_id=1240966716]
+layout_mode = 0
+offset_left = -22.0
+offset_top = 471.0
+offset_right = 775.0
+offset_bottom = 681.0
+theme = ExtResource("5_5jqud")
+theme_override_fonts/normal_font = ExtResource("6_s2qde")
+theme_override_font_sizes/normal_font_size = 48
+text = "“再见”
+"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ESC" type="Sprite2D" parent="." unique_id=1007561769]
 modulate = Color(1, 1, 1, 0.10980392)

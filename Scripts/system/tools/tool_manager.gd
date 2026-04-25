@@ -32,10 +32,10 @@ const TOOL_DISPLAY_NAMES = {
 
 const TOOL_DESCRIPTION = {
 	Tool.NONE: "无",
-	Tool.EMERGENCELIGHT: "提灯模样的备用光源，照明范围有限",
+	Tool.EMERGENCELIGHT: "提灯模样的备用光源，照明范围有限，请务必留意电量。",
 	Tool.FLASHLIGHT: "可以照亮前方的手电筒",
-	Tool.ADRENALINE: "短时间激发身体机能的消耗品",
-	Tool.KEYA: "教师休息室钥匙",
+	Tool.ADRENALINE: "短时间激发身体机能的药剂，请按处方使用。",
+	Tool.KEYA: "教师休息室的钥匙。旧教学楼除了大门之外没有上电子锁，每个房间都有着令人怀念实体钥匙。",
 	Tool.KEYB: "钥匙B",
 	Tool.KEYC: "钥匙C"
 }

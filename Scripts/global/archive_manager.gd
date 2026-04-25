@@ -380,6 +380,7 @@ func game_save(index : int) -> bool:
 func game_load(index : int) -> bool:
 	# 游戏总线 pipeline
 	GameManager.set_game_state(GameManager.GameState.LOADING)
+	GameManager.prepare_for_archive_load()
 	GameManager.Loading.emit()
 	print("ArchiveManager: 开始读档")
 
@@ -492,6 +493,8 @@ func game_load(index : int) -> bool:
 
 		if save_data.has("tool"):
 			_restore_player_tool_data(player_node, save_data["tool"])
+
+		GameManager.sync_player_arrgo_state()
 		
 		print("ArchiveManager: 已恢复玩家数据")
 	else:
@@ -598,6 +601,10 @@ func quick_load() -> bool:
 	返回:
 		true表示加载成功，false表示失败
 	"""
+	GameManager.set_game_state(GameManager.GameState.LOADING)
+	GameManager.prepare_for_archive_load()
+	GameManager.Loading.emit()
+
 	# 检查存档文件是否存在
 	if not FileAccess.file_exists(QUICK_SAVE_PATH):
 		push_error("ArchiveManager: 快速存档文件不存在: %s" % QUICK_SAVE_PATH)
@@ -700,12 +707,15 @@ func quick_load() -> bool:
 
 		if save_data.has("tool"):
 			_restore_player_tool_data(player_node, save_data["tool"])
+
+		GameManager.sync_player_arrgo_state()
 		
 		print("ArchiveManager: 已恢复玩家数据")
 	else:
 		push_warning("ArchiveManager: 无法恢复玩家数据")
 	
 	print("ArchiveManager: 快速读档完成")
+	GameManager.Loaded.emit()
 	return true
 
 # ====================================================================================================

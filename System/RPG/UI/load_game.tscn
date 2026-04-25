@@ -215,12 +215,6 @@ size_flags_vertical = 3
 theme_override_constants/separation = 100
 alignment = 1
 
-[node name="save" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/choices" unique_id=154026696]
-layout_mode = 2
-theme_override_font_sizes/font_size = 48
-text = "保存
-"
-
 [node name="load" type="Button" parent="Panel/Container/MarginContainer/VBoxContainer/choices" unique_id=948747329]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
@@ -246,6 +240,5 @@ script = ExtResource("8_ewkq3")
 base_volume_db = 2.0
 metadata/_custom_type_script = "uid://use5ds4i6ib4"
 
-[connection signal="pressed" from="Panel/Container/MarginContainer/VBoxContainer/choices/save" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="Panel/Container/MarginContainer/VBoxContainer/choices/load" to="." method="_on_load_pressed"]
 [connection signal="pressed" from="Panel/Container/MarginContainer/VBoxContainer/choices/delete" to="." method="_on_delete_pressed"]

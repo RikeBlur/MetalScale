@@ -61,8 +61,8 @@ glow_enabled = true
 [node name="ClassRoom203" type="Node2D" unique_id=1940884473]
 y_sort_enabled = true
 script = ExtResource("1_3v7pv")
-player_initial_position = Array[Vector2]([Vector2(490, 275)])
-player_initial_direction = Array[Vector2]([Vector2(0, 1)])
+player_initial_position = Array[Vector2]([Vector2(700, 600)])
+player_initial_direction = Array[Vector2]([Vector2(0, -1)])
 interactables = Array[ExtResource("2_ejhft")]([SubResource("Resource_ax0f4")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]

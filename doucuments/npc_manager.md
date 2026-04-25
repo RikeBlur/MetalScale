@@ -15,6 +15,7 @@ Autoload 名称：`NPCManager`
 - 根据 `GameManager` 仇恨信号切换 EYE 的状态。
 - 处理 EYE 离场巡游和追杀入场逻辑。
 - 为 `ArchiveManager` 提供可序列化的 NPC 状态。
+- 新游戏开始时把 `npc_dict` 重置为默认配置，避免继承上一局死亡前的状态。
 
 ## 参与游戏管线的操作
 
@@ -33,7 +34,7 @@ GameManager.not_arrgoed.connect(_on_not_arrgoed)
 
 ### 场景切换前保存 NPC
 
-当 `SceneManager.change_scene()` 或 `ArchiveManager.game_load()` 发出 `GameManager.Loading` 时，`_on_game_loading()` 会：
+当 `SceneManager.change_scene()`、`ArchiveManager.game_load()`、`ArchiveManager.quick_load()` 或死亡回主菜单流程发出 `GameManager.Loading` 时，`_on_game_loading()` 会：
 
 1. 遍历所有 `npc_dict`。
 2. 对场上的 NPC，读取实例的 `global_position`。
@@ -43,6 +44,26 @@ GameManager.not_arrgoed.connect(_on_not_arrgoed)
 6. 清空 `_npc_instances`。
 
 旧场景随后会被 Godot 释放，所以这里是离场前保存 NPC 状态的关键点。
+
+`_npc_instances` 当前保存的是 `WeakRef`，读取实例要走 `_get_npc_instance(npc_id)`。不要直接把字典值赋给 `Node`，否则旧场景释放后可能遇到 freed instance。
+
+### 新游戏默认重置
+
+`GameManager.start_new_game()` 会调用：
+
+```gdscript
+NPCManager.reset_to_default_state()
+```
+
+该函数会：
+
+1. 释放仍在场景树中的旧 NPC 实例。
+2. 清空 `_npc_instances`。
+3. 清空 `_eye_wander_timers` 和 `_eye_chase_timers`。
+4. 用 `_create_default_npc_dict()` 重新创建 `npc_dict`。
+5. 设置 `not_running = true`。
+
+这保证死亡后再次开始新游戏时，NPC 会回到默认场景、默认位置、默认朝向和默认 `state`。
 
 ### 玩家落位后实例化 NPC
 
@@ -116,7 +137,7 @@ enum npc_type {
 }
 ```
 
-4. 在 `npc_dict` 添加数据：
+4. 在 `npc_dict` 添加数据，并在 `_create_default_npc_dict()` 中添加同一份默认数据：
 
 ```gdscript
 "2-0": NPCData.new().setup(
@@ -177,5 +198,7 @@ EYE 追杀入场依赖门配置：
 - `npc_id` 用字符串，例如 `"0-0"`。存档会使用这个 ID，改 ID 会影响旧存档。
 - 场内 NPC 行为由 NPC 自己的脚本负责；NPCManager 只做跨场景数据和少量全局行为。
 - `NPCData.is_inscene` 保存时统一视为 false，读档后由 `player_reseted` 重新入场。
+- 新游戏不读取旧 `NPCData`，而是通过 `reset_to_default_state()` 重建默认 `npc_dict`。
+- `_npc_instances` 保存弱引用。新增代码需要访问 NPC 实例时，优先使用 `_get_npc_instance()`。
 - 如果 NPC 场景没有 `npc_direction` 或 `state` 属性，NPCManager 会跳过对应字段同步。
 - EYE 的随机游荡从 `SceneManager.scene_dict.keys()` 中选场景，所以没有注册的场景不会成为游荡目标。

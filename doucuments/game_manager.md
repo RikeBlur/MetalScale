@@ -42,15 +42,16 @@ Autoload 名称：`GameManager`
 
 1. 切到 `GameState.LOADING`。
 2. 清空本局存档时间，重置死亡流程标记。
-3. 确保玩家和相机存在，并重置玩家血量、移动、交互、行为状态。
-4. 把玩家和相机临时挂到当前场景下。
-5. 设置玩家起点为 `start_position`。
-6. 淡入主菜单遮罩。
-7. 调用 `CutsceneManager.play_cutscene("test")` 播放开场 cutscene。
-8. 等待 `CutsceneManager.cutscene_playback_finished`。
-9. 调用 `SceneManager.change_scene(start_scene, 0, start_position)` 切到起始场景。
-10. 调用 `UIManager.refresh_ui_manager()`。
-11. 发出 `Loaded` 信号。
+3. 确保玩家和相机存在，并重置玩家血量、移动、交互、行为状态、输入阻塞和 `aggro_value`。
+4. 调用 `_reset_npc_manager_for_new_game()`，让 `NPCManager` 恢复默认 `npc_dict`，清空上一次游戏留下的 NPC 实例弱引用和 EYE 计时器。
+5. 把玩家和相机临时挂到当前场景下。
+6. 设置玩家起点为 `start_position`。
+7. 淡入主菜单遮罩。
+8. 调用 `CutsceneManager.play_cutscene("test")` 播放开场 cutscene。
+9. 等待 `CutsceneManager.cutscene_playback_finished`。
+10. 调用 `SceneManager.change_scene(start_scene, 0, start_position)` 切到起始场景。
+11. 调用 `UIManager.refresh_ui_manager()`。
+12. 发出 `Loaded` 信号。
 
 `Loaded` 会触发 `_on_loaded()`：设置 `RUNNING + CONTROL`，解除输入阻塞，隐藏鼠标，并重置仇恨追踪状态。
 
@@ -77,7 +78,18 @@ GameManager.Loading.emit()
 4. 设置 `RunningState.AUTO`。
 5. 发出 `player_died` 信号。
 
-`GameManager._on_player_died()` 会等待 `CutsceneManager.death_cutscene_finished`，然后回到 `OPENING_MENU_SCENE_PATH`，清空玩家和相机引用，重置仇恨状态，重新创建玩家与相机，最后设置为 `MENU + NOPE`。
+`GameManager._on_player_died()` 会等待 `CutsceneManager.death_cutscene_finished`。等待期间使用 `_death_flow_token` 做时序保护：如果读档或其他流程打断死亡流程，旧的死亡协程不会继续执行。
+
+确认死亡 cutscene 完成后，流程会：
+
+1. 调用 `EnvironmentManager.clear_all_visual_effects()` 清理全局视觉效果。
+2. 进入 `_return_to_opening_menu_after_death()`。
+3. 设置 `GameState.LOADING` 并发出 `Loading`，让 `NPCManager` 保存并清空旧场景 NPC 引用。
+4. 切回 `OPENING_MENU_SCENE_PATH`。
+5. 清空玩家和相机引用。
+6. 重置仇恨状态，重新创建玩家与相机。
+7. 重置玩家运行时状态。
+8. 设置为 `MENU + NOPE`。
 
 ### 仇恨状态信号
 
@@ -161,5 +173,7 @@ const CAMERA_SCENE_PATH = "res://System/RPG/entity/camera.tscn"
 - `current_runnnig_state` 变量名当前拼写就是三连 `n`，使用代码时保持一致。
 - `GameManager.current_state = ...` 在部分代码中被直接赋值；新增逻辑建议优先使用 `set_game_state()`，除非要完全复刻当前换场流程。
 - `RunningState.AUTO` 表示玩家输入应被系统流程接管，例如 cutscene、死亡、自动演出。
-- `Loaded` 信号会进入 `_on_loaded()`，它会把游戏恢复到 `RUNNING + CONTROL`。读档、新游戏完成时要确认是否应该发出它。
+- `Loaded` 信号会进入 `_on_loaded()`，它会把游戏恢复到 `RUNNING + CONTROL`。读档、快速读档、新游戏完成时都应该发出它。
+- `prepare_for_archive_load()` 用于读档开始时打断可能残留的死亡流程，并清空仇恨边沿追踪。
+- `sync_player_arrgo_state()` 用于读档恢复 `player.aggro_value` 后同步 `player_arrgo` 和 `_prev_aggro_value`，避免读档第一帧误触发仇恨信号。
 - `Gamma` 后处理层挂在 root，层级为 999，会覆盖整个视口。

@@ -44,18 +44,20 @@ ArchiveManager.check_save_state()
 流程：
 
 1. 设置 `GameManager.GameState.LOADING`。
-2. 发出 `GameManager.Loading`。
-3. 读取并解析 JSON。
-4. 恢复 `GameManager.game_archive_msec`。
-5. 恢复 `SceneManager.scene_dict`。
-6. 恢复 `NPCManager.npc_dict` 中的 NPCData。
-7. 根据 `scene.scene_now` 切换到存档场景。
-8. 如果已有玩家，使用 `SceneManager.change_scene(scene_now, 0)` 并等待 `player_reseted`。
-9. 调用 `_refresh_current_scene_npcs()`，让 NPCManager 按当前场景重新实例化 NPC。
-10. 恢复玩家数据。
-11. 显式恢复玩家保存时的位置。
-12. 恢复玩家工具数据。
-13. 发出 `GameManager.Loaded`，让 `GameManager` 恢复 `RUNNING + CONTROL`。
+2. 调用 `GameManager.prepare_for_archive_load()`，打断可能残留的死亡流程，并清空仇恨边沿追踪。
+3. 发出 `GameManager.Loading`。
+4. 读取并解析 JSON。
+5. 恢复 `GameManager.game_archive_msec`。
+6. 恢复 `SceneManager.scene_dict`。
+7. 恢复 `NPCManager.npc_dict` 中的 NPCData。
+8. 根据 `scene.scene_now` 切换到存档场景。
+9. 如果已有玩家，使用 `SceneManager.change_scene(scene_now, 0)` 并等待 `player_reseted`。
+10. 调用 `_refresh_current_scene_npcs()`，让 NPCManager 按当前场景重新实例化 NPC。
+11. 恢复玩家数据。
+12. 显式恢复玩家保存时的位置。
+13. 恢复玩家工具数据。
+14. 调用 `GameManager.sync_player_arrgo_state()`，用恢复后的 `player.aggro_value` 对齐仇恨状态。
+15. 发出 `GameManager.Loaded`，让 `GameManager` 恢复 `RUNNING + CONTROL`。
 
 ### 快速存档和快速读档
 
@@ -70,13 +72,13 @@ ArchiveManager.check_save_state()
 const QUICK_SAVE_PATH: String = "user://quick_save.json"
 ```
 
-当前实现中，`quick_load()` 末尾没有发出 `GameManager.Loaded`。如果把快速读档接入实际 UI 或快捷键，建议确认读档后游戏状态是否需要显式恢复。
+当前实现中，`quick_load()` 与普通读档一样会进入 `GameState.LOADING`，发出 `GameManager.Loading`，恢复数据后发出 `GameManager.Loaded`。如果新增其他快速读档入口，保持这个管线一致。
 
 ## 当前会被保存的数据
 
 ### 玩家数据
 
-由 `Scripts/data/player_data.gd` 负责，保存移动参数、交互状态、角色信息、方向、当前工具槽索引、生命值、死亡状态和全局位置。
+由 `Scripts/data/player_data.gd` 负责，保存移动参数、交互状态、角色信息、方向、当前工具槽索引、生命值、死亡状态、`aggro_value` 和全局位置。
 
 ### 工具数据
 
@@ -169,5 +171,6 @@ const QUICK_SAVE_PATH: String = "user://quick_save.json"
 - 存档中的 `scene.scene_dict` 会覆盖当前 `SceneManager.scene_dict`。如果更新项目后删除了旧场景 key，旧存档可能读不回来。
 - 未知 NPC 只有在存档里有有效 `npc_node_path` 时才能被恢复。
 - 工具场景和图标依赖 `resource_path`。如果资源移动路径，旧存档里的工具资源可能加载失败。
-- `game_load()` 会发出 `GameManager.Loaded`，`quick_load()` 当前不会。接入快速读档时要特别检查这一点。
+- `game_load()` 和 `quick_load()` 都会发出 `GameManager.Loaded`。新增读档入口时也要保持 `Loading -> 恢复数据 -> Loaded` 的顺序。
+- 读档恢复玩家后必须同步 `GameManager.sync_player_arrgo_state()`，否则 `player_arrgo` 的边沿检测可能把存档中的 `aggro_value` 误判为新变化。
 - `game_save()` 保存前会刷新场上 NPC 数据，普通交互状态则依赖各交互脚本主动调用 `BaseLevel.update_interactable_state()`。

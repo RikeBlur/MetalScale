@@ -72,6 +72,7 @@ var arrgo_in_threshold: float = 10.0
 var _prev_aggro_value: float = 0.0       # 上一帧的 aggro_value，用于边沿检测
 var _debug_signal_log: Array[String] = [] # 最近发出的 arrgo 信号日志（最多4条）
 var _is_player_death_flow_running: bool = false
+var _death_flow_token: int = 0
 
 # 全局配置数据（对应 user://config.tres）
 var config_data: ConfigData = null
@@ -231,6 +232,7 @@ func start_new_game() -> void:
 	_is_player_death_flow_running = false
 	_ensure_player_and_camera_instances()
 	_reset_player_runtime_state()
+	_reset_npc_manager_for_new_game()
 	
 	# 临时添加玩家和摄像机到当前场景（SceneManager.change_scene 需要它们在场景树中）
 	var parent = get_tree().current_scene
@@ -266,6 +268,14 @@ func start_new_game() -> void:
 
 	# 更新游戏状态为运行中
 	Loaded.emit()
+
+
+func _reset_npc_manager_for_new_game() -> void:
+	var npc_mgr := get_node_or_null("/root/NPCManager")
+	if not npc_mgr:
+		npc_mgr = get_node_or_null("/root/NpcManager")
+	if npc_mgr and npc_mgr.has_method("reset_to_default_state"):
+		npc_mgr.reset_to_default_state()
 
 
 func _on_loaded() -> void:
@@ -312,6 +322,7 @@ func notify_player_died(dead_player: player = null) -> void:
 		return
 
 	_is_player_death_flow_running = true
+	_death_flow_token += 1
 	player_instance = p
 	p.is_died = true
 	p.health_now = 0.0
@@ -331,16 +342,23 @@ func _on_player_died() -> void:
 	等待死亡过场完成后，回到 OpeningMenu。
 	"""
 	print("GameManager: 等待死亡过场动画完成")
+	var death_flow_token := _death_flow_token
 	if CutsceneManager.has_signal("death_cutscene_finished"):
 		await CutsceneManager.death_cutscene_finished
 	else:
 		await get_tree().process_frame
 
+	if death_flow_token != _death_flow_token or not _is_player_death_flow_running:
+		return
+
+	_clear_environment_visual_effects_before_death_return()
 	await _return_to_opening_menu_after_death()
 
 
 func _return_to_opening_menu_after_death() -> void:
+	var death_flow_token := _death_flow_token
 	set_game_state(GameState.LOADING)
+	Loading.emit()
 	InputEvents.show_mouse()
 	var death_return_blackout := _create_death_return_blackout()
 
@@ -351,6 +369,9 @@ func _return_to_opening_menu_after_death() -> void:
 		return
 
 	var mask := await _get_opening_menu_mask()
+	if death_flow_token != _death_flow_token or not _is_player_death_flow_running:
+		_free_death_return_blackout(death_return_blackout)
+		return
 	if mask:
 		mask.visible = true
 		mask.modulate.a = 1.0
@@ -358,6 +379,8 @@ func _return_to_opening_menu_after_death() -> void:
 		push_warning("GameManager: OpeningMenu/mask not found after death return")
 	_free_death_return_blackout(death_return_blackout)
 	await _fade_out_opening_menu_mask()
+	if death_flow_token != _death_flow_token or not _is_player_death_flow_running:
+		return
 
 	player_instance = null
 	camera_instance = null
@@ -370,6 +393,14 @@ func _return_to_opening_menu_after_death() -> void:
 	set_running_state(RunningState.NOPE)
 	_is_player_death_flow_running = false
 	print("GameManager: 玩家死亡流程结束，已返回 OpeningMenu")
+
+
+func _clear_environment_visual_effects_before_death_return() -> void:
+	var env_mgr := get_node_or_null("/root/EnvironmentManager")
+	if not env_mgr:
+		env_mgr = get_node_or_null("/root/environment_manager")
+	if env_mgr and env_mgr.has_method("clear_all_visual_effects"):
+		env_mgr.clear_all_visual_effects()
 
 
 func _fade_out_opening_menu_mask() -> void:
@@ -460,8 +491,30 @@ func _remove_legacy_global_opening_menu_mask_layer() -> void:
 
 func _connect_player_arrgo() -> void:
 	"""重置 arrgo 追踪状态（player_arrgo 由 _update_player_arrgo 每帧驱动，无需连接信号）"""
+	sync_player_arrgo_state()
+
+
+func prepare_for_archive_load() -> void:
+	_death_flow_token += 1
+	_is_player_death_flow_running = false
 	_prev_aggro_value = 0.0
 	player_arrgo = 0
+	_debug_signal_log.clear()
+
+
+func sync_player_arrgo_state() -> void:
+	var p = get_player()
+	var val: float = 0.0
+	if p and is_instance_valid(p) and "aggro_value" in p:
+		val = p.aggro_value
+
+	_prev_aggro_value = val
+	if val >= 100.0:
+		player_arrgo = 2
+	elif val >= arrgo_in_threshold:
+		player_arrgo = 1
+	else:
+		player_arrgo = 0
 	_debug_signal_log.clear()
 
 
@@ -543,6 +596,7 @@ func _reset_player_runtime_state() -> void:
 	player_instance.can_interact = true
 	player_instance.can_act = true
 	player_instance.velocity = Vector2.ZERO
+	player_instance.aggro_value = 0.0
 	InputEvents.set_player_input_blocked(false)
 
 

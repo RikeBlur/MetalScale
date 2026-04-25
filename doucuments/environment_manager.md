@@ -13,6 +13,7 @@ Autoload 名称：`EnvironmentManager`
 - 创建和淡入淡出仇恨视觉效果。
 - 根据玩家 `aggro_value` 动态调整 `arrgoing` shader 参数。
 - 在换场后根据当前仇恨状态恢复视觉效果。
+- 在玩家死亡回主菜单前，提供统一清理所有视觉效果的接口。
 
 ## 参与游戏管线的操作
 
@@ -76,6 +77,16 @@ GameManager.get_player().aggro_value
 - `grille_opacity`
 
 此外，如果 effect 的材质有 `effect_opacity` 参数，淡入淡出会优先使用 shader 参数控制透明度。
+
+### 死亡回主菜单前清理视觉效果
+
+`GameManager._on_player_died()` 在死亡 cutscene 完成后、回到 OpeningMenu 前会调用：
+
+```gdscript
+EnvironmentManager.clear_all_visual_effects()
+```
+
+该函数会杀掉当前效果 tween，释放 `ArrgoEffectLayer` 中的效果节点，并清空内部缓存字典。新增由 EnvironmentManager 主管的视觉效果时，也应该纳入这个清理范围，避免死亡回菜单或重新开始游戏后残留滤镜。
 
 ## 添加或修改内容
 
@@ -164,5 +175,6 @@ _fade_out_arrgo_effect(LOW_HEALTH_EFFECT_KEY)
 - `WorldOfWonder` 节点名是硬编码。
 - 效果场景路径会缓存到 `_arrgo_effect_scenes`，资源路径改动后需要重启或清缓存。
 - 淡出完成会 `queue_free()` 效果节点，并清理字典引用。
+- 死亡回主菜单前会调用 `clear_all_visual_effects()`，新增效果如果保存了额外引用，也要在该函数里清理。
 - 如果 effect 场景里没有 `ColorRect`，会发出 warning 并销毁该效果节点。
 - `arrgo_effect_layer` 默认低于 cutscene，高于普通 UI layer 1 到 3。若新增滤镜要覆盖 UI，需要谨慎调整层级。

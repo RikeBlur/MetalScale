@@ -107,7 +107,7 @@ autoplay = "default"
 offset = Vector2(0, -10)
 
 [node name="light" type="PointLight2D" parent="." unique_id=991358744]
-position = Vector2(0, 24)
+position = Vector2(0, 14)
 scale = Vector2(0.53125, 0.53125)
 energy = 0.1
 shadow_enabled = true
@@ -117,6 +117,6 @@ texture = ExtResource("3_md20t")
 texture_scale = 2.0
 
 [node name="DialogueComponent" parent="." unique_id=1786519888 instance=ExtResource("4_md20t")]
-position = Vector2(0, 74)
+position = Vector2(0, 68)
 trigger_flag = Array[ExtResource("5_bpf1k")]([SubResource("Resource_tg5wx")])
 dialogue_content = Array[ExtResource("6_3u5ga")]([SubResource("Resource_wx8nf")])

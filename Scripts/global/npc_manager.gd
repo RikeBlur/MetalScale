@@ -49,8 +49,8 @@ is_inscene: bool = false
 
 # npc状态
 state: int = 0
-	对于EYE：0 -> patrol ; 1 -> pursue ; -1 -> 死亡。
-	对于melt:0 -> patrol ; 1 -> pursue ; -1 -> 死亡。
+	对于 EYE：0 -> patrol ; 1 -> pursue ; -1 -> 死亡。
+	对于 melt:0 -> patrol ; 1 -> pursue ; -1 -> 死亡。
 """
 
 var npc_dict: Dictionary = {
@@ -60,12 +60,25 @@ var npc_dict: Dictionary = {
 	),
 	"1-0": NPCData.new().setup(
 		preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
-		npc_type.melt, "2-6", Vector2(720,350), Vector2.DOWN, false, 0
+		npc_type.melt, "1-1", Vector2(750,250), Vector2.DOWN, false, 0
 	),
 }
+
+func _create_default_npc_dict() -> Dictionary:
+	return {
+		"0-0": NPCData.new().setup(
+			preload("res://System/RPG/entity/npc/Enemy/EYE/EYE.tscn"),
+			npc_type.EYE, "1-1", Vector2(600,250), Vector2.DOWN, false, 0
+		),
+		"1-0": NPCData.new().setup(
+			preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
+			npc_type.melt, "1-1", Vector2(750,250), Vector2.DOWN, false, 0
+		),
+	}
+
 # ====================================================================================================
 
-# 存储实际节点引用，随场景生命周期自动失效。key: npc编号，value: Node
+# 存储实际节点弱引用，随场景生命周期自动失效。key: npc编号，value: WeakRef
 var _npc_instances: Dictionary = {}
 
 # EYE游荡计时器。key: npc编号，value: 剩余秒数
@@ -89,6 +102,23 @@ func _ready() -> void:
 	# 初始化 Debug UI
 	if GameManager.debug and not _debug_canvas:
 		_create_debug_ui()
+
+
+func reset_to_default_state() -> void:
+	for npc_id in _npc_instances.keys():
+		var inst = _get_npc_instance(npc_id)
+		if is_instance_valid(inst) and inst.is_inside_tree():
+			inst.queue_free()
+
+	_npc_instances.clear()
+	_eye_wander_timers.clear()
+	_eye_chase_timers.clear()
+	npc_dict = _create_default_npc_dict()
+	not_running = true
+
+	if GameManager.debug and _debug_label:
+		_update_debug_ui()
+	print("NpcManager: reset to default state")
 
 
 func _process(delta: float) -> void:
@@ -157,7 +187,7 @@ func instantiate_npc(npc_id: String, scene_index: int = -1) -> void:
 		npc_instance.global_position = data.npc_position
 		npc_instance.npc_direction   = data.npc_direction
 
-	_npc_instances[npc_id] = npc_instance
+	_npc_instances[npc_id] = weakref(npc_instance)
 	data.is_inscene    = true
 	data.current_scene = SceneManager.get_current_scene_key()
 	# 将 data.state 同步到节点，并发出对应的状态切换信号
@@ -175,8 +205,8 @@ func _update_inscene_npc_data() -> void:
 		if not data.is_inscene:
 			continue
 
-		var inst: Node = _npc_instances.get(npc_id)
-		if inst and is_instance_valid(inst):
+		var inst = _get_npc_instance(npc_id)
+		if is_instance_valid(inst):
 			data.npc_position = inst.global_position
 			if "npc_direction" in inst:
 				data.npc_direction = inst.npc_direction
@@ -201,13 +231,15 @@ func _on_game_loading() -> void:
 		if not data.is_inscene:
 			continue
 
-		var inst: Node = _npc_instances.get(npc_id)
-		if inst and is_instance_valid(inst):
+		var inst = _get_npc_instance(npc_id)
+		if is_instance_valid(inst):
 			data.npc_position = inst.global_position
 			if "npc_direction" in inst:
 				data.npc_direction = inst.npc_direction
 			if "state" in inst:
 				data.state = inst.state
+		else:
+			_npc_instances.erase(npc_id)
 
 		data.is_inscene = false
 
@@ -337,12 +369,14 @@ func _on_arrgoed() -> void:
 			continue
 		data.state = 1
 		# 若EYE节点在场，设置 arrgoing=true 并发出 toPursue 信号
-		var inst: Node = _npc_instances.get(npc_id)
-		if inst and is_instance_valid(inst):
+		var inst = _get_npc_instance(npc_id)
+		if is_instance_valid(inst):
 			if "arrgoing" in inst:
 				inst.arrgoing = true
 			if inst.has_signal("toPursue"):
 				inst.emit_signal("toPursue")
+		else:
+			_npc_instances.erase(npc_id)
 	print("NpcManager: arrgoed — 所有EYE → state=1 (pursue), arrgoing=true")
 
 
@@ -354,18 +388,33 @@ func _on_not_arrgoed() -> void:
 			continue
 		data.state = 0
 		# 若EYE节点在场，发出 toPatrol 信号
-		var inst: Node = _npc_instances.get(npc_id)
-		if inst and is_instance_valid(inst):
+		var inst = _get_npc_instance(npc_id)
+		if is_instance_valid(inst):
 			if "arrgoing" in inst:
 				inst.arrgoing = false
 			#if inst.has_signal("toPatrol"):
 			#	inst.emit_signal("toPatrol")
+		else:
+			_npc_instances.erase(npc_id)
 	print("NpcManager: not_arrgoed — 所有EYE → state=0 (patrol)")
 
 
 # ====================================================================================================
 # =========================================== 工具函数 ===============================================
 # ====================================================================================================
+
+func _get_npc_instance(npc_id: String) -> Node:
+	var ref = _npc_instances.get(npc_id)
+	var inst: Node = null
+	if ref is WeakRef:
+		inst = ref.get_ref() as Node
+	elif is_instance_valid(ref):
+		inst = ref as Node
+
+	if not inst:
+		_npc_instances.erase(npc_id)
+	return inst
+
 
 func _find_door_index_recursive(node: Node, target_scene: String) -> int:
 	"""递归查找 scene_to == target_scene 的第一个 BaseDoor，返回其 scene_to_index；未找到返回 -1。"""

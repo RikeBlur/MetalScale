@@ -39,7 +39,7 @@ await CutsceneManager.cutscene_playback_finished
 2. 如果已有 cutscene 正在播放，则忽略新请求。
 3. 保存当前 `RunningState`。
 4. 设置 `GameManager.RunningState.AUTO`。
-5. 保存并禁用玩家 `can_move` 和 `can_interact`。
+5. 保存并禁用玩家 `can_move` 和 `can_interact`，同时 `RunningState.AUTO` 会让玩家输入进入阻塞状态。
 6. 创建 `CanvasLayer`，层级为 `CANVAS_LAYER_INDEX`，当前为 5。
 7. 实例化 cutscene 场景，并设置 `modulate.a = 0`。
 8. 如果 cutscene 根节点有 `fadein_time`，使用它作为淡入淡出时长。
@@ -100,6 +100,15 @@ await CutsceneManager.cutscene_playback_finished
 
 如果 cutscene 根节点没有 `cutscene_finished` 信号，需要在合适时机手动调用 `CutsceneManager.finish_cutscene()`。
 
+如果 cutscene 根节点设置了：
+
+```gdscript
+any_key_continue = true
+any_key_continue_time = 1.0
+```
+
+则该 cutscene 只能在初始化后的 `any_key_continue_time` 之后，通过任意按键触发 `cutscene_finished`。这种模式下，子控件的 `cutscene_finished_partly` 不会触发整体 cutscene 结束。
+
 ### 替换开场 cutscene
 
 做法一：保持 key 不变，只换资源。
@@ -141,5 +150,6 @@ CutsceneManager.emit_cutscene_signal("open_door")
 - 同一时间只允许一个 cutscene 播放。播放中再次调用 `play_cutscene()` 会被忽略。
 - cutscene 结束后会恢复播放前的 `RunningState`。如果播放前状态不是 `CONTROL`，结束后也不会强行恢复控制。
 - 播放 cutscene 时只保存和恢复 `can_move`、`can_interact`，当前没有保存 `can_act`。
+- `any_key_continue == true` 的 cutscene 不能依赖子控件 partly finished 信号结束，只能等待按键。
 - 死亡流程里会创建黑屏层，当前代码没有在 `CutsceneManager` 内主动释放它；回主菜单换场会清掉当前场景节点。
 - 如果 cutscene 场景永远不发出 `cutscene_finished`，流程会卡住，除非玩家长按 `ESC` 或外部调用 `finish_cutscene()`。
