@@ -5,10 +5,20 @@ extends Control
 signal cutscene_finished
 
 var _remaining_partly: int = 0
+var _any_key_continue_available_at_msec: int = 0
+var _cutscene_finished_emitted: bool = false
 
 @export var fadein_time : float = 0.5 
 
+# 按任意键继续
+@export var any_key_continue : bool = false
+@export var any_key_continue_time : float = 0.5
+
+
 func _ready() -> void:
+	if any_key_continue:
+		_any_key_continue_available_at_msec = Time.get_ticks_msec() + int(any_key_continue_time * 1000.0)
+	set_process_unhandled_input(any_key_continue)
 	# 延后一帧，确保子节点脚本已注册信号
 	call_deferred("_setup_cutscene_parts")
 
@@ -21,8 +31,8 @@ func _setup_cutscene_parts() -> void:
 		_remaining_partly += 1
 		ctrl.cutscene_finished_partly.connect(_on_child_cutscene_finished_partly, CONNECT_ONE_SHOT)
 
-	if _remaining_partly == 0:
-		cutscene_finished.emit()
+	if _remaining_partly == 0 and not any_key_continue:
+		_finish_cutscene()
 
 
 func _collect_controls_with_partly_signal(node: Node, out: Array[Control]) -> void:
@@ -36,6 +46,26 @@ func _collect_controls_with_partly_signal(node: Node, out: Array[Control]) -> vo
 
 func _on_child_cutscene_finished_partly() -> void:
 	_remaining_partly -= 1
+	if any_key_continue:
+		return
 	if _remaining_partly <= 0:
-		cutscene_finished.emit()
-		print("Cutscene: 过场动画播放完毕")
+		_finish_cutscene()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not any_key_continue or _cutscene_finished_emitted:
+		return
+	if Time.get_ticks_msec() < _any_key_continue_available_at_msec:
+		return
+	if event is InputEventKey and event.pressed and not event.echo:
+		_finish_cutscene()
+	elif event is InputEventJoypadButton and event.pressed:
+		_finish_cutscene()
+
+
+func _finish_cutscene() -> void:
+	if _cutscene_finished_emitted:
+		return
+	_cutscene_finished_emitted = true
+	cutscene_finished.emit()
+	print("Cutscene: 过场动画播放完毕")

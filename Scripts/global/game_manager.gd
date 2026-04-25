@@ -26,6 +26,7 @@ const CAMERA_SCENE_PATH = "res://System/RPG/entity/camera.tscn"
 const OPENING_MENU_SCENE_PATH = "res://DEMO/AdiosToMe/OpeningMenu.tscn"
 const CONFIG_PATH: String = "user://config.tres"
 const DEFAULT_GLOBAL_VFX_SHADER_PATH: String = "res://Effect/Shader/default_global_vfx/global_vfx_vhs.gdshader"
+const DEFAULT_FIRST_DIALOGUE: String = "ObjectAndCharacter/Interactable/DialogueComponent"
 
 # ====================================================================================================
 # ============================================ 游戏状态枚举 =============================================
@@ -256,6 +257,11 @@ func start_new_game() -> void:
 	# 刷新 UIManager
 	print("GameManager: 刷新 UI Manager")
 	UIManager.refresh_ui_manager()
+	
+	# 执行初始对话框
+	var current_scene = get_tree().current_scene
+	var start_dialogue = current_scene.get_node(DEFAULT_FIRST_DIALOGUE)
+	start_dialogue.trigger_dialogue()
 
 	# 更新游戏状态为运行中
 	Loaded.emit()
@@ -376,7 +382,8 @@ func _fade_opening_menu_mask(target_alpha: float, hide_on_finish: bool) -> void:
 	mask.visible = true
 
 	_opening_menu_mask_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-	_opening_menu_mask_tween.tween_property(mask, "modulate:a", target_alpha, CutsceneManager.FADE_DURATION)
+	# mask 取消时间
+	_opening_menu_mask_tween.tween_property(mask, "modulate:a", target_alpha, 1.0)
 	await _opening_menu_mask_tween.finished
 
 	if transition_id != _opening_menu_mask_transition_id:

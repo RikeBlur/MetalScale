@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://cira854v6aj2"]
+
+[ext_resource type="Script" uid="uid://bkajs0slwr7ip" path="res://Scripts/system/view/cutscene/cutscene.gd" id="1_x35id"]
+[ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="2_n84yp"]
+[ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="3_pbvye"]
+[ext_resource type="Script" uid="uid://c36tca7psw8t6" path="res://Scripts/system/view/cutscene/text_control.gd" id="4_knt7r"]
+[ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="5_ovar8"]
+[ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="6_1bqjs"]
+
+[sub_resource type="Gradient" id="Gradient_em7ig"]
+offsets = PackedFloat32Array(0, 0.993506)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_x35id"]
+offset = Vector3(0, 140.35, 0)
+fractal_type = 2
+domain_warp_enabled = true
+domain_warp_type = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n84yp"]
+noise = SubResource("FastNoiseLite_x35id")
+color_ramp = SubResource("Gradient_em7ig")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pbvye"]
+shader = ExtResource("3_pbvye")
+shader_parameter/wave_speed = 0.25
+shader_parameter/noise_scale = 3.0
+shader_parameter/wave_amplitude = 0.5
+shader_parameter/time_offset = 0.0
+shader_parameter/gradient_texture = SubResource("NoiseTexture2D_n84yp")
+shader_parameter/use_gradient = true
+shader_parameter/base_color = Color(0, 0, 0, 1)
+shader_parameter/alpha_multiplier = 1.0
+shader_parameter/color_mix_strength = 0.950000045125
+
+[node name="Statemachine" type="Control" unique_id=883631207]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_x35id")
+fadein_time = 0.1
+any_key_continue = true
+any_key_continue_time = 1.0
+
+[node name="D1" parent="." unique_id=2129294719 instance=ExtResource("2_n84yp")]
+material = SubResource("ShaderMaterial_pbvye")
+position = Vector2(675, 319)
+
+[node name="1" type="RichTextLabel" parent="." unique_id=417140611]
+layout_mode = 0
+offset_left = 133.0
+offset_top = 90.0
+offset_right = 1028.0
+offset_bottom = 379.0
+theme = ExtResource("5_ovar8")
+theme_override_colors/default_color = Color(0.83, 0.1494, 0.1494, 1)
+theme_override_fonts/normal_font = ExtResource("6_1bqjs")
+theme_override_font_sizes/normal_font_size = 256
+text = "死"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="text_control" type="Control" parent="." unique_id=806291952]
+layout_mode = 1
+anchor_right = 0.99700004
+anchor_bottom = 0.994
+offset_right = 0.45593262
+offset_bottom = -0.11199951
+script = ExtResource("4_knt7r")
+text_speed = 12.0
+label_time = 1.0
+setup_time = 1.0
+
+[node name="2" type="RichTextLabel" parent="text_control" unique_id=466301021]
+layout_mode = 0
+offset_left = 390.0
+offset_top = 449.0
+offset_right = 782.0
+offset_bottom = 531.0
+theme = ExtResource("5_ovar8")
+theme_override_fonts/normal_font = ExtResource("6_1bqjs")
+theme_override_font_sizes/normal_font_size = 48
+text = "按任意键继续"
+horizontal_alignment = 1
+vertical_alignment = 1

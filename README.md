@@ -35,6 +35,11 @@
 
 # UPDATE
 
+## 26.04.25
+
+框架完成，唉 ...
+
+
 ## 26.04.19
 
 RunningState 设为 AUTO 时，通过 GameInputEvent 直接 block 输入，保底 <br>

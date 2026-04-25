@@ -103,6 +103,11 @@ func _trigger_source_connect() -> void:
 	inter_comp.connect("interacted", _on_triggered.bind(source))
 
 
+# ==================================================================
+# ============================== 触发 ============================
+# ==================================================================
+
+# ============================== 内部触发 ============================
 func _on_triggered(area: Area2D) -> void:
 	# current_flag == -1 代表该对话已停用
 	if current_flag == -1:
@@ -136,6 +141,19 @@ func _on_triggered(area: Area2D) -> void:
 		base_level.update_interactable_state(get_path(), current_flag)
 	else:
 		push_warning("DialogueComponent: 未找到 BaseLevel，无法更新 interactables 状态")
+
+# ============================= 外部触发 =============================
+func trigger_dialogue(area: Area2D = null) -> void:
+	var trigger_area := area
+	if trigger_area == null and trigger_source != null and trigger_source.size() > 0:
+		var source = get_node_or_null(trigger_source[0])
+		if source is Area2D:
+			trigger_area = source
+	_on_triggered(trigger_area)
+
+# ==================================================================
+# ==================================================================
+# ==================================================================
 
 
 # 实时检查 trigger_flag 并在需要时实例化对话
@@ -267,6 +285,9 @@ func _spawn_reminder(area: Area2D) -> void:
 	reminder_instances[area] = inst
 
 func _destory_reminder(area: Area2D) -> void:
+	if not reminder_instances:
+		return
+	
 	if reminder_instances.has(area):
 		var inst = reminder_instances[area]
 		

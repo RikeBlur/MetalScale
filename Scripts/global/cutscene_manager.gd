@@ -47,7 +47,7 @@ const FADE_DURATION: float = 0.5
 #   "intro": preload("res://System/Cutscenes/intro.tscn"),
 var cutscene_scenes: Dictionary = {
 	"test": preload("res://System/RPG/cutscene/1_1/test.tscn"),
-	"death": preload("res://System/RPG/cutscene/1_1/test.tscn")
+	"death": preload("res://System/RPG/cutscene/1_1/death.tscn")
 }
 
 # 过场动画信号注册表：key → Array[Callable]

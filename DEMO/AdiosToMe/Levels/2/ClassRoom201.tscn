@@ -11,10 +11,20 @@
 [ext_resource type="PackedScene" uid="uid://2h6e6pd6osb7" path="res://System/RPG/object/podium/podium_right.tscn" id="9_qqq1q"]
 [ext_resource type="PackedScene" uid="uid://c7heym7vpxw4c" path="res://System/RPG/lighting/mul_media/mul_media_right.tscn" id="10_a8sa1"]
 [ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/interact/door/var1/door_front.tscn" id="11_77x6n"]
+[ext_resource type="PackedScene" uid="uid://b6l44rib7dlyn" path="res://System/RPG/interact/dialogue/dialogue_component.tscn" id="12_4vpct"]
+[ext_resource type="Script" uid="uid://b37t7a67t8onx" path="res://Scripts/system/interact/dialogue/dialogue_flag.gd" id="13_deq6h"]
+[ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/data/dialogue_resource/DialogueResource.gd" id="14_k6kj6"]
+[ext_resource type="Script" uid="uid://4p4vcldhkkvo" path="res://Scripts/data/dialogue_resource/DialogueTextResource.gd" id="15_up1qi"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
 script = ExtResource("2_4vpct")
 node_path = NodePath("ObjectAndCharacter/Interactable/door/door")
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_deq6h"]
+script = ExtResource("2_4vpct")
+node_path = NodePath("ObjectAndCharacter/Interactable/DialogueComponent")
+type = 2
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Gradient" id="Gradient_336yt"]
@@ -42,6 +52,25 @@ shader_parameter/base_color = Color(0, 0, 0, 1)
 shader_parameter/alpha_multiplier = 1.0
 shader_parameter/color_mix_strength = 0.90000004275
 
+[sub_resource type="Resource" id="Resource_it5e3"]
+script = ExtResource("13_deq6h")
+style = Array[int]([3])
+start = Array[int]([0])
+end = Array[int]([2])
+metadata/_custom_type_script = "uid://b37t7a67t8onx"
+
+[sub_resource type="Resource" id="Resource_qqq1q"]
+script = ExtResource("15_up1qi")
+speaker_entity = "Oni"
+text = "教学楼吗 ...... 怎么在这种地方醒过来了"
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+
+[sub_resource type="Resource" id="Resource_k6kj6"]
+script = ExtResource("15_up1qi")
+speaker_entity = "Oni"
+text = "得赶紧回去了啊"
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+
 [sub_resource type="Environment" id="Environment_5n7gh"]
 ssao_enabled = true
 glow_enabled = true
@@ -51,7 +80,7 @@ y_sort_enabled = true
 script = ExtResource("1_jnect")
 player_initial_position = Array[Vector2]([Vector2(530, 275)])
 player_initial_direction = Array[Vector2]([Vector2(0, 1)])
-interactables = Array[ExtResource("2_4vpct")]([SubResource("Resource_ax0f4")])
+interactables = Array[ExtResource("2_4vpct")]([SubResource("Resource_ax0f4"), SubResource("Resource_deq6h")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 
@@ -207,6 +236,10 @@ scene_to_index = 1
 
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]
 y_sort_enabled = true
+
+[node name="DialogueComponent" parent="ObjectAndCharacter/Interactable" unique_id=1786519888 instance=ExtResource("12_4vpct")]
+trigger_flag = Array[ExtResource("13_deq6h")]([SubResource("Resource_it5e3")])
+dialogue_content = Array[ExtResource("14_k6kj6")]([SubResource("Resource_qqq1q"), SubResource("Resource_k6kj6")])
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
 y_sort_enabled = true
