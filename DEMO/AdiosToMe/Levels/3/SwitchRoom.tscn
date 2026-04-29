@@ -5,12 +5,20 @@
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="3_kvpqy"]
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="4_qm0bh"]
 [ext_resource type="TileSet" uid="uid://dt350ynmnt232" path="res://Style/tilesets/Indoors.tres" id="5_27x01"]
+[ext_resource type="PackedScene" uid="uid://b13niicv3ko0e" path="res://System/RPG/interact/puzzle/puzzle_component.tscn" id="8_5qhhd"]
 [ext_resource type="PackedScene" uid="uid://dbe22w2vs2dh8" path="res://System/RPG/object/plant/plant_2.tscn" id="8_t34xm"]
 [ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/var1/door_back.tscn" id="10_lklki"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
 script = ExtResource("2_q4h28")
 node_path = NodePath("ObjectAndCharacter/Interactable/door/door")
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_5qhhd"]
+script = ExtResource("2_q4h28")
+node_path = NodePath("ObjectAndCharacter/Interactable/PuzzleComponent")
+type = 3
+state = 1
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Gradient" id="Gradient_336yt"]
@@ -49,7 +57,7 @@ y_sort_enabled = true
 script = ExtResource("1_lklki")
 player_initial_position = Array[Vector2]([Vector2(625, 450)])
 player_initial_direction = Array[Vector2]([Vector2(0, -1)])
-interactables = Array[ExtResource("2_q4h28")]([SubResource("Resource_ax0f4")])
+interactables = Array[ExtResource("2_q4h28")]([SubResource("Resource_ax0f4"), SubResource("Resource_5qhhd")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 
@@ -95,6 +103,21 @@ tile_set = ExtResource("5_27x01")
 position = Vector2(702, 546)
 shape = SubResource("WorldBoundaryShape2D_rcq0k")
 
+[node name="machine" type="Node2D" parent="terrian" unique_id=1594149686]
+
+[node name="1" type="TileMapLayer" parent="terrian/machine" unique_id=664682148]
+tile_map_data = PackedByteArray("AAAoAAkACQAgABMAAAAoAAoACQAgABQAAAAoAAsACQAgABUAAAAoAAwACQAgABYAAAAoAA0ACQAgABcAAAApAAkACQAhABMAAAApAAoACQAhABQAAAApAAsACQAhABUAAAApAAwACQAhABYAAAApAA0ACQAhABcAAAAqAAkACQAiABMAAAAqAAoACQAiABQAAAAqAAsACQAiABUAAAAqAAwACQAiABYAAAAqAA0ACQAiABcAAAAsAAoACQAcABQAAAAsAAsACQAcABUAAAAsAAwACQAcABYAAAAsAA0ACQAcABcAAAAtAAoACQAdABQAAAAtAAsACQAdABUAAAAtAAwACQAdABYAAAAtAA0ACQAdABcAAAAuAAoACQAmABQAAAAuAAsACQAmABUAAAAuAAwACQAmABYAAAAuAA0ACQAkABcAAAAvAAoACQAnABQAAAAvAAsACQAnABUAAAAvAAwACQAnABYAAAAvAA0ACQAlABcAAAAsAAkACQAgABMAAAAtAAkACQAhABMAAAAuAAkACQAiABMAAAAvAAkACQAjABMAAAArAAkACQAjABMAAAArAAoACQAjABQAAAArAAsACQAjABUAAAArAAwACQAjABYAAAArAA0ACQAjABcAAAAkAAkACQAgABMAAAAkAAoACQAgABQAAAAkAAsACQAgABUAAAAkAAwACQAgABYAAAAkAA0ACQAgABcAAAAlAAkACQAhABMAAAAlAAoACQAhABQAAAAlAAsACQAhABUAAAAlAAwACQAhABYAAAAlAA0ACQAhABcAAAAmAAkACQAiABMAAAAmAAoACQAiABQAAAAmAAsACQAiABUAAAAmAAwACQAiABYAAAAmAA0ACQAiABcAAAAnAAkACQAjABMAAAAnAAoACQAjABQAAAAnAAsACQAjABUAAAAnAAwACQAjABYAAAAnAA0ACQAjABcAAAA=")
+tile_set = ExtResource("5_27x01")
+
+[node name="2" type="TileMapLayer" parent="terrian/machine" unique_id=1661738002]
+position = Vector2(-9, -14)
+tile_map_data = PackedByteArray("AAAgABIACQAcABQAAAAgABMACQAcABUAAAAgABQACQAcABYAAAAgABUACQAcABcAAAAhABIACQAdABQAAAAhABMACQAdABUAAAAhABQACQAdABYAAAAhABUACQAdABcAAAAiABIACQAkABQAAAAiABMACQAkABUAAAAiABQACQAkABYAAAAiABUACQAkABcAAAAjABIACQAlABQAAAAjABMACQAlABUAAAAjABQACQAlABYAAAAjABUACQAlABcAAAAgABEACQAgABMAAAAhABEACQAhABMAAAAiABEACQAiABMAAAAjABEACQAjABMAAAAkABIACQAcABQAAAAkABMACQAcABUAAAAkABQACQAcABYAAAAkABUACQAcABcAAAAlABIACQAdABQAAAAlABMACQAdABUAAAAlABQACQAdABYAAAAlABUACQAdABcAAAAmABIACQAmABQAAAAmABMACQAmABUAAAAmABQACQAmABYAAAAmABUACQAmABcAAAAnABIACQAnABQAAAAnABMACQAnABUAAAAnABQACQAnABYAAAAnABUACQAnABcAAAAkABEACQAgABMAAAAlABEACQAhABMAAAAmABEACQAiABMAAAAnABEACQAjABMAAAAoABEACQAgABMAAAAoABIACQAgABQAAAAoABMACQAgABUAAAAoABQACQAgABYAAAAoABUACQAgABcAAAApABEACQAhABMAAAApABIACQAhABQAAAApABMACQAhABUAAAApABQACQAhABYAAAApABUACQAhABcAAAAqABEACQAiABMAAAAqABIACQAiABQAAAAqABMACQAiABUAAAAqABQACQAiABYAAAAqABUACQAiABcAAAArABEACQAjABMAAAArABIACQAjABQAAAArABMACQAjABUAAAArABQACQAjABYAAAArABUACQAjABcAAAA=")
+tile_set = ExtResource("5_27x01")
+
+[node name="3" type="TileMapLayer" parent="terrian/machine" unique_id=106735026]
+tile_map_data = PackedByteArray("AAA3ABcACQAmABQAAAA3ABgACQAmABUAAAA3ABkACQAmABYAAAA3ABoACQAmABcAAAA4ABcACQAnABQAAAA4ABgACQAnABUAAAA4ABkACQAnABYAAAA4ABoACQAnABcAAAA1ABcACQAeABQAAAA1ABgACQAeABUAAAA1ABkACQAeABYAAAA2ABcACQAfABQAAAA2ABgACQAfABUAAAA2ABkACQAfABYAAAA1ABoACQAeABcAAAA2ABoACQAfABcAAAA1ABYACQAgABMAAAA2ABYACQAhABMAAAA3ABYACQAiABMAAAA4ABYACQAjABMAAAAxABYACQAgABMAAAAxABcACQAgABQAAAAxABgACQAgABUAAAAxABkACQAgABYAAAAxABoACQAgABcAAAAyABYACQAhABMAAAAyABcACQAhABQAAAAyABgACQAhABUAAAAyABkACQAhABYAAAAyABoACQAhABcAAAAzABYACQAiABMAAAAzABcACQAiABQAAAAzABgACQAiABUAAAAzABkACQAiABYAAAAzABoACQAiABcAAAA0ABYACQAjABMAAAA0ABcACQAjABQAAAA0ABgACQAjABUAAAA0ABkACQAjABYAAAA0ABoACQAjABcAAAAtABYACQAgABMAAAAtABcACQAgABQAAAAtABgACQAgABUAAAAtABkACQAgABYAAAAtABoACQAgABcAAAAuABYACQAhABMAAAAuABcACQAhABQAAAAuABgACQAhABUAAAAuABkACQAhABYAAAAuABoACQAhABcAAAAvABYACQAiABMAAAAvABcACQAiABQAAAAvABgACQAiABUAAAAvABkACQAiABYAAAAvABoACQAiABcAAAAwABYACQAjABMAAAAwABcACQAjABQAAAAwABgACQAjABUAAAAwABkACQAjABYAAAAwABoACQAjABcAAAApABcACQAcABQAAAApABgACQAcABUAAAApABkACQAcABYAAAApABoACQAcABcAAAAqABcACQAdABQAAAAqABgACQAdABUAAAAqABkACQAdABYAAAAqABoACQAdABcAAAArABcACQAmABQAAAArABgACQAmABUAAAArABkACQAmABYAAAArABoACQAmABcAAAAsABcACQAnABQAAAAsABgACQAnABUAAAAsABkACQAnABYAAAAsABoACQAnABcAAAApABYACQAgABMAAAAqABYACQAhABMAAAArABYACQAiABMAAAAsABYACQAjABMAAAA=")
+tile_set = ExtResource("5_27x01")
+
 [node name="ObjectAndCharacter" type="Node2D" parent="." unique_id=1025094887]
 y_sort_enabled = true
 
@@ -126,6 +149,9 @@ scene_to = "3-5"
 
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]
 y_sort_enabled = true
+
+[node name="PuzzleComponent" parent="ObjectAndCharacter/Interactable" unique_id=1169429463 instance=ExtResource("8_5qhhd")]
+position = Vector2(862, 420)
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
 y_sort_enabled = true

@@ -41,10 +41,40 @@ shadow_effect_floor：暗部至少保留多少滤镜存在感 <br>
 
 # UPDATE
 
+## 26.04.29
+
+完成谜题系统！ <br>
+
+PuzzleComponent：谜题触发，会被保存到 Interactable 里
+state 三种，0 表示不可交互； 1 表示可交互且未完成；2 表示已完成且不能再交互
+指向一个固定的 PuzzleContent  <br>
+
+PuzzleContent ： 谜题界面（Control）；会迭代式统计当前界面所有可交互 control节点
+（button；自定义的类数字轮盘（后续再定义），label，RichTextLabel）的状态并记录在一个列表里
+process里，所有节点状态在一起输入判别函数 judge_function，输出 PuzzleState
+0 表示不可交互； 1 表示可交互且未完成；2 表示已完成且不能再交互
+这个 PuzzleState 会被同步到这个 PuzzleContent 对应的 PuzzleComponent
+同时当谜题被完成时会发出信号 puzzle_done 
+每个 PuzzleContent 的 puzzle_done 会触发 reward_function
+reward_function 是个可以由用户配置的 callable 变量
+可以是场景中其他节点的函数，指定时用户指定节点路径和函数名
+对应这个 puzzle 完成后触发的效果，通常是对场景中其他交互节点的操作
+如门打开、可收集物的收集 <br>
+
+PuzzleSwitch ：继承了 PuzzleContent 的子类
+一个简单的开关问题，会由很多 toggle button 类子节点，PuzzleContent 会记录这些
+button 的状态（被按下为1；没被按下为2）
+然后会有很多 sprite2D 节点（自定义类 SwitchLight），每个节点绑定一个toggle button 类子节点
+这个 sprite2D 的样子会受 button 的状态影响
+当 button pressed， SwitchLight.state=1,texture 应该是 green_light（用户设置设置路径）
+当 button not pressed， SwitchLight.state=0,texture 应该是 red_light（用户设置设置路径）
+然后当 button 的状态列表进入一个特定状态（用户指定，如[0,1,0,1]）时
+判定为 puzzle_done <br>
+
+
 ## 26.04.25
 
 框架完成，唉 ...
-
 
 ## 26.04.19
 

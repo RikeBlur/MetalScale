@@ -82,7 +82,7 @@ func _on_setting_3_pressed():
 	"""设置项 3 的处理函数"""
 	print("执行设置项 3")
 	# 在这里添加具体的功能实现
-	call_deferred("try_to_loadgame")
+	call_deferred("try_to_savegame")
 
 func _on_setting_4_pressed():
 	"""设置项 4 的处理函数"""
@@ -110,8 +110,8 @@ func try_to_player_info() -> void:
 func try_to_quit_game() -> void:
 	own_manager.instantiate_ui(UI_manager.UI_component.EXITWINDOW)
 	
-func try_to_loadgame() -> void:
-	own_manager.instantiate_ui(UI_manager.UI_component.LOADGAMEWINDOW)
+func try_to_savegame() -> void:
+	own_manager.instantiate_ui(UI_manager.UI_component.SAVEGAMEWINDOW)
 
 func try_to_change_config() -> void:
 	own_manager.instantiate_ui(UI_manager.UI_component.GAMECONFIG)

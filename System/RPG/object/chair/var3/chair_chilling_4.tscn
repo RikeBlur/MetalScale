@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://ducsltomddonc"]
+
+[ext_resource type="Texture2D" uid="uid://c0ysvtd0pb0ii" path="res://Assests/tileset/AdiosToMe/function_room.png" id="1_2rmfw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g5rtx"]
+atlas = ExtResource("1_2rmfw")
+region = Rect2(465, 140, 30, 53)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_70jhb"]
+size = Vector2(19, 17.5)
+
+[node name="chair" type="Node2D" unique_id=1896627830]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=381529373]
+z_index = 1
+y_sort_enabled = true
+texture = SubResource("AtlasTexture_g5rtx")
+offset = Vector2(0, -26)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=786002945]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1355368753]
+position = Vector2(0, -22.25)
+shape = SubResource("RectangleShape2D_70jhb")

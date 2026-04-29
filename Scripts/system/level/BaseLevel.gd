@@ -182,10 +182,10 @@ func _apply_puzzle_state(puzzle_node: Node, state: int) -> void:
 	
 	参数:
 		puzzle_node: 谜题根节点
-		state: 0=不可交互, 1=可交互
+		state: 0=不可交互, 1=可交互且未完成, 2=已完成且不可交互
 	"""
-	if state != 0 and state != 1:
-		push_warning("BaseLevel: 谜题状态应为 0 或 1，节点: %s，收到: %d" % [puzzle_node.name, state])
+	if state < 0 or state > 2:
+		push_warning("BaseLevel: 谜题状态应为 0、1 或 2，节点: %s，收到: %d" % [puzzle_node.name, state])
 	var interactable := state == 1
 	if puzzle_node.has_method("set_puzzle_state"):
 		puzzle_node.call("set_puzzle_state", state)
@@ -205,10 +205,12 @@ func _apply_puzzle_state(puzzle_node: Node, state: int) -> void:
 	for ic in interact_comps:
 		var ar: Area2D = ic.interact_rage if ic.interact_rage else ic.get_parent() as Area2D
 		if ar:
+			ar.monitoring = interactable
 			ar.monitorable = interactable
 	for idc in interacted_comps:
 		var ar2: Area2D = idc.interacted_rage if idc.interacted_rage else idc.get_parent() as Area2D
 		if ar2:
+			ar2.monitoring = interactable
 			ar2.monitorable = interactable
 	print("BaseLevel: 谜题状态应用 - 节点: %s, 可交互: %s (Area2D.monitorable)" % [puzzle_node.name, interactable])
 

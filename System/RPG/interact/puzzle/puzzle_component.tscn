@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://b13niicv3ko0e"]
+
+[ext_resource type="Script" uid="uid://b8o8e31yr4qy2" path="res://Scripts/system/interact/puzzle/puzzle_component.gd" id="1_6lo15"]
+[ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="2_aq3g1"]
+[ext_resource type="Texture2D" uid="uid://c600p4b3rflfn" path="res://Assests/sprite/effect/flashpoint-Sheet.png" id="3_otl3k"]
+[ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/component/point_radial_light_texture.tres" id="4_f4k3l"]
+[ext_resource type="AudioStream" uid="uid://bmkbvgximk7io" path="res://Assests/SFX/UI/collect.mp3" id="5_nlrkb"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="6_tpb1g"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1aexf"]
+radius = 67.47592
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ybchk"]
+atlas = ExtResource("3_otl3k")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_546dr"]
+atlas = ExtResource("3_otl3k")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3i11x"]
+atlas = ExtResource("3_otl3k")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0cdbo"]
+atlas = ExtResource("3_otl3k")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d8ihu"]
+atlas = ExtResource("3_otl3k")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rjo8b"]
+atlas = ExtResource("3_otl3k")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vv75i"]
+atlas = ExtResource("3_otl3k")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hc0f8"]
+atlas = ExtResource("3_otl3k")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_14xy4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ybchk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_546dr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3i11x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0cdbo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d8ihu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rjo8b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vv75i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hc0f8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="PuzzleComponent" type="Node2D" unique_id=1169429463 node_paths=PackedStringArray("interactable_reminder")]
+script = ExtResource("1_6lo15")
+interactable_reminder = NodePath("flashpoint")
+
+[node name="interacted_range" type="Area2D" parent="." unique_id=1011972048]
+
+[node name="InteractedComponent" parent="interacted_range" unique_id=11453609 node_paths=PackedStringArray("interacted_rage") instance=ExtResource("2_aq3g1")]
+interacted_rage = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="interacted_range" unique_id=618186131]
+shape = SubResource("CircleShape2D_1aexf")
+
+[node name="flashpoint" type="AnimatedSprite2D" parent="." unique_id=595378955]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(0, 9)
+sprite_frames = SubResource("SpriteFrames_14xy4")
+autoplay = "default"
+offset = Vector2(0, -10)
+
+[node name="light" type="PointLight2D" parent="." unique_id=1345273981]
+energy = 0.1
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 0.5
+texture = ExtResource("4_f4k3l")
+texture_scale = 2.0
+
+[node name="CollectedSFX" type="AudioStreamPlayer2D" parent="." unique_id=1528653568]
+stream = ExtResource("5_nlrkb")
+script = ExtResource("6_tpb1g")
+base_volume_db = 3.0

@@ -11,7 +11,8 @@ enum UI_component {
 	LOADGAMEWINDOW,
 	ARRGOBAR,
 	COLLECTWINDOW,
-	PLAYERINFO
+	PLAYERINFO,
+	PUZZLESWITCH
 }
 
 # UI统一数据结构：name(UI_component)、scene、layer、stage
@@ -68,6 +69,12 @@ const UI_DATA = {
 		"name": UI_component.COLLECTWINDOW,
 		"scene": preload("res://System/RPG/UI/windows/collected_window.tscn"),
 		"layer": 3,
+		"stage": -1
+	},
+	UI_component.PUZZLESWITCH: {
+		"name": UI_component.PUZZLESWITCH,
+		"scene": preload("res://System/RPG/interact/puzzle/puzzle_switch.tscn"),
+		"layer": 2,
 		"stage": -1
 	}
 }
@@ -276,10 +283,20 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 		_add_ui_to_visible_list(UI_component.PLAYERINFO)
 		
 	# 添加到对应layer
+	if ui_type == UI_component.PUZZLESWITCH :
+		if "own_manager" in ui_instance:
+			ui_instance.own_manager = self
+		if "ui_type" in ui_instance:
+			ui_instance.ui_type = UI_component.PUZZLESWITCH
+		_add_ui_to_visible_list(UI_component.PUZZLESWITCH)
+
 	target_layer.add_child(ui_instance)
 	
 	# 存储实例
 	ui_instances[ui_type] = ui_instance
+
+	if ui_instance.has_method("play_ui_enter"):
+		ui_instance.call("play_ui_enter")
 	
 	print("UI_manager: 实例化 UI类型 %d 到 layer %d" % [ui_type, ui_data["layer"]])
 	
@@ -298,7 +315,10 @@ func remove_ui(ui_type: UI_component):
 			# 直接从字典中移除引用，避免循环调用
 			ui_instances.erase(ui_type)
 			# 使用queue_free安全释放节点
-			ui.queue_free()
+			if ui.has_method("play_ui_exit"):
+				ui.call("play_ui_exit", Callable(ui, "queue_free"))
+			else:
+				ui.queue_free()
 			print("UI_manager: 移除 UI类型 %d" % ui_type)
 		else:
 			# 节点已无效，直接从字典中移除
