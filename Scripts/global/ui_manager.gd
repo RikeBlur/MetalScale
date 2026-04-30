@@ -73,7 +73,7 @@ const UI_DATA = {
 	},
 	UI_component.PUZZLESWITCH: {
 		"name": UI_component.PUZZLESWITCH,
-		"scene": preload("res://System/RPG/interact/puzzle/puzzle_switch.tscn"),
+		"scene": preload("res://System/RPG/interact/puzzle/puzzle_switch_1.tscn"),
 		"layer": 2,
 		"stage": -1
 	}

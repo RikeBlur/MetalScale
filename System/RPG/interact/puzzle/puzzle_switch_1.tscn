@@ -1,0 +1,173 @@
+[gd_scene format=3 uid="uid://ttyxolvxrr4h"]
+
+[ext_resource type="Script" uid="uid://bxaxn70lttcw8" path="res://Scripts/system/interact/puzzle/puzzle_switch.gd" id="1_helbi"]
+[ext_resource type="Texture2D" uid="uid://bo7wslde30qtw" path="res://Assests/sprite/UI/puzzle/switch_green_light.png" id="2_4a55q"]
+[ext_resource type="Texture2D" uid="uid://p8kt58wni8ui" path="res://Assests/sprite/UI/puzzle/switch_red_light.png" id="3_d86im"]
+[ext_resource type="Texture2D" uid="uid://b2r2cq38pjh1s" path="res://Assests/sprite/UI/puzzle/PuzzleSwitch.png" id="4_4a55q"]
+[ext_resource type="Script" uid="uid://bd7kc58dansd0" path="res://Scripts/system/interact/puzzle/switch_light.gd" id="5_j6fmo"]
+[ext_resource type="FontFile" uid="uid://d37i5aeopil7e" path="res://Assests/font/pixel8/PixelOperator8-Bold.ttf" id="6_hqoij"]
+[ext_resource type="AudioStream" uid="uid://bmkbvgximk7io" path="res://Assests/SFX/UI/collect.mp3" id="7_4a55q"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="7_hg2do"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4a55q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d86im"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v3ujo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j6fmo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hqoij"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hg2do"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bdobl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1ohg5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a4ovo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qxtqd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w8xnv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t8t5s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ffb13"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_plx1s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t50jj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ojhwu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bevb8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aogl4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q3gkx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c0bvj"]
+
+[node name="PuzzleSwitch_1" type="Control" unique_id=902084392 node_paths=PackedStringArray("success_sfx")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_helbi")
+green_light = ExtResource("2_4a55q")
+red_light = ExtResource("3_d86im")
+button_paths = Array[NodePath]([NodePath("Button_1"), NodePath("Button_2"), NodePath("Button_3"), NodePath("Button_4")])
+light_paths = Array[NodePath]([NodePath("switch_light_1"), NodePath("switch_light_2"), NodePath("switch_light_3"), NodePath("switch_light_4")])
+success_sfx = NodePath("SFXPlayer")
+
+[node name="back" type="Sprite2D" parent="." unique_id=1724462867]
+position = Vector2(576, 324)
+texture = ExtResource("4_4a55q")
+
+[node name="switch_light_1" type="Sprite2D" parent="." unique_id=538669936]
+position = Vector2(154, 302)
+texture = ExtResource("2_4a55q")
+script = ExtResource("5_j6fmo")
+button_path = NodePath("../Button_1")
+green_light = ExtResource("2_4a55q")
+red_light = ExtResource("3_d86im")
+
+[node name="switch_light_2" type="Sprite2D" parent="." unique_id=867458435]
+position = Vector2(288, 302)
+texture = ExtResource("2_4a55q")
+script = ExtResource("5_j6fmo")
+button_path = NodePath("../Button_2")
+green_light = ExtResource("2_4a55q")
+red_light = ExtResource("3_d86im")
+
+[node name="switch_light_3" type="Sprite2D" parent="." unique_id=1232242237]
+position = Vector2(420, 301)
+texture = ExtResource("2_4a55q")
+script = ExtResource("5_j6fmo")
+button_path = NodePath("../Button_3")
+green_light = ExtResource("2_4a55q")
+red_light = ExtResource("3_d86im")
+
+[node name="switch_light_4" type="Sprite2D" parent="." unique_id=1439349643]
+position = Vector2(551, 302)
+texture = ExtResource("2_4a55q")
+script = ExtResource("5_j6fmo")
+button_path = NodePath("../Button_4")
+green_light = ExtResource("2_4a55q")
+red_light = ExtResource("3_d86im")
+
+[node name="Button_1" type="Button" parent="." unique_id=817905221]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 0
+offset_left = 107.0
+offset_top = 268.0
+offset_right = 182.0
+offset_bottom = 343.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_4a55q")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_d86im")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_v3ujo")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_j6fmo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_hqoij")
+toggle_mode = true
+
+[node name="Button_2" type="Button" parent="." unique_id=14029443]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 0
+offset_left = 241.0
+offset_top = 268.0
+offset_right = 316.0
+offset_bottom = 343.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hg2do")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_bdobl")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_1ohg5")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_a4ovo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qxtqd")
+toggle_mode = true
+
+[node name="Button_3" type="Button" parent="." unique_id=440551109]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 0
+offset_left = 374.0
+offset_top = 268.0
+offset_right = 449.0
+offset_bottom = 343.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_w8xnv")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_t8t5s")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ffb13")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_plx1s")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_t50jj")
+toggle_mode = true
+
+[node name="Button_4" type="Button" parent="." unique_id=1840959890]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 0
+offset_left = 504.0
+offset_top = 268.0
+offset_right = 579.0
+offset_bottom = 343.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ojhwu")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_bevb8")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_aogl4")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_q3gkx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_c0bvj")
+toggle_mode = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=1138346214]
+layout_mode = 0
+offset_left = 626.0
+offset_top = 179.0
+offset_right = 696.0
+offset_bottom = 215.0
+theme_override_fonts/normal_font = ExtResource("6_hqoij")
+theme_override_font_sizes/normal_font_size = 24
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SFXPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1324049236]
+stream = ExtResource("7_4a55q")
+script = ExtResource("7_hg2do")
+metadata/_custom_type_script = "uid://use5ds4i6ib4"

@@ -41,6 +41,14 @@ shadow_effect_floor：暗部至少保留多少滤镜存在感 <br>
 
 # UPDATE
 
+## 26.04.30
+
+完善谜题系统；
+完成 NumberSwitch 类；
+完成 SpecialSwitchButton 类；
+修复读档时 arrgo_value 上升的 bug
+
+
 ## 26.04.29
 
 完成谜题系统！ <br>

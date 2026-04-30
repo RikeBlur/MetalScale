@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvxmah7t1mdmf"
-path="res://.godot/imported/panel_export.png-a337db1afc643baf294950287d17e5a4.ctex"
+uid="uid://b2r2cq38pjh1s"
+path="res://.godot/imported/PuzzleSwitch.png-7aa1cdff4a420206e2e17d2cf84049fe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assests/sprite/UI/puzzle/panel_export.png"
-dest_files=["res://.godot/imported/panel_export.png-a337db1afc643baf294950287d17e5a4.ctex"]
+source_file="res://Assests/sprite/UI/puzzle/PuzzleSwitch.png"
+dest_files=["res://.godot/imported/PuzzleSwitch.png-7aa1cdff4a420206e2e17d2cf84049fe.ctex"]
 
 [params]
 

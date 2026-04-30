@@ -151,7 +151,7 @@ scene_to = "3-5"
 y_sort_enabled = true
 
 [node name="PuzzleComponent" parent="ObjectAndCharacter/Interactable" unique_id=1169429463 instance=ExtResource("8_5qhhd")]
-position = Vector2(862, 420)
+position = Vector2(862, 422)
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
 y_sort_enabled = true
