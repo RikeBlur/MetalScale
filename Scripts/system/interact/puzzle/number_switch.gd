@@ -1,39 +1,66 @@
 class_name NumberSwitch
 extends Control
 
-signal value_changed(value: int)
+signal number_changed(value: int)
 
-@export var min_value := 0
-@export var max_value := 9
-@export var wrap := true
-@export var value := 0:
-	set(new_value):
-		value = _normalize_value(new_value)
-		value_changed.emit(value)
+@export var plus_button: BaseButton = null
+@export var minus_button: BaseButton = null
+@export var sink: RichTextLabel = null
+@export var min_number: int = 0
+@export var max_number: int = 9
+@export var switch_number: int = 0:
+	set(value):
+		switch_number = _wrap_number(value)
+		_update_sink()
+		number_changed.emit(switch_number)
+
+
+func _ready() -> void:
+	_find_child_nodes()
+	_connect_buttons()
+	_update_sink()
 
 
 func get_puzzle_value() -> int:
-	return value
+	return switch_number
 
 
-func set_value(new_value: int) -> void:
-	value = new_value
+func set_switch_number(value: int) -> void:
+	switch_number = value
 
 
 func step_up() -> void:
-	set_value(value + 1)
+	switch_number += 1
 
 
 func step_down() -> void:
-	set_value(value - 1)
+	switch_number -= 1
 
 
-func _normalize_value(new_value: int) -> int:
-	if max_value < min_value:
-		max_value = min_value
+func _find_child_nodes() -> void:
+	if not plus_button:
+		plus_button = get_node_or_null("plus_button") as BaseButton
+	if not minus_button:
+		minus_button = get_node_or_null("minus_button") as BaseButton
+	if not sink:
+		sink = get_node_or_null("sink") as RichTextLabel
 
-	if wrap:
-		var span := max_value - min_value + 1
-		return min_value + posmod(new_value - min_value, span)
 
-	return clampi(new_value, min_value, max_value)
+func _connect_buttons() -> void:
+	if plus_button and not plus_button.pressed.is_connected(step_up):
+		plus_button.pressed.connect(step_up)
+	if minus_button and not minus_button.pressed.is_connected(step_down):
+		minus_button.pressed.connect(step_down)
+
+
+func _wrap_number(value: int) -> int:
+	if max_number < min_number:
+		max_number = min_number
+
+	var range_size := max_number - min_number + 1
+	return min_number + posmod(value - min_number, range_size)
+
+
+func _update_sink() -> void:
+	if sink:
+		sink.text = str(switch_number)

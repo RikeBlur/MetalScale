@@ -12,7 +12,8 @@ enum UI_component {
 	ARRGOBAR,
 	COLLECTWINDOW,
 	PLAYERINFO,
-	PUZZLESWITCH
+	PUZZLESWITCH,
+	PUZZLESWITCH2
 }
 
 # UI统一数据结构：name(UI_component)、scene、layer、stage
@@ -74,6 +75,12 @@ const UI_DATA = {
 	UI_component.PUZZLESWITCH: {
 		"name": UI_component.PUZZLESWITCH,
 		"scene": preload("res://System/RPG/interact/puzzle/puzzle_switch_1.tscn"),
+		"layer": 2,
+		"stage": -1
+	},
+	UI_component.PUZZLESWITCH2: {
+		"name": UI_component.PUZZLESWITCH2,
+		"scene": preload("res://System/RPG/interact/puzzle/puzzle_switch_2.tscn"),
 		"layer": 2,
 		"stage": -1
 	}
@@ -156,7 +163,7 @@ func refresh_ui_manager() -> void:
 
 func _process(_delta):
 	# 检测退出键，按层级处理 UI 关闭/打开
-	if InputEvents.quit_once():
+	if InputEvents.quit_once() or _puzzle_quit_once():
 		_handle_quit_pressed()
 	
 	# 检测Tab键，切换toolbar显示/隐藏
@@ -191,6 +198,19 @@ func _try_close_top_visible_ui_in_layers(layer_ids: Array[int]) -> bool:
 			return true
 	return false
 
+
+func _puzzle_quit_once() -> bool:
+	if not Input.is_action_just_pressed("quit"):
+		return false
+	if is_ui_visible(UI_component.PUZZLESWITCH):
+		return true
+	if UI_DATA.has(UI_component.PUZZLESWITCH2) and is_ui_visible(UI_component.PUZZLESWITCH2):
+		return true
+	return false
+
+# =============================================================
+# ========================= 实例化！！ =========================
+# =============================================================
 
 func instantiate_ui(ui_type: UI_component) -> Node:
 	"""实例化指定的UI组件"""
@@ -289,6 +309,13 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 		if "ui_type" in ui_instance:
 			ui_instance.ui_type = UI_component.PUZZLESWITCH
 		_add_ui_to_visible_list(UI_component.PUZZLESWITCH)
+
+	if ui_type == UI_component.PUZZLESWITCH2 :
+		if "own_manager" in ui_instance:
+			ui_instance.own_manager = self
+		if "ui_type" in ui_instance:
+			ui_instance.ui_type = UI_component.PUZZLESWITCH2
+		_add_ui_to_visible_list(UI_component.PUZZLESWITCH2)
 
 	target_layer.add_child(ui_instance)
 	

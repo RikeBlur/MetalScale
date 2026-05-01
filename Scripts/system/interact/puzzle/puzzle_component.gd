@@ -76,7 +76,7 @@ func open_puzzle() -> void:
 		if ui_instance.has_method("set_puzzle_state"):
 			ui_instance.call("set_puzzle_state", state)
 
-	GameManager.set_running_state(GameManager.RunningState.MENU)
+	_lock_player_for_puzzle()
 	InputEvents.show_mouse()
 	puzzle_opened.emit()
 
@@ -199,6 +199,15 @@ func _update_base_level_state() -> void:
 		base_level.update_interactable_state(target_path, state)
 	else:
 		push_warning("PuzzleComponent: 未找到 BaseLevel，无法更新 interactables 状态")
+
+
+func _lock_player_for_puzzle() -> void:
+	GameManager.set_running_state(GameManager.RunningState.AUTO)
+	var player_node = GameManager.get_player()
+	if player_node:
+		player_node.can_move = false
+		player_node.can_interact = false
+		player_node.can_act = false
 
 
 func _find_base_level() -> BaseLevel:

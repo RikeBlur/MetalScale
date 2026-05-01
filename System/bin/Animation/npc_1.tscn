@@ -439,8 +439,6 @@ offset_top = 2.0
 offset_right = 207.0
 offset_bottom = 42.0
 script = ExtResource("39_dsfxi")
-n1 = 0.5
-m1 = 2.0
 first_delay = 6.0
 
 [node name="TextureRect2" type="TextureRect" parent="Control" unique_id=684584658]

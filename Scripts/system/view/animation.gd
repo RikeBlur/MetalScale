@@ -1,9 +1,9 @@
 extends Control
 
-@export var n1: float = 0.3
-@export var m1: float = 0.1
-@export var n2: float = 0.3
-@export var m2: float = 0.1
+@export var label_dissolve_duration: float = 0.3
+@export var label_after_delay: float = 0.1
+@export var texture_dissolve_duration: float = 0.3
+@export var texture_after_delay: float = 0.1
 @export var first_delay: float = 0.3
 @export var fade_out_duration: float = 0.3  # 名字含_N的子节点淡出持续时间
 
@@ -36,13 +36,13 @@ func _play_dissolve_sequence() -> void:
 	for node in target_nodes:
 		node.visible = true
 		if node is Label:
-			await _tween_dissolve(node, n1)
-			if m1 > 0.0:
-				await get_tree().create_timer(m1).timeout
+			await _tween_dissolve(node, label_dissolve_duration)
+			if label_after_delay > 0.0:
+				await get_tree().create_timer(label_after_delay).timeout
 		elif node is TextureRect:
-			await _tween_dissolve(node, n2)
-			if m2 > 0.0:
-				await get_tree().create_timer(m2).timeout
+			await _tween_dissolve(node, texture_dissolve_duration)
+			if texture_after_delay > 0.0:
+				await get_tree().create_timer(texture_after_delay).timeout
 
 func _tween_dissolve(node: CanvasItem, duration: float) -> void:
 	if duration <= 0.0:

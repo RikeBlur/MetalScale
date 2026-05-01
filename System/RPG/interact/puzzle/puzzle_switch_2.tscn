@@ -1,13 +1,13 @@
-[gd_scene format=3 uid="uid://ttyxolvxrr4h"]
+[gd_scene format=3 uid="uid://dih81p6eo6gfl"]
 
-[ext_resource type="Script" uid="uid://bxaxn70lttcw8" path="res://Scripts/system/interact/puzzle/puzzle_switch.gd" id="1_helbi"]
-[ext_resource type="Texture2D" uid="uid://bo7wslde30qtw" path="res://Assests/sprite/UI/puzzle/switch_green_light.png" id="2_4a55q"]
-[ext_resource type="Texture2D" uid="uid://p8kt58wni8ui" path="res://Assests/sprite/UI/puzzle/switch_red_light.png" id="3_d86im"]
-[ext_resource type="Texture2D" uid="uid://b2r2cq38pjh1s" path="res://Assests/sprite/UI/puzzle/PuzzleSwitch.png" id="4_4a55q"]
-[ext_resource type="Script" uid="uid://bd7kc58dansd0" path="res://Scripts/system/interact/puzzle/switch_light.gd" id="5_j6fmo"]
-[ext_resource type="FontFile" uid="uid://d37i5aeopil7e" path="res://Assests/font/pixel8/PixelOperator8-Bold.ttf" id="6_hqoij"]
-[ext_resource type="AudioStream" uid="uid://bmkbvgximk7io" path="res://Assests/SFX/UI/collect.mp3" id="7_4a55q"]
-[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="7_hg2do"]
+[ext_resource type="Script" uid="uid://bk3nrljxm3246" path="res://Scripts/system/interact/puzzle/puzzle_switch_spread.gd" id="1_vdim0"]
+[ext_resource type="Texture2D" uid="uid://bo7wslde30qtw" path="res://Assests/sprite/UI/puzzle/switch_green_light.png" id="2_k7bqf"]
+[ext_resource type="Texture2D" uid="uid://p8kt58wni8ui" path="res://Assests/sprite/UI/puzzle/switch_red_light.png" id="3_e336i"]
+[ext_resource type="Texture2D" uid="uid://b2r2cq38pjh1s" path="res://Assests/sprite/UI/puzzle/PuzzleSwitch.png" id="4_mggpt"]
+[ext_resource type="Script" uid="uid://bd7kc58dansd0" path="res://Scripts/system/interact/puzzle/switch_light.gd" id="5_2sm7w"]
+[ext_resource type="FontFile" uid="uid://d37i5aeopil7e" path="res://Assests/font/pixel8/PixelOperator8-Bold.ttf" id="6_td8nd"]
+[ext_resource type="AudioStream" uid="uid://bmkbvgximk7io" path="res://Assests/SFX/UI/collect.mp3" id="7_v7ady"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="8_u4iiu"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4a55q"]
 
@@ -49,50 +49,55 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c0bvj"]
 
-[node name="PuzzleSwitch_1" type="Control" unique_id=902084392]
+[node name="PuzzleSwitch_1" type="Control" unique_id=902084392 node_paths=PackedStringArray("success_sfx")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_helbi")
+script = ExtResource("1_vdim0")
+green_light = ExtResource("2_k7bqf")
+red_light = ExtResource("3_e336i")
+button_paths = Array[NodePath]([NodePath("Button_1"), NodePath("Button_2"), NodePath("Button_3"), NodePath("Button_4")])
+light_paths = Array[NodePath]([NodePath("switch_light_1"), NodePath("switch_light_2"), NodePath("switch_light_3"), NodePath("switch_light_4")])
+success_sfx = NodePath("SFXPlayer")
 
 [node name="back" type="Sprite2D" parent="." unique_id=1724462867]
 position = Vector2(576, 324)
-texture = ExtResource("4_4a55q")
+texture = ExtResource("4_mggpt")
 
 [node name="switch_light_1" type="Sprite2D" parent="." unique_id=538669936]
 position = Vector2(154, 302)
-texture = ExtResource("2_4a55q")
-script = ExtResource("5_j6fmo")
+texture = ExtResource("2_k7bqf")
+script = ExtResource("5_2sm7w")
 button_path = NodePath("../Button_1")
-green_light = ExtResource("2_4a55q")
-red_light = ExtResource("3_d86im")
+green_light = ExtResource("2_k7bqf")
+red_light = ExtResource("3_e336i")
 
 [node name="switch_light_2" type="Sprite2D" parent="." unique_id=867458435]
 position = Vector2(288, 302)
-texture = ExtResource("2_4a55q")
-script = ExtResource("5_j6fmo")
+texture = ExtResource("2_k7bqf")
+script = ExtResource("5_2sm7w")
 button_path = NodePath("../Button_2")
-green_light = ExtResource("2_4a55q")
-red_light = ExtResource("3_d86im")
+green_light = ExtResource("2_k7bqf")
+red_light = ExtResource("3_e336i")
 
 [node name="switch_light_3" type="Sprite2D" parent="." unique_id=1232242237]
 position = Vector2(420, 301)
-texture = ExtResource("2_4a55q")
-script = ExtResource("5_j6fmo")
+texture = ExtResource("2_k7bqf")
+script = ExtResource("5_2sm7w")
 button_path = NodePath("../Button_3")
-green_light = ExtResource("2_4a55q")
-red_light = ExtResource("3_d86im")
+green_light = ExtResource("2_k7bqf")
+red_light = ExtResource("3_e336i")
 
 [node name="switch_light_4" type="Sprite2D" parent="." unique_id=1439349643]
 position = Vector2(551, 302)
-texture = ExtResource("2_4a55q")
-script = ExtResource("5_j6fmo")
+texture = ExtResource("2_k7bqf")
+script = ExtResource("5_2sm7w")
 button_path = NodePath("../Button_4")
-green_light = ExtResource("2_4a55q")
-red_light = ExtResource("3_d86im")
+green_light = ExtResource("2_k7bqf")
+red_light = ExtResource("3_e336i")
 
 [node name="Button_1" type="Button" parent="." unique_id=817905221]
 custom_minimum_size = Vector2(75, 75)
@@ -156,13 +161,13 @@ offset_left = 626.0
 offset_top = 179.0
 offset_right = 696.0
 offset_bottom = 215.0
-theme_override_fonts/normal_font = ExtResource("6_hqoij")
+theme_override_fonts/normal_font = ExtResource("6_td8nd")
 theme_override_font_sizes/normal_font_size = 24
 text = "5"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SFXPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1324049236]
-stream = ExtResource("7_4a55q")
-script = ExtResource("7_hg2do")
+stream = ExtResource("7_v7ady")
+script = ExtResource("8_u4iiu")
 metadata/_custom_type_script = "uid://use5ds4i6ib4"

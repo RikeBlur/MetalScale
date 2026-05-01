@@ -104,6 +104,11 @@ func _kill_ui_fade_tween() -> void:
 
 func _restore_player_control_after_close() -> void:
 	GameManager.set_running_state(GameManager.RunningState.CONTROL)
+	var player_node = GameManager.get_player()
+	if player_node:
+		player_node.can_move = true
+		player_node.can_interact = true
+		player_node.can_act = true
 	InputEvents.hide_mouse()
 
 
@@ -112,6 +117,7 @@ func _emit_done_once() -> void:
 		return
 	_done_emitted = true
 	reward_function()
+	_set_all_controls_interactable(false)
 	puzzle_done.emit()
 
 
@@ -131,6 +137,22 @@ func _collect_interactive_controls(node: Node) -> void:
 
 func _is_recorded_control(node: Node) -> bool:
 	return node is BaseButton or node is NumberSwitch or node is Label or node is RichTextLabel
+
+
+func _set_all_controls_interactable(interactable: bool) -> void:
+	_set_controls_interactable_recursive(self, interactable)
+
+
+func _set_controls_interactable_recursive(node: Node, interactable: bool) -> void:
+	if node is Control:
+		var control := node as Control
+		control.mouse_filter = Control.MOUSE_FILTER_STOP if interactable else Control.MOUSE_FILTER_IGNORE
+		control.focus_mode = Control.FOCUS_ALL if interactable else Control.FOCUS_NONE
+	if node is BaseButton:
+		(node as BaseButton).disabled = not interactable
+
+	for child in node.get_children():
+		_set_controls_interactable_recursive(child, interactable)
 
 
 func _is_component_interactable() -> bool:
