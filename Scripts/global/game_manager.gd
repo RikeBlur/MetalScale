@@ -71,6 +71,7 @@ var player_arrgo: int = 0
 var arrgo_in_threshold: float = 10.0
 var _prev_aggro_value: float = 0.0       # 上一帧的 aggro_value，用于边沿检测
 var _debug_signal_log: Array[String] = [] # 最近发出的 arrgo 信号日志（最多4条）
+var _is_archive_load_running: bool = false
 var _is_player_death_flow_running: bool = false
 var _death_flow_token: int = 0
 
@@ -136,7 +137,7 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	# 仅在运行状态下累加存档时长（毫秒）
-	if current_state == GameState.RUNNING:
+	if current_state == GameState.RUNNING and not _is_archive_load_running:
 		game_archive_msec += int(delta * 1000.0)
 	
 	# 兜底：MENU 状态下如果鼠标不可见，强制显示
@@ -289,6 +290,7 @@ func _on_loaded() -> void:
 	print("GameManager: 新游戏启动完成，当前状态: RUNNING")
 	InputEvents.hide_mouse()
 	_connect_player_arrgo()
+	_is_archive_load_running = false
 
 
 func quit_game() -> void:
@@ -495,11 +497,16 @@ func _connect_player_arrgo() -> void:
 
 
 func prepare_for_archive_load() -> void:
+	_is_archive_load_running = true
 	_death_flow_token += 1
 	_is_player_death_flow_running = false
 	_prev_aggro_value = 0.0
 	player_arrgo = 0
 	_debug_signal_log.clear()
+
+
+func is_archive_load_running() -> bool:
+	return _is_archive_load_running
 
 
 func sync_player_arrgo_state() -> void:
@@ -520,6 +527,9 @@ func sync_player_arrgo_state() -> void:
 
 func _update_player_arrgo() -> void:
 	"""每帧读取 player.aggro_value，检测边沿并发出对应信号"""
+	if _is_archive_load_running:
+		return
+
 	if current_state != GameState.RUNNING:
 		return
 

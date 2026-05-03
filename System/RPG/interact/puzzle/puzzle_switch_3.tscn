@@ -1,0 +1,263 @@
+[gd_scene format=3 uid="uid://d22r7fnfigyud"]
+
+[ext_resource type="Script" uid="uid://bk3nrljxm3246" path="res://Scripts/system/interact/puzzle/puzzle_switch_spread.gd" id="1_1f2rp"]
+[ext_resource type="Texture2D" uid="uid://bo7wslde30qtw" path="res://Assests/sprite/UI/puzzle/switch_green_light.png" id="2_hpy2n"]
+[ext_resource type="Texture2D" uid="uid://p8kt58wni8ui" path="res://Assests/sprite/UI/puzzle/switch_red_light.png" id="3_r3ytt"]
+[ext_resource type="Texture2D" uid="uid://b2r2cq38pjh1s" path="res://Assests/sprite/UI/puzzle/PuzzleSwitch.png" id="4_xm7sg"]
+[ext_resource type="Script" uid="uid://bd7kc58dansd0" path="res://Scripts/system/interact/puzzle/switch_light.gd" id="5_mo3ou"]
+[ext_resource type="FontFile" uid="uid://d37i5aeopil7e" path="res://Assests/font/pixel8/PixelOperator8-Bold.ttf" id="6_pqjva"]
+[ext_resource type="AudioStream" uid="uid://bmkbvgximk7io" path="res://Assests/SFX/UI/collect.mp3" id="7_eusrp"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="8_eprmw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4a55q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d86im"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v3ujo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j6fmo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hqoij"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hg2do"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bdobl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1ohg5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a4ovo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qxtqd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w8xnv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t8t5s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ffb13"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_plx1s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t50jj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ojhwu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bevb8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aogl4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q3gkx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c0bvj"]
+
+[node name="PuzzleSwitch_2" type="Control" unique_id=902084392 node_paths=PackedStringArray("success_sfx")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1f2rp")
+target_state = Array[int]([1, 1, 1, 1, 1, 1, 1, 1])
+green_light = ExtResource("2_hpy2n")
+red_light = ExtResource("3_r3ytt")
+button_paths = Array[NodePath]([NodePath("Button_1"), NodePath("Button_2"), NodePath("Button_3"), NodePath("Button_4"), NodePath("Button_5"), NodePath("Button_6"), NodePath("Button_7"), NodePath("Button_8")])
+light_paths = Array[NodePath]([NodePath("switch_light_1"), NodePath("switch_light_2"), NodePath("switch_light_3"), NodePath("switch_light_4"), NodePath("switch_light_5"), NodePath("switch_light_6"), NodePath("switch_light_7"), NodePath("switch_light_8")])
+success_sfx = NodePath("SFXPlayer")
+
+[node name="back" type="Sprite2D" parent="." unique_id=1724462867]
+position = Vector2(576, 324)
+texture = ExtResource("4_xm7sg")
+
+[node name="switch_light_1" type="Sprite2D" parent="." unique_id=538669936]
+position = Vector2(154, 283)
+texture = ExtResource("2_hpy2n")
+script = ExtResource("5_mo3ou")
+button_path = NodePath("../Button_1")
+green_light = ExtResource("2_hpy2n")
+red_light = ExtResource("3_r3ytt")
+
+[node name="switch_light_2" type="Sprite2D" parent="." unique_id=867458435]
+position = Vector2(288, 283)
+texture = ExtResource("2_hpy2n")
+script = ExtResource("5_mo3ou")
+button_path = NodePath("../Button_2")
+green_light = ExtResource("2_hpy2n")
+red_light = ExtResource("3_r3ytt")
+
+[node name="switch_light_3" type="Sprite2D" parent="." unique_id=1232242237]
+position = Vector2(420, 282)
+texture = ExtResource("2_hpy2n")
+script = ExtResource("5_mo3ou")
+button_path = NodePath("../Button_3")
+green_light = ExtResource("2_hpy2n")
+red_light = ExtResource("3_r3ytt")
+
+[node name="switch_light_4" type="Sprite2D" parent="." unique_id=1439349643]
+position = Vector2(551, 283)
+texture = ExtResource("2_hpy2n")
+script = ExtResource("5_mo3ou")
+button_path = NodePath("../Button_4")
+green_light = ExtResource("2_hpy2n")
+red_light = ExtResource("3_r3ytt")
+
+[node name="switch_light_5" type="Sprite2D" parent="." unique_id=1224890322]
+position = Vector2(155, 368)
+texture = ExtResource("2_hpy2n")
+script = ExtResource("5_mo3ou")
+button_path = NodePath("../Button_5")
+green_light = ExtResource("2_hpy2n")
+red_light = ExtResource("3_r3ytt")
+
+[node name="switch_light_6" type="Sprite2D" parent="." unique_id=1689962611]
+position = Vector2(286, 368)
+texture = ExtResource("2_hpy2n")
+script = ExtResource("5_mo3ou")
+button_path = NodePath("../Button_6")
+green_light = ExtResource("2_hpy2n")
+red_light = ExtResource("3_r3ytt")
+
+[node name="switch_light_7" type="Sprite2D" parent="." unique_id=1451385591]
+position = Vector2(420, 367)
+texture = ExtResource("2_hpy2n")
+script = ExtResource("5_mo3ou")
+button_path = NodePath("../Button_7")
+green_light = ExtResource("2_hpy2n")
+red_light = ExtResource("3_r3ytt")
+
+[node name="switch_light_8" type="Sprite2D" parent="." unique_id=1550121548]
+position = Vector2(552, 367)
+texture = ExtResource("2_hpy2n")
+script = ExtResource("5_mo3ou")
+button_path = NodePath("../Button_8")
+green_light = ExtResource("2_hpy2n")
+red_light = ExtResource("3_r3ytt")
+
+[node name="Button_1" type="Button" parent="." unique_id=817905221]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 0
+offset_left = 107.0
+offset_top = 249.0
+offset_right = 182.0
+offset_bottom = 324.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_4a55q")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_d86im")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_v3ujo")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_j6fmo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_hqoij")
+toggle_mode = true
+
+[node name="Button_2" type="Button" parent="." unique_id=14029443]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 0
+offset_left = 241.0
+offset_top = 249.0
+offset_right = 316.0
+offset_bottom = 324.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hg2do")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_bdobl")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_1ohg5")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_a4ovo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qxtqd")
+toggle_mode = true
+
+[node name="Button_3" type="Button" parent="." unique_id=440551109]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 0
+offset_left = 374.0
+offset_top = 249.0
+offset_right = 449.0
+offset_bottom = 324.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_w8xnv")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_t8t5s")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ffb13")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_plx1s")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_t50jj")
+toggle_mode = true
+
+[node name="Button_4" type="Button" parent="." unique_id=1840959890]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 0
+offset_left = 504.0
+offset_top = 249.0
+offset_right = 579.0
+offset_bottom = 324.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ojhwu")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_bevb8")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_aogl4")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_q3gkx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_c0bvj")
+toggle_mode = true
+
+[node name="Button_5" type="Button" parent="." unique_id=913810843]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 0
+offset_left = 107.0
+offset_top = 334.0
+offset_right = 182.0
+offset_bottom = 409.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_4a55q")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_d86im")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_v3ujo")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_j6fmo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_hqoij")
+toggle_mode = true
+
+[node name="Button_6" type="Button" parent="." unique_id=1976750344]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 0
+offset_left = 241.0
+offset_top = 333.0
+offset_right = 316.0
+offset_bottom = 408.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hg2do")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_bdobl")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_1ohg5")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_a4ovo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qxtqd")
+toggle_mode = true
+
+[node name="Button_7" type="Button" parent="." unique_id=546129182]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 0
+offset_left = 374.0
+offset_top = 335.0
+offset_right = 449.0
+offset_bottom = 410.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_w8xnv")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_t8t5s")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ffb13")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_plx1s")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_t50jj")
+toggle_mode = true
+
+[node name="Button_8" type="Button" parent="." unique_id=745635971]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 0
+offset_left = 504.0
+offset_top = 335.0
+offset_right = 579.0
+offset_bottom = 410.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ojhwu")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_bevb8")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_aogl4")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_q3gkx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_c0bvj")
+toggle_mode = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=1138346214]
+layout_mode = 0
+offset_left = 627.0
+offset_top = 179.0
+offset_right = 697.0
+offset_bottom = 215.0
+theme_override_fonts/normal_font = ExtResource("6_pqjva")
+theme_override_font_sizes/normal_font_size = 16
+text = "MAX
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SFXPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1324049236]
+stream = ExtResource("7_eusrp")
+script = ExtResource("8_eprmw")
+metadata/_custom_type_script = "uid://use5ds4i6ib4"

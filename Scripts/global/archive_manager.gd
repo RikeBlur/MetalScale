@@ -382,6 +382,7 @@ func game_load(index : int) -> bool:
 	GameManager.set_game_state(GameManager.GameState.LOADING)
 	GameManager.prepare_for_archive_load()
 	GameManager.Loading.emit()
+	var wait_for_scene_change_finished := false
 	print("ArchiveManager: 开始读档")
 
 	# 检查存档文件是否存在
@@ -474,9 +475,8 @@ func game_load(index : int) -> bool:
 		# 已有场景和player - 使用change_scene切换
 		print("ArchiveManager: 使用change_scene切换场景")
 		scene_mgr.change_scene(scene_now, 0)
-		
-		# 等待player_reseted信号发出（表示玩家位置已设置好）
 		await scene_mgr.player_reseted
+		wait_for_scene_change_finished = true
 		
 		# 重新获取player节点引用
 		player_node = GameManager.get_player()
@@ -501,6 +501,8 @@ func game_load(index : int) -> bool:
 		push_warning("ArchiveManager: 无法恢复玩家数据")
 	
 	print("ArchiveManager: 读档完成")
+	if wait_for_scene_change_finished:
+		await scene_mgr.scene_change_finished
 	GameManager.Loaded.emit()
 
 	return true
@@ -604,6 +606,7 @@ func quick_load() -> bool:
 	GameManager.set_game_state(GameManager.GameState.LOADING)
 	GameManager.prepare_for_archive_load()
 	GameManager.Loading.emit()
+	var wait_for_scene_change_finished := false
 
 	# 检查存档文件是否存在
 	if not FileAccess.file_exists(QUICK_SAVE_PATH):
@@ -690,7 +693,9 @@ func quick_load() -> bool:
 	else:
 		# 已有场景和player - 使用change_scene切换
 		print("ArchiveManager: 使用change_scene切换场景")
-		await scene_mgr.change_scene(scene_now)
+		scene_mgr.change_scene(scene_now, 0)
+		await scene_mgr.player_reseted
+		wait_for_scene_change_finished = true
 		
 		# 重新获取player节点引用
 		player_node = GameManager.get_player()
@@ -715,6 +720,8 @@ func quick_load() -> bool:
 		push_warning("ArchiveManager: 无法恢复玩家数据")
 	
 	print("ArchiveManager: 快速读档完成")
+	if wait_for_scene_change_finished:
+		await scene_mgr.scene_change_finished
 	GameManager.Loaded.emit()
 	return true
 

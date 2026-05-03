@@ -42,6 +42,7 @@ var current_scene_key: String = ""
 const TRANSITION_SCENE_PATH: String = "res://System/RPG/view/transition_Mask.tscn"
 
 signal player_reseted
+signal scene_change_finished
 
 # ====================================================================================================
 # ====================================== 读取并存储节点（全局、场景） =====================================
@@ -277,6 +278,7 @@ func change_scene(scene_key: String, scene_to_index: int = 0, player_global_posi
 	current_player.can_act = true
 	current_player.can_interact = true
 	GameManager.current_state = GameManager.GameState.RUNNING
+	scene_change_finished.emit()
 	
 	print("SceneManager: 场景切换完成，当前场景key: %s" % current_scene_key)
 

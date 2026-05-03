@@ -305,7 +305,8 @@ offset_top = 2.0
 offset_right = 207.0
 offset_bottom = 42.0
 script = ExtResource("4_5vlwg")
-first_delay = 1.0
+label_after_delay = 1.0
+first_delay = 10.0
 
 [node name="TextureRect2" type="TextureRect" parent="Control" unique_id=684584658]
 material = ExtResource("5_rejpp")
@@ -318,7 +319,7 @@ rotation = 0.00045034662
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("8_xa758")
 
-[node name="Label3" type="Label" parent="Control" unique_id=2117173169]
+[node name="Label3_5_999" type="Label" parent="Control" unique_id=2117173169]
 material = ExtResource("5_rejpp")
 layout_mode = 0
 offset_left = 131.0
@@ -327,8 +328,8 @@ offset_right = 354.0
 offset_bottom = 264.0
 theme = ExtResource("3_rt76w")
 theme_override_font_sizes/font_size = 22
-text = "State : Unsolved
-GUI : led_puzzle_1"
+text = "GUI : led_puzzle_1
+State : Unsolved"
 vertical_alignment = 1
 
 [node name="TextureRect6" type="TextureRect" parent="Control" unique_id=956792438]
@@ -419,7 +420,7 @@ theme_override_font_sizes/font_size = 18
 text = "Control list == [0, 1, 0, 1]"
 vertical_alignment = 1
 
-[node name="TextureRect7" type="TextureRect" parent="Control" unique_id=805478761]
+[node name="TextureRect7_2_999" type="TextureRect" parent="Control" unique_id=805478761]
 material = ExtResource("5_rejpp")
 layout_mode = 0
 offset_left = 394.87265

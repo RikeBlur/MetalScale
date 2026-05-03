@@ -37,12 +37,17 @@ func _ready() -> void:
 	# 等一帧：让玩家落位（apply_initial_values_to_player）和光照检测稳定后
 	# 再初始化基准状态，避免第一帧 intensity_now 误判导致 aggro_value 短暂上升
 	await get_tree().process_frame
+	while GameManager.is_archive_load_running():
+		await get_tree().process_frame
 	_update_caught_state()
 	_last_caught = caught
 
 
 func _process(delta: float) -> void:
 	if not detector:
+		return
+		
+	if GameManager.is_archive_load_running():
 		return
 		
 	if GameManager.current_state != game_manager.GameState.RUNNING:
