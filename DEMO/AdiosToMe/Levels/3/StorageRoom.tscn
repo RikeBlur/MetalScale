@@ -141,7 +141,7 @@ position = Vector2(888, 207)
 position = Vector2(401, 213)
 
 [node name="case1" parent="ObjectAndCharacter/object/desolate" unique_id=2054638868 instance=ExtResource("10_1504n")]
-position = Vector2(434, 236)
+position = Vector2(414, 239)
 
 [node name="case3" parent="ObjectAndCharacter/object/desolate" unique_id=425411855 instance=ExtResource("10_1504n")]
 position = Vector2(885, 440)

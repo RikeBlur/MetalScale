@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bmujkc2evqv75"]
+
+[ext_resource type="Texture2D" uid="uid://c0ysvtd0pb0ii" path="res://Assests/tileset/AdiosToMe/function_room.png" id="1_r042e"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_50t3y"]
+polygon = PackedVector2Array(-29, -70, 29, -70, 29, -54, -30, -54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1kxsq"]
+atlas = ExtResource("1_r042e")
+region = Rect2(545, 310, 62, 72)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2u82w"]
+size = Vector2(56, 37)
+
+[node name="switch_machine" type="Node2D" unique_id=2027197509]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1020102309 groups=["occlusion"]]
+occluder = SubResource("OccluderPolygon2D_50t3y")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2073500244]
+z_index = 1
+y_sort_enabled = true
+texture = SubResource("AtlasTexture_1kxsq")
+offset = Vector2(0, -36)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=493958637]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1830542527]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(0, -30.5)
+shape = SubResource("RectangleShape2D_2u82w")
