@@ -43,6 +43,10 @@ shadow_effect_floor：暗部至少保留多少滤镜存在感 <br>
 
 ## 26.05.03
 
+必须赶紧画素材 ———— Gone 的 sprite
+
+melt 和 EYE 的 jumpscare 
+
 
 ## 26.04.30
 

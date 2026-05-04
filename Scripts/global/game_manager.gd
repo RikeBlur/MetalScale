@@ -112,7 +112,7 @@ var _opening_menu_mask_tween: Tween = null
 var _opening_menu_mask_transition_id: int = 0
 
 # ====================================================================================================
-# ====================================================================================================
+# ======================================= 主功能 ===================================================
 # ====================================================================================================
 
 func _ready() -> void:
@@ -230,6 +230,7 @@ func start_new_game() -> void:
 	# 更新游戏状态
 	set_game_state(GameState.LOADING)
 	game_archive_msec = 0
+	reset_game_event_states()
 	_is_player_death_flow_running = false
 	_ensure_player_and_camera_instances()
 	_reset_player_runtime_state()
@@ -484,6 +485,69 @@ func _remove_legacy_global_opening_menu_mask_layer() -> void:
 	var legacy_layer := get_tree().root.get_node_or_null("GlobalOpeningMenuMaskCanvasLayer")
 	if legacy_layer:
 		legacy_layer.queue_free()
+
+
+# ====================================================================================================
+# ================================================= Events ==========================================
+# ====================================================================================================
+
+var game_event_list: Array[Dictionary] = []
+
+
+func get_game_event_triggered_already(target_event_name: String, default_value: bool = false) -> bool:
+	if target_event_name.is_empty():
+		return default_value
+
+	for event_state in game_event_list:
+		if String(event_state.get("event_name", "")) == target_event_name:
+			return bool(event_state.get("triggered_already", default_value))
+
+	return default_value
+
+
+func set_game_event_triggered_already(target_event_name: String, value: bool) -> void:
+	if target_event_name.is_empty():
+		push_warning("GameManager: cannot save event state with empty event_name")
+		return
+
+	for event_state in game_event_list:
+		if String(event_state.get("event_name", "")) == target_event_name:
+			event_state["triggered_already"] = value
+			return
+
+	game_event_list.append({
+		"event_name": target_event_name,
+		"triggered_already": value
+	})
+
+
+func get_game_event_list() -> Array:
+	return game_event_list.duplicate(true)
+
+
+func set_game_event_list(event_list: Variant) -> void:
+	game_event_list.clear()
+
+	if not (event_list is Array):
+		return
+
+	for raw_event_state in event_list:
+		if not (raw_event_state is Dictionary):
+			continue
+
+		var target_event_name := String(raw_event_state.get("event_name", ""))
+		if target_event_name.is_empty():
+			continue
+
+		set_game_event_triggered_already(
+			target_event_name,
+			bool(raw_event_state.get("triggered_already", false))
+		)
+
+
+func reset_game_event_states() -> void:
+	game_event_list.clear()
+
 
 
 # ====================================================================================================

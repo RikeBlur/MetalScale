@@ -346,6 +346,7 @@ func game_save(index : int) -> bool:
 		"version": "1.0",
 		"timestamp": Time.get_datetime_string_from_system(),
 		"game_archive_msec": GameManager.game_archive_msec,
+		"game_events": GameManager.get_game_event_list(),
 		
 		# 玩家信息
 		"player": _serialize_player_data(player_node),
@@ -417,6 +418,7 @@ func game_load(index : int) -> bool:
 	
 	# 恢复游戏存档时长（毫秒）
 	GameManager.game_archive_msec = save_data.get("game_archive_msec", 0)
+	GameManager.set_game_event_list(save_data.get("game_events", []))
 	
 	# 获取scene_manager引用
 	var scene_mgr = get_node_or_null("/root/SceneManager")
@@ -566,6 +568,7 @@ func quick_save() -> bool:
 	var save_data = {
 		"version": "1.0",
 		"timestamp": Time.get_datetime_string_from_system(),
+		"game_events": GameManager.get_game_event_list(),
 		
 		# 玩家信息
 		"player": _serialize_player_data(player_node),
@@ -642,6 +645,7 @@ func quick_load() -> bool:
 	if not scene_mgr:
 		push_error("ArchiveManager: 未找到SceneManager节点")
 		return false
+	GameManager.set_game_event_list(save_data.get("game_events", []))
 	
 	# Step 1: 用保存好的SceneData重置scene_manager的字典
 	var npc_mgr := _get_npc_manager()

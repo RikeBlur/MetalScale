@@ -13,7 +13,8 @@ enum UI_component {
 	COLLECTWINDOW,
 	PLAYERINFO,
 	PUZZLESWITCH,
-	PUZZLESWITCH2
+	PUZZLESWITCH2,
+	PUZZLESWITCH3
 }
 
 # UI统一数据结构：name(UI_component)、scene、layer、stage
@@ -81,6 +82,12 @@ const UI_DATA = {
 	UI_component.PUZZLESWITCH2: {
 		"name": UI_component.PUZZLESWITCH2,
 		"scene": preload("res://System/RPG/interact/puzzle/puzzle_switch_2.tscn"),
+		"layer": 2,
+		"stage": -1
+	},
+	UI_component.PUZZLESWITCH3: {
+		"name": UI_component.PUZZLESWITCH3,
+		"scene": preload("res://System/RPG/interact/puzzle/puzzle_switch_3.tscn"),
 		"layer": 2,
 		"stage": -1
 	}
@@ -208,9 +215,9 @@ func _puzzle_quit_once() -> bool:
 		return true
 	return false
 
-# =============================================================
-# ========================= 实例化！！ =========================
-# =============================================================
+# ===================================================================
+# ============================ 实例化！！ ============================
+# ===================================================================
 
 func instantiate_ui(ui_type: UI_component) -> Node:
 	"""实例化指定的UI组件"""
@@ -316,6 +323,13 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 		if "ui_type" in ui_instance:
 			ui_instance.ui_type = UI_component.PUZZLESWITCH2
 		_add_ui_to_visible_list(UI_component.PUZZLESWITCH2)
+		
+	if ui_type == UI_component.PUZZLESWITCH3 :
+		if "own_manager" in ui_instance:
+			ui_instance.own_manager = self
+		if "ui_type" in ui_instance:
+			ui_instance.ui_type = UI_component.PUZZLESWITCH3
+		_add_ui_to_visible_list(UI_component.PUZZLESWITCH3)
 
 	target_layer.add_child(ui_instance)
 	
