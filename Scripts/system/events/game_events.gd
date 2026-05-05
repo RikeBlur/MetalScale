@@ -1,10 +1,28 @@
 class_name GameEvents
 extends Node
 
+const DEFAULT_GAME_EVENT_LIST: Array[Dictionary] = [
+	{
+		"event_name": "switch_on",
+		"triggered_already": false
+	},
+	{
+		"event_name": "gone_threefloor",
+		"triggered_already": false
+	}
+]
+
 @export var one_shot: bool = true
 @export var event_name: String = ""
 
 var triggered_already: bool = false
+
+
+static func get_default_game_event_list() -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for event_state in DEFAULT_GAME_EVENT_LIST:
+		result.append(event_state.duplicate(true))
+	return result
 
 
 func _ready() -> void:

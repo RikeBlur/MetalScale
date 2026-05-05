@@ -491,7 +491,7 @@ func _remove_legacy_global_opening_menu_mask_layer() -> void:
 # ================================================= Events ==========================================
 # ====================================================================================================
 
-var game_event_list: Array[Dictionary] = []
+var game_event_list: Array[Dictionary] = GameEvents.get_default_game_event_list()
 
 
 func get_game_event_triggered_already(target_event_name: String, default_value: bool = false) -> bool:
@@ -526,7 +526,7 @@ func get_game_event_list() -> Array:
 
 
 func set_game_event_list(event_list: Variant) -> void:
-	game_event_list.clear()
+	reset_game_event_states()
 
 	if not (event_list is Array):
 		return
@@ -546,7 +546,7 @@ func set_game_event_list(event_list: Variant) -> void:
 
 
 func reset_game_event_states() -> void:
-	game_event_list.clear()
+	game_event_list = GameEvents.get_default_game_event_list()
 
 
 

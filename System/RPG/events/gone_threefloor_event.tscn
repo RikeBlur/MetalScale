@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dmlk22ojupvwl"]
+
+[ext_resource type="Script" uid="uid://b531wgwm8kd2c" path="res://Scripts/system/events/gone_threefloor_event.gd" id="1_b87ie"]
+
+[node name="GoneThreefloorEvent" type="Node2D" unique_id=1036293101]
+script = ExtResource("1_b87ie")
+event_name = "gone_threefloor"
