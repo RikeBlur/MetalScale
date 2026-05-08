@@ -75,7 +75,7 @@ func _on_area_entered(area: Area2D) -> void:
 				# 如果伤害值大于最小阈值，应用伤害
 				if damage_amount > min_damage:
 					# 对hurt_component应用伤害
-					hurted_comp._on_hurt(damage_amount)
+					hurted_comp._on_hurt(damage_amount, entity)
 					# 设置该区域的冷却计时器
 					area_cooldowns[area_id] = damage_cooldown
 					# 可选：添加打击感效果或音效

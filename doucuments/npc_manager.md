@@ -14,6 +14,7 @@ Autoload 名称：`NPCManager`
 - 每帧同步场上 NPC 的位置、方向、状态到 `NPCData`。
 - 根据 `GameManager` 仇恨信号切换 EYE 的状态。
 - 处理 EYE 离场巡游和追杀入场逻辑。
+- 根据 NPC 击杀玩家的伤害来源播放对应 jumpscare。
 - 为 `ArchiveManager` 提供可序列化的 NPC 状态。
 - 新游戏开始时把 `npc_dict` 重置为默认配置，避免继承上一局死亡前的状态。
 
@@ -31,6 +32,8 @@ GameManager.not_arrgoed.connect(_on_not_arrgoed)
 ```
 
 这些连接决定了 NPCManager 在场景管线中的位置。
+
+`NPCManager` 还会在 `_ready()` 中延迟调用 `_connect_player_hurted_component()`，并在 `_on_player_reseted()` 中再次尝试连接玩家的 `hurted_component.npc_kill_player` 信号。这样玩家实例被场景流程重新创建或重新落位后，jumpscare 入口仍然能接到最新玩家组件。
 
 ### 场景切换前保存 NPC
 
@@ -106,7 +109,101 @@ EYE 离场行为：
 - `state == 1` 时，等待 `EYE_CHASE_DELAY` 秒后尝试从门进入当前场景。
 - 追杀入场会读取 EYE 上一个场景的 PackedScene，寻找 `BaseDoor.scene_to == 当前场景 key` 的门，并使用它的 `scene_to_index` 作为当前场景出生点。
 
+### NPC jumpscare 管线
+
+玩家被 NPC 伤害杀死时，流程如下：
+
+1. `damage_component` 在命中时把自己的 `entity` 作为 `damage_source` 传给目标 `hurted_component._on_hurt(damage_amount, entity)`。
+2. 玩家身上的 `hurted_component` 进入死亡分支后，如果 `damage_source is npc`，会在调用 `player.player_died()` 前发出：
+
+```gdscript
+signal npc_kill_player(damage_source: npc)
+```
+
+3. `NPCManager._connect_player_hurted_component()` 监听该信号，并在 `_on_npc_kill_player(damage_source)` 中根据伤害来源选择 jumpscare。
+4. `_get_jumpscare_type_for_damage_source(damage_source)` 当前支持：
+
+```gdscript
+if damage_source is EnemyEye:
+	return npc_type.EYE
+```
+
+5. `_play_jumpscare_for_damage_source()` 通过 `jumpscare_player_paths` 找到对应 PackedScene。当前配置为：
+
+```gdscript
+var jumpscare_player_paths: Dictionary = {
+	npc_type.EYE: "res://Effect/Animation/eye_jumpscare.tscn",
+}
+```
+
+6. 播放前会创建独立于当前场景的 `JumpscareCanvasLayer`：
+
+```gdscript
+_jumpscare_canvas_layer = CanvasLayer.new()
+_jumpscare_canvas_layer.layer = JUMPSCARE_LAYER_INDEX # 10
+add_child(_jumpscare_canvas_layer)
+```
+
+该节点挂在 Autoload `NPCManager` 下，不挂在 `get_tree().current_scene` 下。因此玩家死亡后即使触发场景切换，jumpscare 也不会随当前场景一起被释放。
+
+7. jumpscare 场景实例化到该 layer 后，`NPCManager` 会连接 `oneshot_finished`：
+
+```gdscript
+_active_jumpscare_player.connect("oneshot_finished", _on_jumpscare_player_finished, CONNECT_ONE_SHOT)
+```
+
+8. `JumpScarePlayer.play_oneshot()` 播放完成后发出 `oneshot_finished`，`NPCManager._on_jumpscare_player_finished()` 调用 `_clear_jumpscare_canvas_layer()`，清理整个 jumpscare layer。
+
 ## 添加或修改内容
+
+### 添加新的 NPC jumpscare
+
+推荐步骤：
+
+1. 创建 jumpscare PackedScene，例如：
+
+```gdscript
+res://Effect/Animation/new_enemy_jumpscare.tscn
+```
+
+2. 根节点挂 `JumpScarePlayer` 脚本：`res://Scripts/system/view/jumpscare_player.gd`。
+3. 在该场景中添加一个或多个 `AnimatedSprite2D`。如果需要在 Inspector 中配置起止缩放、位置、旋转和时间，建议把 sprite 类型脚本换成：
+
+```gdscript
+res://Scripts/system/view/jumpscare_animated_sprite.gd
+```
+
+4. 在 `JumpScarePlayer.animation_array` 中加入这些 `AnimatedSprite2D`。
+5. 每个 `JumpscareAnimatedSprite` 可配置：
+
+- `start_scale` / `end_scale`
+- `start_position` / `end_position`
+- `start_rotate` / `end_rotate`，单位是 Godot `Node2D.rotation` 使用的弧度。
+- `animate_time`
+- `wait_time`
+- `dissolve_time`
+- `dissolved_paramater`，默认是 `DissolveValue`。
+
+`JumpScarePlayer.play_oneshot()` 会让每个 sprite 在 `animate_time` 内从 start 值平滑过渡到 end 值，之后保持 `wait_time`，再在 `dissolve_time` 内把 material 的 `shader_parameter/<dissolved_paramater>` 从 `0.0` 变为 `1.0`。所有 sprite 完成后发出 `oneshot_finished`。
+
+6. 在 `npc_type` 中加入新 NPC 类型，或复用已有类型。
+7. 在 `jumpscare_player_paths` 中加入类型到 PackedScene 路径的映射：
+
+```gdscript
+var jumpscare_player_paths: Dictionary = {
+	npc_type.EYE: "res://Effect/Animation/eye_jumpscare.tscn",
+	npc_type.NEW_ENEMY: "res://Effect/Animation/new_enemy_jumpscare.tscn",
+}
+```
+
+8. 在 `_get_jumpscare_type_for_damage_source(damage_source)` 中加入来源判断：
+
+```gdscript
+if damage_source is NewEnemy:
+	return npc_type.NEW_ENEMY
+```
+
+如果某个 NPC 不需要 jumpscare，不要在 `_get_jumpscare_type_for_damage_source()` 中返回它的类型即可。
 
 ### 添加新的 NPC
 
@@ -202,3 +299,5 @@ EYE 追杀入场依赖门配置：
 - `_npc_instances` 保存弱引用。新增代码需要访问 NPC 实例时，优先使用 `_get_npc_instance()`。
 - 如果 NPC 场景没有 `npc_direction` 或 `state` 属性，NPCManager 会跳过对应字段同步。
 - EYE 的随机游荡从 `SceneManager.scene_dict.keys()` 中选场景，所以没有注册的场景不会成为游荡目标。
+- jumpscare layer 必须挂在 `NPCManager` 下，不能挂在当前场景下，否则死亡回主菜单时会随场景切换被释放。
+- `JumpScarePlayer` 播放完成后由 `oneshot_finished` 通知 `NPCManager` 清理整个 `JumpscareCanvasLayer`；jumpscare 场景本身不要自行依赖当前场景节点。

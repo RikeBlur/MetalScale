@@ -7,7 +7,7 @@ polygon = PackedVector2Array(-46, -50, 47, -50, 47, -42, -46, -42)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_urvoy"]
 atlas = ExtResource("1_wfjeb")
-region = Rect2(8, 240, 416, 200)
+region = Rect2(8, 240, 408, 200)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2u82w"]
 size = Vector2(419, 106.5)

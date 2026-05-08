@@ -18,6 +18,7 @@ enum npc_type {
 const EYE_WANDER_INTERVAL: float = 30.0
 # EYE追杀：收到 state==1 后多少秒入场
 const EYE_CHASE_DELAY: float = 1.5
+const JUMPSCARE_LAYER_INDEX: int = 10
 
 
 # ====================================================================================================
@@ -27,6 +28,9 @@ const EYE_CHASE_DELAY: float = 1.5
 
 # GameState != RUNNING 时为 true，所有NPC行为冻结
 var not_running: bool = true
+var jumpscare_player_paths: Dictionary = {
+	npc_type.EYE: "res://Effect/Animation/eye_jumpscare.tscn",
+}
 
 # ====================================================================================================
 # NPC数据字典。key: npc编号（如 "0-0"），value: NPCData
@@ -80,6 +84,9 @@ func _create_default_npc_dict() -> Dictionary:
 
 # 存储实际节点弱引用，随场景生命周期自动失效。key: npc编号，value: WeakRef
 var _npc_instances: Dictionary = {}
+var _jumpscare_canvas_layer: CanvasLayer = null
+var _active_jumpscare_player: Node = null
+var _connected_player_hurted_component: hurted_component = null
 
 # EYE游荡计时器。key: npc编号，value: 剩余秒数
 var _eye_wander_timers: Dictionary = {}
@@ -102,6 +109,7 @@ func _ready() -> void:
 	# 初始化 Debug UI
 	if GameManager.debug and not _debug_canvas:
 		_create_debug_ui()
+	call_deferred("_connect_player_hurted_component")
 
 
 func reset_to_default_state() -> void:
@@ -115,6 +123,9 @@ func reset_to_default_state() -> void:
 	_eye_chase_timers.clear()
 	npc_dict = _create_default_npc_dict()
 	not_running = true
+	_connected_player_hurted_component = null
+	_clear_jumpscare_player()
+	_connect_player_hurted_component()
 
 	if GameManager.debug and _debug_label:
 		_update_debug_ui()
@@ -254,6 +265,7 @@ func _on_player_reseted() -> void:
 	是检测并实例化应出场NPC的正确时机。
 	"""
 	var current_key: String = SceneManager.get_current_scene_key()
+	_connect_player_hurted_component()
 	if current_key == "":
 		return
 
@@ -266,6 +278,97 @@ func _on_player_reseted() -> void:
 # ====================================================================================================
 # ============================== 4. EYE特有行为 =====================================================
 # ====================================================================================================
+
+func _connect_player_hurted_component() -> void:
+	var player_node := GameManager.get_player()
+	if not player_node or not is_instance_valid(player_node):
+		return
+
+	var hurted_comp := player_node.find_child("hurted_component", true, false) as hurted_component
+	if not hurted_comp or not is_instance_valid(hurted_comp):
+		return
+
+	if _connected_player_hurted_component == hurted_comp and hurted_comp.npc_kill_player.is_connected(_on_npc_kill_player):
+		return
+
+	if _connected_player_hurted_component and is_instance_valid(_connected_player_hurted_component):
+		if _connected_player_hurted_component.npc_kill_player.is_connected(_on_npc_kill_player):
+			_connected_player_hurted_component.npc_kill_player.disconnect(_on_npc_kill_player)
+
+	if not hurted_comp.npc_kill_player.is_connected(_on_npc_kill_player):
+		hurted_comp.npc_kill_player.connect(_on_npc_kill_player)
+	_connected_player_hurted_component = hurted_comp
+
+
+func _on_npc_kill_player(damage_source: npc) -> void:
+	_play_jumpscare_for_damage_source(damage_source)
+
+
+func _play_jumpscare_for_damage_source(damage_source: npc) -> void:
+	if not damage_source or not is_instance_valid(damage_source):
+		return
+
+	var jumpscare_type := _get_jumpscare_type_for_damage_source(damage_source)
+	if jumpscare_type < 0:
+		return
+
+	var scene_path: String = jumpscare_player_paths.get(jumpscare_type, "")
+	if scene_path == "":
+		return
+
+	var packed := load(scene_path) as PackedScene
+	if not packed:
+		push_warning("NpcManager: jumpscare_player scene not found: %s" % scene_path)
+		return
+
+	_clear_jumpscare_canvas_layer()
+	var canvas_layer := _ensure_jumpscare_canvas_layer()
+	if not canvas_layer:
+		return
+
+	_active_jumpscare_player = packed.instantiate()
+	canvas_layer.add_child(_active_jumpscare_player)
+	if _active_jumpscare_player.has_signal("oneshot_finished"):
+		_active_jumpscare_player.connect("oneshot_finished", _on_jumpscare_player_finished, CONNECT_ONE_SHOT)
+	if _active_jumpscare_player.has_method("play_oneshot"):
+		_active_jumpscare_player.play_oneshot()
+	elif _active_jumpscare_player.has_method("play_ontshot"):
+		_active_jumpscare_player.play_ontshot()
+	else:
+		push_warning("NpcManager: jumpscare_player missing play_oneshot(): %s" % scene_path)
+
+
+func _on_jumpscare_player_finished() -> void:
+	_clear_jumpscare_canvas_layer()
+
+
+func _get_jumpscare_type_for_damage_source(damage_source: npc) -> int:
+	if damage_source is EnemyEye:
+		return npc_type.EYE
+	return -1
+
+
+func _ensure_jumpscare_canvas_layer() -> CanvasLayer:
+	if _jumpscare_canvas_layer and is_instance_valid(_jumpscare_canvas_layer):
+		return _jumpscare_canvas_layer
+
+	_jumpscare_canvas_layer = CanvasLayer.new()
+	_jumpscare_canvas_layer.name = "JumpscareCanvasLayer"
+	_jumpscare_canvas_layer.layer = JUMPSCARE_LAYER_INDEX
+	add_child(_jumpscare_canvas_layer)
+	return _jumpscare_canvas_layer
+
+
+func _clear_jumpscare_canvas_layer() -> void:
+	_active_jumpscare_player = null
+	if _jumpscare_canvas_layer and is_instance_valid(_jumpscare_canvas_layer):
+		_jumpscare_canvas_layer.queue_free()
+	_jumpscare_canvas_layer = null
+
+
+func _clear_jumpscare_player() -> void:
+	_clear_jumpscare_canvas_layer()
+
 
 func _update_eye_behaviors(delta: float) -> void:
 	for npc_id in npc_dict:

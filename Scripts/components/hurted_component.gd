@@ -2,6 +2,8 @@
 class_name hurted_component #假如这行报错不要管！！
 extends Node2D
 
+signal npc_kill_player(damage_source: npc)
+
 # 受击box
 @export var hurted_area : Area2D = null
 @export var hit_flash_player : AnimationPlayer = null
@@ -61,7 +63,7 @@ func _update_health_bar_position() -> void:
 
 
 # 受伤处理	
-func _on_hurt(amount : float) -> void:
+func _on_hurt(amount : float, damage_source: CharacterBody2D = null) -> void:
 	if (health - amount) > 0:
 		health -= amount
 		entity.health_now = health
@@ -71,7 +73,7 @@ func _on_hurt(amount : float) -> void:
 		print("health:",health)
 	elif not is_died :
 		print("DIED")
-		on_died()
+		on_died(damage_source)
 	#如果有收击闪烁，则播放受击闪烁
 	if hit_flash_player :
 		# 停止当前动画并重新播放
@@ -82,11 +84,13 @@ func _on_hurt(amount : float) -> void:
 	entity.player_hurted.emit()
 		
 # 死亡处理
-func on_died() -> void:
+func on_died(damage_source: CharacterBody2D = null) -> void:
 	is_died = true
 	entity.health_now = 0.0
 	health = 0.0
 	if entity is player and entity.has_method("player_died"):
+		if damage_source is npc:
+			npc_kill_player.emit(damage_source)
 		entity.player_died()
 		return
 	entity.is_died = true
