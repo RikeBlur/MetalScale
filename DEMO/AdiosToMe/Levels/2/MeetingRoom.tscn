@@ -168,12 +168,14 @@ y_sort_enabled = true
 
 [node name="ElectrionicScreen" parent="ObjectAndCharacter/light" unique_id=987910373 instance=ExtResource("12_b4lkb")]
 z_index = 1
-position = Vector2(289, 45)
+position = Vector2(289, 56)
 
 [node name="ElectrionicScreen2" parent="ObjectAndCharacter/light" unique_id=788753966 instance=ExtResource("13_4bc6m")]
+visible = false
 position = Vector2(441, 430)
 
 [node name="ElectrionicScreen3" parent="ObjectAndCharacter/light" unique_id=1584078900 instance=ExtResource("14_vhm42")]
+visible = false
 position = Vector2(727, 425)
 
 [node name="Interactable" type="Node2D" parent="ObjectAndCharacter" unique_id=1164615803]

@@ -182,11 +182,11 @@ func _apply_puzzle_state(puzzle_node: Node, state: int) -> void:
 	
 	参数:
 		puzzle_node: 谜题根节点
-		state: 0=不可交互, 1=可交互且未完成, 2=已完成且不可交互
+	state: 0=不可交互, 1=可交互且未完成, 2=已完成且不可交互, 3=已完成但可交互
 	"""
-	if state < 0 or state > 2:
-		push_warning("BaseLevel: 谜题状态应为 0、1 或 2，节点: %s，收到: %d" % [puzzle_node.name, state])
-	var interactable := state == 1
+	if state < 0 or state > 3:
+		push_warning("BaseLevel: 谜题状态应为 0、1、2 或 3，节点: %s，收到: %d" % [puzzle_node.name, state])
+	var interactable := state == 1 or state == 3
 	if puzzle_node.has_method("set_puzzle_state"):
 		puzzle_node.call("set_puzzle_state", state)
 		print("BaseLevel: 谜题 set_puzzle_state - 节点: %s, state: %d" % [puzzle_node.name, state])

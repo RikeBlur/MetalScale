@@ -59,6 +59,8 @@ ArchiveManager.check_save_state()
 14. 调用 `GameManager.sync_player_arrgo_state()`，用恢复后的 `player.aggro_value` 对齐仇恨状态。
 15. 发出 `GameManager.Loaded`，让 `GameManager` 恢复 `RUNNING + CONTROL`。
 
+通过 `SceneManager.change_scene()` 切换的读档流程会继承场景切换管线中的 UI 清理：旧场景切换前释放 UIManager 可视化列表里的 UI 实例，新场景玩家落位后再刷新 UIManager。
+
 ### 快速存档和快速读档
 
 入口：

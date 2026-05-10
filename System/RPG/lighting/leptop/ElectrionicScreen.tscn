@@ -25,21 +25,21 @@ shader_parameter/color_mix_strength = 0.5
 polygon = PackedVector2Array(-20, -57, 18, -57, 18, -55, -20, -55)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_pyg44"]
-polygon = PackedVector2Array(-41.979874, -42.233757, -39.822132, -25.341627, -37.895035, -26.475775, -38.986866, -42.438477)
+polygon = PackedVector2Array(-42.116356, -44.2291, -39.480934, -20.353281, -37.553837, -21.48743, -39.12335, -44.43382)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_u38on"]
-polygon = PackedVector2Array(36.84046, -37.266346, 36.068687, -21.28497, 38.018124, -20.189663, 39.83697, -37.12164)
+polygon = PackedVector2Array(36.936935, -39.26402, 35.875744, -17.289625, 37.82518, -16.194317, 39.93344, -39.11931)
 
 [node name="ElectrionicScreen" type="Node2D" unique_id=987910373]
 script = ExtResource("1_ks8pa")
 
 [node name="LightSource" type="Node2D" parent="." unique_id=1659965690 groups=["light_source"]]
-position = Vector2(2, -18)
+position = Vector2(0, -27)
 script = ExtResource("2_cg1dc")
 sampling_rate = 24
 
 [node name="PointLight2D" type="PointLight2D" parent="LightSource" unique_id=559647924]
-position = Vector2(-2, -10)
+position = Vector2(0, -8)
 shadow_enabled = true
 shadow_filter = 2
 shadow_filter_smooth = 1.0
@@ -72,7 +72,7 @@ offset = Vector2(0, -20)
 position = Vector2(0, 7)
 
 [node name="up" type="LightOccluder2D" parent="occlusion" unique_id=178654314 groups=["occlusion"]]
-position = Vector2(1, 13)
+position = Vector2(1, 11)
 occluder = SubResource("OccluderPolygon2D_cg1dc")
 
 [node name="right" type="LightOccluder2D" parent="occlusion" unique_id=457813602 groups=["occlusion"]]

@@ -176,6 +176,8 @@ func change_scene(scene_key: String, scene_to_index: int = 0, player_global_posi
 	# 进入加载状态
 	GameManager.current_state = GameManager.GameState.LOADING
 	GameManager.Loading.emit()
+	if UIManager and UIManager.has_method("prepare_for_scene_change"):
+		UIManager.prepare_for_scene_change()
 	current_player.can_move = false
 	current_player.can_act = false
 	current_player.can_interact = false
@@ -256,6 +258,8 @@ func change_scene(scene_key: String, scene_to_index: int = 0, player_global_posi
 	
 	# 玩家位置设置好之后发送该信号
 	player_reseted.emit()
+	if UIManager and UIManager.has_method("refresh_ui_manager"):
+		UIManager.refresh_ui_manager()
 	
 	print("SceneManager: 已添加camera到新场景并设置target为player")
 	

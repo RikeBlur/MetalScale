@@ -17,7 +17,9 @@ enum Tool {
 	ADRENALINE,
 	KEYA,
 	KEYB,
-	KEYC
+	KEYC,
+	BOOLDYWATER,
+	SUICIDEKING
 }
 
 const TOOL_DISPLAY_NAMES = {
@@ -27,17 +29,21 @@ const TOOL_DISPLAY_NAMES = {
 	Tool.ADRENALINE: "肾上腺素",
 	Tool.KEYA: "教师休息室钥匙",
 	Tool.KEYB: "钥匙B",
-	Tool.KEYC: "钥匙C"
+	Tool.KEYC: "钥匙C",
+	Tool.BOOLDYWATER: "血水",
+	Tool.SUICIDEKING: "自杀之王"
 }
 
 const TOOL_DESCRIPTION = {
 	Tool.NONE: "无",
-	Tool.EMERGENCELIGHT: "提灯模样的备用光源，照明范围有限，请务必留意电量。",
+	Tool.EMERGENCELIGHT: "提灯模样的备用光源，照明范围有限。请务必留意电量。",
 	Tool.FLASHLIGHT: "可以照亮前方的手电筒",
 	Tool.ADRENALINE: "短时间激发身体机能的药剂，请按处方使用。",
 	Tool.KEYA: "教师休息室的钥匙。旧教学楼除了大门之外没有上电子锁，每个房间都有着令人怀念实体钥匙。",
 	Tool.KEYB: "钥匙B",
-	Tool.KEYC: "钥匙C"
+	Tool.KEYC: "钥匙C",
+	Tool.BOOLDYWATER: "血色的瓶装水，但似乎没有那么粘稠。",
+	Tool.SUICIDEKING: "一张崭新的扑克牌。红桃K。"
 }
 
 const TOOL_ICONS = {
@@ -45,9 +51,11 @@ const TOOL_ICONS = {
 	Tool.EMERGENCELIGHT: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/EmergenceLight_icon.png"),
 	Tool.FLASHLIGHT: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/FlashLight_icon.png"),
 	Tool.ADRENALINE: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/Adrenaline_icon.png"),
-	Tool.KEYA: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/key1-1_icon.png"),
-	Tool.KEYB: null,
-	Tool.KEYC: null
+	Tool.KEYA: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/keyA_icon.png"),
+	Tool.KEYB: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/keyB_icon.png"),
+	Tool.KEYC: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/keyC_icon.png"),
+	Tool.BOOLDYWATER: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/bloodywater_icon.png"),
+	Tool.SUICIDEKING: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/suicideking_icon.png")
 }
 
 const TOOL_PACKED_SCENES = {
@@ -55,9 +63,11 @@ const TOOL_PACKED_SCENES = {
 	Tool.EMERGENCELIGHT: preload("res://System/RPG/tools/Tool/EmergenceLight.tscn"),
 	Tool.FLASHLIGHT: preload("res://System/RPG/tools/Tool/FlashLight.tscn"),
 	Tool.ADRENALINE: preload("res://System/RPG/tools/Tool/adrenaline.tscn"),
-	Tool.KEYA: preload("res://System/RPG/tools/Tool/Key1-1.tscn"),
+	Tool.KEYA: preload("res://System/RPG/tools/Tool/KeyA.tscn"),
 	Tool.KEYB: null,
-	Tool.KEYC: null
+	Tool.KEYC: null,
+	Tool.BOOLDYWATER: null,
+	Tool.SUICIDEKING: null 
 }
 
 const TOOL_TYPES = {
@@ -67,7 +77,9 @@ const TOOL_TYPES = {
 	Tool.ADRENALINE: ToolData.TYPE_CONSUMABLE,
 	Tool.KEYA: ToolData.TYPE_PERMANENT,
 	Tool.KEYB: ToolData.TYPE_PERMANENT,
-	Tool.KEYC: ToolData.TYPE_PERMANENT
+	Tool.KEYC: ToolData.TYPE_PERMANENT,
+	Tool.BOOLDYWATER: ToolData.TYPE_CONSUMABLE,
+	Tool.SUICIDEKING: ToolData.TYPE_CONSUMABLE
 }
 
 const TOOL_USEABLE = {
@@ -77,7 +89,9 @@ const TOOL_USEABLE = {
 	Tool.ADRENALINE: ToolData.USEABLE_TRUE,
 	Tool.KEYA: ToolData.USEABLE_FALSE,
 	Tool.KEYB: ToolData.USEABLE_FALSE,
-	Tool.KEYC: ToolData.USEABLE_FALSE
+	Tool.KEYC: ToolData.USEABLE_FALSE,
+	Tool.BOOLDYWATER: ToolData.USEABLE_TRUE,
+	Tool.SUICIDEKING: ToolData.USEABLE_TRUE
 }
 
 const TOOL_DURABILITY_MAX = {
@@ -86,7 +100,9 @@ const TOOL_DURABILITY_MAX = {
 }
 
 const TOOL_CONSUMPTION_MAX = {
-	Tool.ADRENALINE: 1
+	Tool.ADRENALINE: 1,
+	Tool.SUICIDEKING: 1,
+	Tool.BOOLDYWATER: 1
 }
 
 # ===================================================================

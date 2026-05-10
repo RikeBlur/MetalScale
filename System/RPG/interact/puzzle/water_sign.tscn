@@ -1,0 +1,129 @@
+[gd_scene format=3 uid="uid://cwkc4rg6xpxc0"]
+
+[ext_resource type="Script" uid="uid://bjlm0kamw5hkx" path="res://Scripts/system/interact/puzzle/water_sign.gd" id="1_fh07l"]
+[ext_resource type="Texture2D" uid="uid://nfbmwaa1f3s4" path="res://Assests/sprite/CG/watersign_white.png" id="2_qmyw0"]
+[ext_resource type="Texture2D" uid="uid://ctxf3f3b3ep38" path="res://Assests/sprite/CG/watersign_red.png" id="3_n5m4c"]
+[ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="4_86ig4"]
+[ext_resource type="Script" uid="uid://dgprjwspphr6g" path="res://Scripts/system/interact/dialogue/dialogue_component.gd" id="6_qmyw0"]
+[ext_resource type="AudioStream" uid="uid://bmkbvgximk7io" path="res://Assests/SFX/UI/collect.mp3" id="7_5gwi1"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="8_0b1dg"]
+[ext_resource type="Script" uid="uid://b37t7a67t8onx" path="res://Scripts/system/interact/dialogue/dialogue_flag.gd" id="9_7bcsi"]
+[ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/data/dialogue_resource/DialogueResource.gd" id="10_gx6ub"]
+[ext_resource type="Script" uid="uid://4p4vcldhkkvo" path="res://Scripts/data/dialogue_resource/DialogueTextResource.gd" id="11_xyncc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fh07l"]
+size = Vector2(321, 457)
+
+[sub_resource type="Resource" id="Resource_7bcsi"]
+script = ExtResource("9_7bcsi")
+next_flag = 0
+style = Array[int]([3])
+start = Array[int]([0])
+end = Array[int]([1])
+metadata/_custom_type_script = "uid://b37t7a67t8onx"
+
+[sub_resource type="Resource" id="Resource_gx6ub"]
+script = ExtResource("11_xyncc")
+speaker_entity = "Oni"
+text = "没有东西可以倒进去。"
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+
+[node name="water_sign" type="Control" unique_id=902084392]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fh07l")
+
+[node name="click" type="Area2D" parent="." unique_id=890880513]
+position = Vector2(485, 220)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="click" unique_id=1666908185]
+position = Vector2(66.5, 112.5)
+shape = SubResource("RectangleShape2D_fh07l")
+
+[node name="watersign_red" type="Sprite2D" parent="." unique_id=423755607]
+position = Vector2(576.5, 324.55817)
+scale = Vector2(3.5271318, 3.5271323)
+texture = ExtResource("3_n5m4c")
+
+[node name="watersign_white" type="Sprite2D" parent="." unique_id=1724462867]
+position = Vector2(576.5, 324.55817)
+scale = Vector2(3.5271318, 3.5271323)
+texture = ExtResource("2_qmyw0")
+
+[node name="SFXPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1324049236]
+stream = ExtResource("7_5gwi1")
+script = ExtResource("8_0b1dg")
+metadata/_custom_type_script = "uid://use5ds4i6ib4"
+
+[node name="use_or_not" type="Control" parent="." unique_id=1443325230]
+visible = false
+anchors_preset = 0
+offset_left = 548.0
+offset_top = 337.0
+offset_right = 588.0
+offset_bottom = 377.0
+
+[node name="Panel" type="MarginContainer" parent="use_or_not" unique_id=1422847953]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_86ig4")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Container" type="PanelContainer" parent="use_or_not/Panel" unique_id=963626373]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="use_or_not/Panel/Container" unique_id=473501238]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="use_or_not/Panel/Container/MarginContainer" unique_id=1967328766]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="Label" type="Label" parent="use_or_not/Panel/Container/MarginContainer/VBoxContainer" unique_id=282065298]
+layout_mode = 2
+text = "是否要使用 血水"
+
+[node name="choices" type="HBoxContainer" parent="use_or_not/Panel/Container/MarginContainer/VBoxContainer" unique_id=1094624836]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 150
+
+[node name="yes" type="Button" parent="use_or_not/Panel/Container/MarginContainer/VBoxContainer/choices" unique_id=2040146182]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "是"
+
+[node name="no" type="Button" parent="use_or_not/Panel/Container/MarginContainer/VBoxContainer/choices" unique_id=1800960568]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "否"
+
+[node name="dialogue" type="Node2D" parent="." unique_id=1268667399]
+script = ExtResource("6_qmyw0")
+trigger_flag = Array[ExtResource("9_7bcsi")]([SubResource("Resource_7bcsi")])
+dialogue_content = Array[ExtResource("10_gx6ub")]([SubResource("Resource_gx6ub")])
+
+[node name="CanvasLayer" type="CanvasLayer" parent="dialogue" unique_id=214268892]
+layer = 9

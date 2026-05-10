@@ -61,4 +61,4 @@ func _all_puzzle_components_valid() -> bool:
 
 
 func _is_puzzle_completed(component: PuzzleComponent) -> bool:
-	return component != null and is_instance_valid(component) and component.state == 2
+	return component != null and is_instance_valid(component) and (component.state == 2 or component.state == 3)

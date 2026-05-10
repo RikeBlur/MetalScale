@@ -4,7 +4,7 @@ extends Node2D
 signal puzzle_opened
 signal puzzle_state_changed(state: int)
 
-@export_range(0, 2, 1) var state: int = 1
+@export_range(0, 3, 1) var state: int = 1
 @export var puzzle_ui_type: UI_manager.UI_component = UI_manager.UI_component.PUZZLESWITCH
 @export var interactable_reminder: AnimatedSprite2D = null
 @export var reminder_offset := Vector2(50, -80)
@@ -29,7 +29,7 @@ func _ready() -> void:
 
 
 func set_puzzle_state(new_state: int, from_content: bool = false) -> void:
-	if new_state < 0 or new_state > 2:
+	if new_state < 0 or new_state > 3:
 		push_warning("PuzzleComponent: invalid puzzle state: %d" % new_state)
 		return
 
@@ -47,7 +47,7 @@ func set_puzzle_state(new_state: int, from_content: bool = false) -> void:
 	_sync_open_puzzle_content_state(from_content)
 	_update_base_level_state()
 
-	if from_content and old_state != 2 and state == 2:
+	if from_content and old_state != 2 and old_state != 3 and (state == 2 or state == 3):
 		print("谜题完成")
 
 
@@ -56,7 +56,7 @@ func set_puzzle_interactable(interactable: bool) -> void:
 
 
 func open_puzzle() -> void:
-	if state != 1:
+	if state != 1 and state != 3:
 		return
 
 	if not UIManager:
@@ -107,12 +107,12 @@ func _on_be_not_interactable() -> void:
 
 
 func _on_interacted() -> void:
-	if state == 1:
+	if state == 1 or state == 3:
 		open_puzzle()
 
 
 func _apply_state_to_trigger() -> void:
-	var interactable := state == 1
+	var interactable := state == 1 or state == 3
 	if not interactable:
 		_player_in_range = false
 		_destroy_reminder()
@@ -130,7 +130,7 @@ func _apply_state_to_trigger() -> void:
 
 
 func _spawn_reminder() -> void:
-	if state != 1:
+	if state != 1 and state != 3:
 		_destroy_reminder()
 		return
 
@@ -159,7 +159,7 @@ func _update_interactable_reminder() -> void:
 	if not interactable_reminder:
 		return
 
-	var should_show := state == 1
+	var should_show := state == 1 or state == 3
 	interactable_reminder.visible = should_show
 	if should_show:
 		interactable_reminder.play()

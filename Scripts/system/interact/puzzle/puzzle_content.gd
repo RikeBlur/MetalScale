@@ -159,7 +159,7 @@ func _is_component_interactable() -> bool:
 	if not puzzle_component or not is_instance_valid(puzzle_component):
 		return true
 	if "state" in puzzle_component:
-		return puzzle_component.state == 1
+		return puzzle_component.state == 1 or puzzle_component.state == 3
 	return true
 
 

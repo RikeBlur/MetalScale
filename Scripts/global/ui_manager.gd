@@ -14,7 +14,8 @@ enum UI_component {
 	PLAYERINFO,
 	PUZZLESWITCH,
 	PUZZLESWITCH2,
-	PUZZLESWITCH3
+	PUZZLESWITCH3,
+	WATERSIGN
 }
 
 # UI统一数据结构：name(UI_component)、scene、layer、stage
@@ -90,6 +91,12 @@ const UI_DATA = {
 		"scene": preload("res://System/RPG/interact/puzzle/puzzle_switch_3.tscn"),
 		"layer": 2,
 		"stage": -1
+	},
+	UI_component.WATERSIGN: {
+		"name": UI_component.WATERSIGN,
+		"scene": preload("res://System/RPG/interact/puzzle/water_sign.tscn"),
+		"layer": 2,
+		"stage": -1
 	}
 }
 
@@ -142,13 +149,14 @@ var _arrgobar_x_initialized: bool = false # 首次hide后为true
 var _debug_canvas: CanvasLayer = null
 var _debug_label: Label = null
 
-	
+# ================================ 初始化 ================================
+
 func refresh_ui_manager() -> void:
 	# 自动读取UI_LAYERS节点
-	if not ui_layers:
+	if not ui_layers or not is_instance_valid(ui_layers):
 		ui_layers = get_tree().current_scene.get_node_or_null("UI_LAYERS")
 	# 自动从GameManager读取player
-	if not player_now:
+	if not player_now or not is_instance_valid(player_now):
 		player_now = GameManager.get_player()
 	# 初始化canvas layers
 	_initialize_layers()
@@ -167,6 +175,8 @@ func refresh_ui_manager() -> void:
 	# 初始化 Debug UI（复用 GameManager.debug 开关）
 	if GameManager.debug and not _debug_canvas:
 		_create_debug_ui()
+
+# ================================ 核心退出功能 ================================
 
 func _process(_delta):
 	# 检测退出键，按层级处理 UI 关闭/打开
@@ -206,12 +216,18 @@ func _try_close_top_visible_ui_in_layers(layer_ids: Array[int]) -> bool:
 	return false
 
 
+# ============================== 谜题退出机制 ================================
+
 func _puzzle_quit_once() -> bool:
 	if not Input.is_action_just_pressed("quit"):
 		return false
 	if is_ui_visible(UI_component.PUZZLESWITCH):
 		return true
 	if UI_DATA.has(UI_component.PUZZLESWITCH2) and is_ui_visible(UI_component.PUZZLESWITCH2):
+		return true
+	if UI_DATA.has(UI_component.PUZZLESWITCH3) and is_ui_visible(UI_component.PUZZLESWITCH3):
+		return true
+	if UI_DATA.has(UI_component.WATERSIGN) and is_ui_visible(UI_component.WATERSIGN):
 		return true
 	return false
 
@@ -330,6 +346,13 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 		if "ui_type" in ui_instance:
 			ui_instance.ui_type = UI_component.PUZZLESWITCH3
 		_add_ui_to_visible_list(UI_component.PUZZLESWITCH3)
+
+	if ui_type == UI_component.WATERSIGN :
+		if "own_manager" in ui_instance:
+			ui_instance.own_manager = self
+		if "ui_type" in ui_instance:
+			ui_instance.ui_type = UI_component.WATERSIGN
+		_add_ui_to_visible_list(UI_component.WATERSIGN)
 
 	target_layer.add_child(ui_instance)
 	
@@ -703,6 +726,69 @@ func safe_remove_all_ui():
 	# 清空显示列表
 	layer_visible_uis.clear()
 	print("UI_manager: 完成移除所有UI实例")
+
+
+func prepare_for_scene_change() -> void:
+	"""场景切换前释放可见UI，避免旧UI状态带到新场景"""
+	print("UI_manager: 场景切换前清理可见UI")
+	var should_restore_control := is_settings_showing and GameManager.get_running_state() == GameManager.RunningState.MENU
+	_kill_ui_tweens()
+	_sync_layer1_visible_ui_state()
+
+	var visible_ui_types: Array = []
+	for layer_id in layer_visible_uis.keys():
+		for ui_type in layer_visible_uis[layer_id]:
+			if not visible_ui_types.has(ui_type):
+				visible_ui_types.append(ui_type)
+
+	for ui_type in visible_ui_types:
+		_free_ui_instance_immediately(ui_type)
+
+	layer_visible_uis.clear()
+	layers.clear()
+	ui_layers = null
+	_reset_ui_visibility_state()
+	if should_restore_control:
+		GameManager.set_running_state(GameManager.RunningState.CONTROL)
+		InputEvents.hide_mouse()
+
+
+func _sync_layer1_visible_ui_state() -> void:
+	if is_settings_showing:
+		_add_ui_to_visible_list(UI_component.SETTINGS)
+	if is_toolbar_showing:
+		_add_ui_to_visible_list(UI_component.TOOLBAR)
+	if is_arrgobar_showing:
+		_add_ui_to_visible_list(UI_component.ARRGOBAR)
+
+
+func _free_ui_instance_immediately(ui_type: UI_component) -> void:
+	var ui = ui_instances.get(ui_type)
+	ui_instances.erase(ui_type)
+	if ui and is_instance_valid(ui):
+		ui.queue_free()
+
+
+func _kill_ui_tweens() -> void:
+	if _toolbar_tween and _toolbar_tween.is_valid():
+		_toolbar_tween.kill()
+	if _settings_tween and _settings_tween.is_valid():
+		_settings_tween.kill()
+	if _arrgobar_tween and _arrgobar_tween.is_valid():
+		_arrgobar_tween.kill()
+	_toolbar_tween = null
+	_settings_tween = null
+	_arrgobar_tween = null
+
+
+func _reset_ui_visibility_state() -> void:
+	is_settings_showing = false
+	is_toolbar_showing = true
+	is_arrgobar_showing = true
+	_settings_y_initialized = false
+	_toolbar_x_initialized = false
+	_arrgobar_x_initialized = false
+
 
 func safe_remove_self():
 	"""安全地释放UI_manager自身"""

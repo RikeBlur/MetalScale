@@ -44,19 +44,27 @@ shadow_effect_floor：暗部至少保留多少滤镜存在感 <br>
 ## 26.05.07
 
 6 月之前的可游玩版本：
-完成 Oni、AX、Gone 的设定图和人设文本；
-徘徊 世界观文本；
 游戏 1-3 层所有锁钥系统连接、events、puzzles、tool及其文本、Oni 的 selftalk 系统；
-1 层玄关地图；
-电池完成；
+1-9 玄关；
 与 AX 的对话；
-死亡延迟
+tool - 电池；
+自动售货机；
+密码箱；
+门牌 - 临济录；
+门牌 - 失踪事件
+melt jumpscare
+闪光 trap
 
 已完成：
 melt 和 EYE 的 jumpscare ；
 AX 处决 EYE 的特殊 jumpscare ；
 	JumpScare 的播放路径记录在 npc_manager 里面！
 	完成了 jumpscare_player 和 专属的 animated sprite2D 类
+死亡延迟；
+tool - 血水；
+tool - 自杀之王；
+完成 Oni、AX、Gone 的设定图和人设文本；
+徘徊 世界观文本；
 
 ## 26.05.03
 

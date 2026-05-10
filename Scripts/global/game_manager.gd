@@ -27,13 +27,14 @@ const OPENING_MENU_SCENE_PATH = "res://DEMO/AdiosToMe/OpeningMenu.tscn"
 const CONFIG_PATH: String = "user://config.tres"
 const DEFAULT_GLOBAL_VFX_SHADER_PATH: String = "res://Effect/Shader/default_global_vfx/global_vfx_vhs.gdshader"
 const DEFAULT_FIRST_DIALOGUE: String = "ObjectAndCharacter/Interactable/DialogueComponent"
+const DEATHWAIT_TIME: float = 1.0
 
 # ====================================================================================================
 # ============================================ 游戏状态枚举 =============================================
 # ====================================================================================================
 
 # ！！！   DEBUG 选项    ！！！
-var debug : bool = false
+var debug : bool = true
 # ！！！   DEBUG 选项    ！！！
 
 # 游戏状态枚举
@@ -336,6 +337,16 @@ func notify_player_died(dead_player: player = null) -> void:
 	set_running_state(RunningState.AUTO)
 
 	print("GameManager: player died")
+	var death_flow_token := _death_flow_token
+	var death_wait_time: float = max(DEATHWAIT_TIME, 0.0)
+	if death_wait_time > 0.0:
+		await get_tree().create_timer(death_wait_time).timeout
+	else:
+		await get_tree().process_frame
+
+	if death_flow_token != _death_flow_token or not _is_player_death_flow_running:
+		return
+
 	player_died.emit()
 
 

@@ -29,7 +29,7 @@ shader_parameter/time_offset = 0.0
 shader_parameter/gradient_texture = SubResource("NoiseTexture2D_n84yp")
 shader_parameter/use_gradient = true
 shader_parameter/base_color = Color(0, 0, 0, 1)
-shader_parameter/alpha_multiplier = 1.050000049875
+shader_parameter/alpha_multiplier = 1.200000057
 shader_parameter/color_mix_strength = 0.990000047025
 
 [node name="Statemachine" type="Control" unique_id=883631207]

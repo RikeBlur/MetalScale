@@ -14,6 +14,7 @@ Autoload 名称：`GameManager`
 - 保存全局玩家实例和全局相机实例，供 `SceneManager`、`ArchiveManager`、`UIManager` 等访问。
 - 每帧读取 `player.aggro_value`，发出仇恨状态信号。
 - 统一处理玩家死亡流程，切到死亡 cutscene，再回到主菜单。
+- 在玩家死亡入口保留短暂停留时间，给 NPC jumpscare 等死亡前表现留出播放窗口。
 - 保存并应用 `ConfigData` 中的 BGM、SFX、Gamma 配置。
 
 ## 参与游戏管线的操作
@@ -70,15 +71,23 @@ GameManager.Loading.emit()
 
 入口：`notify_player_died(dead_player := null)`
 
+`notify_player_died()` 是玩家死亡后的统一入口。它不直接释放玩家节点，也不立刻开始死亡 cutscene，而是先把玩家留在原场景一小段时间。等待时长由常量控制：
+
+```gdscript
+const DEATHWAIT_TIME: float = 1.0
+```
+
 流程：
 
 1. 找到玩家实例。
 2. 设置 `is_died = true`、`health_now = 0`。
-3. 禁用移动、交互、行动和输入。
+3. 禁用移动、交互、行动，清空 `velocity`。
 4. 设置 `RunningState.AUTO`。
-5. 发出 `player_died` 信号。
+5. 等待 `max(DEATHWAIT_TIME, 0.0)` 秒；如果常量为 0 或负数，则至少等待一帧。
+6. 等待期间使用 `_death_flow_token` 做时序保护。如果读档、新游戏或其他流程打断死亡流程，旧协程不会继续发出 `player_died`。
+7. 确认死亡流程仍然有效后，发出 `player_died` 信号。
 
-`GameManager._on_player_died()` 会等待 `CutsceneManager.death_cutscene_finished`。等待期间使用 `_death_flow_token` 做时序保护：如果读档或其他流程打断死亡流程，旧的死亡协程不会继续执行。
+`player_died` 发出后，`CutsceneManager` 才会进入死亡 cutscene。`GameManager._on_player_died()` 会等待 `CutsceneManager.death_cutscene_finished`；等待完成后再次检查 `_death_flow_token`，避免旧死亡流程继续切场景。
 
 确认死亡 cutscene 完成后，流程会：
 
@@ -90,6 +99,29 @@ GameManager.Loading.emit()
 6. 重置仇恨状态，重新创建玩家与相机。
 7. 重置玩家运行时状态。
 8. 设置为 `MENU + NOPE`。
+
+### NPC jumpscare 与死亡等待
+
+当玩家是被 NPC 伤害杀死时，jumpscare 的触发点在 `GameManager.notify_player_died()` 之前：
+
+1. `damage_component` 把自己的 `entity` 作为伤害来源传给玩家的 `hurted_component`。
+2. 玩家 `hurted_component` 进入死亡分支后，如果伤害来源是 `npc`，先发出：
+
+```gdscript
+signal npc_kill_player(damage_source: npc)
+```
+
+3. `NPCManager` 监听该信号，根据 `damage_source` 选择对应 jumpscare。当前 `EnemyEye` 对应：
+
+```gdscript
+res://Effect/Animation/eye_jumpscare.tscn
+```
+
+4. `NPCManager` 会在自身节点下创建 `CanvasLayer`，`layer = 10`，并把 jumpscare player 实例化到该 layer 中。
+5. 因为 jumpscare layer 挂在 Autoload `NPCManager` 下，不挂在当前场景下，所以后续死亡 cutscene 或回主菜单的场景切换不会直接释放正在播放的 jumpscare。
+6. `JumpScarePlayer.play_oneshot()` 播放完成后发出 `oneshot_finished`，`NPCManager` 清理整个 jumpscare layer。
+
+`DEATHWAIT_TIME` 的作用就是让玩家死亡后仍短暂停留在原场景，避免 NPC jumpscare 刚触发就立刻被死亡 cutscene 或场景切换打断。死亡 cutscene 的启动应由 `player_died` 信号驱动，不应在 `player.gd` 或 `hurted_component.gd` 中提前播放。
 
 ### 仇恨状态信号
 
@@ -173,6 +205,8 @@ const CAMERA_SCENE_PATH = "res://System/RPG/entity/camera.tscn"
 - `current_runnnig_state` 变量名当前拼写就是三连 `n`，使用代码时保持一致。
 - `GameManager.current_state = ...` 在部分代码中被直接赋值；新增逻辑建议优先使用 `set_game_state()`，除非要完全复刻当前换场流程。
 - `RunningState.AUTO` 表示玩家输入应被系统流程接管，例如 cutscene、死亡、自动演出。
+- `DEATHWAIT_TIME` 是玩家死亡后、`player_died` 信号发出前的等待时间；玩家节点在这段时间内应保持有效，不能在 `player.gd` 中立即 `queue_free()`。
+- NPC jumpscare 由 `hurted_component.npc_kill_player` 通知 `NPCManager` 播放，`GameManager` 只负责死亡等待和之后的 `player_died` 管线。
 - `Loaded` 信号会进入 `_on_loaded()`，它会把游戏恢复到 `RUNNING + CONTROL`。读档、快速读档、新游戏完成时都应该发出它。
 - `prepare_for_archive_load()` 用于读档开始时打断可能残留的死亡流程，并清空仇恨边沿追踪。
 - `sync_player_arrgo_state()` 用于读档恢复 `player.aggro_value` 后同步 `player_arrgo` 和 `_prev_aggro_value`，避免读档第一帧误触发仇恨信号。

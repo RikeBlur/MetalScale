@@ -93,10 +93,11 @@ tile_set = ExtResource("5_y74eg")
 
 [node name="decorate" type="Node2D" parent="terrian" unique_id=988105287]
 z_index = 2
+position = Vector2(0, -4)
 
-[node name="TileMapLayer" type="TileMapLayer" parent="terrian/decorate" unique_id=464359104]
+[node name="1" type="TileMapLayer" parent="terrian/decorate" unique_id=464359104]
 position = Vector2(-6, -1)
-tile_map_data = PackedByteArray("AAArAAsABwADAAgAAAArAAwABwADAAkAAAAsAAsABwAEAAgAAAAsAAwABwAEAAkAAAAyABMABwAGAAgAAAAyABQABwAGAAkAAAAzABMABwAHAAgAAAAzABQABwAHAAkAAAAkABoABwAIAAkAAAAlABoABwAJAAkAAAA=")
+tile_map_data = PackedByteArray("AAAyABMABwAGAAgAAAAyABQABwAGAAkAAAAzABMABwAHAAgAAAAzABQABwAHAAkAAAAkABoABwAIAAkAAAAlABoABwAJAAkAAAA=")
 tile_set = ExtResource("5_y74eg")
 
 [node name="ObjectAndCharacter" type="Node2D" parent="." unique_id=1025094887]
