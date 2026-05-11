@@ -30,6 +30,7 @@ const JUMPSCARE_LAYER_INDEX: int = 10
 var not_running: bool = true
 var jumpscare_player_paths: Dictionary = {
 	npc_type.EYE: "res://Effect/Animation/eye_jumpscare.tscn",
+	npc_type.melt: "res://Effect/Animation/melt_jumpscare.tscn"
 }
 
 # ====================================================================================================
@@ -64,7 +65,7 @@ var npc_dict: Dictionary = {
 	),
 	"1-0": NPCData.new().setup(
 		preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
-		npc_type.melt, "1-1", Vector2(750,250), Vector2.DOWN, false, 0
+		npc_type.melt, "2-5", Vector2(750,250), Vector2.DOWN, false, 0
 	),
 }
 
@@ -76,7 +77,7 @@ func _create_default_npc_dict() -> Dictionary:
 		),
 		"1-0": NPCData.new().setup(
 			preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
-			npc_type.melt, "1-1", Vector2(750,250), Vector2.DOWN, false, 0
+			npc_type.melt, "2-5", Vector2(750,250), Vector2.DOWN, false, 0
 		),
 	}
 
@@ -276,7 +277,7 @@ func _on_player_reseted() -> void:
 			print("NpcManager: 场景 '%s' 出现NPC '%s'" % [current_key, npc_id])
 
 # ====================================================================================================
-# ============================== 4. EYE特有行为 =====================================================
+# ====================================== 3.5. Jumpscare 触发 ========================================
 # ====================================================================================================
 
 func _connect_player_hurted_component() -> void:
@@ -341,10 +342,13 @@ func _play_jumpscare_for_damage_source(damage_source: npc) -> void:
 func _on_jumpscare_player_finished() -> void:
 	_clear_jumpscare_canvas_layer()
 
+# ================= 这里扩展！！！！===================
 
 func _get_jumpscare_type_for_damage_source(damage_source: npc) -> int:
 	if damage_source is EnemyEye:
 		return npc_type.EYE
+	if damage_source is EnemyMelt:
+		return npc_type.melt
 	return -1
 
 
@@ -368,6 +372,11 @@ func _clear_jumpscare_canvas_layer() -> void:
 
 func _clear_jumpscare_player() -> void:
 	_clear_jumpscare_canvas_layer()
+
+
+# ====================================================================================================
+# ============================== 4. EYE特有行为 =====================================================
+# ====================================================================================================
 
 
 func _update_eye_behaviors(delta: float) -> void:

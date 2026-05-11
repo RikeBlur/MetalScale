@@ -44,11 +44,11 @@ shadow_effect_floor：暗部至少保留多少滤镜存在感 <br>
 ## 26.05.07
 
 6 月之前的可游玩版本：
-游戏 1-3 层所有锁钥系统连接、events、puzzles、tool及其文本、Oni 的 selftalk 系统；
+锁钥连接
+Oni 的 selftalk 系统；
 1-9 玄关；
 与 AX 的对话；
 tool - 电池；
-melt jumpscare
 闪光 trap
 密码箱；
 门牌 - 临济录；

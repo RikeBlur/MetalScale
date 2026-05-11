@@ -5,6 +5,7 @@ extends Node2D
 @export var current_tool: Tool = Tool.NONE
 
 const max_durability: float = 100.0
+const CONSUMABLE_STACK_LIMIT: int = 64
 
 # ===================================================================
 # ========================== Tool Data 信息 维护 ======================
@@ -46,7 +47,7 @@ const TOOL_DESCRIPTION = {
 	Tool.KEYC: "钥匙C",
 	Tool.BOOLDYWATER: "血色的瓶装水，但似乎没有那么想象中的粘稠。",
 	Tool.SUICIDEKING: "一张崭新的扑克牌。红桃K。",
-	Tool.BATTERY: "9号电池，似乎可以装入应急光源中。"
+	Tool.BATTERY: "9号电池，似乎可以装入应急光源中。可以在电量低时使用。"
 }
 
 const TOOL_ICONS = {
@@ -107,10 +108,10 @@ const TOOL_DURABILITY_MAX = {
 }
 
 const TOOL_CONSUMPTION_MAX = {
-	Tool.ADRENALINE: 1,
-	Tool.SUICIDEKING: 1,
-	Tool.BOOLDYWATER: 1,
-	Tool.BATTERY: 64
+	Tool.ADRENALINE: 0,
+	Tool.SUICIDEKING: 0,
+	Tool.BOOLDYWATER: 0,
+	Tool.BATTERY: 0
 }
 
 # ===================================================================
@@ -175,7 +176,7 @@ func consumption_changed(tool_used: Tool, count: int) -> void:
 	if not data or data.type != ToolData.TYPE_CONSUMABLE:
 		return
 
-	data.consumption = max(data.consumption + count, 0)
+	data.consumption = clampi(data.consumption + count, 0, CONSUMABLE_STACK_LIMIT)
 	if data.consumption == 0:
 		_remove_consumed_tool_from_available(tool_used)
 
@@ -236,6 +237,33 @@ func set_tool_state(tool: Tool, new_state: int) -> void:
 	if data.state == ToolData.STATE_BROKEN and new_state != ToolData.STATE_BROKEN:
 		return
 	data.state = clampi(new_state, ToolData.STATE_UNSELECTED, ToolData.STATE_BROKEN)
+
+func add_consumable_tool(tool: Tool, amount: int = 1) -> bool:
+	if amount <= 0:
+		return false
+	if not player_now:
+		return false
+
+	var data := get_tool_data(tool)
+	if not data or data.type != ToolData.TYPE_CONSUMABLE:
+		return false
+	if data.consumption >= CONSUMABLE_STACK_LIMIT:
+		return false
+
+	if not player_now.tool_available.has(tool):
+		var empty_slot_index := _find_empty_tool_slot()
+		if empty_slot_index < 0:
+			return false
+		player_now.tool_available[empty_slot_index] = tool
+
+	var added_amount: int = min(amount, CONSUMABLE_STACK_LIMIT - data.consumption)
+	if added_amount <= 0:
+		return false
+
+	data.consumption += added_amount
+	_sync_available_tool_changes()
+	_sync_runtime_lookup()
+	return true
 
 func _on_tool_changed(new_tool_index: int) -> void:
 	if not player_now:
@@ -309,7 +337,7 @@ func _sync_available_tool_changes() -> void:
 		var new_count: int = new_counts.get(tool, 0)
 		var data := get_tool_data(tool)
 
-		if old_count == 0 and new_count > 0 and data and data.state != ToolData.STATE_ACTIVE and data.state != ToolData.STATE_BROKEN:
+		if old_count == 0 and new_count > 0 and data and data.type != ToolData.TYPE_CONSUMABLE and data.state != ToolData.STATE_ACTIVE and data.state != ToolData.STATE_BROKEN:
 			data.reset_runtime_values()
 
 		if new_count == 0 and data and data.state != ToolData.STATE_ACTIVE and data.state != ToolData.STATE_BROKEN:
@@ -334,6 +362,16 @@ func _count_available_tools() -> Dictionary:
 		counts[tool] = counts.get(tool, 0) + 1
 
 	return counts
+
+func _find_empty_tool_slot() -> int:
+	if not player_now:
+		return -1
+
+	for i in range(player_now.tool_available.size()):
+		if player_now.tool_available[i] == Tool.NONE:
+			return i
+
+	return -1
 
 func _remove_consumed_tool_from_available(tool_used: Tool) -> void:
 	if not player_now:

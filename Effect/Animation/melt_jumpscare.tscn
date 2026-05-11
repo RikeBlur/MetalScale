@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://c03xsrk608dhd"]
+
+[ext_resource type="Script" uid="uid://b4jvxoy1tupgv" path="res://Scripts/system/view/jumpscare_player.gd" id="1_tj487"]
+[ext_resource type="Shader" uid="uid://dkx347hhlonq2" path="res://Effect/Shader/neo_dissolve/neo_dissolve.gdshader" id="2_7scg7"]
+[ext_resource type="Texture2D" uid="uid://b0qh0wtaqhfst" path="res://Effect/Shader/waving_noise/noise_0.tres" id="3_l3j0l"]
+[ext_resource type="Texture2D" uid="uid://cq5rih7yrbchq" path="res://Assests/sprite/Character/melt/meltjumpscare.png" id="4_tj487"]
+[ext_resource type="Script" uid="uid://crvdr60vce5nn" path="res://Scripts/system/view/jumpscare_animated_sprite.gd" id="5_peafg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m8hqq"]
+shader = ExtResource("2_7scg7")
+shader_parameter/DissolveValue = 0.0
+shader_parameter/noise_texture = ExtResource("3_l3j0l")
+shader_parameter/noise_scale = 1.0
+shader_parameter/edge_color = Color(0.83, 0, 0, 1)
+shader_parameter/edge_width = 0.1
+shader_parameter/edge_intensity = 2.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ovhn3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_tj487")
+}],
+"loop": false,
+"name": &"default",
+"speed": 16.0
+}]
+
+[node name="MeltJumpscare" type="Node2D" unique_id=31136147 node_paths=PackedStringArray("animation_array")]
+script = ExtResource("1_tj487")
+animation_array = [NodePath("AnimatedSprite2D")]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1591338957]
+material = SubResource("ShaderMaterial_m8hqq")
+position = Vector2(592, 311)
+rotation = 0.23561946
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_ovhn3")
+autoplay = "default"
+frame_progress = 1.0
+script = ExtResource("5_peafg")
+end_scale = Vector2(3.5, 3.5)
+start_position = Vector2(570, 500)
+end_position = Vector2(590, 280)
+end_rotate = 0.157
+animate_time = 0.3
+wait_time = 0.7
+dissolve_time = 0.5

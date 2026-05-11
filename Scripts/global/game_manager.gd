@@ -27,7 +27,7 @@ const OPENING_MENU_SCENE_PATH = "res://DEMO/AdiosToMe/OpeningMenu.tscn"
 const CONFIG_PATH: String = "user://config.tres"
 const DEFAULT_GLOBAL_VFX_SHADER_PATH: String = "res://Effect/Shader/default_global_vfx/global_vfx_vhs.gdshader"
 const DEFAULT_FIRST_DIALOGUE: String = "ObjectAndCharacter/Interactable/DialogueComponent"
-const DEATHWAIT_TIME: float = 1.0
+const DEATHWAIT_TIME: float = 0.5
 
 # ====================================================================================================
 # ============================================ 游戏状态枚举 =============================================

@@ -76,7 +76,7 @@ animations = [{
 
 [node name="CollectableBattery" type="Node2D" unique_id=820129776 groups=["interactable"]]
 script = ExtResource("1_4pdi0")
-collected_tool = 4
+collected_tool = 9
 reminder_offset = Vector2(50, -40)
 
 [node name="interacted_range" type="Area2D" parent="." unique_id=2041620259]

@@ -110,23 +110,40 @@ func _on_collected() -> void:
 		player_node = interacted_component_node.inter_com.player_node
 	else:
 		player_node = GameManager.get_player()
+
+	if not player_node:
+		push_warning("CollectableComponent: 找不到 player 节点")
+		return
+
+	if ToolManager.get_tool_type_static(collected_tool) == ToolData.TYPE_CONSUMABLE:
+		var tool_manager := player_node.get_node_or_null("ToolManager") as ToolManager
+		if tool_manager and tool_manager.add_consumable_tool(collected_tool, 1):
+			_on_collect_success()
+			return
+		print("可消耗物已达到堆叠上限，或玩家的 TOOLBAR 已满")
+		return
+
 	for i in player_node.tool_available.size():
 		if player_node.tool_available[i] == ToolManager.Tool.NONE:
 			player_node.tool_available[i] = collected_tool
-			# 拾取后，使其形式上消失
-			_disappear_literually()
-			# 拾取音效播放
-			collected_sfx.play_once()
-			# 显示收集提示窗口
-			_show_collect_window(collected_tool)
-			# 更新 BaseLevel 中对应的 InteractableData 的状态
-			var base_level = _find_base_level()
-			if base_level:
-				base_level.update_interactable_state(get_path(), 0)
-			else:
-				push_warning("BaseDoor: 未找到 BaseLevel，无法更新 interactables 状态")
+			_on_collect_success()
 			return
 	print("玩家的 TOOLBAR 已满")
+
+
+func _on_collect_success() -> void:
+	# 拾取后，使其形式上消失
+	_disappear_literually()
+	# 拾取音效播放
+	collected_sfx.play_once()
+	# 显示收集提示窗口
+	_show_collect_window(collected_tool)
+	# 更新 BaseLevel 中对应的 InteractableData 的状态
+	var base_level = _find_base_level()
+	if base_level:
+		base_level.update_interactable_state(get_path(), 0)
+	else:
+		push_warning("BaseDoor: 未找到 BaseLevel，无法更新 interactables 状态")
 
 # ============================================== 工具函数 =============================================
 
