@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cbbc6lqbgq4xn"]
+
+[ext_resource type="Script" uid="uid://b63ll2qi2wt2o" path="res://Scripts/system/tools/battery.gd" id="1_ymyme"]
+
+[node name="Battery" type="Node2D" unique_id=1283016102]
+script = ExtResource("1_ymyme")
+
+[node name="SuccessSFX" type="AudioStreamPlayer2D" parent="." unique_id=565640419]

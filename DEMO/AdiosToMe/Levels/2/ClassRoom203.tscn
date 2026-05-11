@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://2h6e6pd6osb7" path="res://System/RPG/object/podium/podium_right.tscn" id="9_vcvbw"]
 [ext_resource type="PackedScene" uid="uid://c7heym7vpxw4c" path="res://System/RPG/lighting/mul_media/mul_media_right.tscn" id="11_7ldhy"]
 [ext_resource type="PackedScene" uid="uid://cvrcmavceo5nx" path="res://System/RPG/interact/collectable/collectable_key.tscn" id="12_gwd28"]
+[ext_resource type="PackedScene" uid="uid://cv5rlvbb03w" path="res://System/RPG/interact/collectable/collectable_battery.tscn" id="13_y5ju1"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
 script = ExtResource("2_vcvbw")
@@ -218,6 +219,15 @@ y_sort_enabled = true
 
 [node name="CollectableKey" parent="ObjectAndCharacter/Interactable/collectable" unique_id=820129776 instance=ExtResource("12_gwd28")]
 position = Vector2(858, 365)
+
+[node name="CollectableBattery" parent="ObjectAndCharacter/Interactable/collectable" unique_id=1557646035 instance=ExtResource("13_y5ju1")]
+position = Vector2(854, 250)
+
+[node name="CollectableBattery2" parent="ObjectAndCharacter/Interactable/collectable" unique_id=753673468 instance=ExtResource("13_y5ju1")]
+position = Vector2(702, 251)
+
+[node name="CollectableBattery3" parent="ObjectAndCharacter/Interactable/collectable" unique_id=1174156226 instance=ExtResource("13_y5ju1")]
+position = Vector2(775, 251)
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
 y_sort_enabled = true

@@ -48,14 +48,14 @@ shadow_effect_floor：暗部至少保留多少滤镜存在感 <br>
 1-9 玄关；
 与 AX 的对话；
 tool - 电池；
-自动售货机；
-密码箱；
-门牌 - 临济录；
-门牌 - 失踪事件
 melt jumpscare
 闪光 trap
+密码箱；
+门牌 - 临济录；
 
 已完成：
+门牌 - 失踪事件
+自动售货机；
 melt 和 EYE 的 jumpscare ；
 AX 处决 EYE 的特殊 jumpscare ；
 	JumpScare 的播放路径记录在 npc_manager 里面！

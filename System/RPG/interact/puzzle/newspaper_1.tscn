@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://cs001l3k5keiq"]
+
+[ext_resource type="Script" uid="uid://0gutfec57dpp" path="res://Scripts/system/interact/puzzle/examinable_thing.gd" id="1_wd3my"]
+[ext_resource type="Texture2D" uid="uid://4r0p482rhjd3" path="res://Assests/sprite/CG/newspaper_1.png" id="2_wd3my"]
+[ext_resource type="AudioStream" uid="uid://bmkbvgximk7io" path="res://Assests/SFX/UI/collect.mp3" id="4_5tky4"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="5_g5m7t"]
+[ext_resource type="Script" uid="uid://dgprjwspphr6g" path="res://Scripts/system/interact/dialogue/dialogue_component.gd" id="7_ceanj"]
+[ext_resource type="Script" uid="uid://b37t7a67t8onx" path="res://Scripts/system/interact/dialogue/dialogue_flag.gd" id="8_a7ar0"]
+[ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/data/dialogue_resource/DialogueResource.gd" id="9_ffffp"]
+[ext_resource type="Script" uid="uid://4p4vcldhkkvo" path="res://Scripts/data/dialogue_resource/DialogueTextResource.gd" id="10_rv08r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fh07l"]
+size = Vector2(321, 457)
+
+[sub_resource type="Resource" id="Resource_7bcsi"]
+script = ExtResource("8_a7ar0")
+next_flag = 0
+style = Array[int]([3])
+start = Array[int]([0])
+end = Array[int]([1])
+metadata/_custom_type_script = "uid://b37t7a67t8onx"
+
+[sub_resource type="Resource" id="Resource_gx6ub"]
+script = ExtResource("10_rv08r")
+speaker_entity = "Oni"
+text = "陈列着红色瓶装水的自动贩卖机。有纸币投币口。"
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+
+[node name="newpaper_1" type="Control" unique_id=902084392]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wd3my")
+
+[node name="click" type="Area2D" parent="." unique_id=890880513]
+position = Vector2(485, 220)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="click" unique_id=1666908185]
+position = Vector2(66.5, 112.5)
+shape = SubResource("RectangleShape2D_fh07l")
+
+[node name="sprite" type="Sprite2D" parent="." unique_id=423755607]
+position = Vector2(527, 328)
+scale = Vector2(3.5271318, 3.5271323)
+texture = ExtResource("2_wd3my")
+
+[node name="SFXPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1324049236]
+stream = ExtResource("4_5tky4")
+script = ExtResource("5_g5m7t")
+metadata/_custom_type_script = "uid://use5ds4i6ib4"
+
+[node name="dialogue" type="Node2D" parent="." unique_id=1268667399]
+script = ExtResource("7_ceanj")
+trigger_flag = Array[ExtResource("8_a7ar0")]([SubResource("Resource_7bcsi")])
+dialogue_content = Array[ExtResource("9_ffffp")]([SubResource("Resource_gx6ub")])
+
+[node name="CanvasLayer" type="CanvasLayer" parent="dialogue" unique_id=214268892]
+layer = 5

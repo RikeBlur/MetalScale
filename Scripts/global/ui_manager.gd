@@ -15,7 +15,8 @@ enum UI_component {
 	PUZZLESWITCH,
 	PUZZLESWITCH2,
 	PUZZLESWITCH3,
-	WATERSIGN
+	WATERSIGN,
+	NEWSPAPER1
 }
 
 # UI统一数据结构：name(UI_component)、scene、layer、stage
@@ -97,7 +98,13 @@ const UI_DATA = {
 		"scene": preload("res://System/RPG/interact/puzzle/water_sign.tscn"),
 		"layer": 2,
 		"stage": -1
-	}
+	},
+	UI_component.NEWSPAPER1: {
+		"name": UI_component.NEWSPAPER1,
+		"scene": preload("res://System/RPG/interact/puzzle/newspaper_1.tscn"),
+		"layer": 2,
+		"stage": -1
+	}	
 }
 
 # Canvas Layers存储
@@ -229,6 +236,8 @@ func _puzzle_quit_once() -> bool:
 		return true
 	if UI_DATA.has(UI_component.WATERSIGN) and is_ui_visible(UI_component.WATERSIGN):
 		return true
+	if UI_DATA.has(UI_component.NEWSPAPER1) and is_ui_visible(UI_component.NEWSPAPER1):
+		return true
 	return false
 
 # ===================================================================
@@ -325,7 +334,8 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 			ui_instance.player_now = player_now
 		_add_ui_to_visible_list(UI_component.PLAYERINFO)
 		
-	# 添加到对应layer
+# ========================= 谜题场景实例化 ==============================
+
 	if ui_type == UI_component.PUZZLESWITCH :
 		if "own_manager" in ui_instance:
 			ui_instance.own_manager = self
@@ -353,6 +363,13 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 		if "ui_type" in ui_instance:
 			ui_instance.ui_type = UI_component.WATERSIGN
 		_add_ui_to_visible_list(UI_component.WATERSIGN)
+	
+	if ui_type == UI_component.NEWSPAPER1 :
+		if "own_manager" in ui_instance:
+			ui_instance.own_manager = self
+		if "ui_type" in ui_instance:
+			ui_instance.ui_type = UI_component.NEWSPAPER1
+		_add_ui_to_visible_list(UI_component.NEWSPAPER1)
 
 	target_layer.add_child(ui_instance)
 	

@@ -19,7 +19,8 @@ enum Tool {
 	KEYB,
 	KEYC,
 	BOOLDYWATER,
-	SUICIDEKING
+	SUICIDEKING,
+	BATTERY
 }
 
 const TOOL_DISPLAY_NAMES = {
@@ -31,7 +32,8 @@ const TOOL_DISPLAY_NAMES = {
 	Tool.KEYB: "钥匙B",
 	Tool.KEYC: "钥匙C",
 	Tool.BOOLDYWATER: "血水",
-	Tool.SUICIDEKING: "自杀之王"
+	Tool.SUICIDEKING: "自杀之王",
+	Tool.BATTERY: "电池"
 }
 
 const TOOL_DESCRIPTION = {
@@ -42,8 +44,9 @@ const TOOL_DESCRIPTION = {
 	Tool.KEYA: "教师休息室的钥匙。旧教学楼除了大门之外没有上电子锁，每个房间都有着令人怀念实体钥匙。",
 	Tool.KEYB: "钥匙B",
 	Tool.KEYC: "钥匙C",
-	Tool.BOOLDYWATER: "血色的瓶装水，但似乎没有那么粘稠。",
-	Tool.SUICIDEKING: "一张崭新的扑克牌。红桃K。"
+	Tool.BOOLDYWATER: "血色的瓶装水，但似乎没有那么想象中的粘稠。",
+	Tool.SUICIDEKING: "一张崭新的扑克牌。红桃K。",
+	Tool.BATTERY: "9号电池，似乎可以装入应急光源中。"
 }
 
 const TOOL_ICONS = {
@@ -55,7 +58,8 @@ const TOOL_ICONS = {
 	Tool.KEYB: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/keyB_icon.png"),
 	Tool.KEYC: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/keyC_icon.png"),
 	Tool.BOOLDYWATER: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/bloodywater_icon.png"),
-	Tool.SUICIDEKING: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/suicideking_icon.png")
+	Tool.SUICIDEKING: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/suicideking_icon.png"),
+	Tool.BATTERY: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/Battery_icon.png")
 }
 
 const TOOL_PACKED_SCENES = {
@@ -67,7 +71,8 @@ const TOOL_PACKED_SCENES = {
 	Tool.KEYB: null,
 	Tool.KEYC: null,
 	Tool.BOOLDYWATER: null,
-	Tool.SUICIDEKING: null 
+	Tool.SUICIDEKING: null,
+	Tool.BATTERY: preload("res://System/RPG/tools/Tool/Battery.tscn")
 }
 
 const TOOL_TYPES = {
@@ -79,7 +84,8 @@ const TOOL_TYPES = {
 	Tool.KEYB: ToolData.TYPE_PERMANENT,
 	Tool.KEYC: ToolData.TYPE_PERMANENT,
 	Tool.BOOLDYWATER: ToolData.TYPE_CONSUMABLE,
-	Tool.SUICIDEKING: ToolData.TYPE_CONSUMABLE
+	Tool.SUICIDEKING: ToolData.TYPE_CONSUMABLE,
+	Tool.BATTERY: ToolData.TYPE_CONSUMABLE
 }
 
 const TOOL_USEABLE = {
@@ -91,7 +97,8 @@ const TOOL_USEABLE = {
 	Tool.KEYB: ToolData.USEABLE_FALSE,
 	Tool.KEYC: ToolData.USEABLE_FALSE,
 	Tool.BOOLDYWATER: ToolData.USEABLE_TRUE,
-	Tool.SUICIDEKING: ToolData.USEABLE_TRUE
+	Tool.SUICIDEKING: ToolData.USEABLE_TRUE,
+	Tool.BATTERY: ToolData.USEABLE_TRUE
 }
 
 const TOOL_DURABILITY_MAX = {
@@ -102,7 +109,8 @@ const TOOL_DURABILITY_MAX = {
 const TOOL_CONSUMPTION_MAX = {
 	Tool.ADRENALINE: 1,
 	Tool.SUICIDEKING: 1,
-	Tool.BOOLDYWATER: 1
+	Tool.BOOLDYWATER: 1,
+	Tool.BATTERY: 64
 }
 
 # ===================================================================
