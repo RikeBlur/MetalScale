@@ -48,12 +48,12 @@ shadow_effect_floor：暗部至少保留多少滤镜存在感 <br>
 Oni 的 selftalk 系统；
 1-9 玄关；
 与 AX 的对话；
-tool - 电池；
-闪光 trap
-密码箱；
+闪光 trap；
 门牌 - 临济录；
 
 已完成：
+密码箱；
+tool - 电池；
 门牌 - 失踪事件
 自动售货机；
 melt 和 EYE 的 jumpscare ；

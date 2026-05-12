@@ -1,6 +1,30 @@
 [gd_scene format=3 uid="uid://dtgv3r6qeewdv"]
 
 [ext_resource type="Script" uid="uid://b6ow142jekk4d" path="res://Scripts/system/interact/puzzle/number_switch.gd" id="1_mk634"]
+[ext_resource type="FontFile" uid="uid://d37i5aeopil7e" path="res://Assests/font/pixel8/PixelOperator8-Bold.ttf" id="2_efysb"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="3_lupnc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lupnc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lyu30"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_14si5"]
+bg_color = Color(1, 1, 1, 0.39215687)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vprvb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ori4p"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_id8u8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qky6v"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lupnc"]
+bg_color = Color(1, 1, 1, 0.39215687)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6toow"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x1p7c"]
 
 [node name="NumberSwitch" type="Control" unique_id=674633801 node_paths=PackedStringArray("plus_button", "minus_button", "sink")]
 layout_mode = 3
@@ -16,21 +40,38 @@ sink = NodePath("RichTextLabel")
 
 [node name="Button" type="Button" parent="." unique_id=355489686]
 layout_mode = 0
-offset_right = 22.0
-offset_bottom = 8.0
+offset_top = -4.0
+offset_right = 25.0
+offset_bottom = 14.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_lupnc")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_lyu30")
+theme_override_styles/hover = SubResource("StyleBoxFlat_14si5")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_vprvb")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ori4p")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=112628707]
 layout_mode = 0
-offset_top = 8.0
-offset_right = 22.0
-offset_bottom = 33.0
+offset_left = -9.0
+offset_top = 32.0
+offset_right = 31.0
+offset_bottom = 69.0
+theme_override_fonts/normal_font = ExtResource("2_efysb")
+theme_override_font_sizes/normal_font_size = 32
 text = "4"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Button2" type="Button" parent="." unique_id=1219574200]
 layout_mode = 0
-offset_left = 1.0
-offset_top = 31.0
-offset_right = 21.0
-offset_bottom = 39.0
+offset_top = 82.0
+offset_right = 26.0
+offset_bottom = 100.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_id8u8")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_qky6v")
+theme_override_styles/hover = SubResource("StyleBoxFlat_lupnc")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_6toow")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_x1p7c")
+
+[node name="SFXPlayer" type="AudioStreamPlayer2D" parent="." unique_id=111000348]
+script = ExtResource("3_lupnc")
+metadata/_custom_type_script = "uid://use5ds4i6ib4"

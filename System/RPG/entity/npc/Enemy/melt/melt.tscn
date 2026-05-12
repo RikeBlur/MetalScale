@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://oc6uwgv2luh8" path="res://Assests/sprite/Character/melt/walk/right-Sheet.png" id="13_qd1a0"]
 [ext_resource type="Script" uid="uid://bwj03sov6w1te" path="res://Scripts/components/hurted_component.gd" id="19_q7uvl"]
 [ext_resource type="Script" uid="uid://ddwl07r1qf4dk" path="res://Scripts/components/damage_component.gd" id="20_n3nx0"]
+[ext_resource type="Texture2D" uid="uid://dxhrph7mrvr0w" path="res://Assests/sprite/UI/reminder/collectable_reminder-Sheet.png" id="21_1pgjb"]
 [ext_resource type="AudioStream" uid="uid://b4wr5w25nv133" path="res://Assests/SFX/Character/EYE/breakin.mp3" id="21_wwia4"]
 [ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="22_8b7pq"]
 [ext_resource type="AudioStream" uid="uid://c6r5c40u5qdid" path="res://Assests/SFX/Character/EYE/hiss.mp3" id="23_duo56"]
@@ -1012,8 +1013,44 @@ radius = 7.0
 height = 34.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q7uvl"]
-radius = 18.0
-height = 70.0
+radius = 16.0
+height = 62.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m0qil"]
+atlas = ExtResource("21_1pgjb")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pxcvy"]
+atlas = ExtResource("21_1pgjb")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5jib6"]
+atlas = ExtResource("21_1pgjb")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pvioh"]
+atlas = ExtResource("21_1pgjb")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_prlo4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m0qil")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pxcvy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5jib6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pvioh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
 
 [node name="melt" type="CharacterBody2D" unique_id=431185256]
 y_sort_enabled = true
@@ -1021,7 +1058,7 @@ motion_mode = 1
 script = ExtResource("1_4atho")
 detector_range = 200.0
 lose_track_time = 2.0
-running_speed = 100.0
+running_speed = 180.0
 walking_speed = 50.0
 
 [node name="StateMachine" type="Node2D" parent="." unique_id=1886784812 node_paths=PackedStringArray("initial_node_state", "entity")]
@@ -1056,7 +1093,7 @@ shape = SubResource("CapsuleShape2D_3ftw8")
 
 [node name="SFXManager" type="Node2D" parent="." unique_id=2051950631]
 
-[node name="breakin" type="AudioStreamPlayer2D" parent="SFXManager" unique_id=2016237097]
+[node name="react" type="AudioStreamPlayer2D" parent="SFXManager" unique_id=2016237097]
 stream = ExtResource("21_wwia4")
 script = ExtResource("22_8b7pq")
 metadata/_custom_type_script = "uid://use5ds4i6ib4"
@@ -1113,3 +1150,9 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="damage_component/DamageArea" unique_id=131557867]
 position = Vector2(0, -35)
 shape = SubResource("CapsuleShape2D_q7uvl")
+
+[node name="react_reminder" type="AnimatedSprite2D" parent="." unique_id=1066395697]
+position = Vector2(46, -100)
+sprite_frames = SubResource("SpriteFrames_prlo4")
+autoplay = "default"
+frame_progress = 0.82455695

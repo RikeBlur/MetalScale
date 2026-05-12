@@ -65,7 +65,7 @@ var npc_dict: Dictionary = {
 	),
 	"1-0": NPCData.new().setup(
 		preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
-		npc_type.melt, "2-5", Vector2(750,250), Vector2.DOWN, false, 0
+		npc_type.melt, "2-5", Vector2(600,250), Vector2.DOWN, false, 0
 	),
 }
 
@@ -77,7 +77,7 @@ func _create_default_npc_dict() -> Dictionary:
 		),
 		"1-0": NPCData.new().setup(
 			preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
-			npc_type.melt, "2-5", Vector2(750,250), Vector2.DOWN, false, 0
+			npc_type.melt, "2-5", Vector2(600,250), Vector2.DOWN, false, 0
 		),
 	}
 

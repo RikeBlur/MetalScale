@@ -104,7 +104,7 @@ func apply_interactable_states() -> void:
 			push_warning("BaseLevel: 找不到节点 %s" % interactable.node_path)
 			continue
 		
-		# 根据类型应用状态（与 InteractableData @export_enum 一致：门/可拾取物/对话/谜题/其他）
+		# 根据类型应用状态（与 InteractableData @export_enum 一致：门/可拾取物/对话/谜题/其他/灯）
 		match interactable.type:
 			0:  # 门
 				_apply_door_state(node, interactable.state)
@@ -116,6 +116,8 @@ func apply_interactable_states() -> void:
 				_apply_puzzle_state(node, interactable.state)
 			4:  # 其他
 				_apply_other_state(node, interactable.state)
+			5:  # 灯
+				_apply_light_state(node, interactable.state)
 			_:
 				push_warning("BaseLevel: 未知的 interactable 类型: %d" % interactable.type)
 	
@@ -271,6 +273,25 @@ func _apply_other_collision_object2d(co: CollisionObject2D, collision_enabled: b
 			co.set_meta(_META_OTHER_SAVED_COLLISION_MASK, co.collision_mask)
 		co.collision_layer = 0
 		co.collision_mask = 0
+
+# ====================================================================================================
+
+func _apply_light_state(light_node: Node, state: int) -> void:
+	"""
+	应用灯的状态
+
+	参数:
+		light_node: 灯节点（应该是 ElectronicScreen 类型）
+		state: 状态（0=关闭, 1=开启）
+	"""
+	if state != 0 and state != 1:
+		push_warning("BaseLevel: 灯状态应为 0 或 1，节点: %s，收到: %d" % [light_node.name, state])
+	if light_node is ElectronicScreen:
+		var screen := light_node as ElectronicScreen
+		screen.turned_on = state != 0
+		print("BaseLevel: 已应用灯状态 - 节点: %s, turned_on: %s" % [light_node.name, screen.turned_on])
+	else:
+		push_warning("BaseLevel: 节点 %s 不是 ElectronicScreen 类型，无法应用灯状态" % light_node.name)
 
 # ====================================================================================================
 

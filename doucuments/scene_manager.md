@@ -127,6 +127,7 @@ SceneManager.change_scene(scene_to, scene_to_index)
   - `2` 对话
   - `3` 谜题
   - `4` 其他
+  - `5` 灯
 - `state`：含义由 type 决定。
 
 当前 `BaseLevel.apply_interactable_states()` 已处理：
@@ -136,6 +137,9 @@ SceneManager.change_scene(scene_to, scene_to_index)
 - 对话：写入 `DialogueComponent.current_flag`。
 - 谜题：优先调用 `set_puzzle_state()` 或 `set_puzzle_interactable()`。
 - 其他：优先调用 `set_other_visibility_state()`，否则控制可见性和碰撞。
+- 灯：要求 `node_path` 指向 `ElectronicScreen`，加载场景时把 `state` 映射到 `ElectronicScreen.turned_on`；`0` 表示关闭，`1` 表示开启。
+
+`SceneData.to_dict()/from_dict()` 会保存和恢复 `node_path`、`type`、`state`，`ArchiveManager` 保存 `scene_dict` 时会一并写入这些数据。因此灯状态不需要额外存档字段，只要运行时状态变化后同步更新对应的 `InteractableData.state` 即可。
 
 运行中改变状态时调用：
 

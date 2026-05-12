@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://b3vjfv0x3e8d0"]
+
+[ext_resource type="Texture2D" uid="uid://crj5ydoyqambb" path="res://Assests/sprite/CG/safebox.png" id="1_57ppd"]
+[ext_resource type="Script" uid="uid://gbueqigfygu3" path="res://Scripts/system/interact/puzzle/safebox.gd" id="1_c8i28"]
+[ext_resource type="PackedScene" uid="uid://dtgv3r6qeewdv" path="res://System/RPG/interact/puzzle/number_switch.tscn" id="4_a3dgc"]
+[ext_resource type="PackedScene" uid="uid://bhvnmc3cg0n5m" path="res://System/RPG/interact/collectable/collectable_suicideking.tscn" id="6_ficm0"]
+[ext_resource type="AudioStream" uid="uid://bmkbvgximk7io" path="res://Assests/SFX/UI/collect.mp3" id="7_7vvjj"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="8_r8exf"]
+
+[node name="safebox" type="Control" unique_id=902084392 node_paths=PackedStringArray("success_sfx", "reward_collectable")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_c8i28")
+target_number = Array[int]([8, 9, 3])
+number_switch_paths = Array[NodePath]([NodePath("NumberSwitch"), NodePath("NumberSwitch2"), NodePath("NumberSwitch3")])
+success_sfx = NodePath("SFXPlayer")
+reward_collectable = NodePath("CollectableSuicideking")
+
+[node name="back" type="Sprite2D" parent="." unique_id=1724462867]
+position = Vector2(518, 347)
+scale = Vector2(8, 8)
+texture = ExtResource("1_57ppd")
+
+[node name="SFXPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1324049236]
+stream = ExtResource("7_7vvjj")
+script = ExtResource("8_r8exf")
+metadata/_custom_type_script = "uid://use5ds4i6ib4"
+
+[node name="NumberSwitch" parent="." unique_id=674633801 instance=ExtResource("4_a3dgc")]
+layout_mode = 1
+offset_left = 557.0
+offset_top = 279.0
+offset_right = 557.0
+offset_bottom = 279.0
+
+[node name="NumberSwitch2" parent="." unique_id=896914557 instance=ExtResource("4_a3dgc")]
+layout_mode = 1
+offset_left = 621.0
+offset_top = 279.0
+offset_right = 621.0
+offset_bottom = 279.0
+
+[node name="NumberSwitch3" parent="." unique_id=1630919106 instance=ExtResource("4_a3dgc")]
+layout_mode = 1
+offset_left = 694.0
+offset_top = 279.0
+offset_right = 694.0
+offset_bottom = 279.0
+
+[node name="CollectableSuicideking" parent="." unique_id=820129776 instance=ExtResource("6_ficm0")]
+position = Vector2(-15, -15)

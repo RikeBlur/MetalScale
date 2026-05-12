@@ -20,16 +20,26 @@
 
 [sub_resource type="Resource" id="Resource_va5wj"]
 script = ExtResource("2_2g8gb")
+node_path = NodePath("ObjectAndCharacter/Interactable/door/door")
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Resource" id="Resource_0n24n"]
 script = ExtResource("2_2g8gb")
-type = 2
+node_path = NodePath("ObjectAndCharacter/light/ElectrionicScreen")
+type = 5
+state = 1
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Resource" id="Resource_cu16r"]
 script = ExtResource("2_2g8gb")
-type = 4
+node_path = NodePath("ObjectAndCharacter/light/ElectrionicScreen2")
+type = 5
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_eg62i"]
+script = ExtResource("2_2g8gb")
+node_path = NodePath("ObjectAndCharacter/light/ElectrionicScreen3")
+type = 5
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Gradient" id="Gradient_336yt"]
@@ -66,7 +76,7 @@ y_sort_enabled = true
 script = ExtResource("1_y34y8")
 player_initial_position = Array[Vector2]([Vector2(630, 450)])
 player_initial_direction = Array[Vector2]([Vector2(0, -1)])
-interactables = Array[ExtResource("2_2g8gb")]([SubResource("Resource_va5wj"), SubResource("Resource_0n24n"), SubResource("Resource_cu16r")])
+interactables = Array[ExtResource("2_2g8gb")]([SubResource("Resource_va5wj"), SubResource("Resource_0n24n"), SubResource("Resource_cu16r"), SubResource("Resource_eg62i")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 
@@ -157,6 +167,9 @@ position = Vector2(540, 131)
 [node name="chair7" parent="ObjectAndCharacter/object/chairs" unique_id=1950389941 instance=ExtResource("10_ba5ba")]
 position = Vector2(454, 145)
 
+[node name="chair10" parent="ObjectAndCharacter/object/chairs" unique_id=1484789967 instance=ExtResource("10_ba5ba")]
+position = Vector2(289, 196)
+
 [node name="chair8" parent="ObjectAndCharacter/object/chairs" unique_id=42989762 instance=ExtResource("11_yscbx")]
 position = Vector2(202, 7)
 
@@ -171,11 +184,9 @@ z_index = 1
 position = Vector2(289, 56)
 
 [node name="ElectrionicScreen2" parent="ObjectAndCharacter/light" unique_id=788753966 instance=ExtResource("13_4bc6m")]
-visible = false
 position = Vector2(441, 430)
 
 [node name="ElectrionicScreen3" parent="ObjectAndCharacter/light" unique_id=1584078900 instance=ExtResource("14_vhm42")]
-visible = false
 position = Vector2(727, 425)
 
 [node name="Interactable" type="Node2D" parent="ObjectAndCharacter" unique_id=1164615803]

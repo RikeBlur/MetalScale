@@ -12,11 +12,13 @@ enum UI_component {
 	ARRGOBAR,
 	COLLECTWINDOW,
 	PLAYERINFO,
+	# 谜题
 	PUZZLESWITCH,
 	PUZZLESWITCH2,
 	PUZZLESWITCH3,
 	WATERSIGN,
-	NEWSPAPER1
+	NEWSPAPER1,
+	SAFEBOX
 }
 
 # UI统一数据结构：name(UI_component)、scene、layer、stage
@@ -104,7 +106,13 @@ const UI_DATA = {
 		"scene": preload("res://System/RPG/interact/puzzle/newspaper_1.tscn"),
 		"layer": 2,
 		"stage": -1
-	}	
+	},
+	UI_component.SAFEBOX: {
+		"name": UI_component.SAFEBOX,
+		"scene": preload("res://System/RPG/interact/puzzle/safebox.tscn"),
+		"layer": 2,
+		"stage": -1
+	}
 }
 
 # Canvas Layers存储
@@ -238,6 +246,8 @@ func _puzzle_quit_once() -> bool:
 		return true
 	if UI_DATA.has(UI_component.NEWSPAPER1) and is_ui_visible(UI_component.NEWSPAPER1):
 		return true
+	if UI_DATA.has(UI_component.SAFEBOX) and is_ui_visible(UI_component.SAFEBOX):
+		return true
 	return false
 
 # ===================================================================
@@ -370,6 +380,13 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 		if "ui_type" in ui_instance:
 			ui_instance.ui_type = UI_component.NEWSPAPER1
 		_add_ui_to_visible_list(UI_component.NEWSPAPER1)
+
+	if ui_type == UI_component.SAFEBOX :
+		if "own_manager" in ui_instance:
+			ui_instance.own_manager = self
+		if "ui_type" in ui_instance:
+			ui_instance.ui_type = UI_component.SAFEBOX
+		_add_ui_to_visible_list(UI_component.SAFEBOX)
 
 	target_layer.add_child(ui_instance)
 	

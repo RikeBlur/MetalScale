@@ -5,11 +5,12 @@ signal toPursue
 signal toPatrol
 
 @export var detector_range: float = 300.0
-@export var reaction_time: float = 0.5
+@export var reaction_time: float = 1.0
 @export var lose_track_time: float = 3.0
 
-@onready var breakin: SFXPlayer = $SFXManager/breakin
+@onready var react_sfx: SFXPlayer = $SFXManager/react
 @onready var hiss: SFXPlayer = $SFXManager/hiss
+@onready var react_reminder: AnimatedSprite2D = $react_reminder
 
 var arrgoing: bool = false
 var _player_in_range: bool = false
@@ -18,7 +19,7 @@ var is_reacting_to_pursue: bool = false
 var _reaction_timer: float = 0.0
 
 func _ready() -> void:
-	breakin.play_once()
+	_set_react_reminder_visible(false)
 	hiss.play_start()
 
 func _physics_process(delta: float) -> void:
@@ -34,6 +35,7 @@ func _update_reaction_timer(delta: float) -> void:
 	if not _player_in_range:
 		is_reacting_to_pursue = false
 		_reaction_timer = 0.0
+		_set_react_reminder_visible(false)
 		return
 
 	_reaction_timer = max(_reaction_timer - delta, 0.0)
@@ -41,6 +43,7 @@ func _update_reaction_timer(delta: float) -> void:
 		return
 
 	is_reacting_to_pursue = false
+	_set_react_reminder_visible(false)
 	state = 1
 	emit_signal("toPursue")
 
@@ -50,6 +53,7 @@ func _update_player_detection(delta: float) -> void:
 		_player_in_range = false
 		is_reacting_to_pursue = false
 		_reaction_timer = 0.0
+		_set_react_reminder_visible(false)
 		return
 
 	var distance: float = global_position.distance_to(player_now.global_position)
@@ -61,8 +65,11 @@ func _update_player_detection(delta: float) -> void:
 		is_reacting_to_pursue = true
 		_reaction_timer = max(reaction_time, 0.0)
 		velocity = Vector2.ZERO
+		_play_react_sfx()
+		_set_react_reminder_visible(true)
 		if _reaction_timer <= 0.0:
 			is_reacting_to_pursue = false
+			_set_react_reminder_visible(false)
 			state = 1
 			emit_signal("toPursue")
 		return
@@ -71,6 +78,7 @@ func _update_player_detection(delta: float) -> void:
 		if not _player_in_range:
 			is_reacting_to_pursue = false
 			_reaction_timer = 0.0
+			_set_react_reminder_visible(false)
 		return
 
 	# 玩家在范围内 → 重置失踪计时器
@@ -83,3 +91,12 @@ func _update_player_detection(delta: float) -> void:
 			state = 0
 			emit_signal("toPatrol")
 			_lose_track_timer = 0.0
+
+func _play_react_sfx() -> void:
+	if react_sfx.one_shot:
+		react_sfx.play_once()
+	else:
+		react_sfx.play_start()
+
+func _set_react_reminder_visible(is_visible: bool) -> void:
+	react_reminder.visible = is_visible

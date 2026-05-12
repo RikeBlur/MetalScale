@@ -3,6 +3,8 @@ extends Control
 
 signal number_changed(value: int)
 
+@onready var sfx_player: SFXPlayer = $SFXPlayer
+
 @export var plus_button: BaseButton = null
 @export var minus_button: BaseButton = null
 @export var sink: RichTextLabel = null
@@ -12,6 +14,7 @@ signal number_changed(value: int)
 	set(value):
 		switch_number = _wrap_number(value)
 		_update_sink()
+		sfx_player.play_once()
 		number_changed.emit(switch_number)
 
 

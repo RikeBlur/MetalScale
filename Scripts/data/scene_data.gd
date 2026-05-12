@@ -74,7 +74,7 @@ func from_dict(data: Dictionary) -> void:
 			if item.has("node_path"):
 				interactable.node_path = NodePath(item["node_path"])
 			if item.has("type"):
-				interactable.type = item["type"]
+				interactable.type = int(item["type"])
 			if item.has("state"):
-				interactable.state = item["state"]
+				interactable.state = int(item["state"])
 			interactables.append(interactable)

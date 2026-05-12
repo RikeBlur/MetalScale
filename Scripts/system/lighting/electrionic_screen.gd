@@ -10,9 +10,9 @@ var activated: bool = false
 		if is_node_ready():
 			_apply_turned_on_state()
 
-@export var normal_color_content : Color = Color(0.5, 0.25, 0.275, 1.0)
+@export var normal_color_content : Color = Color(0.5, 0.0, 0.05, 1.0)
 @export var arrgo_color_content : Color = Color(0.85, 0.0, 0.0, 1.0)
-@export var normal_color : Color = Color(0.5, 0.25, 0.275, 1.0)
+@export var normal_color : Color = Color(0.5, 0.0, 0.05, 1.0)
 @export var arrgo_color : Color = Color(0.89, 0.018, 0.018, 1.0)
 @export var color_tween_duration: float = 0.4
 
