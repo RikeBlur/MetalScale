@@ -23,7 +23,7 @@ metadata/_custom_type_script = "uid://b37t7a67t8onx"
 [sub_resource type="Resource" id="Resource_gx6ub"]
 script = ExtResource("10_rv08r")
 speaker_entity = "Oni"
-text = "陈列着红色瓶装水的自动贩卖机。有纸币投币口。"
+text = "一张报纸。记录了本校6年前发生的学生失踪事件。"
 metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 
 [node name="newpaper_1" type="Control" unique_id=902084392]

@@ -49,12 +49,12 @@ Oni 的 selftalk 系统；
 1-9 玄关；
 与 AX 的对话；
 闪光 trap；
-门牌 - 临济录；
 
 已完成：
+临济录；
 密码箱；
 tool - 电池；
-门牌 - 失踪事件
+失踪事件
 自动售货机；
 melt 和 EYE 的 jumpscare ；
 AX 处决 EYE 的特殊 jumpscare ；

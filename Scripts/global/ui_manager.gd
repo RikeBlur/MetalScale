@@ -3,22 +3,23 @@ extends Node2D
 
 # UI组件枚举
 enum UI_component {
-	TOOLBAR,
-	SETTINGS,
-	GAMECONFIG,
-	EXITWINDOW,
-	SAVEGAMEWINDOW,
-	LOADGAMEWINDOW,
-	ARRGOBAR,
-	COLLECTWINDOW,
-	PLAYERINFO,
+	TOOLBAR = 0,
+	SETTINGS = 1,
+	GAMECONFIG = 2,
+	EXITWINDOW = 3,
+	SAVEGAMEWINDOW = 4,
+	LOADGAMEWINDOW = 5,
+	ARRGOBAR = 6,
+	COLLECTWINDOW = 7,
+	PLAYERINFO = 8,
 	# 谜题
-	PUZZLESWITCH,
-	PUZZLESWITCH2,
-	PUZZLESWITCH3,
-	WATERSIGN,
-	NEWSPAPER1,
-	SAFEBOX
+	PUZZLESWITCH = 9,
+	PUZZLESWITCH2 = 10,
+	PUZZLESWITCH3 = 11,
+	WATERSIGN = 12,
+	NEWSPAPER1 = 13,
+	BOOK1 = 14,
+	SAFEBOX = 15
 }
 
 # UI统一数据结构：name(UI_component)、scene、layer、stage
@@ -104,6 +105,12 @@ const UI_DATA = {
 	UI_component.NEWSPAPER1: {
 		"name": UI_component.NEWSPAPER1,
 		"scene": preload("res://System/RPG/interact/puzzle/newspaper_1.tscn"),
+		"layer": 2,
+		"stage": -1
+	},
+	UI_component.BOOK1: {
+		"name": UI_component.BOOK1,
+		"scene": preload("res://System/RPG/interact/puzzle/book_1.tscn"),
 		"layer": 2,
 		"stage": -1
 	},
@@ -246,6 +253,8 @@ func _puzzle_quit_once() -> bool:
 		return true
 	if UI_DATA.has(UI_component.NEWSPAPER1) and is_ui_visible(UI_component.NEWSPAPER1):
 		return true
+	if UI_DATA.has(UI_component.BOOK1) and is_ui_visible(UI_component.BOOK1):
+		return true
 	if UI_DATA.has(UI_component.SAFEBOX) and is_ui_visible(UI_component.SAFEBOX):
 		return true
 	return false
@@ -380,6 +389,13 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 		if "ui_type" in ui_instance:
 			ui_instance.ui_type = UI_component.NEWSPAPER1
 		_add_ui_to_visible_list(UI_component.NEWSPAPER1)
+
+	if ui_type == UI_component.BOOK1 :
+		if "own_manager" in ui_instance:
+			ui_instance.own_manager = self
+		if "ui_type" in ui_instance:
+			ui_instance.ui_type = UI_component.BOOK1
+		_add_ui_to_visible_list(UI_component.BOOK1)
 
 	if ui_type == UI_component.SAFEBOX :
 		if "own_manager" in ui_instance:

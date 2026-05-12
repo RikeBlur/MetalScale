@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://bqkobsxrhal7q"]
+
+[ext_resource type="Script" uid="uid://0gutfec57dpp" path="res://Scripts/system/interact/puzzle/examinable_thing.gd" id="1_vnujv"]
+[ext_resource type="Texture2D" uid="uid://b84hlt0sxeesx" path="res://Assests/sprite/CG/book_1.png" id="2_vnujv"]
+[ext_resource type="AudioStream" uid="uid://bmkbvgximk7io" path="res://Assests/SFX/UI/collect.mp3" id="3_lubkg"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="4_ykjiv"]
+[ext_resource type="Script" uid="uid://dgprjwspphr6g" path="res://Scripts/system/interact/dialogue/dialogue_component.gd" id="5_gynsn"]
+[ext_resource type="Script" uid="uid://b37t7a67t8onx" path="res://Scripts/system/interact/dialogue/dialogue_flag.gd" id="6_kv13s"]
+[ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/data/dialogue_resource/DialogueResource.gd" id="7_8d3l2"]
+[ext_resource type="Script" uid="uid://4p4vcldhkkvo" path="res://Scripts/data/dialogue_resource/DialogueTextResource.gd" id="8_ldimi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fh07l"]
+size = Vector2(321, 400)
+
+[sub_resource type="Resource" id="Resource_7bcsi"]
+script = ExtResource("6_kv13s")
+next_flag = 0
+style = Array[int]([3])
+start = Array[int]([0])
+end = Array[int]([1])
+metadata/_custom_type_script = "uid://b37t7a67t8onx"
+
+[sub_resource type="Resource" id="Resource_gx6ub"]
+script = ExtResource("8_ldimi")
+speaker_entity = "Oni"
+text = "一本旧书，有一页被折起来了。"
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+
+[node name="book_1" type="Control" unique_id=902084392]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vnujv")
+
+[node name="click" type="Area2D" parent="." unique_id=890880513]
+position = Vector2(485, 220)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="click" unique_id=1666908185]
+position = Vector2(66.5, 114)
+shape = SubResource("RectangleShape2D_fh07l")
+
+[node name="sprite" type="Sprite2D" parent="." unique_id=423755607]
+position = Vector2(557, 339)
+scale = Vector2(3.5271318, 3.5271323)
+texture = ExtResource("2_vnujv")
+
+[node name="SFXPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1324049236]
+stream = ExtResource("3_lubkg")
+script = ExtResource("4_ykjiv")
+metadata/_custom_type_script = "uid://use5ds4i6ib4"
+
+[node name="dialogue" type="Node2D" parent="." unique_id=1268667399]
+script = ExtResource("5_gynsn")
+trigger_flag = Array[ExtResource("6_kv13s")]([SubResource("Resource_7bcsi")])
+dialogue_content = Array[ExtResource("7_8d3l2")]([SubResource("Resource_gx6ub")])
+
+[node name="CanvasLayer" type="CanvasLayer" parent="dialogue" unique_id=214268892]
+layer = 5

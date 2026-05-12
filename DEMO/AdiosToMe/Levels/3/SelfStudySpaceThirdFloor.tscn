@@ -275,6 +275,7 @@ y_sort_enabled = true
 
 [node name="PuzzleComponent" parent="ObjectAndCharacter/Interactable" unique_id=1169429463 instance=ExtResource("24_2pv8a")]
 position = Vector2(686, 283)
+puzzle_ui_type = 15
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
 y_sort_enabled = true

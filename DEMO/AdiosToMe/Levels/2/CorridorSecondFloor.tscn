@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://gy5s7mt2h1j8" path="res://System/RPG/object/plant/plant_3.tscn" id="10_lnne8"]
 [ext_resource type="PackedScene" uid="uid://clwn3re40dgmx" path="res://System/RPG/interact/door/var2_invisible/door_invisible.tscn" id="11_awlan"]
 [ext_resource type="PackedScene" uid="uid://ckqqsxjg1mxqs" path="res://System/RPG/interact/door/var3_doubled/door_front_doubled.tscn" id="12_mmvxn"]
-[ext_resource type="PackedScene" uid="uid://dqcap280yv4rh" path="res://System/RPG/interact/doorplate.tscn" id="15_4p02l"]
+[ext_resource type="PackedScene" uid="uid://dqcap280yv4rh" path="res://System/RPG/interact/others/doorplate.tscn" id="15_4p02l"]
 [ext_resource type="Environment" uid="uid://sec1uc51yggp" path="res://Style/environment/WorldOfWonder.tres" id="15_hixpp"]
 [ext_resource type="PackedScene" uid="uid://dwov8jb12h74c" path="res://System/RPG/interact/collectable/collectable_bloodywater.tscn" id="15_kbsqn"]
 [ext_resource type="Texture2D" uid="uid://c600p4b3rflfn" path="res://Assests/sprite/effect/flashpoint-Sheet.png" id="16_djpal"]
@@ -306,7 +306,7 @@ door_name = "教师休息室"
 
 [node name="dispenser" parent="ObjectAndCharacter/Interactable" unique_id=1721797248 node_paths=PackedStringArray("reward_collectable") instance=ExtResource("16_giory")]
 position = Vector2(1166, 151)
-reward_collectable = NodePath("")
+reward_collectable = NodePath("../collectable/CollectableBloodywater")
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=435539595]
 y_sort_enabled = true
