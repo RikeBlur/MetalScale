@@ -246,6 +246,7 @@ dialogue_content = Array[ExtResource("20_i3ugv")]([SubResource("Resource_t31br")
 
 [node name="1" parent="ObjectAndCharacter/Interactable" unique_id=1293804823 instance=ExtResource("23_wqw74")]
 position = Vector2(414, 352)
+npc_direction = Vector2(1, 1)
 
 [node name="SavePoint" parent="ObjectAndCharacter/Interactable" unique_id=1721797248 instance=ExtResource("24_lsv2k")]
 position = Vector2(733, 217)

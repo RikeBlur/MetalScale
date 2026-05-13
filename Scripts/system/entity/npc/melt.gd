@@ -19,6 +19,7 @@ var is_reacting_to_pursue: bool = false
 var _reaction_timer: float = 0.0
 
 func _ready() -> void:
+	super._ready()
 	_set_react_reminder_visible(false)
 	hiss.play_start()
 

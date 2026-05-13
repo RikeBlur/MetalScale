@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://b7fgg2qcnwcji"]
 
-[ext_resource type="Script" uid="uid://b62pfc5vc8hmy" path="res://Scripts/system/entity/npc/npc.gd" id="1_nwrsu"]
+[ext_resource type="Script" uid="uid://rghdb7oqpygj" path="res://Scripts/system/entity/npc/npc_ax.gd" id="1_hjppg"]
 [ext_resource type="Script" uid="uid://dflthbyd1yt3o" path="res://Scripts/state_machine/node_state_machine.gd" id="2_86k84"]
 [ext_resource type="Shader" uid="uid://g68h8mpjhpom" path="res://Effect/Shader/glowing_outline/glowingOutline.gdshader" id="3_hjppg"]
+[ext_resource type="Script" uid="uid://bk5ailqks3ky2" path="res://Scripts/state_machine/Gone/idle_npc.gd" id="3_idle"]
+[ext_resource type="Script" uid="uid://ckgq3dol3b5hq" path="res://Scripts/state_machine/Gone/walk_npc.gd" id="4_walk"]
+[ext_resource type="Script" uid="uid://bvhn2122ugqik" path="res://Scripts/state_machine/Gone/run_npc.gd" id="5_run"]
 [ext_resource type="Texture2D" uid="uid://crv2fxbyxgdkb" path="res://Assests/sprite/Character/AX/idle_10/idle-back-Sheet.png" id="6_fkxkv"]
 [ext_resource type="Texture2D" uid="uid://b8s7q7yprhjax" path="res://Assests/sprite/Character/AX/idle_10/idle_back_left-Sheet.png" id="7_dqf7p"]
 [ext_resource type="Texture2D" uid="uid://djjdqetw7ecn4" path="res://Assests/sprite/Character/AX/idle_10/idle_back_right-Sheet.png" id="8_0lwib"]
@@ -1185,22 +1188,38 @@ animations = [{
 
 [node name="ax_npc" type="CharacterBody2D" unique_id=788386440]
 motion_mode = 1
-script = ExtResource("1_nwrsu")
+script = ExtResource("1_hjppg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1353204047]
 position = Vector2(2, -47)
 shape = SubResource("CapsuleShape2D_2k661")
 
-[node name="StateMachine" type="Node2D" parent="." unique_id=97151342 node_paths=PackedStringArray("entity")]
+[node name="StateMachine" type="Node2D" parent="." unique_id=97151342 node_paths=PackedStringArray("initial_node_state", "entity")]
 script = ExtResource("2_86k84")
+initial_node_state = NodePath("idle")
 entity = NodePath("..")
 
-[node name="Animate" type="AnimatedSprite2D" parent="." unique_id=255632767]
+[node name="idle" type="Node2D" parent="StateMachine" unique_id=670593590 node_paths=PackedStringArray("Character_body", "Animated_Sprite")]
+script = ExtResource("3_idle")
+Character_body = NodePath("../..")
+Animated_Sprite = NodePath("../../AnimatedSprite")
+
+[node name="walk" type="Node2D" parent="StateMachine" unique_id=244276771 node_paths=PackedStringArray("Character_body", "Animated_Sprite")]
+script = ExtResource("4_walk")
+Character_body = NodePath("../..")
+Animated_Sprite = NodePath("../../AnimatedSprite")
+
+[node name="run" type="Node2D" parent="StateMachine" unique_id=105888927 node_paths=PackedStringArray("Character_body", "Animated_Sprite")]
+script = ExtResource("5_run")
+Character_body = NodePath("../..")
+Animated_Sprite = NodePath("../../AnimatedSprite")
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="." unique_id=255632767]
 z_index = 1
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_qomo1")
 position = Vector2(-5.96046e-08, -21.000004)
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_0ra0g")
-autoplay = "default"
+animation = &"idle_front"
 offset = Vector2(0, -200)

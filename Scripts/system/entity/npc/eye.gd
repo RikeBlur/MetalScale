@@ -26,6 +26,7 @@ var _player_in_range: bool = false
 var _lose_track_timer: float = 0.0
 
 func _ready() -> void:
+	super._ready()
 	breakin.play_once()
 	hiss.play_start()
 	_update_ambient_light_position()

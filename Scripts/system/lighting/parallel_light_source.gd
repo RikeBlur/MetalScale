@@ -4,7 +4,11 @@ extends LightSource
 @export var radius : float = 1200.0
 @export var range_offset : float = 1.0
 @export var logic_energy : float = 1.0
-@export var sampling_rate : int = 9
+@export var sampling_rate : int = 9:
+	set(value):
+		sampling_rate = int(max(value, 1))
+		if is_inside_tree():
+			initialize_sample_rays()
 
 var threshold : float = 10.0
 
@@ -29,12 +33,13 @@ func _ready():
 func initialize_sample_rays():
 	"""初始化采样射线，在 -angle_range 到 +angle_range 范围内均匀分布"""
 	sample_rays.clear()
+	var safe_sampling_rate: int = int(max(sampling_rate, 1))
 	
 	# 计算总角度范围：从 -angle_range 到 +angle_range
 	var total_range = 2.0 * angle_range
-	var angle_step = total_range / sampling_rate
+	var angle_step = total_range / safe_sampling_rate
 	
-	for i in range(sampling_rate):
+	for i in range(safe_sampling_rate):
 		# 从 -angle_range 开始分布
 		var start_angle = -angle_range + angle_offset + i * angle_step
 		var end_angle = -angle_range + angle_offset + (i + 1) * angle_step
@@ -115,31 +120,31 @@ func clear_occlusion_points():
 
 func get_sample_ray_for_angle(angle: float) -> SampleRay:
 	"""根据角度获取对应的采样射线"""
-	# 将角度标准化到 -π 到 +π 范围
-	var normalized_angle = fmod(angle + PI, 2.0 * PI)
-	if normalized_angle < 0:
-		normalized_angle += 2.0 * PI
-	normalized_angle -= PI
+	if sample_rays.is_empty():
+		return null
 	
 	# 检查角度是否在有效范围内（考虑 angle_offset）
-	var min_angle = -angle_range + angle_offset
-	var max_angle = angle_range + angle_offset
-	if normalized_angle < min_angle or normalized_angle > max_angle:
+	var normalized_angle = _normalize_angle(angle)
+	var local_angle = _normalize_angle(normalized_angle - angle_offset)
+	if abs(local_angle) > angle_range:
 		return null  # 超出光源照射范围，返回null
 	
 	# 在有效射线中查找匹配的射线
+	var sample_angle = angle_offset + local_angle
 	for ray in sample_rays:
-		if normalized_angle >= ray.angle_start and normalized_angle < ray.angle_end:
+		if _angle_in_ray(sample_angle, ray):
 			return ray
 	
 	# 如果没找到但在范围内，返回最后一个射线（处理边界情况）
-	if sample_rays.size() > 0:
-		return sample_rays[-1]
-	
-	return null
+	return sample_rays[-1]
 
 func calculate_intensity(angle: float, length: float) -> float:
 	"""计算指定角度和距离的光照强度"""
+	if radius <= 0.0 or length >= radius:
+		return 0.0
+	if length <= 0.0:
+		return logic_energy
+
 	var ray = get_sample_ray_for_angle(angle)
 	
 	# 如果角度超出光源范围，返回0强度
@@ -157,6 +162,20 @@ func calculate_intensity(angle: float, length: float) -> float:
 	else:
 		# 如果射线未被遮挡，直接计算强度
 		return (1 - 1 / rlr) * logic_energy
+
+
+func _normalize_angle(angle: float) -> float:
+	var result: float = fmod(angle + PI, 2.0 * PI)
+	if result < 0:
+		result += 2.0 * PI
+	return result - PI
+
+
+func _angle_in_ray(angle: float, ray: SampleRay) -> bool:
+	var local_angle = _normalize_angle(angle - angle_offset)
+	var local_start = _normalize_angle(ray.angle_start - angle_offset)
+	var local_end = _normalize_angle(ray.angle_end - angle_offset)
+	return local_angle >= local_start and local_angle < local_end
 
 
 #------------------------------------------------------------------------------------------------

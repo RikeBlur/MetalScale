@@ -16,6 +16,7 @@ var scene_dict: Dictionary = {
 	"1-6": SceneData.new("res://DEMO/AdiosToMe/Levels/1/StepRoomFirstFloor.tscn", "一层楼梯间", []),
 	"1-7": SceneData.new("res://DEMO/AdiosToMe/Levels/1/SelfStudySpaceFirstFloorC.tscn", "一层自习室C", []),
 	"1-8": SceneData.new("res://DEMO/AdiosToMe/Levels/1/SelfStudySpaceFirstFloorD.tscn", "一层自习室D", []),
+	"1-9": SceneData.new("res://DEMO/AdiosToMe/Levels/1/EntranceHall.tscn", "玄关", []),
 	# ================================================================
 	"2-0": SceneData.new("res://DEMO/AdiosToMe/Levels/2/TeacherRestRoom.tscn", "教师休息室", []),
 	"2-1": SceneData.new("res://DEMO/AdiosToMe/Levels/2/CorridorSecondFloor.tscn", "二层走廊", []),

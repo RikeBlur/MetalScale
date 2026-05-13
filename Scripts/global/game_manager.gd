@@ -76,6 +76,9 @@ var _is_archive_load_running: bool = false
 var _is_player_death_flow_running: bool = false
 var _death_flow_token: int = 0
 
+# 全局信息变量
+var switch_on: bool = false
+
 # 全局配置数据（对应 user://config.tres）
 var config_data: ConfigData = null
 

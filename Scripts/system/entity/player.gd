@@ -22,6 +22,7 @@ var player_last_direction : Vector2 = Vector2.DOWN
 # player info 展示信息
 @export var character_name : String = "On_i_______"
 @export var self_talk : String = "“空气太浑浊了...”"
+var self_talk_index : int = -1
 @export var player_state_info : String = "健康"
 
 # tool
@@ -32,11 +33,18 @@ var player_last_direction : Vector2 = Vector2.DOWN
 var aggro_value : float = 0.0
 
 # 战斗系统 ———— 受伤
-var health_max : float = 100.0
+@export var health_max : float = 100.0
 var health_now : float = 100.0
 var is_died : bool = false
 
 signal player_hurted
+
+@onready var self_talk_manager: SelfTalkManager = get_node_or_null("SelfTalkManager") as SelfTalkManager
+
+
+func _ready() -> void:
+	_setup_self_talk_manager()
+
 
 func _process(_delta: float) -> void:
 	if player_input_blocked != InputEvents.player_input_blocked:
@@ -44,6 +52,18 @@ func _process(_delta: float) -> void:
 
 	if InputEvents.suicide():
 		player_died()
+
+
+func _setup_self_talk_manager() -> void:
+	if not self_talk_manager or not is_instance_valid(self_talk_manager):
+		self_talk_manager = get_node_or_null("SelfTalkManager") as SelfTalkManager
+
+	if not self_talk_manager:
+		self_talk_manager = SelfTalkManager.new()
+		self_talk_manager.name = "SelfTalkManager"
+		add_child(self_talk_manager)
+
+	self_talk_manager.setup(self)
 
 
 # ============================= 死了 ==========================

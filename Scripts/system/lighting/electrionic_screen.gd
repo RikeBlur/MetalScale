@@ -15,10 +15,15 @@ var activated: bool = false
 @export var normal_color : Color = Color(0.5, 0.0, 0.05, 1.0)
 @export var arrgo_color : Color = Color(0.89, 0.018, 0.018, 1.0)
 @export var color_tween_duration: float = 0.4
+@export var logic_energy: float = 1.0:
+	set(value):
+		logic_energy = max(value, 0.0)
+		if is_node_ready():
+			_apply_logic_energy()
 
 var _color_tween: Tween = null
 
-@onready var light_source: Node2D = get_node_or_null("LightSource") as Node2D
+@onready var light_source: LightSource = get_node_or_null("LightSource") as LightSource
 @onready var point_light: PointLight2D = get_node_or_null("LightSource/PointLight2D") as PointLight2D
 @onready var screen_content: Sprite2D = get_node_or_null("ScreenContent") as Sprite2D
 @onready var jiu: Sprite2D = get_node_or_null("JIU") as Sprite2D
@@ -28,6 +33,7 @@ var fix: bool = false
 
 func _ready() -> void:
 	player_now = GameManager.get_player()
+	_apply_logic_energy()
 	if point_light:
 		point_light.color = normal_color
 	# 确保屏幕内容有独立材质，并初始化 basecolor
@@ -135,6 +141,7 @@ func _apply_turned_on_state() -> void:
 	if _color_tween and _color_tween.is_valid():
 		_color_tween.kill()
 	_color_tween = null
+	_apply_logic_energy()
 
 	if light_source:
 		light_source.visible = turned_on
@@ -179,3 +186,12 @@ func _apply_turned_on_state() -> void:
 			jiu.modulate.a = 0.0
 			jiu.visible = false
 		fix = false
+
+
+func _apply_logic_energy() -> void:
+	if not light_source:
+		return
+	if "logic_energy" in light_source:
+		light_source.set("logic_energy", logic_energy)
+	else:
+		push_warning("ElectronicScreen: LightSource 节点没有 logic_energy 属性")

@@ -1,6 +1,6 @@
 extends NodeState
 
-@export var Character_body : npc_gone
+@export var Character_body : npc
 @export var Animated_Sprite : AnimatedSprite2D
 @export var speed_min : int = 200
 @export var speed_max : int = 450
@@ -17,12 +17,10 @@ func _on_physics_process(delta : float) -> void:
 		return
 
 	direction = Character_body.get_movement_direction()
-	last_direction = Character_body.player_last_direction
+	last_direction = Character_body.get_npc_idle_direction()
 	speed = clamp(speed + delta * accelaration, speed_min, speed_max)
 	if direction != Vector2.ZERO:
-		Character_body.player_direction = direction
-		Character_body.player_last_direction = direction
-		Character_body.npc_direction = direction
+		Character_body.set_npc_facing_direction(direction, true)
 		_play_run_animation(direction)
 
 	Character_body.velocity = speed * direction
@@ -54,7 +52,7 @@ func _play_run_animation(anim_direction: Vector2) -> void:
 func _on_next_transitions() -> void:
 	if Character_body == null:
 		return
-	if Character_body.is_moving() and Character_body.can_move:
+	if Character_body.is_moving() and Character_body.can_npc_move():
 		if Character_body.is_running():
 			return
 		else:
@@ -68,9 +66,9 @@ func _on_enter() -> void:
 	if Character_body == null:
 		return
 
-	speed_min = Character_body.player_run_speed_min
-	speed_max = Character_body.player_run_speed_max
-	accelaration = Character_body.player_run_acceleration
+	speed_min = Character_body.get_npc_int_property("player_run_speed_min", speed_min)
+	speed_max = Character_body.get_npc_int_property("player_run_speed_max", speed_max)
+	accelaration = Character_body.get_npc_int_property("player_run_acceleration", accelaration)
 	if sfx:
 		sfx.play_start()
 
@@ -88,8 +86,10 @@ func _on_exit() -> void:
 func _resolve_references() -> void:
 	var state_machine: NodeStateMachine = get_parent()
 	if Character_body == null and state_machine:
-		Character_body = state_machine.entity as npc_gone
+		Character_body = state_machine.entity as npc
 	if Animated_Sprite == null and Character_body:
 		Animated_Sprite = Character_body.get_node_or_null("AnimatedSprite") as AnimatedSprite2D
+		if Animated_Sprite == null:
+			Animated_Sprite = Character_body.get_node_or_null("Animate") as AnimatedSprite2D
 	if sfx == null and Character_body:
 		sfx = Character_body.get_node_or_null("SFXManager/run") as SFXPlayer

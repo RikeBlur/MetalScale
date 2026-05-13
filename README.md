@@ -44,13 +44,15 @@ shadow_effect_floor：暗部至少保留多少滤镜存在感 <br>
 ## 26.05.07
 
 6 月之前的可游玩版本：
-锁钥连接
-Oni 的 selftalk 系统；
-1-9 玄关；
-与 AX 的对话；
-闪光 trap；
+大决战事件 Event
+switch_on 等 game_manager 内的全局变量数据化，扩展存档系统
 
 已完成：
+Oni 的 selftalk 系统；
+锁钥连接
+与 AX 的对话；
+闪光 trap；
+1-9 玄关；
 临济录；
 密码箱；
 tool - 电池；

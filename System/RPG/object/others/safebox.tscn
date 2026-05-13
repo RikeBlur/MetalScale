@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dtlcdhpga6yb1"]
+
+[ext_resource type="Texture2D" uid="uid://dfvcba0lghmwy" path="res://Assests/sprite/object/safebox.png" id="1_7c82m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gjhjs"]
+size = Vector2(63, 20)
+
+[node name="safebox" type="Sprite2D" unique_id=416374504]
+scale = Vector2(0.88281226, 1)
+texture = ExtResource("1_7c82m")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1552594717]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1173944569]
+position = Vector2(-1.5, 0)
+shape = SubResource("RectangleShape2D_gjhjs")

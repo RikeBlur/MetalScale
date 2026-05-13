@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://crj5ydoyqambb" path="res://Assests/sprite/CG/safebox.png" id="1_57ppd"]
 [ext_resource type="Script" uid="uid://gbueqigfygu3" path="res://Scripts/system/interact/puzzle/safebox.gd" id="1_c8i28"]
 [ext_resource type="PackedScene" uid="uid://dtgv3r6qeewdv" path="res://System/RPG/interact/puzzle/number_switch.tscn" id="4_a3dgc"]
-[ext_resource type="PackedScene" uid="uid://bhvnmc3cg0n5m" path="res://System/RPG/interact/collectable/collectable_suicideking.tscn" id="6_ficm0"]
+[ext_resource type="PackedScene" uid="uid://cvrcmavceo5nx" path="res://System/RPG/interact/collectable/collectable_key.tscn" id="6_ficm0"]
 [ext_resource type="AudioStream" uid="uid://bmkbvgximk7io" path="res://Assests/SFX/UI/collect.mp3" id="7_7vvjj"]
 [ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="8_r8exf"]
 
@@ -18,7 +18,7 @@ script = ExtResource("1_c8i28")
 target_number = Array[int]([8, 9, 3])
 number_switch_paths = Array[NodePath]([NodePath("NumberSwitch"), NodePath("NumberSwitch2"), NodePath("NumberSwitch3")])
 success_sfx = NodePath("SFXPlayer")
-reward_collectable = NodePath("CollectableSuicideking")
+reward_collectable = NodePath("CollectableKey")
 
 [node name="back" type="Sprite2D" parent="." unique_id=1724462867]
 position = Vector2(518, 347)
@@ -51,5 +51,5 @@ offset_top = 279.0
 offset_right = 694.0
 offset_bottom = 279.0
 
-[node name="CollectableSuicideking" parent="." unique_id=820129776 instance=ExtResource("6_ficm0")]
-position = Vector2(-15, -15)
+[node name="CollectableKey" parent="." unique_id=820129776 instance=ExtResource("6_ficm0")]
+collected_tool = 6
