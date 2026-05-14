@@ -1,0 +1,2 @@
+class_name Chasing1StartEvent
+extends GameEvents

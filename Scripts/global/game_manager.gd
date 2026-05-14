@@ -53,6 +53,24 @@ enum RunningState {
 	AUTO
 }
 
+# -------------------------- GameData --------------------------
+var switch_on: bool = false
+# 玩家仇恨状态：0=无仇恨 1=仇恨中（0<aggro<100） 2=完全仇恨（aggro==100）
+var player_arrgo: int = 0
+var arrgo_in_threshold: float = 10.0
+# 默认环境光照颜色
+var default_lighting: Color = Color(0.21, 0.157, 0.157, 1.0)
+# 是否 prepare 了 chasing_1
+var chasing_1_prepare: bool = false
+# -----------------------------------------------------------------
+
+var _default_game_data: GameData = null
+var _prev_aggro_value: float = 0.0       # 上一帧的 aggro_value，用于边沿检测
+var _debug_signal_log: Array[String] = [] # 最近发出的 arrgo 信号日志（最多4条）
+var _is_archive_load_running: bool = false
+var _is_player_death_flow_running: bool = false
+var _death_flow_token: int = 0
+
 # 当前游戏状态
 var current_state: GameState = GameState.PRELOADING
 var current_runnnig_state: RunningState = RunningState.NOPE
@@ -67,30 +85,16 @@ var game_archive_msec: int = 0
 var start_scene: String = "2-2"
 var start_position: Vector2 = Vector2(870, 290)
 
-# 玩家仇恨状态：0=无仇恨 1=仇恨中（0<aggro<100） 2=完全仇恨（aggro==100）
-var player_arrgo: int = 0
-var arrgo_in_threshold: float = 10.0
-var _prev_aggro_value: float = 0.0       # 上一帧的 aggro_value，用于边沿检测
-var _debug_signal_log: Array[String] = [] # 最近发出的 arrgo 信号日志（最多4条）
-var _is_archive_load_running: bool = false
-var _is_player_death_flow_running: bool = false
-var _death_flow_token: int = 0
-
-# 全局信息变量
-var switch_on: bool = false
-
+# -------------------------- ConfigData --------------------------
 # 全局配置数据（对应 user://config.tres）
 var config_data: ConfigData = null
-
 # BGM音量
 var BGM_gain: float = 100.0
 # SFX音量
 var SFX_gain: float = 100.0
 # 全局屏幕亮度（1.0为默认亮度）
 var Gamma: float = 1.0
-# 默认环境光照颜色
-var default_lighting: Color = Color(0.21, 0.157, 0.157, 1.0)
-
+# -----------------------------------------------------------------
 
 # ====================================================================================================
 # ========================================== 节点引用存储 ==============================================
@@ -122,6 +126,7 @@ var _opening_menu_mask_transition_id: int = 0
 func _ready() -> void:
 	# 记录游戏启动时间
 	game_start_time_msec = Time.get_ticks_msec()
+	_initialize_default_game_data()
 	# 先加载配置，设置好 BGM_gain / SFX_gain / Gamma 变量
 	load_config()
 	# _ready 期间父节点正在初始化，defer 到下一帧再挂载后处理层（届时会读取 Gamma）
@@ -234,6 +239,7 @@ func start_new_game() -> void:
 	# 更新游戏状态
 	set_game_state(GameState.LOADING)
 	game_archive_msec = 0
+	reset_game_data_to_default()
 	reset_game_event_states()
 	_is_player_death_flow_running = false
 	_ensure_player_and_camera_instances()
@@ -256,8 +262,17 @@ func start_new_game() -> void:
 
 	# 加载开场 cutscene
 	CutsceneManager.play_cutscene("test")
+	SceneManager.start_initialize_scene_data_interactables_from_level_files()
 	await CutsceneManager.cutscene_playback_finished
 	print("GameManager: 开场 cutscene 播放完成")
+
+	if SceneManager.is_scene_data_interactables_initializing():
+		await SceneManager.scene_data_interactables_initialized
+	var scene_data_initialized: bool = SceneManager.get_scene_data_interactables_initialization_success()
+	if not scene_data_initialized:
+		push_error("GameManager: SceneData 初始化失败，已停止新游戏场景加载")
+		set_game_state(GameState.MENU)
+		return
 	
 	# 调用 SceneManager 切换到起始场景
 	print("GameManager: 切换到起始场景 %s" % start_scene)
@@ -418,6 +433,42 @@ func _clear_environment_visual_effects_before_death_return() -> void:
 		env_mgr = get_node_or_null("/root/environment_manager")
 	if env_mgr and env_mgr.has_method("clear_all_visual_effects"):
 		env_mgr.clear_all_visual_effects()
+
+
+# ====================================================================================================
+# ================================================= GameData =========================================
+# ====================================================================================================
+
+func _initialize_default_game_data() -> void:
+	if _default_game_data:
+		return
+
+	_default_game_data = GameData.new()
+	_default_game_data.from_game_manager(self)
+
+
+func reset_game_data_to_default() -> void:
+	_initialize_default_game_data()
+	if not _default_game_data:
+		return
+
+	var default_data: GameData = _default_game_data.duplicate(true) as GameData
+	if default_data:
+		default_data.apply_to_game_manager(self)
+
+
+func get_game_data() -> GameData:
+	var data: GameData = GameData.new()
+	data.from_game_manager(self)
+	return data
+
+
+func set_game_data(data: GameData) -> void:
+	if not data:
+		reset_game_data_to_default()
+		return
+
+	data.apply_to_game_manager(self)
 
 
 func _fade_out_opening_menu_mask() -> void:

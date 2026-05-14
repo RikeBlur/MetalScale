@@ -176,3 +176,33 @@ const QUICK_SAVE_PATH: String = "user://quick_save.json"
 - `game_load()` 和 `quick_load()` 都会发出 `GameManager.Loaded`。新增读档入口时也要保持 `Loading -> 恢复数据 -> Loaded` 的顺序。
 - 读档恢复玩家后必须同步 `GameManager.sync_player_arrgo_state()`，否则 `player_arrgo` 的边沿检测可能把存档中的 `aggro_value` 误判为新变化。
 - `game_save()` 保存前会刷新场上 NPC 数据，普通交互状态则依赖各交互脚本主动调用 `BaseLevel.update_interactable_state()`。
+
+## 近期更新：GameData 存档
+
+当前存档 JSON 新增顶层字段：
+
+```gdscript
+"game": _serialize_game_data()
+```
+
+它对应 `res://Scripts/data/game_data.gd`，用于保存 `GameManager` 中 `GameData` 块里的运行时全局变量。当前字段包括：
+
+- `switch_on`
+- `player_arrgo`
+- `arrgo_in_threshold`
+- `default_lighting`
+- `chasing_1_prepare`
+
+普通存档 `game_save(index)` 和快速存档 `quick_save()` 都会写入 `"game"` 字段。普通读档 `game_load(index)` 和快速读档 `quick_load()` 都会调用 `_deserialize_game_data(save_data.get("game", {}))` 恢复这些值。
+
+兼容旧存档：如果旧 JSON 中没有 `"game"` 字段，`ArchiveManager` 会让 `GameManager.reset_game_data_to_default()` 恢复默认 GameData，避免上一局运行态残留污染本次读档。
+
+注意：`game_archive_msec` 和 `game_events` 目前仍然是独立顶层字段，并未并入 `GameData`。`game_events` 继续由 `GameManager.get_game_event_list()` / `set_game_event_list()` 管理。
+
+新增 GameData 字段时，需要同时更新：
+
+1. `Scripts/data/game_data.gd` 的 `@export var`。
+2. `GameData.from_game_manager()`。
+3. `GameData.apply_to_game_manager()`。
+4. `GameData.to_dict()`。
+5. `GameData.from_dict()`。

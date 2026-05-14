@@ -31,6 +31,37 @@ func trigger_condition() -> bool:
 
 func trigger_effect() -> void:
 	print("沉重大门打开的声音")
+	_unlock_first_floor_corridor_door_in_scene_data()
+
+
+func _unlock_first_floor_corridor_door_in_scene_data() -> void:
+	if not SceneManager:
+		push_warning("SwitchOnEvent: SceneManager is missing, cannot unlock 1-1 interactable 7.")
+		return
+
+	var scene_data: SceneData = SceneManager.get_scene_data("1-1")
+	if not scene_data:
+		push_warning("SwitchOnEvent: SceneData 1-1 is missing.")
+		return
+
+	if scene_data.interactables.size() <= 7:
+		push_warning("SwitchOnEvent: SceneData 1-1 interactables size is %d, cannot access index 7." % scene_data.interactables.size())
+		return
+
+	var interactable: InteractableData = scene_data.interactables[7]
+	if not interactable:
+		push_warning("SwitchOnEvent: SceneData 1-1 interactables[7] is null.")
+		return
+
+	if interactable.type != 0:
+		push_warning("SwitchOnEvent: SceneData 1-1 interactables[7] is not a door, type=%d." % interactable.type)
+		return
+
+	if interactable.state == 0:
+		return
+
+	interactable.state = 0
+	print("SwitchOnEvent: SceneData 1-1 interactables[7] door state set to 0.")
 
 
 func _resolve_puzzle_components() -> void:

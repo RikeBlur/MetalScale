@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://yvait3eyebqx"]
+
+[ext_resource type="Script" uid="uid://dc53cuy0hb46f" path="res://Scripts/system/events/chasing_1_start_event.gd" id="1_siwm7"]
+
+[node name="chasing_1_start" type="Node2D" unique_id=95013267]
+script = ExtResource("1_siwm7")

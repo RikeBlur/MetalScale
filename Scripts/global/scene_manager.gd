@@ -41,9 +41,15 @@ var current_scene_key: String = ""
 
 # 全局转场场景路径（挂到 Root 上，与当前场景同级，避免被 change_scene_to_file 一起销毁）
 const TRANSITION_SCENE_PATH: String = "res://System/RPG/view/transition_Mask.tscn"
+const LEVELS_ROOT_PATH: String = "res://DEMO/AdiosToMe/Levels"
 
 signal player_reseted
 signal scene_change_finished
+signal scene_data_interactables_initialized(success: bool)
+
+var _scene_data_interactables_initializing: bool = false
+var _scene_data_interactables_initialized: bool = false
+var _scene_data_interactables_initialization_success: bool = false
 
 # ====================================================================================================
 # ====================================== 读取并存储节点（全局、场景） =====================================
@@ -71,6 +77,159 @@ func _find_base_level(node: Node) -> BaseLevel:
 
 func update_interactable_state() -> void:
 	pass
+
+func start_initialize_scene_data_interactables_from_level_files() -> void:
+	if _scene_data_interactables_initializing:
+		return
+
+	_scene_data_interactables_initializing = true
+	_scene_data_interactables_initialized = false
+	_scene_data_interactables_initialization_success = false
+	call_deferred("_initialize_scene_data_interactables_from_level_files_async")
+
+
+func is_scene_data_interactables_initializing() -> bool:
+	return _scene_data_interactables_initializing
+
+
+func get_scene_data_interactables_initialization_success() -> bool:
+	return _scene_data_interactables_initialized and _scene_data_interactables_initialization_success
+
+
+func _initialize_scene_data_interactables_from_level_files_async() -> void:
+	var success: bool = await _initialize_scene_data_interactables_from_level_files()
+	_scene_data_interactables_initialization_success = success
+	_scene_data_interactables_initialized = true
+	_scene_data_interactables_initializing = false
+	scene_data_interactables_initialized.emit(success)
+
+
+func _initialize_scene_data_interactables_from_level_files() -> bool:
+	"""
+	新游戏开始前读取所有关卡场景，把 BaseLevel 中编辑器配置的默认 interactables
+	同步到 scene_dict 里的 SceneData。这里不切换当前场景，只加载 PackedScene 并实例化到内存读取数据。
+	"""
+	var scene_paths: Array[String] = []
+	_collect_scene_file_paths(LEVELS_ROOT_PATH, scene_paths)
+	var path_to_scene_key: Dictionary = _build_scene_path_to_key_map()
+	var initialized_scene_keys: Dictionary = {}
+	var initialized_count: int = 0
+	var skipped_count: int = 0
+
+	_reset_scene_data_interactables()
+	await get_tree().process_frame
+	if scene_paths.is_empty():
+		push_error("SceneManager: 未找到任何关卡场景文件，无法初始化 SceneData")
+		return false
+
+	for scene_path in scene_paths:
+		if not path_to_scene_key.has(scene_path):
+			skipped_count += 1
+			continue
+
+		var scene_key: String = String(path_to_scene_key[scene_path])
+		var scene_data: SceneData = get_scene_data(scene_key)
+		if not scene_data:
+			skipped_count += 1
+			continue
+
+		var packed_scene: PackedScene = load(scene_path) as PackedScene
+		if not packed_scene:
+			push_warning("SceneManager: 无法加载场景文件用于初始化 SceneData: %s" % scene_path)
+			skipped_count += 1
+			continue
+
+		var scene_root: Node = packed_scene.instantiate()
+		if not scene_root:
+			push_warning("SceneManager: 无法实例化场景文件用于初始化 SceneData: %s" % scene_path)
+			skipped_count += 1
+			continue
+
+		var base_level: BaseLevel = _find_base_level(scene_root)
+		if not base_level:
+			push_warning("SceneManager: 场景缺少 BaseLevel，无法初始化默认 interactables: %s" % scene_path)
+			scene_root.free()
+			skipped_count += 1
+			continue
+
+		scene_data.interactables = _duplicate_interactables(base_level.interactables)
+		initialized_scene_keys[scene_key] = true
+		initialized_count += 1
+		scene_root.free()
+		await get_tree().process_frame
+
+	print("SceneManager: 已初始化 %d 个场景的默认 interactables，跳过 %d 个场景文件" % [initialized_count, skipped_count])
+	return _validate_all_scene_data_initialized(initialized_scene_keys)
+
+
+func _reset_scene_data_interactables() -> void:
+	for scene_key in scene_dict.keys():
+		var scene_data: SceneData = scene_dict[scene_key] as SceneData
+		if scene_data:
+			scene_data.interactables.clear()
+
+
+func _build_scene_path_to_key_map() -> Dictionary:
+	var result: Dictionary = {}
+	for scene_key in scene_dict.keys():
+		var scene_data: SceneData = scene_dict[scene_key] as SceneData
+		if not scene_data or scene_data.path.is_empty():
+			continue
+		result[scene_data.path] = String(scene_key)
+	return result
+
+
+func _validate_all_scene_data_initialized(initialized_scene_keys: Dictionary) -> bool:
+	var missing_count: int = 0
+	for scene_key in scene_dict.keys():
+		if initialized_scene_keys.has(String(scene_key)):
+			continue
+
+		var scene_data: SceneData = scene_dict[scene_key] as SceneData
+		var scene_path: String = scene_data.path if scene_data else ""
+		push_warning("SceneManager: SceneData 默认 interactables 未初始化: %s (%s)" % [String(scene_key), scene_path])
+		missing_count += 1
+
+	if missing_count > 0:
+		push_error("SceneManager: 有 %d 个 SceneData 未完成初始化，新游戏不应继续加载场景" % missing_count)
+		return false
+
+	return true
+
+
+func _collect_scene_file_paths(root_path: String, out_paths: Array[String]) -> void:
+	var dir: DirAccess = DirAccess.open(root_path)
+	if not dir:
+		push_warning("SceneManager: 无法打开关卡目录: %s" % root_path)
+		return
+
+	dir.list_dir_begin()
+	var file_name: String = dir.get_next()
+	while file_name != "":
+		if file_name.begins_with("."):
+			file_name = dir.get_next()
+			continue
+
+		var full_path: String = root_path.path_join(file_name)
+		if dir.current_is_dir():
+			_collect_scene_file_paths(full_path, out_paths)
+		elif file_name.get_extension().to_lower() == "tscn":
+			out_paths.append(full_path)
+
+		file_name = dir.get_next()
+	dir.list_dir_end()
+
+
+func _duplicate_interactables(source_interactables: Array[InteractableData]) -> Array[InteractableData]:
+	var result: Array[InteractableData] = []
+	for interactable in source_interactables:
+		if not interactable:
+			continue
+
+		var duplicated_interactable: InteractableData = interactable.duplicate(true) as InteractableData
+		if duplicated_interactable:
+			result.append(duplicated_interactable)
+	return result
 
 # ====================================================================================================
 # ====================================================================================================

@@ -44,10 +44,10 @@ shadow_effect_floor：暗部至少保留多少滤镜存在感 <br>
 ## 26.05.07
 
 6 月之前的可游玩版本：
-大决战事件 Event
-switch_on 等 game_manager 内的全局变量数据化，扩展存档系统
+重构 LightingSystem
 
 已完成：
+大决战事件 Event
 Oni 的 selftalk 系统；
 锁钥连接
 与 AX 的对话；

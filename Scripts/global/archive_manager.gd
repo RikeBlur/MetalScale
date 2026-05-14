@@ -96,6 +96,24 @@ func _deserialize_player_data(player_node: player, data: Dictionary) -> void:
 	# 使用PlayerData的apply_to_player_node方法应用到player节点
 	player_data.apply_to_player_node(player_node)
 
+
+func _serialize_game_data() -> Dictionary:
+	var game_data: GameData = GameManager.get_game_data()
+	if not game_data:
+		return {}
+	return game_data.to_dict()
+
+
+func _deserialize_game_data(data: Variant) -> void:
+	if not (data is Dictionary):
+		GameManager.reset_game_data_to_default()
+		return
+
+	var game_data: GameData = GameData.new()
+	game_data.from_dict(data)
+	GameManager.set_game_data(game_data)
+
+
 func _serialize_scene_data(scene_data: SceneData) -> Dictionary:
 	"""
 	序列化SceneData
@@ -347,6 +365,7 @@ func game_save(index : int) -> bool:
 		"timestamp": Time.get_datetime_string_from_system(),
 		"game_archive_msec": GameManager.game_archive_msec,
 		"game_events": GameManager.get_game_event_list(),
+		"game": _serialize_game_data(),
 		
 		# 玩家信息
 		"player": _serialize_player_data(player_node),
@@ -419,6 +438,7 @@ func game_load(index : int) -> bool:
 	# 恢复游戏存档时长（毫秒）
 	GameManager.game_archive_msec = save_data.get("game_archive_msec", 0)
 	GameManager.set_game_event_list(save_data.get("game_events", []))
+	_deserialize_game_data(save_data.get("game", {}))
 	
 	# 获取scene_manager引用
 	var scene_mgr = get_node_or_null("/root/SceneManager")
@@ -569,6 +589,7 @@ func quick_save() -> bool:
 		"version": "1.0",
 		"timestamp": Time.get_datetime_string_from_system(),
 		"game_events": GameManager.get_game_event_list(),
+		"game": _serialize_game_data(),
 		
 		# 玩家信息
 		"player": _serialize_player_data(player_node),
@@ -646,6 +667,7 @@ func quick_load() -> bool:
 		push_error("ArchiveManager: 未找到SceneManager节点")
 		return false
 	GameManager.set_game_event_list(save_data.get("game_events", []))
+	_deserialize_game_data(save_data.get("game", {}))
 	
 	# Step 1: 用保存好的SceneData重置scene_manager的字典
 	var npc_mgr := _get_npc_manager()

@@ -211,3 +211,40 @@ const CAMERA_SCENE_PATH = "res://System/RPG/entity/camera.tscn"
 - `prepare_for_archive_load()` 用于读档开始时打断可能残留的死亡流程，并清空仇恨边沿追踪。
 - `sync_player_arrgo_state()` 用于读档恢复 `player.aggro_value` 后同步 `player_arrgo` 和 `_prev_aggro_value`，避免读档第一帧误触发仇恨信号。
 - `Gamma` 后处理层挂在 root，层级为 999，会覆盖整个视口。
+
+## 近期更新：GameData 与新游戏初始化
+
+`GameManager` 中 `# -------------------------- GameData --------------------------` 块现在由 `res://Scripts/data/game_data.gd` 负责快照、恢复和存档。当前 GameData 字段包括：
+
+- `switch_on`
+- `player_arrgo`
+- `arrgo_in_threshold`
+- `default_lighting`
+- `chasing_1_prepare`
+
+`GameManager._ready()` 会调用 `_initialize_default_game_data()`，在配置和游戏流程改变这些变量之前保存一份默认值。`start_new_game()` 开始时会调用 `reset_game_data_to_default()`，确保新游戏不会继承上一局或读档后的运行态。
+
+提供给存档系统使用的接口：
+
+- `get_game_data() -> GameData`
+- `set_game_data(data: GameData) -> void`
+- `reset_game_data_to_default() -> void`
+
+`ArchiveManager` 保存时通过 `GameManager.get_game_data()` 写入 JSON 的 `"game"` 字段，读档时通过 `GameManager.set_game_data()` 恢复。
+
+## 近期更新：开场 cutscene 与 SceneData 初始化并行
+
+`start_new_game()` 现在会先播放开场 cutscene，同时启动场景默认 `interactables` 初始化：
+
+```gdscript
+CutsceneManager.play_cutscene("test")
+SceneManager.start_initialize_scene_data_interactables_from_level_files()
+```
+
+cutscene 播放结束后，如果 `SceneManager` 仍在初始化，会等待：
+
+```gdscript
+await SceneManager.scene_data_interactables_initialized
+```
+
+只有 `SceneManager.get_scene_data_interactables_initialization_success()` 返回 true 时，才继续调用 `SceneManager.change_scene(start_scene, 0, start_position)`。如果初始化失败，会回到 `GameState.MENU` 并停止加载起始场景。

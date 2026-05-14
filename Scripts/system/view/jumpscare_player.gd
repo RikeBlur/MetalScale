@@ -4,9 +4,14 @@ extends Node2D
 signal oneshot_finished
 
 @export var animation_array: Array[AnimatedSprite2D] = []
+@export var animation_player_array: Array[AnimationPlayer] = []
+@export var start_time: float = 0.0
+@export var loop: bool = false
 
 var _playing: bool = false
 var _active_tween: Tween = null
+
+const DEFAULT_ANIMATION_NAME: StringName = &"default"
 
 func play_oneshot() -> void:
 	if _playing:
@@ -15,6 +20,8 @@ func play_oneshot() -> void:
 
 	if animation_array.is_empty():
 		_setup_default_animation_array()
+	if animation_player_array.is_empty():
+		_setup_default_animation_player_array()
 
 	await _run_oneshot_timeline()
 
@@ -30,6 +37,12 @@ func _setup_default_animation_array() -> void:
 	var default_sprite := get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
 	if default_sprite:
 		animation_array.append(default_sprite)
+
+
+func _setup_default_animation_player_array() -> void:
+	var default_animation_player: AnimationPlayer = get_node_or_null("AnimationPlayer") as AnimationPlayer
+	if default_animation_player:
+		animation_player_array.append(default_animation_player)
 
 
 func _run_oneshot_timeline() -> void:
@@ -77,6 +90,18 @@ func _run_oneshot_timeline() -> void:
 			_active_tween.tween_method(_set_dissolve_tween_value.bind(sprite, dissolved_paramater), 0.0, 1.0, dissolve_time).set_delay(dissolve_delay)
 		has_tweeners = true
 
+	for animation_player in animation_player_array:
+		if not animation_player or not is_instance_valid(animation_player):
+			continue
+
+		var animation_start_time: float = max(float(_get_animation_player_value(animation_player, &"start_time", start_time)), 0.0)
+		var animation_loop: bool = bool(_get_animation_player_value(animation_player, &"loop", loop))
+		var animation_length: float = _prepare_animation_player(animation_player, animation_loop)
+		animation_player.stop()
+		_active_tween.tween_callback(_play_default_animation_player.bind(animation_player)).set_delay(animation_start_time)
+		_active_tween.tween_interval(animation_start_time + animation_length)
+		has_tweeners = true
+
 	if has_tweeners:
 		await _active_tween.finished
 	else:
@@ -98,6 +123,45 @@ func _has_sprite_property(sprite: AnimatedSprite2D, property_name: StringName) -
 		if StringName(property.get("name", "")) == property_name:
 			return true
 	return false
+
+
+func _get_animation_player_value(animation_player: AnimationPlayer, property_name: StringName, default_value: Variant) -> Variant:
+	if _has_animation_player_property(animation_player, property_name):
+		var value: Variant = animation_player.get(property_name)
+		if value != null:
+			return value
+	if animation_player.has_meta(String(property_name)):
+		return animation_player.get_meta(String(property_name))
+	return default_value
+
+
+func _has_animation_player_property(animation_player: AnimationPlayer, property_name: StringName) -> bool:
+	for property in animation_player.get_property_list():
+		if StringName(property.get("name", "")) == property_name:
+			return true
+	return false
+
+
+func _prepare_animation_player(animation_player: AnimationPlayer, should_loop: bool) -> float:
+	if not animation_player.has_animation(DEFAULT_ANIMATION_NAME):
+		push_warning("JumpScarePlayer: AnimationPlayer %s missing default animation" % animation_player.name)
+		return 0.0
+
+	var animation: Animation = animation_player.get_animation(DEFAULT_ANIMATION_NAME)
+	if not animation:
+		return 0.0
+
+	animation.loop_mode = Animation.LOOP_LINEAR if should_loop else Animation.LOOP_NONE
+	return max(animation.length, 0.0)
+
+
+func _play_default_animation_player(animation_player: AnimationPlayer) -> void:
+	if not animation_player or not is_instance_valid(animation_player):
+		return
+	if not animation_player.has_animation(DEFAULT_ANIMATION_NAME):
+		return
+
+	animation_player.play(DEFAULT_ANIMATION_NAME)
 
 
 func _set_dissolve(sprite: AnimatedSprite2D, parameter_name: StringName, value: float) -> void:

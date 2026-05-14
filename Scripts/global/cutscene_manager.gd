@@ -65,6 +65,7 @@ var _active_cutscene_node: Node = null
 var _active_tween: Tween = null
 var _active_fade_duration: float = FADE_DURATION
 var _skip_hold_time: float = 0.0
+var _skip_available_at_msec: int = 0
 var _skip_indicator: SkipRingIndicator = null
 var _is_finishing_cutscene: bool = false
 var _death_blackout_layer: CanvasLayer = null
@@ -135,6 +136,7 @@ func play_cutscene(key: String) -> void:
 	_active_cutscene_node.modulate.a = 0.0
 	_active_canvas_layer.add_child(_active_cutscene_node)
 	_active_fade_duration = _resolve_fade_duration(_active_cutscene_node)
+	_skip_available_at_msec = Time.get_ticks_msec() + int(_resolve_buffer_time(_active_cutscene_node) * 1000.0)
 	_create_skip_indicator()
 
 	# 等一帧，确保 _ready 执行完毕后再连接信号和淡入
@@ -193,6 +195,7 @@ func _on_cutscene_finished() -> void:
 	_active_cutscene_node = null
 	_active_tween = null
 	_active_fade_duration = FADE_DURATION
+	_skip_available_at_msec = 0
 	_skip_indicator = null
 	_is_finishing_cutscene = false
 
@@ -317,6 +320,10 @@ func _update_skip_input(delta: float) -> void:
 		_reset_skip_state()
 		return
 
+	if Time.get_ticks_msec() < _skip_available_at_msec:
+		_reset_skip_state()
+		return
+
 	if not Input.is_key_pressed(KEY_ESCAPE):
 		_reset_skip_state()
 		return
@@ -375,6 +382,14 @@ func _resolve_fade_duration(cutscene_node: Node) -> float:
 		if fade_time > 0.0:
 			return fade_time
 	return FADE_DURATION
+
+
+func _resolve_buffer_time(cutscene_node: Node) -> float:
+	if not cutscene_node:
+		return 0.0
+	if "buffer_time" in cutscene_node:
+		return max(float(cutscene_node.buffer_time), 0.0)
+	return 0.0
 
 # ====================================================================================================
 # ====================================================================================================

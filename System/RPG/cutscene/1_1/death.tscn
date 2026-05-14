@@ -41,7 +41,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_x35id")
 any_key_continue = true
-any_key_continue_time = 1.0
+buffer_time = 1.0
 
 [node name="D1" parent="." unique_id=2129294719 instance=ExtResource("2_n84yp")]
 material = SubResource("ShaderMaterial_pbvye")

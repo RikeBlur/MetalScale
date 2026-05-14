@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cfwwelj2oh4xs"]
+
+[ext_resource type="Script" uid="uid://ceebj7b8dlkpc" path="res://Scripts/system/events/chasing_1_end_event.gd" id="1_ppmi7"]
+
+[node name="chasing_1_end" type="Node2D" unique_id=95013267]
+script = ExtResource("1_ppmi7")
