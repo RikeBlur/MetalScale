@@ -17,13 +17,19 @@ script = ExtResource("6_kv13s")
 next_flag = 0
 style = Array[int]([3])
 start = Array[int]([0])
-end = Array[int]([1])
+end = Array[int]([2])
 metadata/_custom_type_script = "uid://b37t7a67t8onx"
 
 [sub_resource type="Resource" id="Resource_gx6ub"]
 script = ExtResource("8_ldimi")
 speaker_entity = "Oni"
 text = "一本旧书，有一页被折起来了。"
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+
+[sub_resource type="Resource" id="Resource_vnujv"]
+script = ExtResource("8_ldimi")
+speaker_entity = "Oni"
+text = "“逢佛杀佛，逢祖杀祖，逢罗汉杀罗汉，逢父母杀父母，逢亲眷杀亲眷，始得解脱，不与物拘，透脱自在。”"
 metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 
 [node name="book_1" type="Control" unique_id=902084392]
@@ -55,7 +61,7 @@ metadata/_custom_type_script = "uid://use5ds4i6ib4"
 [node name="dialogue" type="Node2D" parent="." unique_id=1268667399]
 script = ExtResource("5_gynsn")
 trigger_flag = Array[ExtResource("6_kv13s")]([SubResource("Resource_7bcsi")])
-dialogue_content = Array[ExtResource("7_8d3l2")]([SubResource("Resource_gx6ub")])
+dialogue_content = Array[ExtResource("7_8d3l2")]([SubResource("Resource_gx6ub"), SubResource("Resource_vnujv")])
 
 [node name="CanvasLayer" type="CanvasLayer" parent="dialogue" unique_id=214268892]
 layer = 5

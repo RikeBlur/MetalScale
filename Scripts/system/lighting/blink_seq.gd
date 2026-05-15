@@ -1,6 +1,8 @@
 class_name BlinkSeq
 extends Node2D
 
+signal blink_seq_start
+
 const MIN_BLINK_TIME := 0.001
 
 @export var lighting_list: Array[ElectronicScreen] = []
@@ -8,7 +10,9 @@ const MIN_BLINK_TIME := 0.001
 @export var blink_time: float = 0.5
 @export var blink_states: Array[Array] = []
 @export var loop: bool = false
+@export var self_start: bool = false
 
+var _start_requested := false
 var _started := false
 var _finished := false
 var _elapsed := 0.0
@@ -20,11 +24,16 @@ var _warned_messages := {}
 func _ready() -> void:
 	_normalize_times()
 	_validate_configuration()
-	if is_zero_approx(start_time):
-		_start_blink()
+	if not blink_seq_start.is_connected(_on_blink_seq_start):
+		blink_seq_start.connect(_on_blink_seq_start)
+	if self_start:
+		_begin_start_countdown()
 
 
 func _process(delta: float) -> void:
+	if not _start_requested:
+		return
+
 	if _finished:
 		return
 
@@ -52,12 +61,22 @@ func restart() -> void:
 	_elapsed = 0.0
 	_blink_elapsed = 0.0
 	_state_index = 0
-	if is_zero_approx(start_time):
-		_start_blink()
+	_begin_start_countdown()
 
 
 func stop() -> void:
 	_finished = true
+	_start_requested = false
+
+
+func _on_blink_seq_start() -> void:
+	restart()
+
+
+func _begin_start_countdown() -> void:
+	_start_requested = true
+	if is_zero_approx(start_time):
+		_start_blink()
 
 
 func _start_blink() -> void:

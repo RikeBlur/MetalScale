@@ -44,9 +44,42 @@ shadow_effect_floor：暗部至少保留多少滤镜存在感 <br>
 ## 26.05.07
 
 6 月之前的可游玩版本：
-重构 LightingSystem
+完成两个事件 chasing_1_start_event; chasing_1_end_event。
+主要模拟：player进入一个区域后，突然被 chase，最后被追上后触发一些效果。请你按我给的思路实现
+
+chasing_1_start_event:
+	触发条件：可配置绑定的 Area2D 被 player 进入了
+	触发效果： 
+		GameManager.RunningState = Auto ;
+		玩家不能移动交互；
+		绑定的 BlinkSeq.blink_seq_start.emit；
+		GameManager.chasing_1_prepare = true;
+		GameManager.RunningState = Control ;
+		玩家恢复移动交互；
+	
+GameManager.chasing_1_prepare = true 时，玩家死亡且 伤害来源是 Eye
+触发特殊死亡路径，玩家不会死亡（health也恢复到被 damage 的状态）
+
+chasing_1_end_event：
+	触发条件：在 GameManager.chasing_1_prepare = true 的情况下，player 死亡且 伤害来源是 Eye
+	触发效果：
+		GameManager.RunningState = Auto ;
+		玩家不能移动交互；
+		玩家暂时无法受伤（无敌）；
+		实例化一个 canvaslayer（layer=9）然后播放一个指定的 特殊 jumpscare_player（指定场景路径）
+		wait_time 之后(chasing_1_end_event事件开始后就开始计时) 释放 npc Eye。且在 npc_list 中其状态变为 -1
+		当前场景的 Interactables[a\b\c...]（哪几个 Interactables 可配置）的 state 改变
+		如果 type 是 其他，state 变成 1
+		如果 type 是 对话，state 变成 0
+		然后重新加载一下这几个 Interactables 对应的节点
+		比如本来不显示不碰撞的 其他 节点，重加加载后变得可见；对话变得可进行。
+		GameManager.chasing_1_prepare = false;
+		GameManager.RunningState = Control ;
+		玩家恢复移动交互；
+		GameManager.state1_over = true
 
 已完成：
+重构 LightingSystem
 大决战事件 Event
 Oni 的 selftalk 系统；
 锁钥连接

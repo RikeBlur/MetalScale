@@ -23,7 +23,6 @@
 [sub_resource type="Resource" id="Resource_awlan"]
 script = ExtResource("2_dpdbr")
 node_path = NodePath("ObjectAndCharacter/Interactable/door/door_up1")
-state = 1
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Resource" id="Resource_mmvxn"]
@@ -49,6 +48,7 @@ metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 [sub_resource type="Resource" id="Resource_prh82"]
 script = ExtResource("2_dpdbr")
 node_path = NodePath("ObjectAndCharacter/Interactable/door/door_up2")
+state = 1
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Resource" id="Resource_lnne8"]
@@ -270,8 +270,6 @@ scene_to = "2-4"
 
 [node name="door_up1" parent="ObjectAndCharacter/Interactable/door" unique_id=387604085 instance=ExtResource("8_hhn2e")]
 position = Vector2(239, 174)
-state = 1
-responding_key = 4
 scene_from = "2-1"
 scene_to = "2-0"
 
@@ -282,6 +280,8 @@ scene_to = "2-6"
 
 [node name="door_up2" parent="ObjectAndCharacter/Interactable/door" unique_id=1318184628 instance=ExtResource("12_mmvxn")]
 position = Vector2(570, 191)
+state = 1
+responding_key = 4
 scene_from = "2-1"
 scene_to = "2-5"
 
@@ -312,6 +312,7 @@ reward_collectable = NodePath("../collectable/CollectableBloodywater")
 y_sort_enabled = true
 
 [node name="flashpoint" type="AnimatedSprite2D" parent="ObjectAndCharacter" unique_id=1879204839]
+visible = false
 z_index = 2
 y_sort_enabled = true
 position = Vector2(1292, 231)

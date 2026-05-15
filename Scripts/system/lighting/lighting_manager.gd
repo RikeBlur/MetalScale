@@ -5,6 +5,7 @@ extends Node2D
 @export var detecte_offset: float = 100.0
 @export var update_rate : float = 0.5
 @export var grid_size : float = 20.0
+@export var enable_occlusion: bool = false
 
 var occlusion_points: PackedVector2Array = []
 var detectors: Array[light_detector] = []
@@ -21,16 +22,20 @@ func _ready():
 	# 初始化
 	update_light_sources()
 	update_detectors()
-	update_occlusion_points()
-	assign_occlusion_to_lights()
+	if enable_occlusion:
+		update_occlusion_points()
+		assign_occlusion_to_lights()
+	else:
+		clear_all_occlusion_points()
 	assign_lights_to_detectors()
 
 func _on_update_timer_timeout():
 	"""定时更新回调"""
 	update_light_sources()
 	update_detectors()
-	update_occlusion_points()
-	assign_occlusion_to_lights()
+	if enable_occlusion:
+		update_occlusion_points()
+		assign_occlusion_to_lights()
 	assign_lights_to_detectors()
 
 func update_light_sources():
@@ -62,6 +67,8 @@ func update_detectors():
 func update_occlusion_points():
 	"""更新场景中的遮挡点列表"""
 	occlusion_points.clear()
+	if not enable_occlusion:
+		return
 	
 	# 获取场景中所有节点
 	var all_nodes = get_tree().get_nodes_in_group("occlusion")
@@ -191,23 +198,31 @@ func generate_tile_internal_points(tile_world_pos: Vector2, tile_size: Vector2, 
 
 func assign_occlusion_to_lights():
 	"""为每个光源分配附近的遮挡点"""
+	if not enable_occlusion:
+		clear_all_occlusion_points()
+		return
+
 	for light in light_sources:
 		if not is_instance_valid(light):
 			continue
 			
 		# 清空光源的现有遮挡点
-		light.clear_occlusion_points()
+		light.occlusion_points.clear()
+		light.use_occlusion = true
 		
 		# 计算检测范围
 		var detection_radius = light.radius + detecte_offset
+		var detection_radius_squared = detection_radius * detection_radius
 		var light_pos = light.global_position
 		
 		# 检查每个遮挡点是否在范围内
 		for occlusion_point in occlusion_points:
-			var distance = light_pos.distance_to(occlusion_point)
-			if distance <= detection_radius:
-				light.add_occlusion_point(occlusion_point)
-				#print("光源 ", light.name, " 添加遮挡点: ", occlusion_point, " 距离: ", distance)
+			var distance_squared = light_pos.distance_squared_to(occlusion_point)
+			if distance_squared <= detection_radius_squared:
+				light.occlusion_points.append(occlusion_point)
+				#print("光源 ", light.name, " 添加遮挡点: ", occlusion_point)
+
+		light.update_ray_collisions()
 
 func assign_lights_to_detectors():
 	"""为每个检测器分配附近的光源"""
@@ -220,6 +235,7 @@ func assign_lights_to_detectors():
 		
 		# 获取检测器的检测范围
 		var detect_range = detector.radius
+		var detect_range_squared = detect_range * detect_range
 		var detector_pos = detector.global_position
 		
 		# 检查每个光源是否在检测范围内
@@ -227,10 +243,10 @@ func assign_lights_to_detectors():
 			if not is_instance_valid(light):
 				continue
 				
-			var distance = detector_pos.distance_to(light.global_position)
-			if distance <= detect_range:
+			var distance_squared = detector_pos.distance_squared_to(light.global_position)
+			if distance_squared <= detect_range_squared:
 				detector.nearby_light_sources.append(light)
-				#print("检测器 ", detector.name, " 添加光源: ", light.name, " 距离: ", distance)
+				#print("检测器 ", detector.name, " 添加光源: ", light.name)
 
 func add_light_source(light: LightSource):
 	"""手动添加光源"""
@@ -262,8 +278,8 @@ func clear_all_occlusion_points():
 	occlusion_points.clear()
 	for light in light_sources:
 		if is_instance_valid(light):
+			light.use_occlusion = false
 			light.clear_occlusion_points()
-	print("清空所有遮挡点")
 
 func get_light_sources_count() -> int:
 	"""获取光源数量"""
@@ -285,8 +301,11 @@ func force_update():
 	print("=== 强制更新光照管理器 ===")
 	update_light_sources()
 	update_detectors()
-	update_occlusion_points()
-	assign_occlusion_to_lights()
+	if enable_occlusion:
+		update_occlusion_points()
+		assign_occlusion_to_lights()
+	else:
+		clear_all_occlusion_points()
 	assign_lights_to_detectors()
 	print("更新完成 - 光源: ", light_sources.size(), " 检测器: ", detectors.size(), " 遮挡点: ", occlusion_points.size())
 

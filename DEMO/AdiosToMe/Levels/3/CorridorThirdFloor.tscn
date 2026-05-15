@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://clwn3re40dgmx" path="res://System/RPG/interact/door/var2_invisible/door_invisible.tscn" id="11_tsdrs"]
 [ext_resource type="PackedScene" uid="uid://ckqqsxjg1mxqs" path="res://System/RPG/interact/door/var3_doubled/door_front_doubled.tscn" id="12_ahgkr"]
 [ext_resource type="PackedScene" uid="uid://88p35q5if7qc" path="res://System/RPG/interact/door/var1/door_left.tscn" id="15_vr6nh"]
+[ext_resource type="PackedScene" uid="uid://dqcap280yv4rh" path="res://System/RPG/interact/others/doorplate.tscn" id="16_6xu6f"]
 [ext_resource type="PackedScene" uid="uid://dmlk22ojupvwl" path="res://System/RPG/events/gone_threefloor_event.tscn" id="16_c7evg"]
 [ext_resource type="PackedScene" uid="uid://d15001hmit8yl" path="res://System/RPG/entity/npc/Gone/npc_gone.tscn" id="16_uoaru"]
 
@@ -183,7 +184,7 @@ y_sort_enabled = true
 position = Vector2(1165, 150)
 
 [node name="notice" parent="ObjectAndCharacter/object/onwall" unique_id=498575570 instance=ExtResource("6_pfjua")]
-position = Vector2(676, 136)
+position = Vector2(380, 136)
 
 [node name="Plant1" parent="ObjectAndCharacter/object/onwall" unique_id=121486742 instance=ExtResource("7_mq3r0")]
 position = Vector2(120, 135)
@@ -238,12 +239,16 @@ scene_to = "3-6"
 [node name="door_left1" parent="ObjectAndCharacter/Interactable/door" unique_id=150755758 instance=ExtResource("15_vr6nh")]
 position = Vector2(40, 270)
 state = 1
-responding_key = 6
+responding_key = 5
 scene_from = "3-1"
 scene_to = "3-8"
 
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]
 y_sort_enabled = true
+
+[node name="Doorplate" parent="ObjectAndCharacter/Interactable" unique_id=1822776458 instance=ExtResource("16_6xu6f")]
+position = Vector2(635, 124)
+door_name = "储物间"
 
 [node name="goneevent" type="Area2D" parent="ObjectAndCharacter/Interactable" unique_id=1349063332]
 

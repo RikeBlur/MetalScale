@@ -42,6 +42,7 @@ void fragment() {
 
 	// ===== 应用闪光效果到整体 =====
 	vec3 final_rgb = mix(base_color.rgb, hit_flash_color.rgb, hit_flash_intensity);
-
+	
+	base_color.a *= COLOR.a;
 	COLOR = vec4(final_rgb, base_color.a);
 }

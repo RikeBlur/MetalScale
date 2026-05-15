@@ -1797,7 +1797,7 @@ player_walk_acceleration = 300
 player_run_acceleration = 300
 character_name = "O_ni______"
 self_talk = "“电力似乎出问题了，但屏幕 ...”"
-tool_available = Array[int]([1, 4, 3, 0, 8, 0])
+tool_available = Array[int]([0, 0, 0, 0, 0, 0])
 health_max = 10000.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1536282822]
@@ -1897,9 +1897,9 @@ detector = NodePath("lightdetector")
 player_node = NodePath("..")
 
 [node name="lightdetector" parent="arrgo_component" unique_id=605312149 instance=ExtResource("36_5qh6w")]
-position = Vector2(0, -38)
+position = Vector2(0, -53)
 extension_length = 15.0
-future_length = 50.0
+future_length = 30.0
 debug_mode = false
 
 [node name="ambient_light" type="PointLight2D" parent="." unique_id=1497612009]

@@ -192,6 +192,7 @@ puzzle_ui_type = 10
 
 [node name="PuzzleComponent3" parent="ObjectAndCharacter/Interactable" unique_id=1885420637 instance=ExtResource("8_5qhhd")]
 position = Vector2(726, 218)
+puzzle_ui_type = 11
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
 y_sort_enabled = true

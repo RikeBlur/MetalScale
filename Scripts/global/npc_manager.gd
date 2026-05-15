@@ -15,7 +15,7 @@ enum npc_type {
 # ====================================================================================================
 
 # EYE游荡：每隔多少秒随机换一个当前场景
-const EYE_WANDER_INTERVAL: float = 30.0
+const EYE_WANDER_INTERVAL: float = 60.0
 # EYE追杀：收到 state==1 后多少秒入场
 const EYE_CHASE_DELAY: float = 1.5
 const JUMPSCARE_LAYER_INDEX: int = 10
@@ -65,7 +65,7 @@ var npc_dict: Dictionary = {
 	),
 	"1-0": NPCData.new().setup(
 		preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
-		npc_type.melt, "2-5", Vector2(600,250), Vector2.DOWN, false, 0
+		npc_type.melt, "2-5", Vector2(600,250), Vector2.DOWN, false, -1
 	),
 }
 
@@ -163,6 +163,11 @@ func instantiate_npc(npc_id: String, scene_index: int = -1) -> void:
 	var data: NPCData = npc_dict.get(npc_id)
 	if not data:
 		push_error("NpcManager: NPC '%s' 不存在于npc_dict" % npc_id)
+		return
+
+	if data.state == -1:
+		data.is_inscene = false
+		_npc_instances.erase(npc_id)
 		return
 
 	if data.is_inscene:
@@ -479,6 +484,8 @@ func _on_arrgoed() -> void:
 		var data: NPCData = npc_dict[npc_id]
 		if data.type != npc_type.EYE:
 			continue
+		if data.state == -1:
+			continue
 		data.state = 1
 		# 若EYE节点在场，设置 arrgoing=true 并发出 toPursue 信号
 		var inst = _get_npc_instance(npc_id)
@@ -498,6 +505,8 @@ func _on_not_arrgoed() -> void:
 		var data: NPCData = npc_dict[npc_id]
 		if data.type != npc_type.EYE:
 			continue
+		if data.state == -1:
+			continue
 		data.state = 0
 		# 若EYE节点在场，发出 toPatrol 信号
 		var inst = _get_npc_instance(npc_id)
@@ -514,6 +523,30 @@ func _on_not_arrgoed() -> void:
 # ====================================================================================================
 # =========================================== 工具函数 ===============================================
 # ====================================================================================================
+
+func release_npcs_by_type(target_type: int) -> void:
+	for npc_id in npc_dict:
+		var data: NPCData = npc_dict[npc_id]
+		if not data or data.type != target_type:
+			continue
+
+		var inst = _get_npc_instance(npc_id)
+		if inst and is_instance_valid(inst):
+			inst.queue_free()
+
+		data.state = -1
+		data.is_inscene = false
+		_npc_instances.erase(npc_id)
+		_eye_wander_timers.erase(npc_id)
+		_eye_chase_timers.erase(npc_id)
+
+	if GameManager.debug and _debug_label:
+		_update_debug_ui()
+
+
+func release_eye_npcs() -> void:
+	release_npcs_by_type(npc_type.EYE)
+
 
 func _get_npc_instance(npc_id: String) -> Node:
 	var ref = _npc_instances.get(npc_id)

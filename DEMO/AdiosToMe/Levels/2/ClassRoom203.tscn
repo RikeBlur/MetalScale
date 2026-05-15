@@ -228,7 +228,7 @@ y_sort_enabled = true
 position = Vector2(858, 365)
 
 [node name="CollectableBattery" parent="ObjectAndCharacter/Interactable/collectable" unique_id=1557646035 instance=ExtResource("13_y5ju1")]
-position = Vector2(854, 250)
+position = Vector2(721, 233)
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
 y_sort_enabled = true

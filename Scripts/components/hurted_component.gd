@@ -25,6 +25,7 @@ var health_max : float = 100
 var health : float = 100
 
 var is_died : bool = false
+var invincible: bool = false
 
 func _ready() -> void:
 	health_max = entity.health_max
@@ -64,6 +65,9 @@ func _update_health_bar_position() -> void:
 
 # 受伤处理	
 func _on_hurt(amount : float, damage_source: CharacterBody2D = null) -> void:
+	if invincible:
+		return
+
 	if (health - amount) > 0:
 		health -= amount
 		entity.health_now = health
@@ -72,6 +76,8 @@ func _on_hurt(amount : float, damage_source: CharacterBody2D = null) -> void:
 		if health_bar: health_bar.change_value(health)
 		print("health:",health)
 	elif not is_died :
+		if _try_start_chasing_1_special_death(damage_source):
+			return
 		print("DIED")
 		on_died(damage_source)
 	#如果有收击闪烁，则播放受击闪烁
@@ -82,6 +88,40 @@ func _on_hurt(amount : float, damage_source: CharacterBody2D = null) -> void:
 		# 或者使用以下方式强制播放
 		 #hit_flash_player.play("hit", -1, 1.0, true)
 	entity.player_hurted.emit()
+
+
+func set_invincible(value: bool) -> void:
+	invincible = value
+
+
+func sync_health_from_entity() -> void:
+	if not entity:
+		return
+	health_max = entity.health_max
+	health = clamp(entity.health_now, 0.0, health_max)
+	is_died = entity.is_died
+	if health_bar:
+		health_bar.change_value(health)
+
+
+func _try_start_chasing_1_special_death(damage_source: CharacterBody2D = null) -> bool:
+	if not (entity is player):
+		return false
+	if not GameManager.chasing_1_prepare:
+		return false
+	if not (damage_source is EnemyEye):
+		return false
+
+	var preserved_health: float = health
+	entity.health_now = preserved_health
+	entity.is_died = false
+	is_died = false
+	if health_bar:
+		health_bar.change_value(health)
+	if GameManager.has_method("notify_chasing_1_eye_caught_player"):
+		GameManager.notify_chasing_1_eye_caught_player(entity, damage_source, preserved_health)
+	entity.player_hurted.emit()
+	return true
 		
 # 死亡处理
 func on_died(damage_source: CharacterBody2D = null) -> void:

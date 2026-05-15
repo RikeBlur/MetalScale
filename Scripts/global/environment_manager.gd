@@ -17,7 +17,7 @@ const ARRGOING_PARAMETER_MAX: float = 0.25
 @export var arrgo_effect_layer: int = 4
 @export var arrgo_fade_in_duration: float = 0.5
 @export var arrgo_fade_out_duration: float = 1.0
-var arrgo_vfx_intensity: float = 0.5
+var arrgo_vfx_intensity: float = 0.1
 
 var _arrgo_effect_layer: CanvasLayer = null
 var _arrgo_effect_nodes: Dictionary = {}
@@ -168,6 +168,7 @@ func _get_or_create_arrgo_effect_node(effect_key: String) -> Node:
 	var effect_node := packed_scene.instantiate()
 	effect_node.name = "%sEffect" % effect_key.capitalize()
 	effect_parent.add_child(effect_node)
+	_ignore_effect_mouse(effect_node)
 
 	var effect_rect := _find_effect_color_rect(effect_node)
 	if not effect_rect:
@@ -231,6 +232,13 @@ func _find_effect_color_rect(node: Node) -> ColorRect:
 func _prepare_color_rect(rect: ColorRect) -> void:
 	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	rect.visible = true
+
+func _ignore_effect_mouse(node: Node) -> void:
+	if node is Control:
+		(node as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	for child in node.get_children():
+		_ignore_effect_mouse(child)
 
 func _prepare_effect_materials(effect_node: Node) -> Array[ShaderMaterial]:
 	var materials: Array[ShaderMaterial] = []

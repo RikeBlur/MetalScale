@@ -5,12 +5,13 @@ signal Preloaded
 signal Loading
 signal Loaded
 signal player_died
+signal chasing_1_eye_caught_player(damage_source: EnemyEye)
 
 # Arrgo系统信号
 signal get_in_arrgo   # aggro_value 从0开始上升时
-signal arrgoed        # aggro_value 达到100时
-signal not_arrgoed    # aggro_value 从100降下、回到0时（与get_out_arrgo同时发出）
-signal get_out_arrgo  # aggro_value 归零时（与not_arrgoed同时发出）
+signal arrgoed        # player_arrgo 还不是2时，aggro_value 首次达到100
+signal not_arrgoed    # 已经完全仇恨后，aggro_value 归零时
+signal get_out_arrgo  # aggro_value 归零时
 
 # ====================================================================================================
 # ========================================= 全局管理器路径 ===============================================
@@ -62,6 +63,7 @@ var arrgo_in_threshold: float = 10.0
 var default_lighting: Color = Color(0.21, 0.157, 0.157, 1.0)
 # 是否 prepare 了 chasing_1
 var chasing_1_prepare: bool = false
+var state1_over: bool = true
 # -----------------------------------------------------------------
 
 var _default_game_data: GameData = null
@@ -70,6 +72,9 @@ var _debug_signal_log: Array[String] = [] # 最近发出的 arrgo 信号日志�
 var _is_archive_load_running: bool = false
 var _is_player_death_flow_running: bool = false
 var _death_flow_token: int = 0
+var _chasing_1_eye_caught_pending: bool = false
+var _chasing_1_eye_damage_source: EnemyEye = null
+var _chasing_1_preserved_player_health: float = 0.0
 
 # 当前游戏状态
 var current_state: GameState = GameState.PRELOADING
@@ -242,6 +247,7 @@ func start_new_game() -> void:
 	reset_game_data_to_default()
 	reset_game_event_states()
 	_is_player_death_flow_running = false
+	clear_chasing_1_eye_caught_pending()
 	_ensure_player_and_camera_instances()
 	_reset_player_runtime_state()
 	_reset_npc_manager_for_new_game()
@@ -324,6 +330,46 @@ func quit_game() -> void:
 	get_tree().quit()
 
 # ============================================= 死了 ==============================================
+
+func notify_chasing_1_eye_caught_player(caught_player: player, damage_source: EnemyEye, preserved_health: float) -> void:
+	if not chasing_1_prepare:
+		return
+	if not caught_player or not is_instance_valid(caught_player):
+		return
+	if not damage_source or not is_instance_valid(damage_source):
+		return
+
+	_death_flow_token += 1
+	_is_player_death_flow_running = false
+	player_instance = caught_player
+	caught_player.is_died = false
+	caught_player.health_now = preserved_health
+	caught_player.velocity = Vector2.ZERO
+	_chasing_1_eye_caught_pending = true
+	_chasing_1_eye_damage_source = damage_source
+	_chasing_1_preserved_player_health = preserved_health
+	chasing_1_eye_caught_player.emit(damage_source)
+
+
+func is_chasing_1_eye_caught_pending() -> bool:
+	return _chasing_1_eye_caught_pending
+
+
+func get_chasing_1_eye_damage_source() -> EnemyEye:
+	if _chasing_1_eye_damage_source and is_instance_valid(_chasing_1_eye_damage_source):
+		return _chasing_1_eye_damage_source
+	return null
+
+
+func get_chasing_1_preserved_player_health() -> float:
+	return _chasing_1_preserved_player_health
+
+
+func clear_chasing_1_eye_caught_pending() -> void:
+	_chasing_1_eye_caught_pending = false
+	_chasing_1_eye_damage_source = null
+	_chasing_1_preserved_player_health = 0.0
+
 
 func notify_player_died(dead_player: player = null) -> void:
 	"""
@@ -629,6 +675,7 @@ func prepare_for_archive_load() -> void:
 	_is_archive_load_running = true
 	_death_flow_token += 1
 	_is_player_death_flow_running = false
+	clear_chasing_1_eye_caught_pending()
 	_prev_aggro_value = 0.0
 	player_arrgo = 0
 	_debug_signal_log.clear()
@@ -676,18 +723,20 @@ func _update_player_arrgo() -> void:
 		get_in_arrgo.emit()
 		_log_arrgo_signal("get_in_arrgo")
 
-	# 边沿2：到达100 → arrgoed
-	if _prev_aggro_value < 100.0 and val >= 100.0:
+	# 边沿2：尚未完全仇恨时到达100 → arrgoed
+	if player_arrgo != 2 and _prev_aggro_value < 100.0 and val >= 100.0:
 		player_arrgo = 2
 		arrgoed.emit()
 		_log_arrgo_signal("arrgoed")
 
-	# 边沿3：归零 → not_arrgoed + get_out_arrgo
+	# 边沿3：归零 → get_out_arrgo；若此前已经完全仇恨，再发 not_arrgoed
 	if _prev_aggro_value > 0.0 and val == 0.0:
+		var was_arrgoed := player_arrgo == 2
 		player_arrgo = 0
-		not_arrgoed.emit()
+		if was_arrgoed:
+			not_arrgoed.emit()
 		get_out_arrgo.emit()
-		_log_arrgo_signal("not_arrgoed + get_out_arrgo")
+		_log_arrgo_signal("not_arrgoed + get_out_arrgo" if was_arrgoed else "get_out_arrgo")
 
 	_prev_aggro_value = val
 

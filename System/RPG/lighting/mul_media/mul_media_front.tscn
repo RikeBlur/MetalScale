@@ -51,19 +51,19 @@ polygon = PackedVector2Array(22.49911, -71.99854, 19.894365, -18.0614, 23.600298
 [node name="ElectrionicScreen" type="Node2D" unique_id=987910373]
 script = ExtResource("1_3reh7")
 
-[node name="LightSource" type="Node2D" parent="." unique_id=1659965690 groups=["light_source"]]
-position = Vector2(2, -18)
-script = ExtResource("2_hyh61")
-sampling_rate = 24
-
-[node name="PointLight2D" type="PointLight2D" parent="LightSource" unique_id=559647924]
-position = Vector2(-2, -10)
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=559647924]
+position = Vector2(0, -28)
 shadow_enabled = true
 shadow_filter = 2
 shadow_filter_smooth = 1.0
 shadow_item_cull_mask = 3
 texture = ExtResource("3_mjl38")
 texture_scale = 8.0
+
+[node name="LightSource" type="Node2D" parent="." unique_id=1659965690 groups=["light_source"]]
+position = Vector2(2, -18)
+script = ExtResource("2_hyh61")
+sampling_rate = 24
 
 [node name="ScreenContent" type="Sprite2D" parent="." unique_id=158828935]
 z_index = 1

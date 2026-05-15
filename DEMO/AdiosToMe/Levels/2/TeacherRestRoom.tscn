@@ -240,12 +240,12 @@ y_sort_enabled = true
 [node name="CollectableEmerganceLight" parent="ObjectAndCharacter/Interactable/collectable" unique_id=820129776 instance=ExtResource("17_ft3s1")]
 
 [node name="DialogueComponent" parent="ObjectAndCharacter/Interactable" unique_id=1786519888 instance=ExtResource("18_gstyx")]
-position = Vector2(418, 325)
+position = Vector2(413, 317)
 trigger_flag = Array[ExtResource("19_k3vj0")]([SubResource("Resource_gxc2u"), SubResource("Resource_m0vy7"), SubResource("Resource_tc1l2")])
 dialogue_content = Array[ExtResource("20_i3ugv")]([SubResource("Resource_t31br"), SubResource("Resource_cb74a"), SubResource("Resource_7028d"), SubResource("Resource_pnopn"), SubResource("Resource_aosta")])
 
 [node name="1" parent="ObjectAndCharacter/Interactable" unique_id=1293804823 instance=ExtResource("23_wqw74")]
-position = Vector2(414, 352)
+position = Vector2(414, 335)
 npc_direction = Vector2(1, 1)
 
 [node name="SavePoint" parent="ObjectAndCharacter/Interactable" unique_id=1721797248 instance=ExtResource("24_lsv2k")]

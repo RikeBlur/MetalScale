@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://o78nkfbiduel"]
 
 [ext_resource type="Script" uid="uid://6vrsjuv3urii" path="res://Scripts/system/lighting/electrionic_screen.gd" id="1_n8ay1"]
-[ext_resource type="Script" uid="uid://b1qwa7ctreuo0" path="res://Scripts/system/lighting/radial_light_source.gd" id="2_60hpt"]
+[ext_resource type="Script" uid="uid://cd4h2tfb7xicq" path="res://Scripts/system/lighting/parallel_light_source.gd" id="2_60hpt"]
 [ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/component/point_radial_light_texture.tres" id="3_8o84p"]
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="4_kcn05"]
 [ext_resource type="Texture2D" uid="uid://b0qh0wtaqhfst" path="res://Effect/Shader/waving_noise/noise_0.tres" id="5_3vr74"]
@@ -32,19 +32,24 @@ polygon = PackedVector2Array(39.93344, -39.11931, 38.389893, -7.156557, 40.38756
 z_index = 2
 y_sort_enabled = true
 script = ExtResource("1_n8ay1")
+angle_rotate = -90.0
 
-[node name="LightSource" type="Node2D" parent="." unique_id=348743563 groups=["light_source"]]
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=367599957]
 position = Vector2(0, -8)
-script = ExtResource("2_60hpt")
-sampling_rate = 24
-
-[node name="PointLight2D" type="PointLight2D" parent="LightSource" unique_id=367599957]
 shadow_enabled = true
 shadow_filter = 2
 shadow_filter_smooth = 1.0
 shadow_item_cull_mask = 3
 texture = ExtResource("3_8o84p")
 texture_scale = 8.0
+
+[node name="LightSource" type="Node2D" parent="." unique_id=348743563 groups=["light_source"]]
+position = Vector2(0, -6)
+script = ExtResource("2_60hpt")
+radius = 200.0
+sampling_rate = 12
+angle_range = 0.6
+debug_mode = true
 
 [node name="ScreenContent" type="Sprite2D" parent="." unique_id=158828935]
 z_index = 1

@@ -164,17 +164,40 @@ func _apply_dialogue_state(dialogue_node: Node, state: int) -> void:
 		# 允许 -1（停用）
 		if state == -1:
 			dialogue_comp.current_flag = -1
+			_set_dialogue_enabled(dialogue_node, false)
 			print("BaseLevel: 对话状态应用 - 节点: %s, current_flag: -1(停用)" % dialogue_node.name)
 			return
 		
 		# 非负索引需要做边界检查，避免运行时越界
 		if state >= 0 and state < dialogue_comp.trigger_flag.size():
+			_set_dialogue_enabled(dialogue_node, true)
 			dialogue_comp.current_flag = state
 			print("BaseLevel: 对话状态应用 - 节点: %s, current_flag: %d" % [dialogue_node.name, state])
 		else:
 			push_warning("BaseLevel: 对话状态越界，节点: %s, state: %d, trigger_flag.size: %d" % [dialogue_node.name, state, dialogue_comp.trigger_flag.size()])
 	else:
 		push_warning("BaseLevel: 节点 %s 不是 DialogueComponent 类型" % dialogue_node.name)
+
+func _set_dialogue_enabled(dialogue_node: Node, enabled: bool) -> void:
+	if dialogue_node is CanvasItem:
+		(dialogue_node as CanvasItem).visible = enabled
+
+	var interact_comps: Array[interact_component] = []
+	var interacted_comps: Array[interacted_component] = []
+	_collect_interact_components_recursive(dialogue_node, interact_comps)
+	_collect_interacted_components_recursive(dialogue_node, interacted_comps)
+
+	for ic in interact_comps:
+		var ar: Area2D = ic.interact_rage if ic.interact_rage else ic.get_parent() as Area2D
+		if ar:
+			ar.monitoring = enabled
+			ar.monitorable = enabled
+
+	for idc in interacted_comps:
+		var ar2: Area2D = idc.interacted_rage if idc.interacted_rage else idc.get_parent() as Area2D
+		if ar2:
+			ar2.monitoring = enabled
+			ar2.monitorable = enabled
 	
 # ====================================================================================================
 

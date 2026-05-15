@@ -25,7 +25,7 @@ metadata/_custom_type_script = "uid://b37t7a67t8onx"
 [sub_resource type="Resource" id="Resource_gx6ub"]
 script = ExtResource("11_xyncc")
 speaker_entity = "Oni"
-text = "没有东西可以倒进去。"
+text = "占卜用的水签，遇水后应该会显示出某种字迹。"
 metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 
 [node name="water_sign" type="Control" unique_id=902084392]

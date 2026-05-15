@@ -17,6 +17,10 @@ class SampleRay:
 var sample_rays: Array[SampleRay] = []
 var occlusion_points: Array[Vector2] = []
 
+# 逻辑遮挡会把每个光源的采样射线与大量遮挡点做匹配，复杂度很高。
+# 默认关闭，只保留兼容入口；需要调试旧系统时可在具体光源上手动开启。
+@export var use_occlusion: bool = false
+
 # 检测器发现阈值（当光强超过此值时，认为照射到了检测器）
 @export var find_detector_threshold: float = 0.05
 
@@ -24,4 +28,7 @@ var occlusion_points: Array[Vector2] = []
 var find_detector: bool = false
 
 func calculate_intensity(angle: float, length: float) -> float:
-	return -1
+	return 1.0
+
+func update_ray_collisions():
+	pass

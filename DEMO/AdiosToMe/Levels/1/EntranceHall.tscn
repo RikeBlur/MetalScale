@@ -5,7 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="3_04m7r"]
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="4_8xsw7"]
 [ext_resource type="TileSet" uid="uid://dt350ynmnt232" path="res://Style/tilesets/Indoors.tres" id="5_p7ept"]
+[ext_resource type="Script" uid="uid://bbx3duawo82qg" path="res://Scripts/system/lighting/blink_seq.gd" id="6_myfsf"]
 [ext_resource type="PackedScene" uid="uid://b87kdl8vidkfi" path="res://System/RPG/interact/door/var1/door_right.tscn" id="6_vvdk0"]
+[ext_resource type="PackedScene" uid="uid://bjltexk26grwd" path="res://System/RPG/lighting/spot_light/SpotLightLarge.tscn" id="7_fu2ww"]
+[ext_resource type="PackedScene" uid="uid://brurm1i5sfsh2" path="res://System/RPG/lighting/spot_light/SpotLightMedium.tscn" id="8_fu2ww"]
+[ext_resource type="PackedScene" uid="uid://dw15f6hltrx8" path="res://System/RPG/lighting/spot_light/SpotLightSmall.tscn" id="9_vdrru"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
 script = ExtResource("2_o7ogc")
@@ -96,6 +100,22 @@ y_sort_enabled = true
 y_sort_enabled = true
 
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
+
+[node name="BlinkSeq" type="Node2D" parent="ObjectAndCharacter/light" unique_id=1731621233]
+script = ExtResource("6_myfsf")
+metadata/_custom_type_script = "uid://bbx3duawo82qg"
+
+[node name="SpotLight" parent="ObjectAndCharacter/light/BlinkSeq" unique_id=987910373 instance=ExtResource("7_fu2ww")]
+position = Vector2(772, 387)
+logic_energy = 4.0
+
+[node name="SpotLight2" parent="ObjectAndCharacter/light/BlinkSeq" unique_id=1102888243 instance=ExtResource("8_fu2ww")]
+position = Vector2(644, 321)
+logic_energy = 4.0
+
+[node name="SpotLight3" parent="ObjectAndCharacter/light/BlinkSeq" unique_id=299711839 instance=ExtResource("9_vdrru")]
+position = Vector2(795, 305)
+logic_energy = 4.0
 
 [node name="Interactable" type="Node2D" parent="ObjectAndCharacter" unique_id=1164615803]
 y_sort_enabled = true

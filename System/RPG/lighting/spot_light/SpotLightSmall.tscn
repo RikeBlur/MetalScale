@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://dw15f6hltrx8"]
+
+[ext_resource type="Script" uid="uid://6vrsjuv3urii" path="res://Scripts/system/lighting/electrionic_screen.gd" id="1_8ylli"]
+[ext_resource type="Script" uid="uid://b1qwa7ctreuo0" path="res://Scripts/system/lighting/radial_light_source.gd" id="2_bl8vq"]
+[ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/component/point_radial_light_texture.tres" id="3_o70m4"]
+[ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="4_lggpp"]
+[ext_resource type="Texture2D" uid="uid://b0qh0wtaqhfst" path="res://Effect/Shader/waving_noise/noise_0.tres" id="5_hcssn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0nj6o"]
+shader = ExtResource("4_lggpp")
+shader_parameter/wave_speed = 1.0
+shader_parameter/noise_scale = 5.0
+shader_parameter/wave_amplitude = 0.5
+shader_parameter/time_offset = 0.0
+shader_parameter/gradient_texture = ExtResource("5_hcssn")
+shader_parameter/use_gradient = true
+shader_parameter/base_color = Color(0.25882354, 0.25882354, 0.25882354, 1)
+shader_parameter/alpha_multiplier = 1.0000000475
+shader_parameter/color_mix_strength = 0.5
+
+[node name="SpotLight" type="Node2D" unique_id=987910373]
+script = ExtResource("1_8ylli")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=559647924]
+shadow_enabled = true
+shadow_filter = 2
+shadow_filter_smooth = 1.0
+shadow_item_cull_mask = 3
+texture = ExtResource("3_o70m4")
+texture_scale = 2.0
+
+[node name="LightSource" type="Node2D" parent="." unique_id=1659965690 groups=["light_source"]]
+script = ExtResource("2_bl8vq")
+radius = 50.0
+
+[node name="ScreenContent" type="Sprite2D" parent="." unique_id=158828935]
+z_index = 1
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_0nj6o")
+position = Vector2(1.1920929e-07, -9.536743e-07)
+scale = Vector2(0.030357141, 0.034166668)
+offset = Vector2(0, -750)
+
+[node name="ScreenBody" type="Sprite2D" parent="." unique_id=1929611458]
+z_index = 1
+y_sort_enabled = true
+offset = Vector2(0, -20)
+
+[node name="JIU" type="Sprite2D" parent="." unique_id=2016861912]
+z_index = 1
+y_sort_enabled = true
+offset = Vector2(0, -20)

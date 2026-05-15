@@ -19,17 +19,11 @@
 [ext_resource type="PackedScene" uid="uid://d22ila8axnges" path="res://System/RPG/lighting/mul_media/mul_media_left.tscn" id="14_vhm42"]
 [ext_resource type="PackedScene" uid="uid://o78nkfbiduel" path="res://System/RPG/lighting/leptop/ElectrionicScreen_back.tscn" id="16_kbxo1"]
 [ext_resource type="PackedScene" uid="uid://drfn5jx7finnd" path="res://System/RPG/interact/door/var3_doubled/door_back_doubled.tscn" id="17_eg62i"]
+[ext_resource type="PackedScene" uid="uid://bhvnmc3cg0n5m" path="res://System/RPG/interact/collectable/collectable_suicideking.tscn" id="20_co1g6"]
 
 [sub_resource type="Resource" id="Resource_va5wj"]
 script = ExtResource("2_2g8gb")
 node_path = NodePath("ObjectAndCharacter/Interactable/door/door")
-metadata/_custom_type_script = "uid://dpl7usng0cfyl"
-
-[sub_resource type="Resource" id="Resource_0n24n"]
-script = ExtResource("2_2g8gb")
-node_path = NodePath("ObjectAndCharacter/light/blink_seq/ElectrionicScreen")
-type = 5
-state = 1
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Resource" id="Resource_cu16r"]
@@ -78,7 +72,7 @@ y_sort_enabled = true
 script = ExtResource("1_y34y8")
 player_initial_position = Array[Vector2]([Vector2(630, 450)])
 player_initial_direction = Array[Vector2]([Vector2(0, -1)])
-interactables = Array[ExtResource("2_2g8gb")]([SubResource("Resource_va5wj"), SubResource("Resource_0n24n"), SubResource("Resource_cu16r"), SubResource("Resource_eg62i")])
+interactables = Array[ExtResource("2_2g8gb")]([SubResource("Resource_va5wj"), SubResource("Resource_cu16r"), SubResource("Resource_eg62i")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 
@@ -149,10 +143,10 @@ position = Vector2(434, -173)
 y_sort_enabled = true
 
 [node name="chair" parent="ObjectAndCharacter/object/chairs" unique_id=688883295 instance=ExtResource("8_06p4f")]
-position = Vector2(289, -53)
+position = Vector2(289, -111)
 
 [node name="chair2" parent="ObjectAndCharacter/object/chairs" unique_id=1790165275 instance=ExtResource("8_06p4f")]
-position = Vector2(389, -51)
+position = Vector2(367, -51)
 
 [node name="chair3" parent="ObjectAndCharacter/object/chairs" unique_id=612589483 instance=ExtResource("8_06p4f")]
 position = Vector2(532, -108)
@@ -191,30 +185,24 @@ loop = true
 
 [node name="ElectrionicScreen" parent="ObjectAndCharacter/light/blink_seq" unique_id=987910373 instance=ExtResource("12_b4lkb")]
 z_index = 1
-position = Vector2(289, 56)
-logic_energy = 2.0
+position = Vector2(294, 46)
 
 [node name="ElectrionicScreen2" parent="ObjectAndCharacter/light/blink_seq" unique_id=1290693355 instance=ExtResource("12_b4lkb")]
 z_index = 1
-position = Vector2(394, 56)
-logic_energy = 2.0
+position = Vector2(399, 46)
 
 [node name="ElectrionicScreen3" parent="ObjectAndCharacter/light/blink_seq" unique_id=1987197660 instance=ExtResource("12_b4lkb")]
 z_index = 1
-position = Vector2(498, 56)
-logic_energy = 2.0
+position = Vector2(503, 46)
 
 [node name="ElectrionicScreen_back" parent="ObjectAndCharacter/light/blink_seq" unique_id=1846256616 instance=ExtResource("16_kbxo1")]
 position = Vector2(513, -42)
-logic_energy = 2.0
 
 [node name="ElectrionicScreen_back2" parent="ObjectAndCharacter/light/blink_seq" unique_id=1138670244 instance=ExtResource("16_kbxo1")]
 position = Vector2(418, -42)
-logic_energy = 2.0
 
 [node name="ElectrionicScreen_back3" parent="ObjectAndCharacter/light/blink_seq" unique_id=577959959 instance=ExtResource("16_kbxo1")]
 position = Vector2(306, -42)
-logic_energy = 2.0
 
 [node name="ElectrionicScreen2" parent="ObjectAndCharacter/light" unique_id=788753966 instance=ExtResource("13_4bc6m")]
 position = Vector2(441, 430)
@@ -236,6 +224,9 @@ scene_to_index = 4
 
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]
 y_sort_enabled = true
+
+[node name="CollectableSuicideking" parent="ObjectAndCharacter/Interactable/collectable" unique_id=820129776 instance=ExtResource("20_co1g6")]
+position = Vector2(169, 7)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="ObjectAndCharacter" unique_id=1437185051]
 visible = false

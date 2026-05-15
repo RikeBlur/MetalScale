@@ -2,9 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://cldiq6pcwqgdb" path="res://Assests/tileset/AdiosToMe/classroom_1.png" id="1_p7pdr"]
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_50t3y"]
-polygon = PackedVector2Array(-31, -40, 10, -40, 49, -40, 49, -28, -31, -28)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_1kxsq"]
 atlas = ExtResource("1_p7pdr")
 region = Rect2(13, 348, 70, 71)
@@ -13,10 +10,6 @@ region = Rect2(13, 348, 70, 71)
 size = Vector2(70, 20)
 
 [node name="SofaFaceRight" type="Node2D" unique_id=2027197509]
-
-[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1020102309 groups=["occlusion"]]
-position = Vector2(-9, -6)
-occluder = SubResource("OccluderPolygon2D_50t3y")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2073500244]
 z_index = 1

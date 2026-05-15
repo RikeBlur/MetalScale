@@ -9,6 +9,7 @@
 [ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="5_5jqud"]
 [ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="6_s2qde"]
 [ext_resource type="Texture2D" uid="uid://byi42k5gpxpci" path="res://Assests/sprite/UI/ESC.png" id="7_s2qde"]
+[ext_resource type="Texture2D" uid="uid://dwhhxj5557qrb" path="res://DEMO/Bin/demo/assets/shadow.png" id="9_1s363"]
 
 [sub_resource type="Gradient" id="Gradient_3pxdc"]
 offsets = PackedFloat32Array(0, 0.993506)
@@ -71,6 +72,107 @@ animations = [{
 "speed": 0.1
 }]
 
+[sub_resource type="Animation" id="Animation_1s363"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:r")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_2sbjx"]
+resource_name = "fadeout"
+length = 2.0
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:r")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.16666667, 0.16666667, 0, 0),
+"times": PackedFloat32Array(0, 1, 2)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1utan"]
+_data = {
+&"RESET": SubResource("Animation_1s363"),
+&"fadeout": SubResource("Animation_2sbjx")
+}
+
 [node name="Statemachine" type="Control" unique_id=883631207]
 layout_mode = 3
 anchors_preset = 15
@@ -79,7 +181,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6lr8p")
-fadein_time = 0.3
+fadein_time = 2.0
 
 [node name="D1" parent="." unique_id=2129294719 instance=ExtResource("1_3u3db")]
 material = SubResource("ShaderMaterial_mci5n")
@@ -186,6 +288,16 @@ text = "“再见”
 "
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="mask" type="Sprite2D" parent="." unique_id=6978972]
+visible = false
+position = Vector2(551.5, 342.5001)
+scale = Vector2(24.46923, 42.35)
+texture = ExtResource("9_1s363")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="mask" unique_id=878629192]
+libraries/ = SubResource("AnimationLibrary_1utan")
+autoplay = &"fadeout"
 
 [node name="ESC" type="Sprite2D" parent="." unique_id=1007561769]
 modulate = Color(1, 1, 1, 0.10980392)

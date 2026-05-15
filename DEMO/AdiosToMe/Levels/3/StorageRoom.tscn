@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://cnsqkrs1vi1d5" path="res://System/RPG/object/chair/var1/chair_right.tscn" id="18_ctuyb"]
 [ext_resource type="PackedScene" uid="uid://bajrucetxnehm" path="res://System/RPG/object/table/var1/table_left_up.tscn" id="18_f2ri6"]
 [ext_resource type="PackedScene" uid="uid://cqhcioax0p174" path="res://System/RPG/object/table/var1/table_up_left.tscn" id="20_3ar4c"]
+[ext_resource type="PackedScene" uid="uid://dqcap280yv4rh" path="res://System/RPG/interact/others/doorplate.tscn" id="24_28ape"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
 script = ExtResource("2_ctuyb")
@@ -233,6 +234,10 @@ scene_to = "3-7"
 
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]
 y_sort_enabled = true
+
+[node name="Doorplate" parent="ObjectAndCharacter/Interactable" unique_id=1822776458 instance=ExtResource("24_28ape")]
+position = Vector2(594, 123)
+door_name = "配电室"
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
 y_sort_enabled = true

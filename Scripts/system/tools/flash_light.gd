@@ -69,9 +69,9 @@ func _apply_rotation(angle: float) -> void:
 		# 直接旋转光源节点来旋转纹理
 		light_source.point_light_2d.rotation = angle
 	
-	# 3. 设置光源的角度偏移（控制光线检测方向）
+	# 3. 设置光源的角度旋转（控制光线检测方向）
 	if light_source and light_source is parallel_light_source:
-		light_source.angle_offset = angle
+		light_source.angle_rotate = rad_to_deg(angle)
 
 func _angle_difference(from: float, to: float) -> float:
 	"""计算两个角度之间的最短差值（考虑角度环绕）"""

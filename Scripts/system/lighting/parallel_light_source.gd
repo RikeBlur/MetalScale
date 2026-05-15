@@ -13,16 +13,14 @@ extends LightSource
 var threshold : float = 10.0
 
 @export var angle_range : float = PI / 16 
-@export var angle_offset : float = 0:
+@export_range(-360.0, 360.0, 0.1, "suffix:°") var angle_rotate : float = 0.0:
 	set(value):
-		angle_offset = value
-		# 当角度偏移改变时，重新初始化采样射线
+		angle_rotate = value
+		# 当角度旋转改变时，重新初始化采样射线
 		if is_inside_tree():
 			initialize_sample_rays()
 
 @export var debug_mode : bool = false
-
-@onready var point_light_2d: PointLight2D = $PointLight2D
 
 func _ready():
 	initialize_sample_rays()
@@ -38,11 +36,12 @@ func initialize_sample_rays():
 	# 计算总角度范围：从 -angle_range 到 +angle_range
 	var total_range = 2.0 * angle_range
 	var angle_step = total_range / safe_sampling_rate
+	var rotate_radians = _angle_rotate_radians()
 	
 	for i in range(safe_sampling_rate):
 		# 从 -angle_range 开始分布
-		var start_angle = -angle_range + angle_offset + i * angle_step
-		var end_angle = -angle_range + angle_offset + (i + 1) * angle_step
+		var start_angle = -angle_range + rotate_radians + i * angle_step
+		var end_angle = -angle_range + rotate_radians + (i + 1) * angle_step
 		var ray = SampleRay.new(i, start_angle, end_angle)
 		sample_rays.append(ray)
 		
@@ -55,6 +54,9 @@ func update_ray_collisions():
 	for ray in sample_rays:
 		ray.is_occluded = false
 		ray.ray_length = 0.0
+
+	if not use_occlusion or occlusion_points.is_empty():
+		return
 	
 	# 对每个射线进行碰撞检测
 	for ray in sample_rays:
@@ -123,14 +125,15 @@ func get_sample_ray_for_angle(angle: float) -> SampleRay:
 	if sample_rays.is_empty():
 		return null
 	
-	# 检查角度是否在有效范围内（考虑 angle_offset）
+	# 检查角度是否在有效范围内（考虑 angle_rotate）
 	var normalized_angle = _normalize_angle(angle)
-	var local_angle = _normalize_angle(normalized_angle - angle_offset)
+	var rotate_radians = _angle_rotate_radians()
+	var local_angle = _normalize_angle(normalized_angle - rotate_radians)
 	if abs(local_angle) > angle_range:
 		return null  # 超出光源照射范围，返回null
 	
 	# 在有效射线中查找匹配的射线
-	var sample_angle = angle_offset + local_angle
+	var sample_angle = rotate_radians + local_angle
 	for ray in sample_rays:
 		if _angle_in_ray(sample_angle, ray):
 			return ray
@@ -145,23 +148,28 @@ func calculate_intensity(angle: float, length: float) -> float:
 	if length <= 0.0:
 		return logic_energy
 
-	var ray = get_sample_ray_for_angle(angle)
-	
 	# 如果角度超出光源范围，返回0强度
-	if ray == null:
+	var local_angle = _normalize_angle(angle - _angle_rotate_radians())
+	if abs(local_angle) > angle_range:
 		return 0.0
 	
-	var rlr = radius / length
+	var intensity = logic_energy
+	if not use_occlusion:
+		return intensity
+
+	var ray = get_sample_ray_for_angle(angle)
+	if ray == null:
+		return 0.0
 	
 	if ray.is_occluded:
 		# 如果射线被遮挡，检查距离是否小于遮挡距离
 		if length < ray.ray_length:
-			return (1 - 1 / rlr) * logic_energy
+			return intensity
 		else:
 			return 0.0
 	else:
 		# 如果射线未被遮挡，直接计算强度
-		return (1 - 1 / rlr) * logic_energy
+		return intensity
 
 
 func _normalize_angle(angle: float) -> float:
@@ -170,11 +178,15 @@ func _normalize_angle(angle: float) -> float:
 		result += 2.0 * PI
 	return result - PI
 
+func _angle_rotate_radians() -> float:
+	return deg_to_rad(angle_rotate)
+
 
 func _angle_in_ray(angle: float, ray: SampleRay) -> bool:
-	var local_angle = _normalize_angle(angle - angle_offset)
-	var local_start = _normalize_angle(ray.angle_start - angle_offset)
-	var local_end = _normalize_angle(ray.angle_end - angle_offset)
+	var rotate_radians = _angle_rotate_radians()
+	var local_angle = _normalize_angle(angle - rotate_radians)
+	var local_start = _normalize_angle(ray.angle_start - rotate_radians)
+	var local_end = _normalize_angle(ray.angle_end - rotate_radians)
 	return local_angle >= local_start and local_angle < local_end
 
 

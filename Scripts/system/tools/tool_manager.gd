@@ -29,11 +29,11 @@ const TOOL_DISPLAY_NAMES = {
 	Tool.EMERGENCELIGHT: "应急光源",
 	Tool.FLASHLIGHT: "手电筒",
 	Tool.ADRENALINE: "肾上腺素",
-	Tool.KEYA: "教师休息室钥匙",
-	Tool.KEYB: "钥匙B",
-	Tool.KEYC: "钥匙C",
+	Tool.KEYA: "会议室钥匙",
+	Tool.KEYB: "三层连廊钥匙",
+	Tool.KEYC: "配电室钥匙",
 	Tool.BOOLDYWATER: "血水",
-	Tool.SUICIDEKING: "自杀之王",
+	Tool.SUICIDEKING: "红桃K",
 	Tool.BATTERY: "电池"
 }
 
@@ -42,12 +42,12 @@ const TOOL_DESCRIPTION = {
 	Tool.EMERGENCELIGHT: "提灯模样的备用光源，照明范围有限。请务必留意电量。",
 	Tool.FLASHLIGHT: "可以照亮前方的手电筒",
 	Tool.ADRENALINE: "短时间激发身体机能的药剂，请按处方使用。",
-	Tool.KEYA: "教师休息室的钥匙。旧教学楼除了大门之外没有上电子锁，每个房间都有着令人怀念实体钥匙。",
-	Tool.KEYB: "钥匙B",
-	Tool.KEYC: "钥匙C",
+	Tool.KEYA: "会议室的钥匙。旧教学楼除了大门之外没有上电子锁，每个房间都有着令人怀念实体钥匙。",
+	Tool.KEYB: "通向三层连廊钥匙。旧教学楼一共有三栋，三栋建筑的均在第三层通过空中连廊连接，方便学生在不同建筑间移动。",
+	Tool.KEYC: "三楼配电室的钥匙。为了打开一层的通向玄关的大门，必须先恢复电力来解开电子锁。",
 	Tool.BOOLDYWATER: "血色的瓶装水，但似乎没有那么想象中的粘稠。",
-	Tool.SUICIDEKING: "一张崭新的扑克牌。红桃K。",
-	Tool.BATTERY: "9号电池，似乎可以装入应急光源中。可以在电量低时使用。"
+	Tool.SUICIDEKING: "自杀之王，红桃K。查理曼大帝将头颅插入卡槽，流淌的血水恩泽了三个儿子。",
+	Tool.BATTERY: "9号电池，似乎可以装入应急光源中,可以在电量低时使用。"
 }
 
 const TOOL_ICONS = {

@@ -60,18 +60,14 @@ func get_future_detection_points() -> PackedVector2Array:
 	return points
 
 func calculate_intensities(is_now : bool) -> float:
-	"""计算并打印所有附近光源的光强（5点平均）"""
+	"""计算所有附近光源的光强（检测点平均）"""
 	var total_intensity: float = 0.0
+	var detection_points: PackedVector2Array = get_now_detection_points() if is_now else get_future_detection_points()
+
 	for light in nearby_light_sources:
 		if not is_instance_valid(light):
 			continue
 		
-		# 获取5个检测点
-		var detection_points : Array = []
-		if is_now:
-			detection_points = get_now_detection_points()
-		else : 
-			detection_points = get_future_detection_points()
 		var light_intensity_sum: float = 0.0
 		var valid_points: int = 0
 		

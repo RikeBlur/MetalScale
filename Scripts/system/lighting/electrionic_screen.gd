@@ -20,11 +20,16 @@ var activated: bool = false
 		logic_energy = max(value, 0.0)
 		if is_node_ready():
 			_apply_logic_energy()
+@export_range(-360.0, 360.0, 0.1, "suffix:°") var angle_rotate: float = 0.0:
+	set(value):
+		angle_rotate = value
+		if is_node_ready():
+			_apply_angle_rotate()
 
 var _color_tween: Tween = null
 
 @onready var light_source: LightSource = get_node_or_null("LightSource") as LightSource
-@onready var point_light: PointLight2D = get_node_or_null("LightSource/PointLight2D") as PointLight2D
+@onready var point_light: PointLight2D = get_node_or_null("PointLight2D") as PointLight2D
 @onready var screen_content: Sprite2D = get_node_or_null("ScreenContent") as Sprite2D
 @onready var jiu: Sprite2D = get_node_or_null("JIU") as Sprite2D
 
@@ -34,6 +39,7 @@ var fix: bool = false
 func _ready() -> void:
 	player_now = GameManager.get_player()
 	_apply_logic_energy()
+	_apply_angle_rotate()
 	if point_light:
 		point_light.color = normal_color
 	# 确保屏幕内容有独立材质，并初始化 basecolor
@@ -195,3 +201,9 @@ func _apply_logic_energy() -> void:
 		light_source.set("logic_energy", logic_energy)
 	else:
 		push_warning("ElectronicScreen: LightSource 节点没有 logic_energy 属性")
+
+func _apply_angle_rotate() -> void:
+	if not light_source:
+		return
+	if "angle_rotate" in light_source:
+		light_source.set("angle_rotate", angle_rotate)

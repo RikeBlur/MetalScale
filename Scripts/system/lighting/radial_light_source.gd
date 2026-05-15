@@ -4,7 +4,11 @@ extends LightSource
 @export var radius : float = 200.0
 @export var range_offset : float = 1.0
 @export var logic_energy : float = 1.0
-@export var sampling_rate : int = 36
+@export var sampling_rate : int = 36:
+	set(value):
+		sampling_rate = int(max(value, 1))
+		if is_inside_tree():
+			initialize_sample_rays()
 @export var debug_mode : bool = false
 
 var threshold : float = 10.0
@@ -18,9 +22,10 @@ func _ready():
 func initialize_sample_rays():
 	"""初始化采样射线"""
 	sample_rays.clear()
-	var angle_step = 2.0 * PI / sampling_rate
+	var safe_sampling_rate: int = int(max(sampling_rate, 1))
+	var angle_step = 2.0 * PI / safe_sampling_rate
 	
-	for i in range(sampling_rate):
+	for i in range(safe_sampling_rate):
 		var start_angle = i * angle_step
 		var end_angle = (i + 1) * angle_step
 		var ray = SampleRay.new(i, start_angle, end_angle)
@@ -35,6 +40,9 @@ func update_ray_collisions():
 	for ray in sample_rays:
 		ray.is_occluded = false
 		ray.ray_length = 0.0
+
+	if not use_occlusion or occlusion_points.is_empty():
+		return
 	
 	# 对每个射线进行碰撞检测
 	for ray in sample_rays:
@@ -99,6 +107,9 @@ func clear_occlusion_points():
 
 func get_sample_ray_for_angle(angle: float) -> SampleRay:
 	"""根据角度获取对应的采样射线"""
+	if sample_rays.is_empty():
+		return null
+
 	# 将角度标准化到0-2π范围
 	var normalized_angle = fmod(angle + 2.0 * PI, 2.0 * PI)
 	
@@ -111,18 +122,28 @@ func get_sample_ray_for_angle(angle: float) -> SampleRay:
 
 func calculate_intensity(angle: float, length: float) -> float:
 	"""计算指定角度和距离的光照强度"""
+	if radius <= 0.0 or length >= radius:
+		return 0.0
+	if length <= 0.0:
+		return logic_energy
+
+	var intensity = logic_energy
+	if not use_occlusion:
+		return intensity
+
 	var ray = get_sample_ray_for_angle(angle)
-	var rlr = radius / length
+	if ray == null:
+		return 0.0
 	
 	if ray.is_occluded:
 		# 如果射线被遮挡，检查距离是否小于遮挡距离
 		if length < ray.ray_length:
-			return (1 - 1 / rlr) * logic_energy
+			return intensity
 		else:
 			return 0.0
 	else:
 		# 如果射线未被遮挡，直接计算强度
-		return (1 - 1 / rlr) * logic_energy
+		return intensity
 
 #------------------------------------------------------------------------------------------------
 #-------------------------------------------测试用------------------------------------------------

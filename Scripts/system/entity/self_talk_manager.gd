@@ -22,25 +22,25 @@ const TALK_CONDITION_KEY: String = "condition"
 @export var self_talk_update_time: float = 3.0
 @export var self_talk_list: Array[Dictionary] = [
 	{
-		"text": "默认1",
+		"text": "好黑，看不清窗外的景色啊...是深夜吗。",
 		"type": SelfTalkType.DEFAULT,
 		"probability": 0.33333334,
 		"condition": TriggerCondition.NONE
 	},
 	{
-		"text": "默认2",
+		"text": "空气里有种怀念的感觉。",
 		"type": SelfTalkType.DEFAULT,
 		"probability": 0.33333333,
 		"condition": TriggerCondition.NONE
 	},
 	{
-		"text": "默认3",
+		"text": "能听到不像人类的脚步声。果然还是在做梦吗...",
 		"type": SelfTalkType.DEFAULT,
 		"probability": 0.33333333,
 		"condition": TriggerCondition.NONE
 	},
 	{
-		"text": "遇到电子屏幕时说的话",
+		"text": "电力似乎出问题了，但这些屏幕为什么还亮着...",
 		"type": SelfTalkType.TRIGGER,
 		"probability": 0.25,
 		"condition": TriggerCondition.HAS_ELECTRONIC_SCREEN

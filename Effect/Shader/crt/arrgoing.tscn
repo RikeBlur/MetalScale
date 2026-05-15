@@ -30,7 +30,7 @@ shader_parameter/vignette_opacity = 0.5
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ju0c4"]
 shader = ExtResource("1_konp7")
 shader_parameter/overlay = true
-shader_parameter/effect_opacity = 0.50000002375
+shader_parameter/effect_opacity = 0.250000011875
 shader_parameter/scanlines_opacity = 0.0
 shader_parameter/scanlines_width = 0.0
 shader_parameter/grille_opacity = 0.0

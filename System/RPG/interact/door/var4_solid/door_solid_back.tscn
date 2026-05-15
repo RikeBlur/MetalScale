@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://bpn255ecuhiat"]
+
+[ext_resource type="Script" uid="uid://uwv8fcsy86kg" path="res://Scripts/system/interact/door/BaseDoor.gd" id="1_cfckk"]
+[ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="2_c04ma"]
+[ext_resource type="Texture2D" uid="uid://u7ssfbfoo3ip" path="res://Assests/sprite/object/door.png" id="3_bvauk"]
+[ext_resource type="AudioStream" uid="uid://c0uhqsqoqjy5y" path="res://Assests/SFX/Object/door_open_[cut_0sec].mp3" id="4_cik2u"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="5_8kvei"]
+[ext_resource type="AudioStream" uid="uid://c56u1rqb2tere" path="res://Assests/SFX/Object/door_lock.mp3" id="6_8iqyu"]
+[ext_resource type="AudioStream" uid="uid://wkxra0wohxcp" path="res://Assests/SFX/Object/lock_open.mp3" id="7_h74hr"]
+[ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/component/point_radial_light_texture.tres" id="8_mcxxa"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2psln"]
+radius = 8.0
+height = 66.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4cixi"]
+atlas = ExtResource("3_bvauk")
+region = Rect2(17, 21, 67, 78)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jn4o2"]
+size = Vector2(81, 75)
+
+[node name="door" type="Area2D" unique_id=105227598]
+script = ExtResource("1_cfckk")
+scene_from = "uid://vp6soyihnvap"
+scene_to = "uid://itc8wfv45jeo"
+
+[node name="InteractedComponent" parent="." unique_id=1329603622 node_paths=PackedStringArray("interacted_rage") instance=ExtResource("2_c04ma")]
+interacted_rage = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=790028642]
+position = Vector2(0, -53)
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_2psln")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=439243945]
+modulate = Color(0.5, 0.5, 0.5, 1)
+z_index = 3
+position = Vector2(0, -3)
+texture = SubResource("AtlasTexture_4cixi")
+flip_h = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1128655890]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1546067317]
+modulate = Color(0.8776157, 0.8776158, 0.8776157, 1)
+position = Vector2(1.5, -8.5)
+shape = SubResource("RectangleShape2D_jn4o2")
+
+[node name="open_sfx" type="AudioStreamPlayer2D" parent="." unique_id=781156774]
+stream = ExtResource("4_cik2u")
+volume_db = 1.0
+script = ExtResource("5_8kvei")
+base_volume_db = 1.0
+
+[node name="cant_open_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1776954999]
+stream = ExtResource("6_8iqyu")
+script = ExtResource("5_8kvei")
+
+[node name="use_key_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1263807715]
+stream = ExtResource("7_h74hr")
+script = ExtResource("5_8kvei")
+
+[node name="ambient_light" type="PointLight2D" parent="." unique_id=1658745717]
+position = Vector2(1.0728836e-06, -32.5)
+scale = Vector2(1.0312501, 1.015625)
+color = Color(0.7047, 0.768065, 0.87, 1)
+energy = 0.2
+texture = ExtResource("8_mcxxa")

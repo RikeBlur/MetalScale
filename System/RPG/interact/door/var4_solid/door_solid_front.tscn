@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://cljbpjm42ddmu"]
+
+[ext_resource type="Script" uid="uid://uwv8fcsy86kg" path="res://Scripts/system/interact/door/BaseDoor.gd" id="1_fhvi6"]
+[ext_resource type="PackedScene" uid="uid://dbywm77u67n2u" path="res://System/RPG/interact/interacted_component.tscn" id="2_5w1d1"]
+[ext_resource type="Texture2D" uid="uid://u7ssfbfoo3ip" path="res://Assests/sprite/object/door.png" id="3_hidwn"]
+[ext_resource type="AudioStream" uid="uid://c0uhqsqoqjy5y" path="res://Assests/SFX/Object/door_open_[cut_0sec].mp3" id="4_3qfqw"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="5_lw1k3"]
+[ext_resource type="AudioStream" uid="uid://c56u1rqb2tere" path="res://Assests/SFX/Object/door_lock.mp3" id="6_31jhv"]
+[ext_resource type="AudioStream" uid="uid://wkxra0wohxcp" path="res://Assests/SFX/Object/lock_open.mp3" id="7_bku28"]
+[ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/component/point_radial_light_texture.tres" id="8_f5v33"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2psln"]
+radius = 34.0
+height = 110.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_chdcv"]
+size = Vector2(52, 37)
+
+[node name="door" type="Area2D" unique_id=387604085]
+script = ExtResource("1_fhvi6")
+scene_from = "uid://vp6soyihnvap"
+scene_to = "uid://itc8wfv45jeo"
+
+[node name="InteractedComponent" parent="." unique_id=1585207032 node_paths=PackedStringArray("interacted_rage") instance=ExtResource("2_5w1d1")]
+interacted_rage = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1817593455]
+position = Vector2(0, -36)
+shape = SubResource("CapsuleShape2D_2psln")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=183173875]
+position = Vector2(1, -37.999996)
+scale = Vector2(1, 1.1)
+texture = ExtResource("3_hidwn")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1982224626]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=11012396]
+position = Vector2(0, -50.5)
+shape = SubResource("RectangleShape2D_chdcv")
+
+[node name="open_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1455024013]
+stream = ExtResource("4_3qfqw")
+volume_db = 5.0
+script = ExtResource("5_lw1k3")
+base_volume_db = 3.0
+
+[node name="cant_open_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1725352786]
+stream = ExtResource("6_31jhv")
+script = ExtResource("5_lw1k3")
+
+[node name="use_key_sfx" type="AudioStreamPlayer2D" parent="." unique_id=2043841304]
+stream = ExtResource("7_bku28")
+script = ExtResource("5_lw1k3")
+
+[node name="ambient_light" type="PointLight2D" parent="." unique_id=205415147]
+position = Vector2(1.0728836e-06, -10)
+scale = Vector2(1.0312501, 1.015625)
+color = Color(0.7047, 0.768065, 0.87, 1)
+energy = 0.2
+texture = ExtResource("8_f5v33")
