@@ -5,7 +5,7 @@ signal Preloaded
 signal Loading
 signal Loaded
 signal player_died
-signal chasing_1_eye_caught_player(damage_source: EnemyEye)
+signal chasing_1_eye_caught_player(damage_source: CharacterBody2D)
 
 # Arrgo系统信号
 signal get_in_arrgo   # aggro_value 从0开始上升时
@@ -29,13 +29,15 @@ const CONFIG_PATH: String = "user://config.tres"
 const DEFAULT_GLOBAL_VFX_SHADER_PATH: String = "res://Effect/Shader/default_global_vfx/global_vfx_vhs.gdshader"
 const DEFAULT_FIRST_DIALOGUE: String = "ObjectAndCharacter/Interactable/DialogueComponent"
 const DEATHWAIT_TIME: float = 0.5
+const lighting_stage_0 = Color(0.21, 0.157, 0.157, 1.0)
+const lighting_stage_1 = Color(0.45, 0.373, 0.395, 1.0)
 
 # ====================================================================================================
 # ============================================ 游戏状态枚举 =============================================
 # ====================================================================================================
 
 # ！！！   DEBUG 选项    ！！！
-var debug : bool = true
+var debug : bool = false
 # ！！！   DEBUG 选项    ！！！
 
 # 游戏状态枚举
@@ -60,7 +62,7 @@ var switch_on: bool = false
 var player_arrgo: int = 0
 var arrgo_in_threshold: float = 10.0
 # 默认环境光照颜色
-var default_lighting: Color = Color(0.21, 0.157, 0.157, 1.0)
+var default_lighting: Color = lighting_stage_0
 # 是否 prepare 了 chasing_1
 var chasing_1_prepare: bool = false
 var state1_over: bool = true
@@ -73,7 +75,7 @@ var _is_archive_load_running: bool = false
 var _is_player_death_flow_running: bool = false
 var _death_flow_token: int = 0
 var _chasing_1_eye_caught_pending: bool = false
-var _chasing_1_eye_damage_source: EnemyEye = null
+var _chasing_1_eye_damage_source: CharacterBody2D = null
 var _chasing_1_preserved_player_health: float = 0.0
 
 # 当前游戏状态
@@ -331,7 +333,7 @@ func quit_game() -> void:
 
 # ============================================= 死了 ==============================================
 
-func notify_chasing_1_eye_caught_player(caught_player: player, damage_source: EnemyEye, preserved_health: float) -> void:
+func notify_chasing_1_eye_caught_player(caught_player: player, damage_source: CharacterBody2D, preserved_health: float) -> void:
 	if not chasing_1_prepare:
 		return
 	if not caught_player or not is_instance_valid(caught_player):
@@ -355,7 +357,7 @@ func is_chasing_1_eye_caught_pending() -> bool:
 	return _chasing_1_eye_caught_pending
 
 
-func get_chasing_1_eye_damage_source() -> EnemyEye:
+func get_chasing_1_eye_damage_source() -> CharacterBody2D:
 	if _chasing_1_eye_damage_source and is_instance_valid(_chasing_1_eye_damage_source):
 		return _chasing_1_eye_damage_source
 	return null
@@ -780,6 +782,8 @@ func _reset_player_runtime_state() -> void:
 
 	player_instance.is_died = false
 	player_instance.health_now = player_instance.health_max
+	player_instance.stamina_now = player_instance.stamina_max
+	player_instance.exhausted = false
 	player_instance.can_move = true
 	player_instance.can_interact = true
 	player_instance.can_act = true

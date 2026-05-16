@@ -30,8 +30,76 @@ func trigger_condition() -> bool:
 
 
 func trigger_effect() -> void:
-	print("沉重大门打开的声音")
+	print("Switch ON!!!")
+	# 开灯
+	GameManager.default_lighting = GameManager.lighting_stage_1
+	EnvironmentManager.set_environment()
+	# 来人
+	_show_ax_in_third_steproom_in_scene_data()
+	# 滚人
+	_disappear_ax_in_teacher_rest_room_in_scene_data()
+	# 开门
 	_unlock_first_floor_corridor_door_in_scene_data()
+
+
+func _show_ax_in_third_steproom_in_scene_data() -> void:
+	if not SceneManager:
+		push_warning("SwitchOnEvent: SceneManager is missing, cannot unlock 3-6 interactable 3.")
+		return
+
+	var scene_data: SceneData = SceneManager.get_scene_data("3-6")
+	if not scene_data:
+		push_warning("SwitchOnEvent: SceneData 3-6 is missing.")
+		return
+
+	if scene_data.interactables.size() <= 3:
+		push_warning("SwitchOnEvent: SceneData 3-6 interactables size is %d, cannot access index 3." % scene_data.interactables.size())
+		return
+
+	var interactable: InteractableData = scene_data.interactables[3]
+	if not interactable:
+		push_warning("SwitchOnEvent: SceneData 3-6 interactables[3] is null.")
+		return
+
+	if interactable.type != 4:
+		push_warning("SwitchOnEvent: SceneData 3-6 interactables[3] is not a others, type=%d." % interactable.type)
+		return
+
+	if interactable.state == 1:
+		return
+
+	interactable.state = 1
+	print("SwitchOnEvent: SceneData 3-6 interactables[3] others state set to 1.")
+
+
+func _disappear_ax_in_teacher_rest_room_in_scene_data() -> void:
+	if not SceneManager:
+		push_warning("SwitchOnEvent: SceneManager is missing, cannot unlock 2-0 interactable 2.")
+		return
+
+	var scene_data: SceneData = SceneManager.get_scene_data("2-0")
+	if not scene_data:
+		push_warning("SwitchOnEvent: SceneData 2-0 is missing.")
+		return
+
+	if scene_data.interactables.size() <= 2:
+		push_warning("SwitchOnEvent: SceneData 2-0 interactables size is %d, cannot access index 2." % scene_data.interactables.size())
+		return
+
+	var interactable: InteractableData = scene_data.interactables[2]
+	if not interactable:
+		push_warning("SwitchOnEvent: SceneData 2-0 interactables[2] is null.")
+		return
+
+	if interactable.type != 4:
+		push_warning("SwitchOnEvent: SceneData 2-0 interactables[2] is not a others, type=%d." % interactable.type)
+		return
+
+	if interactable.state == 0:
+		return
+
+	interactable.state = 0
+	print("SwitchOnEvent: SceneData 2-0 interactables[2] others state set to 0.")
 
 
 func _unlock_first_floor_corridor_door_in_scene_data() -> void:

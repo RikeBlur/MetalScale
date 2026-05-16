@@ -83,6 +83,8 @@ interacted_com = NodePath("Area2D/InteractedComponent")
 sfx = NodePath("SFXPlayer")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=155440351]
+z_index = 1
+y_sort_enabled = true
 texture = ExtResource("2_hkak7")
 offset = Vector2(0, -32)
 

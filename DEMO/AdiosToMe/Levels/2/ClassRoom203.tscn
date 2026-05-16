@@ -115,6 +115,7 @@ y_sort_enabled = true
 
 [node name="tables" type="Node2D" parent="ObjectAndCharacter/object" unique_id=1450906746]
 y_sort_enabled = true
+position = Vector2(-47, 0)
 
 [node name="table" parent="ObjectAndCharacter/object/tables" unique_id=1896627830 instance=ExtResource("6_052n6")]
 position = Vector2(591, 238)
@@ -144,7 +145,7 @@ position = Vector2(699, 465)
 position = Vector2(811, 465)
 
 [node name="table9" parent="ObjectAndCharacter/object/tables" unique_id=406868036 instance=ExtResource("6_052n6")]
-position = Vector2(823, 382)
+position = Vector2(861, 382)
 
 [node name="table2" parent="ObjectAndCharacter/object/tables" unique_id=1614035384 instance=ExtResource("6_052n6")]
 position = Vector2(697, 237)
@@ -164,6 +165,7 @@ position = Vector2(409, 459)
 
 [node name="chairs" type="Node2D" parent="ObjectAndCharacter/object" unique_id=224983502]
 y_sort_enabled = true
+position = Vector2(-47, 0)
 
 [node name="chair" parent="ObjectAndCharacter/object/chairs" unique_id=436404126 instance=ExtResource("8_vcvbw")]
 position = Vector2(611, 226)
@@ -190,7 +192,7 @@ position = Vector2(611, 355)
 position = Vector2(716, 357)
 
 [node name="chair9" parent="ObjectAndCharacter/object/chairs" unique_id=63296296 instance=ExtResource("8_vcvbw")]
-position = Vector2(891, 390)
+position = Vector2(936, 390)
 
 [node name="chair10" parent="ObjectAndCharacter/object/chairs" unique_id=1831921121 instance=ExtResource("8_vcvbw")]
 position = Vector2(611, 454)
@@ -202,7 +204,7 @@ position = Vector2(716, 454)
 position = Vector2(830, 454)
 
 [node name="podiumFaceRight" parent="ObjectAndCharacter/object" unique_id=2027197509 instance=ExtResource("9_vcvbw")]
-position = Vector2(480, 373)
+position = Vector2(466, 373)
 
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 
@@ -216,7 +218,7 @@ y_sort_enabled = true
 y_sort_enabled = true
 
 [node name="door" parent="ObjectAndCharacter/Interactable/door" unique_id=387604085 instance=ExtResource("9_jf8au")]
-position = Vector2(526, 174)
+position = Vector2(847, 174)
 scene_from = "2-4"
 scene_to = "2-1"
 scene_to_index = 3
@@ -225,10 +227,10 @@ scene_to_index = 3
 y_sort_enabled = true
 
 [node name="CollectableKey" parent="ObjectAndCharacter/Interactable/collectable" unique_id=820129776 instance=ExtResource("12_gwd28")]
-position = Vector2(858, 365)
+position = Vector2(856, 365)
 
 [node name="CollectableBattery" parent="ObjectAndCharacter/Interactable/collectable" unique_id=1557646035 instance=ExtResource("13_y5ju1")]
-position = Vector2(721, 233)
+position = Vector2(409, 237)
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
 y_sort_enabled = true

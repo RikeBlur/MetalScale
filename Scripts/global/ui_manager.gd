@@ -69,7 +69,7 @@ const UI_DATA = {
 	UI_component.ARRGOBAR: {
 		"name": UI_component.ARRGOBAR,
 		"scene": preload("res://System/RPG/UI/arrgobar.tscn"),
-		"layer": 1,
+		"layer": 3,
 		"stage": 0
 	},
 	UI_component.COLLECTWINDOW: {
@@ -231,8 +231,10 @@ func _handle_quit_pressed() -> void:
 func _try_close_top_visible_ui_in_layers(layer_ids: Array[int]) -> bool:
 	for layer_id in layer_ids:
 		var visible_list = get_visible_uis_in_layer(layer_id)
-		if visible_list.size() > 0:
-			var top_ui = visible_list[visible_list.size() - 1]
+		for i in range(visible_list.size() - 1, -1, -1):
+			var top_ui = visible_list[i]
+			if top_ui == UI_component.ARRGOBAR:
+				continue
 			remove_ui(top_ui)
 			return true
 	return false

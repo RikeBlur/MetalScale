@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://c4xikfk7cmmps" path="res://System/RPG/object/bookcase/var3/bookcase6.tscn" id="15_qkwge"]
 [ext_resource type="PackedScene" uid="uid://c4uw5a0f3bn6" path="res://System/RPG/object/bookcase/var2/bookcase5.tscn" id="16_3k3i7"]
 [ext_resource type="PackedScene" uid="uid://c6jgihpkj07sl" path="res://System/RPG/object/chair/var2/chair_left_2.tscn" id="18_wohvt"]
+[ext_resource type="PackedScene" uid="uid://bdo8tfmp7gl8l" path="res://System/RPG/interact/others/SavePoint.tscn" id="19_3k3i7"]
 [ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/var1/door_back.tscn" id="23_8ogn8"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
@@ -28,6 +29,13 @@ metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 [sub_resource type="Resource" id="Resource_mpkap"]
 script = ExtResource("2_fskoo")
 node_path = NodePath("ObjectAndCharacter/Interactable/door/door2")
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_3k3i7"]
+script = ExtResource("2_fskoo")
+node_path = NodePath("ObjectAndCharacter/Interactable/SavePoint")
+type = 4
+state = 1
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Gradient" id="Gradient_336yt"]
@@ -64,7 +72,7 @@ y_sort_enabled = true
 script = ExtResource("1_uxaar")
 player_initial_position = Array[Vector2]([Vector2(840, 550), Vector2(785, 260)])
 player_initial_direction = Array[Vector2]([Vector2(0, -1), Vector2(0, 1)])
-interactables = Array[ExtResource("2_fskoo")]([SubResource("Resource_ax0f4"), SubResource("Resource_mpkap")])
+interactables = Array[ExtResource("2_fskoo")]([SubResource("Resource_ax0f4"), SubResource("Resource_mpkap"), SubResource("Resource_3k3i7")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 
@@ -108,6 +116,7 @@ tile_set = ExtResource("5_vmihh")
 z_index = 2
 
 [node name="1" type="TileMapLayer" parent="terrian/decorate" unique_id=1402553955]
+position = Vector2(0, -1)
 tile_map_data = PackedByteArray("AAAZABgABwADAAgAAAAZABkABwADAAkAAAAaABgABwAEAAgAAAAaABkABwAEAAkAAAAdAA0ABwAGAAgAAAAdAA4ABwAGAAkAAAAeAA0ABwAHAAgAAAAeAA4ABwAHAAkAAAA=")
 tile_set = ExtResource("5_vmihh")
 
@@ -236,7 +245,7 @@ position = Vector2(880, 223)
 position = Vector2(879, 313)
 
 [node name="Bookcase2" parent="ObjectAndCharacter/object" unique_id=378282965 instance=ExtResource("16_3k3i7")]
-position = Vector2(828, 313)
+position = Vector2(892, 403)
 
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 
@@ -258,6 +267,9 @@ scene_to = "1-8"
 
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]
 y_sort_enabled = true
+
+[node name="SavePoint" parent="ObjectAndCharacter/Interactable" unique_id=1721797248 instance=ExtResource("19_3k3i7")]
+position = Vector2(560, 214)
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
 y_sort_enabled = true

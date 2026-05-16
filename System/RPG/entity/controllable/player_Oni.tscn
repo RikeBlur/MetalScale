@@ -42,6 +42,7 @@
 [ext_resource type="AudioStream" uid="uid://bo7pe7r677nvm" path="res://Assests/SFX/Character/Oni/Retro Event UI StereoUP 01.mp3" id="37_aooo5"]
 [ext_resource type="Texture2D" uid="uid://bk1faw52jyer6" path="res://System/RPG/lighting/component/point_radial_light_texture.tres" id="41_aooo5"]
 [ext_resource type="Script" uid="uid://chner7sbjlat" path="res://Scripts/system/entity/self_talk_manager.gd" id="42_qy3gc"]
+[ext_resource type="Script" uid="uid://bkq8xnvvx2emx" path="res://Scripts/system/entity/stamina_manager.gd" id="43_4j6ku"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_aooo5"]
 
@@ -1915,3 +1916,6 @@ metadata/_custom_type_script = "uid://dkkcxq5sww6a6"
 
 [node name="SelfTalkManager" type="Node2D" parent="." unique_id=1249513607]
 script = ExtResource("42_qy3gc")
+
+[node name="StaminaManager" type="Node2D" parent="." unique_id=737608221]
+script = ExtResource("43_4j6ku")

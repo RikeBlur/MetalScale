@@ -54,7 +54,7 @@ func _play_walk_animation(anim_direction: Vector2) -> void:
 func _on_next_transitions() -> void:
 	InputEvents.movement_input()
 	if InputEvents.is_movement() and Character_body.can_move :
-		if InputEvents.is_running() :
+		if InputEvents.is_running() and Character_body.has_method("can_run") and bool(Character_body.call("can_run")):
 			transition.emit("run")
 		else:
 			return

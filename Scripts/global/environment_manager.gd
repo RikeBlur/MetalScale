@@ -10,7 +10,7 @@ const ARRGOING_SHADER_PARAMETERS: Array[StringName] = [
 	&"grille_opacity"
 ]
 const EFFECT_OPACITY_PARAMETER: StringName = &"effect_opacity"
-const ARRGOING_PARAMETER_MAX: float = 0.25
+const ARRGOING_PARAMETER_MAX: float = 0.3
 
 @export_file("*.tscn") var arrgoing_scene_path: String = "res://Effect/Shader/crt/arrgoing.tscn"
 @export_file("*.tscn") var arrgoed_scene_path: String = "res://Effect/Shader/crt/arrgoed.tscn"

@@ -39,11 +39,19 @@ var is_died : bool = false
 
 signal player_hurted
 
+# 战斗系统 ———— 精力
+@export var stamina_max : float = 100.0
+var stamina_now : float = 100.0
+var exhausted : bool = false
+@onready var stamina_manager: StaminaManager = get_node_or_null("StaminaManager") as StaminaManager
+
+# 自言自语系统
 @onready var self_talk_manager: SelfTalkManager = get_node_or_null("SelfTalkManager") as SelfTalkManager
 
 
 func _ready() -> void:
 	_setup_self_talk_manager()
+	_setup_stamina_manager()
 
 
 func _process(_delta: float) -> void:
@@ -64,6 +72,26 @@ func _setup_self_talk_manager() -> void:
 		add_child(self_talk_manager)
 
 	self_talk_manager.setup(self)
+
+
+func _setup_stamina_manager() -> void:
+	if not stamina_manager or not is_instance_valid(stamina_manager):
+		stamina_manager = get_node_or_null("StaminaManager") as StaminaManager
+
+	if not stamina_manager:
+		stamina_manager = StaminaManager.new()
+		stamina_manager.name = "StaminaManager"
+		add_child(stamina_manager)
+
+	stamina_manager.setup(self)
+
+
+func can_run() -> bool:
+	if not can_move:
+		return false
+	if stamina_manager and is_instance_valid(stamina_manager):
+		return stamina_manager.can_run()
+	return not exhausted and stamina_now > 0.0
 
 
 # ============================= 死了 ==========================

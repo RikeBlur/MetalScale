@@ -35,6 +35,9 @@ extends Resource
 @export var health_now: float = 100.0
 @export var is_died: bool = false
 @export var aggro_value: float = 0.0
+@export var stamina_max: float = 100.0
+@export var stamina_now: float = 100.0
+@export var exhausted: bool = false
 
 # 位置信息（用于存档）
 @export var global_position: Vector2 = Vector2.ZERO
@@ -57,6 +60,9 @@ func _init(
 	p_health_now: float = 100.0,
 	p_is_died: bool = false,
 	p_aggro_value: float = 0.0,
+	p_stamina_max: float = 100.0,
+	p_stamina_now: float = 100.0,
+	p_exhausted: bool = false,
 	p_global_position: Vector2 = Vector2.ZERO
 ):
 	"""
@@ -96,6 +102,9 @@ func _init(
 	health_now = p_health_now
 	is_died = p_is_died
 	aggro_value = p_aggro_value
+	stamina_max = p_stamina_max
+	stamina_now = p_stamina_now
+	exhausted = p_exhausted
 	global_position = p_global_position
 
 func from_player_node(player_node: player) -> void:
@@ -127,6 +136,9 @@ func from_player_node(player_node: player) -> void:
 	health_now = player_node.health_now
 	is_died = player_node.is_died
 	aggro_value = player_node.aggro_value
+	stamina_max = player_node.stamina_max
+	stamina_now = player_node.stamina_now
+	exhausted = player_node.exhausted
 	global_position = player_node.global_position
 
 func apply_to_player_node(player_node: player) -> void:
@@ -158,6 +170,11 @@ func apply_to_player_node(player_node: player) -> void:
 	player_node.health_now = health_now
 	player_node.is_died = is_died
 	player_node.aggro_value = aggro_value
+	player_node.stamina_max = stamina_max
+	player_node.stamina_now = clamp(stamina_now, 0.0, stamina_max)
+	player_node.exhausted = exhausted
+	if player_node.stamina_manager and is_instance_valid(player_node.stamina_manager):
+		player_node.stamina_manager.setup(player_node)
 	player_node.global_position = global_position
 
 func to_dict() -> Dictionary:
@@ -187,6 +204,9 @@ func to_dict() -> Dictionary:
 		"health_now": health_now,
 		"is_died": is_died,
 		"aggro_value": aggro_value,
+		"stamina_max": stamina_max,
+		"stamina_now": stamina_now,
+		"exhausted": exhausted,
 		"global_position": {"x": global_position.x, "y": global_position.y}
 	}
 
@@ -238,5 +258,8 @@ func from_dict(data: Dictionary) -> void:
 	if data.has("is_died"):
 		is_died = data["is_died"]
 	aggro_value = data.get("aggro_value", 0.0)
+	stamina_max = float(data.get("stamina_max", stamina_max))
+	stamina_now = clamp(float(data.get("stamina_now", stamina_max)), 0.0, stamina_max)
+	exhausted = bool(data.get("exhausted", stamina_now <= 0.0))
 	if data.has("global_position"):
 		global_position = Vector2(data["global_position"]["x"], data["global_position"]["y"])
