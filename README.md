@@ -41,12 +41,14 @@ shadow_effect_floor：暗部至少保留多少滤镜存在感 <br>
 
 # UPDATE
 
+## 26.05.16
+
+
 ## 26.05.07
 
-6 月之前的可游玩版本：
+已完成：
 完成两个事件 chasing_1_start_event; chasing_1_end_event。
 主要模拟：player进入一个区域后，突然被 chase，最后被追上后触发一些效果。请你按我给的思路实现
-
 chasing_1_start_event:
 	触发条件：可配置绑定的 Area2D 被 player 进入了
 	触发效果： 
@@ -55,11 +57,9 @@ chasing_1_start_event:
 		绑定的 BlinkSeq.blink_seq_start.emit；
 		GameManager.chasing_1_prepare = true;
 		GameManager.RunningState = Control ;
-		玩家恢复移动交互；
-	
+		玩家恢复移动交互；	
 GameManager.chasing_1_prepare = true 时，玩家死亡且 伤害来源是 Eye
 触发特殊死亡路径，玩家不会死亡（health也恢复到被 damage 的状态）
-
 chasing_1_end_event：
 	触发条件：在 GameManager.chasing_1_prepare = true 的情况下，player 死亡且 伤害来源是 Eye
 	触发效果：
@@ -77,8 +77,6 @@ chasing_1_end_event：
 		GameManager.RunningState = Control ;
 		玩家恢复移动交互；
 		GameManager.state1_over = true
-
-已完成：
 重构 LightingSystem
 大决战事件 Event
 Oni 的 selftalk 系统；

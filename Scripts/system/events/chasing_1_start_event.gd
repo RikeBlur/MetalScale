@@ -3,6 +3,7 @@ extends GameEvents
 
 @export var trigger_area: Area2D = null
 @export var blink_seq: Node = null
+@export var lock_time: float = 1.0
 
 var _player_entered: bool = false
 var _is_event_running: bool = false
@@ -43,6 +44,12 @@ func _run_event_flow() -> void:
 	_set_player_control_enabled(player_node, false)
 	_emit_blink_seq_start()
 	GameManager.chasing_1_prepare = true
+
+	if lock_time > 0.0:
+		await get_tree().create_timer(lock_time).timeout
+	else:
+		await get_tree().process_frame
+
 	GameManager.set_running_state(GameManager.RunningState.CONTROL)
 	_set_player_control_enabled(player_node, true)
 

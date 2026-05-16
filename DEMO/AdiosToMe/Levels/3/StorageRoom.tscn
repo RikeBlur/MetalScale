@@ -223,7 +223,7 @@ y_sort_enabled = true
 position = Vector2(700, 490)
 scene_from = "3-5"
 scene_to = "3-1"
-scene_to_index = 2
+scene_to_index = 4
 
 [node name="door2" parent="ObjectAndCharacter/Interactable/door" unique_id=387604085 instance=ExtResource("7_hxr5q")]
 position = Vector2(533, 174)

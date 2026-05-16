@@ -1142,6 +1142,7 @@ height = 70.0
 y_sort_enabled = true
 motion_mode = 1
 script = ExtResource("1_d7g1r")
+running_speed = 400.0
 
 [node name="StateMachine" type="Node2D" parent="." unique_id=1886784812 node_paths=PackedStringArray("initial_node_state", "entity")]
 script = ExtResource("1_3ftw8")

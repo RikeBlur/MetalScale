@@ -10,7 +10,7 @@ atlas = ExtResource("1_bvp2i")
 region = Rect2(416, 304, 63, 80)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2u82w"]
-size = Vector2(56, 37)
+size = Vector2(59, 48)
 
 [node name="switch_machine" type="Node2D" unique_id=2027197509]
 
@@ -28,5 +28,5 @@ offset = Vector2(0, -36)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1830542527]
 z_index = 1
 y_sort_enabled = true
-position = Vector2(0, -30.5)
+position = Vector2(0.5, -33)
 shape = SubResource("RectangleShape2D_2u82w")
