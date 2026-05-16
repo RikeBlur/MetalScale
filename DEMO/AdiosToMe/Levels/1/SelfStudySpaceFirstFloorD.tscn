@@ -17,10 +17,17 @@
 [ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/var1/door_back.tscn" id="15_2m5dj"]
 [ext_resource type="PackedScene" uid="uid://dbe22w2vs2dh8" path="res://System/RPG/object/plant/plant_2.tscn" id="15_ijfaw"]
 [ext_resource type="PackedScene" uid="uid://bu723s56bbckd" path="res://System/RPG/object/OnWall/painting/notice.tscn" id="15_oe65g"]
+[ext_resource type="PackedScene" uid="uid://bwtq3gl510hfd" path="res://System/RPG/interact/deadbody/deadbody_melt.tscn" id="17_r5xct"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
 script = ExtResource("2_oe65g")
 node_path = NodePath("ObjectAndCharacter/Interactable/door/door")
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_oe65g"]
+script = ExtResource("2_oe65g")
+node_path = NodePath("ObjectAndCharacter/object/deadbodys/DeadbodyMelt")
+type = 4
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Gradient" id="Gradient_336yt"]
@@ -57,7 +64,7 @@ y_sort_enabled = true
 script = ExtResource("1_ijfaw")
 player_initial_position = Array[Vector2]([Vector2(810, 550)])
 player_initial_direction = Array[Vector2]([Vector2(0, -1)])
-interactables = Array[ExtResource("2_oe65g")]([SubResource("Resource_ax0f4")])
+interactables = Array[ExtResource("2_oe65g")]([SubResource("Resource_ax0f4"), SubResource("Resource_oe65g")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 
@@ -239,6 +246,12 @@ position = Vector2(754, 130)
 
 [node name="Plant2" parent="ObjectAndCharacter/object" unique_id=1669741049 instance=ExtResource("15_ijfaw")]
 position = Vector2(794, 205)
+
+[node name="deadbodys" type="Node2D" parent="ObjectAndCharacter/object" unique_id=530616435]
+y_sort_enabled = true
+
+[node name="DeadbodyMelt" parent="ObjectAndCharacter/object/deadbodys" unique_id=959578855 instance=ExtResource("17_r5xct")]
+position = Vector2(849, 421)
 
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 

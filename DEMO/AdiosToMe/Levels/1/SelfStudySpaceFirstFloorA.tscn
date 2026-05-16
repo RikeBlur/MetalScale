@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://c4uw5a0f3bn6" path="res://System/RPG/object/bookcase/var2/bookcase5.tscn" id="16_3k3i7"]
 [ext_resource type="PackedScene" uid="uid://c6jgihpkj07sl" path="res://System/RPG/object/chair/var2/chair_left_2.tscn" id="18_wohvt"]
 [ext_resource type="PackedScene" uid="uid://bdo8tfmp7gl8l" path="res://System/RPG/interact/others/SavePoint.tscn" id="19_3k3i7"]
+[ext_resource type="PackedScene" uid="uid://bwtq3gl510hfd" path="res://System/RPG/interact/deadbody/deadbody_melt.tscn" id="20_1uvbi"]
 [ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/var1/door_back.tscn" id="23_8ogn8"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
@@ -36,6 +37,12 @@ script = ExtResource("2_fskoo")
 node_path = NodePath("ObjectAndCharacter/Interactable/SavePoint")
 type = 4
 state = 1
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_1uvbi"]
+script = ExtResource("2_fskoo")
+node_path = NodePath("ObjectAndCharacter/DeadbodyMelt")
+type = 4
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Gradient" id="Gradient_336yt"]
@@ -72,7 +79,7 @@ y_sort_enabled = true
 script = ExtResource("1_uxaar")
 player_initial_position = Array[Vector2]([Vector2(840, 550), Vector2(785, 260)])
 player_initial_direction = Array[Vector2]([Vector2(0, -1), Vector2(0, 1)])
-interactables = Array[ExtResource("2_fskoo")]([SubResource("Resource_ax0f4"), SubResource("Resource_mpkap"), SubResource("Resource_3k3i7")])
+interactables = Array[ExtResource("2_fskoo")]([SubResource("Resource_ax0f4"), SubResource("Resource_mpkap"), SubResource("Resource_3k3i7"), SubResource("Resource_1uvbi")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 
@@ -276,6 +283,9 @@ y_sort_enabled = true
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="ObjectAndCharacter" unique_id=1437185051]
 visible = false
+
+[node name="DeadbodyMelt" parent="ObjectAndCharacter" unique_id=959578855 instance=ExtResource("20_1uvbi")]
+position = Vector2(544, 391)
 
 [node name="WorldOfWonder" type="WorldEnvironment" parent="." unique_id=945717885]
 environment = SubResource("Environment_5n7gh")

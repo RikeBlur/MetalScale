@@ -18,10 +18,24 @@
 [ext_resource type="PackedScene" uid="uid://cxeexvvqjko1k" path="res://System/RPG/object/bookcase/var1/bookcase1.tscn" id="14_b5xd0"]
 [ext_resource type="PackedScene" uid="uid://c45c0h6sp68w" path="res://System/RPG/object/podium/podium_front.tscn" id="15_b5xd0"]
 [ext_resource type="PackedScene" uid="uid://ckj84phtk4o8e" path="res://System/RPG/object/OnWall/blackboard/blackboard.tscn" id="17_r6s1s"]
+[ext_resource type="PackedScene" uid="uid://7rnhxanhcss5" path="res://System/RPG/interact/deadbody/deadbody_melt_filp.tscn" id="19_xdm5s"]
+[ext_resource type="PackedScene" uid="uid://bwtq3gl510hfd" path="res://System/RPG/interact/deadbody/deadbody_melt.tscn" id="20_32g7u"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
 script = ExtResource("2_2e0r4")
 node_path = NodePath("ObjectAndCharacter/Interactable/door/door")
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_xdm5s"]
+script = ExtResource("2_2e0r4")
+node_path = NodePath("ObjectAndCharacter/DeadbodyMelt")
+type = 4
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_32g7u"]
+script = ExtResource("2_2e0r4")
+node_path = NodePath("ObjectAndCharacter/DeadbodyMelt2")
+type = 4
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Gradient" id="Gradient_336yt"]
@@ -58,7 +72,7 @@ y_sort_enabled = true
 script = ExtResource("1_ikrn3")
 player_initial_position = Array[Vector2]([Vector2(500, 275)])
 player_initial_direction = Array[Vector2]([Vector2(0, 1)])
-interactables = Array[ExtResource("2_2e0r4")]([SubResource("Resource_ax0f4")])
+interactables = Array[ExtResource("2_2e0r4")]([SubResource("Resource_ax0f4"), SubResource("Resource_xdm5s"), SubResource("Resource_32g7u")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 
@@ -195,6 +209,12 @@ y_sort_enabled = true
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="ObjectAndCharacter" unique_id=1437185051]
 visible = false
+
+[node name="DeadbodyMelt" parent="ObjectAndCharacter" unique_id=959578855 instance=ExtResource("19_xdm5s")]
+position = Vector2(571, 318)
+
+[node name="DeadbodyMelt2" parent="ObjectAndCharacter" unique_id=345478202 instance=ExtResource("20_32g7u")]
+position = Vector2(749, 255)
 
 [node name="WorldOfWonder" type="WorldEnvironment" parent="." unique_id=945717885]
 environment = SubResource("Environment_5n7gh")

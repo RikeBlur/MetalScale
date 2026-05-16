@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://7rnhxanhcss5"]
+
+[ext_resource type="Shader" uid="uid://g68h8mpjhpom" path="res://Effect/Shader/glowing_outline/glowingOutline.gdshader" id="1_an617"]
+[ext_resource type="Texture2D" uid="uid://d4k1xi3sxcscg" path="res://Assests/sprite/Character/melt/deadbody.png" id="2_sndje"]
+[ext_resource type="PackedScene" uid="uid://di67e174120x4" path="res://System/RPG/interact/others/doorplate_invisible.tscn" id="3_qru23"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_101i4"]
+shader = ExtResource("1_an617")
+shader_parameter/outline_width = 8.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
+shader_parameter/hit_flash_intensity = 0.0
+
+[node name="DeadbodyMelt" type="Node2D" unique_id=959578855]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1843756782]
+z_index = 1
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_101i4")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_sndje")
+offset = Vector2(0, -150)
+flip_h = true
+
+[node name="Doorplate" parent="." unique_id=1822776458 instance=ExtResource("3_qru23")]
+position = Vector2(0, -32)
+door_name = "一团血肉，被破坏的不成样子啊。"

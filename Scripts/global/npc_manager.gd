@@ -58,16 +58,7 @@ state: int = 0
 	对于 melt:0 -> patrol ; 1 -> pursue ; -1 -> 死亡。
 """
 
-var npc_dict: Dictionary = {
-	"0-0": NPCData.new().setup(
-		preload("res://System/RPG/entity/npc/Enemy/EYE/EYE.tscn"),
-		npc_type.EYE, "1-1", Vector2(600,250), Vector2.DOWN, false, 0
-	),
-	"1-0": NPCData.new().setup(
-		preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
-		npc_type.melt, "2-5", Vector2(600,250), Vector2.DOWN, false, -1
-	),
-}
+var npc_dict: Dictionary = {}
 
 func _create_default_npc_dict() -> Dictionary:
 	return {
@@ -78,6 +69,46 @@ func _create_default_npc_dict() -> Dictionary:
 		"1-0": NPCData.new().setup(
 			preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
 			npc_type.melt, "2-5", Vector2(600,250), Vector2.DOWN, false, 0
+		),
+		"1-1": NPCData.new().setup(
+			preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
+			npc_type.melt, "1-1", Vector2(250,250), Vector2.DOWN, false, 0
+		),
+		"1-2": NPCData.new().setup(
+			preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
+			npc_type.melt, "1-1", Vector2(500,270), Vector2.DOWN, false, 0
+		),
+		"1-3": NPCData.new().setup(
+			preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
+			npc_type.melt, "1-1", Vector2(800,270), Vector2.DOWN, false, 0
+		),
+		"1-4": NPCData.new().setup(
+			preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
+			npc_type.melt, "1-1", Vector2(1200,250), Vector2.DOWN, false, 0
+		),
+		"1-5": NPCData.new().setup(
+			preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
+			npc_type.melt, "1-4", Vector2(550,300), Vector2.UP, false, 0
+		),
+		"1-6": NPCData.new().setup(
+			preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
+			npc_type.melt, "1-2", Vector2(560,300), Vector2.UP, false, 0
+		),
+		"1-7": NPCData.new().setup(
+			preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
+			npc_type.melt, "1-2", Vector2(780,400), Vector2.UP, false, 0
+		),
+		"1-8": NPCData.new().setup(
+			preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
+			npc_type.melt, "1-0", Vector2(800,350), Vector2.DOWN, false, 0
+		),
+		"1-9": NPCData.new().setup(
+			preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
+			npc_type.melt, "1-8", Vector2(800,350), Vector2.DOWN, false, 0
+		),
+		"1-10": NPCData.new().setup(
+			preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
+			npc_type.melt, "1-7", Vector2(800,350), Vector2.DOWN, false, 0
 		),
 	}
 
@@ -546,6 +577,34 @@ func release_npcs_by_type(target_type: int) -> void:
 
 func release_eye_npcs() -> void:
 	release_npcs_by_type(npc_type.EYE)
+
+
+func slay_npcs_by_numbered_prefix(id_prefix: String) -> void:
+	for npc_id in npc_dict:
+		var npc_id_string: String = String(npc_id)
+		if not npc_id_string.begins_with(id_prefix):
+			continue
+
+		var suffix: String = npc_id_string.substr(id_prefix.length())
+		if suffix.is_empty() or not suffix.is_valid_int():
+			continue
+
+		var data: NPCData = npc_dict[npc_id]
+		if not data:
+			continue
+
+		var inst: Node = _get_npc_instance(npc_id_string)
+		if inst and is_instance_valid(inst):
+			inst.queue_free()
+
+		data.state = -1
+		data.is_inscene = false
+		_npc_instances.erase(npc_id_string)
+		_eye_wander_timers.erase(npc_id_string)
+		_eye_chase_timers.erase(npc_id_string)
+
+	if GameManager.debug and _debug_label:
+		_update_debug_ui()
 
 
 func _get_npc_instance(npc_id: String) -> Node:

@@ -43,6 +43,11 @@ shadow_effect_floor：暗部至少保留多少滤镜存在感 <br>
 
 ## 26.05.16
 
+增加了 精力系统 （Stamina）
+
+switch_on 事件已经完善，包括 ax 的位置转换、melt 实体被杀死、大门打开、灯光改变
+
+只差最后一步：游戏结局，Stage_1_OVER
 
 ## 26.05.07
 

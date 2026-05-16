@@ -1799,6 +1799,7 @@ player_run_acceleration = 300
 character_name = "O_ni______"
 self_talk = "“电力似乎出问题了，但屏幕 ...”"
 tool_available = Array[int]([6, 0, 0, 0, 0, 0])
+health_max = 10000.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1536282822]
 position = Vector2(0, -22.000002)
@@ -1917,5 +1918,16 @@ metadata/_custom_type_script = "uid://dkkcxq5sww6a6"
 [node name="SelfTalkManager" type="Node2D" parent="." unique_id=1249513607]
 script = ExtResource("42_qy3gc")
 
-[node name="StaminaManager" type="Node2D" parent="." unique_id=737608221]
+[node name="StaminaManager" type="Node2D" parent="." unique_id=737608221 node_paths=PackedStringArray("player_node")]
+z_index = 2
 script = ExtResource("43_4j6ku")
+player_node = NodePath("..")
+drain_rate = 25.0
+recover_rate = 10.0
+ring_local_position = Vector2(25, -64)
+ring_radius = 5.0
+ring_background_width = 2.0
+ring_foreground_width = 1.2
+ring_background_color = Color(0, 0, 0, 0)
+ring_foreground_color = Color(0.8924, 0.92, 0.91218, 0.47058824)
+ring_hide_after_run_time = 3.0

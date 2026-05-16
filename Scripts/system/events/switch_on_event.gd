@@ -4,6 +4,14 @@ extends GameEvents
 @export var puzzle_component_path_1: NodePath = NodePath("")
 @export var puzzle_component_path_2: NodePath = NodePath("")
 @export var puzzle_component_path_3: NodePath = NodePath("")
+@export var slay_melt_interactable_targets: Dictionary = {
+	"1-8": [1],
+	"1-7": [1],
+	"1-0": [3],
+	"1-1": [8, 9, 10, 11],
+	"1-2": [1, 2],
+	"1-4": [1],
+}
 
 var puzzle_component_1: PuzzleComponent = null
 var puzzle_component_2: PuzzleComponent = null
@@ -38,6 +46,7 @@ func trigger_effect() -> void:
 	_show_ax_in_third_steproom_in_scene_data()
 	# 滚人
 	_disappear_ax_in_teacher_rest_room_in_scene_data()
+	_slay_all_melt_in_second_and_first_floor()
 	# 开门
 	_unlock_first_floor_corridor_door_in_scene_data()
 
@@ -130,6 +139,56 @@ func _unlock_first_floor_corridor_door_in_scene_data() -> void:
 
 	interactable.state = 0
 	print("SwitchOnEvent: SceneData 1-1 interactables[7] door state set to 0.")
+
+
+func _slay_all_melt_in_second_and_first_floor() -> void:
+	var npc_mgr: Node = get_node_or_null("/root/NPCManager")
+	if npc_mgr and npc_mgr.has_method("slay_npcs_by_numbered_prefix"):
+		npc_mgr.call("slay_npcs_by_numbered_prefix", "1-")
+	else:
+		push_warning("SwitchOnEvent: NPCManager is missing, cannot slay 1-x NPCs.")
+
+	_set_interactable_targets_state(slay_melt_interactable_targets, 1)
+
+
+func _set_interactable_targets_state(targets: Dictionary, target_state: int) -> void:
+	if not SceneManager:
+		push_warning("SwitchOnEvent: SceneManager is missing, cannot update interactable targets.")
+		return
+
+	for scene_key_value in targets.keys():
+		var scene_key: String = String(scene_key_value)
+		var scene_data: SceneData = SceneManager.get_scene_data(scene_key)
+		if not scene_data:
+			push_warning("SwitchOnEvent: SceneData %s is missing." % scene_key)
+			continue
+
+		var indices: Array[int] = _get_interactable_indices(targets[scene_key_value])
+		for index in indices:
+			if index < 0 or index >= scene_data.interactables.size():
+				push_warning("SwitchOnEvent: SceneData %s interactables size is %d, cannot access index %d." % [scene_key, scene_data.interactables.size(), index])
+				continue
+
+			var interactable: InteractableData = scene_data.interactables[index]
+			if not interactable:
+				push_warning("SwitchOnEvent: SceneData %s interactables[%d] is null." % [scene_key, index])
+				continue
+
+			if interactable.state == target_state:
+				continue
+
+			interactable.state = target_state
+			print("SwitchOnEvent: SceneData %s interactables[%d] state set to %d." % [scene_key, index, target_state])
+
+
+func _get_interactable_indices(value: Variant) -> Array[int]:
+	var result: Array[int] = []
+	if value is Array:
+		for raw_index in value:
+			result.append(int(raw_index))
+	else:
+		result.append(int(value))
+	return result
 
 
 func _resolve_puzzle_components() -> void:
