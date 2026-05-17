@@ -1895,6 +1895,7 @@ shape = SubResource("CapsuleShape2D_axk6g")
 [node name="arrgo_component" type="Node2D" parent="." unique_id=1231365480 node_paths=PackedStringArray("detector", "player_node")]
 script = ExtResource("35_vnu8s")
 detector = NodePath("lightdetector")
+emergencelight_active_intensity_multiplier = 0.5
 player_node = NodePath("..")
 
 [node name="lightdetector" parent="arrgo_component" unique_id=605312149 instance=ExtResource("36_5qh6w")]

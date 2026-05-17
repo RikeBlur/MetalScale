@@ -41,6 +41,40 @@ shadow_effect_floor：暗部至少保留多少滤镜存在感 <br>
 
 # UPDATE
 
+## 26.05.17
+
+DEMO_END:
+	需要配置变量 ： end_door（BaseDoor 类节点）
+	触发条件：GameManager.state1_over == true && player 和 BaseDoor 类节点交互
+	触发效果：CutsceneManager 播放 "demo_end" 
+		卸载当前场景的 player 和 camera 和所有 UI 实例
+		config_data 里的 end_1 (如果ConfigData没有这个bool变量，加一个) = true
+		当 "demo_end" cutscene_finished 时，
+		模仿 GameManager 里 死亡时 播完 "death" 后切换到 OpeningMenu，
+		也切换到 OpeningMenu
+		
+DialogueChoice：
+	现在的 dialogue_component 有两个数组 trigger_flag 和 dialogue_content
+	一个trigger_flag对应一个区间，这个区间包含了 n 个 dialogue_content
+	首先将 trigger_flag.start/end 的算法换一下，换成闭区间，比如我希望这个 flag 包含 dialogue_content[0,1,2]
+	则 start=0,end=2
+	我希望这个 flag 包含 dialogue_content[3]
+	则 start=3,end=3
+	不过 dialogue_content 有一个类型 dialogue_choice 需要扩展一下
+	除了 choice_funtion_call 数组，每个 choice 还必须对应一个 int 数字 next_index
+	当选择了某个 choice 后，将 trigger_flag[next_index] 的包含的全部 dialogue_content
+	直接接续到当前需要播放的 dialogue_content 后面（就是接着播，不要重新加载一次 dialogue_template）
+	然后，把 next_flag 的指示也换成 trigger_flag[next_index].next_flag
+	比如 trigger_flag[0] 包含 dialogue_content[0,1,2]，next_flag = -1
+		trigger_flag[1] 包含 dialogue_content[3,4]，next_flag = 1
+		trigger_flag[2] 包含 dialogue_content[5,6]，next_flag = 2
+	其中 dialogue_content[2] 是 dialogue_choice ，
+	 choice_text[0] 对应的 next_index = 1
+	 choice_text[1] 对应的 next_index = 2
+	如果选了 choice_text[0] 然后马上把播放的 dialogue_content[2] （0,1 已经播完了） 扩展到 dialogue_content[2,3,4]
+	且 next_flag = 1
+	最小修改，注意鲁棒性
+
 ## 26.05.16
 
 增加了 精力系统 （Stamina）

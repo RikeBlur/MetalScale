@@ -86,10 +86,10 @@ anchor_left = 0.258
 anchor_top = 0.68
 anchor_right = 0.701
 anchor_bottom = 0.84
-offset_left = 0.605988
-offset_top = -0.0800171
-offset_right = 0.506958
-offset_bottom = -0.0400391
+offset_left = -47.393982
+offset_top = -0.08001709
+offset_right = -64.49298
+offset_bottom = -0.040039063
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer" unique_id=1260748456]
 layout_mode = 2

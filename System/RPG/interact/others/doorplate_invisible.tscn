@@ -75,9 +75,7 @@ animations = [{
 [sub_resource type="Resource" id="Resource_tg5wx"]
 script = ExtResource("6_yv5rl")
 next_flag = 0
-style = Array[int]([3])
-start = Array[int]([0])
-end = Array[int]([1])
+style = 3
 metadata/_custom_type_script = "uid://b37t7a67t8onx"
 
 [sub_resource type="Resource" id="Resource_wx8nf"]

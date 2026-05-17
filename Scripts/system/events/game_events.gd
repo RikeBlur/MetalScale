@@ -17,6 +17,10 @@ const DEFAULT_GAME_EVENT_LIST: Array[Dictionary] = [
 	{
 		"event_name": "chasing_1_end",
 		"triggered_already": false
+	},
+	{
+		"event_name": "demo_end",
+		"triggered_already": false
 	}
 ]
 

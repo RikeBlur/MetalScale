@@ -101,6 +101,8 @@ var BGM_gain: float = 100.0
 var SFX_gain: float = 100.0
 # 全局屏幕亮度（1.0为默认亮度）
 var Gamma: float = 1.0
+# 结局一达成
+var end_1: bool = false
 # -----------------------------------------------------------------
 
 # ====================================================================================================
@@ -475,6 +477,49 @@ func _return_to_opening_menu_after_death() -> void:
 	print("GameManager: 玩家死亡流程结束，已返回 OpeningMenu")
 
 
+func return_to_opening_menu_after_demo_end() -> void:
+	set_game_state(GameState.LOADING)
+	Loading.emit()
+	InputEvents.show_mouse()
+	_clear_environment_visual_effects_before_death_return()
+	var return_blackout := _create_death_return_blackout()
+
+	var result = get_tree().change_scene_to_file(OPENING_MENU_SCENE_PATH)
+	if result != OK:
+		_free_death_return_blackout(return_blackout)
+		push_error("GameManager: 无法切换到 OpeningMenu: %s" % OPENING_MENU_SCENE_PATH)
+		return
+
+	var mask := await _get_opening_menu_mask()
+	if mask:
+		mask.visible = true
+		mask.modulate.a = 1.0
+	else:
+		push_warning("GameManager: OpeningMenu/mask not found after demo end return")
+	_free_death_return_blackout(return_blackout)
+	await _fade_out_opening_menu_mask()
+
+	player_instance = null
+	camera_instance = null
+	player_arrgo = 0
+	_prev_aggro_value = 0.0
+	_debug_signal_log.clear()
+	_ensure_player_and_camera_instances()
+	_reset_player_runtime_state()
+	set_game_state(GameState.MENU)
+	set_running_state(RunningState.NOPE)
+	print("GameManager: Demo end flow completed, returned to OpeningMenu")
+
+
+func set_end_1_completed(value: bool = true, should_save: bool = true) -> void:
+	end_1 = value
+	if not config_data:
+		config_data = ConfigData.new()
+	config_data.end_1 = end_1
+	if should_save:
+		save_config()
+
+
 func _clear_environment_visual_effects_before_death_return() -> void:
 	var env_mgr := get_node_or_null("/root/EnvironmentManager")
 	if not env_mgr:
@@ -847,6 +892,7 @@ func load_config() -> void:
 	BGM_gain = config_data.BGM_gain
 	SFX_gain = config_data.SFX_gain
 	Gamma    = config_data.Gamma
+	end_1    = config_data.end_1
 	print("GameManager: 配置已加载 (BGM=%.0f SFX=%.0f Gamma=%.2f)" % [BGM_gain, SFX_gain, Gamma])
 
 func save_config() -> void:
@@ -856,6 +902,7 @@ func save_config() -> void:
 	config_data.BGM_gain = BGM_gain
 	config_data.SFX_gain = SFX_gain
 	config_data.Gamma    = Gamma
+	config_data.end_1    = end_1
 	ResourceSaver.save(config_data, CONFIG_PATH)
 	print("GameManager: 配置已保存")
 
@@ -865,6 +912,7 @@ func apply_config() -> void:
 		return
 	BGM_gain = config_data.BGM_gain
 	SFX_gain = config_data.SFX_gain
+	end_1    = config_data.end_1
 	set_gamma(config_data.Gamma) 
 
 	

@@ -8,3 +8,4 @@ class_name DialogueChoice
 
 @export var choice_text: Array[String]
 @export var choice_function_call: Array[DialogueFunction]
+@export var choice_next_index: Array[int]

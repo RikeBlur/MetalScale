@@ -54,9 +54,8 @@ shader_parameter/color_mix_strength = 0.90000004275
 
 [sub_resource type="Resource" id="Resource_it5e3"]
 script = ExtResource("13_deq6h")
-style = Array[int]([3])
-start = Array[int]([0])
-end = Array[int]([2])
+style = 3
+end = 1
 metadata/_custom_type_script = "uid://b37t7a67t8onx"
 
 [sub_resource type="Resource" id="Resource_qqq1q"]

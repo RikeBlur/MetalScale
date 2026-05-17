@@ -12,6 +12,11 @@
 [ext_resource type="PackedScene" uid="uid://gy5s7mt2h1j8" path="res://System/RPG/object/plant/plant_3.tscn" id="9_6mvpw"]
 [ext_resource type="PackedScene" uid="uid://b6l44rib7dlyn" path="res://System/RPG/interact/dialogue/dialogue_component.tscn" id="11_6mvpw"]
 [ext_resource type="PackedScene" uid="uid://b7fgg2qcnwcji" path="res://System/RPG/entity/npc/AX/npc_ax.tscn" id="11_ki5ic"]
+[ext_resource type="Script" uid="uid://b37t7a67t8onx" path="res://Scripts/system/interact/dialogue/dialogue_flag.gd" id="12_fftxa"]
+[ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/data/dialogue_resource/DialogueResource.gd" id="13_osd80"]
+[ext_resource type="Script" uid="uid://4p4vcldhkkvo" path="res://Scripts/data/dialogue_resource/DialogueTextResource.gd" id="14_owohd"]
+[ext_resource type="Script" uid="uid://qyrh2jt5lx0e" path="res://Scripts/data/dialogue_resource/DialogueFunctionResource.gd" id="15_owohd"]
+[ext_resource type="Script" uid="uid://bns5otigdg8vu" path="res://Scripts/data/dialogue_resource/DialogueChoiceResource.gd" id="16_g5vkp"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
 script = ExtResource("2_5mt4r")
@@ -68,6 +73,87 @@ shader_parameter/alpha_multiplier = 1.0
 shader_parameter/color_mix_strength = 0.90000004275
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ki5ic"]
+
+[sub_resource type="Resource" id="Resource_g5vkp"]
+script = ExtResource("12_fftxa")
+next_flag = 0
+style = 4
+end = 2
+a_index = Array[int]([2])
+b_index = Array[int]([0, 1])
+metadata/_custom_type_script = "uid://b37t7a67t8onx"
+
+[sub_resource type="Resource" id="Resource_owohd"]
+script = ExtResource("12_fftxa")
+next_flag = 3
+style = 4
+start = 3
+end = 5
+a_index = Array[int]([3])
+b_index = Array[int]([4, 5])
+metadata/_custom_type_script = "uid://b37t7a67t8onx"
+
+[sub_resource type="Resource" id="Resource_b637f"]
+script = ExtResource("12_fftxa")
+next_flag = 3
+style = 4
+start = 6
+end = 6
+a_index = Array[int]([6])
+metadata/_custom_type_script = "uid://b37t7a67t8onx"
+
+[sub_resource type="Resource" id="Resource_5fys8"]
+script = ExtResource("12_fftxa")
+next_flag = 3
+style = 2
+start = 7
+end = 7
+metadata/_custom_type_script = "uid://b37t7a67t8onx"
+
+[sub_resource type="Resource" id="Resource_vuru0"]
+script = ExtResource("14_owohd")
+text = "不错不错，看着聪明，实际也很有用。"
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+
+[sub_resource type="Resource" id="Resource_fftxa"]
+script = ExtResource("14_owohd")
+text = "这下一层的大门应该也打开了，直接过去吧。"
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+
+[sub_resource type="Resource" id="Resource_38j6k"]
+script = ExtResource("16_g5vkp")
+speaker_entity = "Oni"
+text = "（关于刚看到的白色女生）"
+choice_text = Array[String](["（询问）", "（大概是我的幻觉吧）"])
+choice_next_index = Array[int]([1, 2])
+metadata/_custom_type_script = "uid://bns5otigdg8vu"
+
+[sub_resource type="Resource" id="Resource_8m3r2"]
+script = ExtResource("14_owohd")
+speaker_entity = "Oni"
+text = "话说...刚刚这边有个白色的女生，你有看到吗..."
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+
+[sub_resource type="Resource" id="Resource_svux6"]
+script = ExtResource("14_owohd")
+text = "嗯？白色？还有活人吗？不过...我没打算继续呆在这了啊。"
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+
+[sub_resource type="Resource" id="Resource_l0csg"]
+script = ExtResource("14_owohd")
+text = "她自求多福吧。"
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+
+[sub_resource type="Resource" id="Resource_llcyv"]
+script = ExtResource("14_owohd")
+speaker_entity = "Oni"
+text = "啊...走吧。"
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+
+[sub_resource type="Resource" id="Resource_1b6tt"]
+script = ExtResource("14_owohd")
+text = "走吧。"
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 
 [sub_resource type="Environment" id="Environment_5n7gh"]
 ssao_enabled = true
@@ -186,13 +272,15 @@ scene_to_index = 1
 y_sort_enabled = true
 
 [node name="DialogueComponent" parent="ObjectAndCharacter/Interactable" unique_id=1786519888 instance=ExtResource("11_6mvpw")]
-position = Vector2(794, 342)
+position = Vector2(783, 364)
+trigger_flag = Array[ExtResource("12_fftxa")]([SubResource("Resource_g5vkp"), SubResource("Resource_owohd"), SubResource("Resource_b637f"), SubResource("Resource_5fys8")])
+dialogue_content = Array[ExtResource("13_osd80")]([SubResource("Resource_vuru0"), SubResource("Resource_fftxa"), SubResource("Resource_38j6k"), SubResource("Resource_8m3r2"), SubResource("Resource_svux6"), SubResource("Resource_l0csg"), SubResource("Resource_llcyv"), SubResource("Resource_1b6tt")])
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
 y_sort_enabled = true
 
 [node name="ax_npc" parent="ObjectAndCharacter/NPC" unique_id=788386440 instance=ExtResource("11_ki5ic")]
-position = Vector2(794, 361)
+position = Vector2(783, 383)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="ObjectAndCharacter" unique_id=1437185051]
 visible = false

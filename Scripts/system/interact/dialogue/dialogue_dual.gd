@@ -12,6 +12,10 @@ const DialogueButtonPreload = preload("res://System/RPG/interact/dialogue/botton
 @export var text_sound : Array[AudioStreamPlayer2D]
 
 @export var dialogue: Array[DialogueResource]
+@export var choice_keyboard_selected_color: Color = Color(1.0, 1.0, 1.0, 1.0)
+@export var choice_keyboard_unselected_color: Color = Color(0.55, 0.55, 0.55, 1.0)
+@export var choice_keyboard_selected_outline_color: Color = Color(0.08, 0.08, 0.08, 1.0)
+@export var choice_keyboard_selected_outline_size: int = 6
 var current_dialogue_item : int = 0
 var next_item : bool = true
 
@@ -23,6 +27,12 @@ var player_node : CharacterBody2D
 var which : int
 var dialogue_node : Array[Node2D]
 var _dialogue_finished_emitted: bool = false
+var _choice_selected_index: int = 0
+var _choice_left_was_pressed: bool = false
+var _choice_right_was_pressed: bool = false
+var _choice_accept_was_pressed: bool = false
+var _choice_accept_lock_time: float = 0.0
+var _skip_block_until_space_released: bool = false
 var scene_root : Node = null  # 用于存储场景根节点引用，解决相对路径问题
 
 func _ready() -> void:
@@ -76,6 +86,8 @@ func _process(_delta: float) -> void:
 		player_node.can_interact = true
 		_finish_dialogue()
 		return
+
+	_process_choice_keyboard_input()
 	
 	if current_dialogue_item in a_index:
 		new_which = 0
@@ -143,6 +155,7 @@ func _funtion_resource(i: DialogueFunction) -> void :
 	next_item = true
 	
 func _choice_resource(i: DialogueChoice) -> void :
+	_choice_accept_lock_time = 0.5
 	dialogue_label[which].text = i.text
 	dialogue_label[which].visible_characters = -1
 
@@ -151,8 +164,10 @@ func _choice_resource(i: DialogueChoice) -> void :
 	for item in i.choice_text.size():
 		var DialogueBottonVar = DialogueButtonPreload.instantiate()
 		DialogueBottonVar.text = i.choice_text[item]
+		DialogueBottonVar.focus_mode = Control.FOCUS_NONE
 		
-		var function_resource : DialogueFunction = i.choice_function_call[item] 
+		var function_resource : DialogueFunction = _get_choice_function_resource(i, item)
+		var next_index: int = _get_choice_next_index(i, item)
 		if function_resource:
 			var target_node = null
 			# 优先从 scene_root 查找，这样相对路径才能正确解析
@@ -163,7 +178,7 @@ func _choice_resource(i: DialogueChoice) -> void :
 			
 			if not target_node:
 				push_error("DialogueChoice: 无法找到目标节点: %s (scene_root: %s)" % [function_resource.target_path, scene_root])
-				DialogueBottonVar.connect("pressed", _choice_botton_pressed.bind(null, ""), CONNECT_ONE_SHOT)
+				DialogueBottonVar.connect("pressed", _choice_botton_pressed.bind(null, "", next_index), CONNECT_ONE_SHOT)
 			else:
 				DialogueBottonVar.connect("pressed",
 				Callable(target_node, function_resource.function_name).bindv(function_resource.function_arguments),
@@ -172,21 +187,25 @@ func _choice_resource(i: DialogueChoice) -> void :
 				if function_resource.hide_dialogue_box:
 					DialogueBottonVar.connect("pressed", hide, CONNECT_ONE_SHOT)
 				DialogueBottonVar.connect("pressed", 
-				_choice_botton_pressed.bind(target_node, function_resource.wait_for_signal_to_continue),
+				_choice_botton_pressed.bind(target_node, function_resource.wait_for_signal_to_continue, next_index),
 				CONNECT_ONE_SHOT)
 			
 		else:
-			DialogueBottonVar.connect("pressed", _choice_botton_pressed.bind(null, ""), CONNECT_ONE_SHOT)	
+			DialogueBottonVar.connect("pressed", _choice_botton_pressed.bind(null, "", next_index), CONNECT_ONE_SHOT)
 		
 		botton_container[which].add_child(DialogueBottonVar)
+
+	_select_choice_button(0)
 		
 		
-func _choice_botton_pressed(target_node : Node, wait_for_signal_to_continue: String) -> void :
+func _choice_botton_pressed(target_node : Node, wait_for_signal_to_continue: String, next_index: int = -1) -> void :
+	_reset_choice_keyboard_state()
 	botton_container[which].visible = false
 	for i in botton_container[which].get_children():
 		i.queue_free()
 	
 	# add any other effect
+	_apply_choice_next_index(next_index)
 	
 	if wait_for_signal_to_continue and target_node:
 		var signal_name = wait_for_signal_to_continue
@@ -199,6 +218,129 @@ func _choice_botton_pressed(target_node : Node, wait_for_signal_to_continue: Str
 	
 	current_dialogue_item += 1
 	next_item = true
+
+
+func _process_choice_keyboard_input() -> void:
+	var active_container: HBoxContainer = _get_active_choice_container()
+	if not active_container or not active_container.visible:
+		_reset_choice_keyboard_state()
+		return
+
+	var choice_count: int = active_container.get_child_count()
+	if choice_count <= 0:
+		_reset_choice_keyboard_state()
+		return
+
+	var left_pressed: bool = Input.is_action_pressed("left")
+	var right_pressed: bool = Input.is_action_pressed("right")
+	var accept_pressed: bool = Input.is_key_pressed(KEY_SPACE)
+
+	if left_pressed and not _choice_left_was_pressed:
+		_select_choice_button(_choice_selected_index - 1)
+	if right_pressed and not _choice_right_was_pressed:
+		_select_choice_button(_choice_selected_index + 1)
+	if _choice_accept_lock_time > 0.0:
+		_choice_accept_lock_time = max(_choice_accept_lock_time - get_process_delta_time(), 0.0)
+	elif accept_pressed and not _choice_accept_was_pressed:
+		_press_selected_choice_button()
+
+	_choice_left_was_pressed = left_pressed
+	_choice_right_was_pressed = right_pressed
+	_choice_accept_was_pressed = accept_pressed
+
+
+func _select_choice_button(index: int) -> void:
+	var active_container: HBoxContainer = _get_active_choice_container()
+	if not active_container:
+		return
+
+	var choice_count: int = active_container.get_child_count()
+	if choice_count <= 0:
+		_choice_selected_index = 0
+		return
+
+	_choice_selected_index = wrapi(index, 0, choice_count)
+	for i in range(choice_count):
+		var button: Button = active_container.get_child(i) as Button
+		if not button:
+			continue
+		if i == _choice_selected_index:
+			_apply_choice_button_visual(button, true)
+		else:
+			_apply_choice_button_visual(button, false)
+
+
+func _apply_choice_button_visual(button: Button, selected: bool) -> void:
+	var font_color: Color = choice_keyboard_selected_color if selected else choice_keyboard_unselected_color
+	button.add_theme_color_override("font_color", font_color)
+	button.add_theme_color_override("font_hover_color", font_color)
+	button.add_theme_color_override("font_focus_color", font_color)
+	button.add_theme_color_override("font_pressed_color", font_color)
+	if selected:
+		button.add_theme_color_override("font_outline_color", choice_keyboard_selected_outline_color)
+		button.add_theme_constant_override("outline_size", choice_keyboard_selected_outline_size)
+	else:
+		button.remove_theme_color_override("font_outline_color")
+		button.remove_theme_constant_override("outline_size")
+
+
+func _press_selected_choice_button() -> void:
+	var active_container: HBoxContainer = _get_active_choice_container()
+	if not active_container:
+		return
+	var choice_count: int = active_container.get_child_count()
+	if choice_count <= 0:
+		return
+
+	_choice_selected_index = clamp(_choice_selected_index, 0, choice_count - 1)
+	var button: Button = active_container.get_child(_choice_selected_index) as Button
+	if button and not button.disabled:
+		_skip_block_until_space_released = true
+		button.emit_signal("pressed")
+
+
+func _get_active_choice_container() -> HBoxContainer:
+	if which < 0 or which >= botton_container.size():
+		return null
+	return botton_container[which]
+
+
+func _reset_choice_keyboard_state() -> void:
+	_choice_selected_index = 0
+	_choice_left_was_pressed = false
+	_choice_right_was_pressed = false
+	_choice_accept_was_pressed = false
+	_choice_accept_lock_time = 0.0
+
+
+func _get_choice_function_resource(choice: DialogueChoice, index: int) -> DialogueFunction:
+	if index < 0 or index >= choice.choice_function_call.size():
+		return null
+	return choice.choice_function_call[index]
+
+
+func _get_choice_next_index(choice: DialogueChoice, index: int) -> int:
+	if index < 0 or index >= choice.choice_next_index.size():
+		return -1
+	return choice.choice_next_index[index]
+
+
+func _apply_choice_next_index(next_index: int) -> void:
+	if next_index < 0:
+		return
+	if scene_root and scene_root.has_method("apply_dialogue_choice_next_index"):
+		scene_root.call("apply_dialogue_choice_next_index", self, next_index)
+	else:
+		push_warning("DialogueChoice: scene_root cannot apply next_index %d" % next_index)
+
+
+func _can_skip_text() -> bool:
+	if _skip_block_until_space_released:
+		if not Input.is_key_pressed(KEY_SPACE):
+			_skip_block_until_space_released = false
+		return false
+
+	return Input.is_action_just_pressed("skip")
 	
 func _text_resource(i: DialogueText) -> void :
 	text_sound[which].stream = i.text_sound
@@ -213,7 +355,7 @@ func _text_resource(i: DialogueText) -> void :
 	var total_character: int = text_without_square_brackets.length()
 	var character_timer: float = 0.0
 	while dialogue_label[which].visible_characters < total_character:
-		if Input.is_action_just_pressed("skip"):
+		if _can_skip_text():
 			print("skip dialogue")
 			dialogue_label[which].visible_characters = total_character
 			break
@@ -233,7 +375,7 @@ func _text_resource(i: DialogueText) -> void :
 	while true:
 		await get_tree().process_frame
 		if dialogue_label[which].visible_characters == total_character:
-			if Input.is_action_just_pressed("skip"):
+			if _can_skip_text():
 				# 添加延迟避免重复触发
 				await get_tree().process_frame
 				current_dialogue_item += 1

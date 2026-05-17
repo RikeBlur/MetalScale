@@ -4,3 +4,4 @@
 
 [node name="chasing_1_start" type="Node2D" unique_id=95013267]
 script = ExtResource("1_siwm7")
+event_name = "chasing_1_start"

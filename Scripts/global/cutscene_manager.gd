@@ -47,13 +47,8 @@ const FADE_DURATION: float = 0.5
 #   "intro": preload("res://System/Cutscenes/intro.tscn"),
 var cutscene_scenes: Dictionary = {
 	"test": preload("res://System/RPG/cutscene/1_1/test.tscn"),
-	"death": preload("res://System/RPG/cutscene/1_1/death.tscn")
-}
-
-# 过场动画信号注册表：key → Array[Callable]
-# 通过 register_cutscene_signal / connect_cutscene_signal / emit_cutscene_signal 管理
-var _cutscene_signal_map: Dictionary = {
-
+	"death": preload("res://System/RPG/cutscene/1_1/death.tscn"),
+	"demo_end": preload("res://System/RPG/cutscene/1_1/death.tscn")
 }
 
 # ====================================================================================================
@@ -251,65 +246,6 @@ func _create_death_blackout_layer() -> void:
 	_death_blackout_layer.add_child(black_rect)
 
 	get_tree().current_scene.add_child(_death_blackout_layer)
-
-# ====================================================================================================
-# ===================================== 过场动画信号 ================================================
-# ====================================================================================================
-
-func register_cutscene_signal(key: String) -> void:
-	"""
-	注册一个过场动画信号 key（若已存在则跳过）
-
-	参数：
-		key: 信号 key
-	"""
-	if not _cutscene_signal_map.has(key):
-		_cutscene_signal_map[key] = []
-		print("CutsceneManager: 已注册过场动画信号 '%s'" % key)
-
-
-func connect_cutscene_signal(key: String, callable: Callable) -> void:
-	"""
-	连接到某个 key 对应的过场动画信号（若 key 尚未注册则自动注册）
-
-	参数：
-		key:      信号 key
-		callable: 触发时调用的函数
-	"""
-	if not _cutscene_signal_map.has(key):
-		register_cutscene_signal(key)
-	var listeners: Array = _cutscene_signal_map[key]
-	if not listeners.has(callable):
-		listeners.append(callable)
-
-
-func disconnect_cutscene_signal(key: String, callable: Callable) -> void:
-	"""
-	断开某个 key 对应的过场动画信号连接
-
-	参数：
-		key:      信号 key
-		callable: 要断开的函数
-	"""
-	if not _cutscene_signal_map.has(key):
-		return
-	_cutscene_signal_map[key].erase(callable)
-
-
-func emit_cutscene_signal(key: String) -> void:
-	"""
-	发出某个 key 对应的过场动画信号，依次调用所有已连接的 Callable
-
-	参数：
-		key: 信号 key
-	"""
-	if not _cutscene_signal_map.has(key):
-		push_warning("CutsceneManager: 信号 '%s' 未注册" % key)
-		return
-	for callable: Callable in _cutscene_signal_map[key]:
-		if callable.is_valid():
-			callable.call()
-	print("CutsceneManager: 已发出过场动画信号 '%s'" % key)
 
 # ====================================================================================================
 # ===================================== 工具函数 ====================================================

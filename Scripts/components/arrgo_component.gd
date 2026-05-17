@@ -6,6 +6,7 @@ extends Node2D
 @export var arrgo_growth : float = 500.0
 @export var aggro_increase_rate : float = 0.2
 @export var aggro_decrease_rate : float = 0.15
+@export var emergencelight_active_intensity_multiplier: float = 1.0
 
 var caught : bool = false
 var _last_caught : bool = false
@@ -71,7 +72,7 @@ func _process(delta: float) -> void:
 	
 	# 持续仇恨增长
 	if caught:
-		intensity = detector.intensity_now
+		intensity = _get_effective_detector_intensity()
 		on_durring_arrgo(delta, intensity)
 	else:
 		on_not_during_arrgo(delta)
@@ -79,10 +80,47 @@ func _process(delta: float) -> void:
 
 func _update_caught_state() -> void:
 	"""根据 detector 的 intensity_now 更新 caught 状态"""
-	if detector.intensity_now > get_caught_threshold:
+	if _get_effective_detector_intensity() > get_caught_threshold:
 		caught = true
 	else:
 		caught = false
+
+
+func _get_effective_detector_intensity() -> float:
+	if not detector:
+		return 0.0
+
+	var base_intensity: float = detector.intensity_now
+	var target_player: player = _get_player()
+	if target_player and _is_emergencelight_active(target_player):
+		return base_intensity * emergencelight_active_intensity_multiplier
+
+	return base_intensity
+
+
+func _is_emergencelight_active(target_player: player) -> bool:
+	if not target_player:
+		return false
+	if not target_player.tool_available.has(ToolManager.Tool.EMERGENCELIGHT):
+		return false
+
+	var tool_manager: ToolManager = _get_player_tool_manager(target_player)
+	if not tool_manager:
+		return false
+
+	return tool_manager.get_tool_state(ToolManager.Tool.EMERGENCELIGHT) == ToolData.STATE_ACTIVE
+
+
+func _get_player_tool_manager(target_player: player) -> ToolManager:
+	var tool_manager: ToolManager = target_player.get_node_or_null("ToolManager") as ToolManager
+	if tool_manager:
+		return tool_manager
+
+	for child in target_player.get_children():
+		if child is ToolManager:
+			return child as ToolManager
+
+	return null
 
 
 func on_into_arrgo() -> void:

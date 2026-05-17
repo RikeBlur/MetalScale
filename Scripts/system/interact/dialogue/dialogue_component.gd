@@ -127,24 +127,7 @@ func _on_triggered(area: Area2D) -> void:
 	# 当前触发生效
 	trigger_flag[current_flag].flag = true
 	print("trigger set:", current_flag)
-	
-	# 按 next_flag 推进到下一个触发标记
-	var next_idx := trigger_flag[current_flag].next_flag
-	if next_idx == -1:
-		current_flag = -1
-	elif next_idx >= 0 and next_idx < trigger_flag.size():
-		current_flag = next_idx
-	else:
-		push_warning("DialogueComponent: next_flag(%d) 非法，已停用触发" % next_idx)
-		current_flag = -1
-	
-	# 更新 BaseLevel 中对应的 InteractableData 的状态
-	var base_level = _find_base_level()
-	if base_level:
-		base_level.update_interactable_state(get_path(), current_flag)
-	else:
-		push_warning("DialogueComponent: 未找到 BaseLevel，无法更新 interactables 状态")
-
+	_apply_next_flag(trigger_flag[current_flag].next_flag)
 # ============================= 外部触发 =============================
 func trigger_dialogue(area: Area2D = null) -> void:
 	var trigger_area := area
@@ -172,14 +155,14 @@ func _process(_delta: float) -> void:
 				flag_data.flag = false
 				continue
 			if !flag_data.double:
-				_spawn_dialogue(flag_data.style[0] - 1, flag_data.start[0], flag_data.end[0])
+				_spawn_dialogue(flag_data.style - 1, flag_data.start, flag_data.end, i)
 			if flag_data.double:
-				_spawn_dual_dialogue(flag_data.style[0] - 1, flag_data.start[0], flag_data.end[0], flag_data.a_index, flag_data.b_index)
+				_spawn_dual_dialogue(flag_data.style - 1, flag_data.start, flag_data.end, flag_data.a_index, flag_data.b_index, i)
 		trigger_flag[i].flag = false
 
 
 # 实例化并添加对话场景到场景树
-func _spawn_dual_dialogue(style: int, start: int, end: int, a_index: Array[int], b_index: Array[int]) -> void:
+func _spawn_dual_dialogue(style: int, start: int, end: int, a_index: Array[int], b_index: Array[int], source_flag_index: int = -1) -> void:
 	print("生成对话")
 	player_node.can_move = false
 	player_node.can_interact = false
@@ -196,9 +179,10 @@ func _spawn_dual_dialogue(style: int, start: int, end: int, a_index: Array[int],
 		return
 
 	# 将对话节点加入到 CanvasLayer（固定在屏幕空间）
-	inst.dialogue = dialogue_content.slice(start,end)
-	inst.a_index = a_index
-	inst.b_index = b_index
+	inst.dialogue = _get_dialogue_content_slice(start, end)
+	inst.a_index = _global_indices_to_local_indices(a_index, start, inst.dialogue.size())
+	inst.b_index = _global_indices_to_local_indices(b_index, start, inst.dialogue.size())
+	inst.set_meta("source_trigger_flag_index", source_flag_index)
 	# 设置 scene_root 引用，让对话框能正确解析相对路径
 	inst.scene_root = self
 	inst.modulate.a = 0.0
@@ -214,7 +198,7 @@ func _spawn_dual_dialogue(style: int, start: int, end: int, a_index: Array[int],
 
 
 # 实例化并添加对话场景到场景树
-func _spawn_dialogue(style: int, start: int, end: int) -> void:
+func _spawn_dialogue(style: int, start: int, end: int, source_flag_index: int = -1) -> void:
 	print("生成对话")
 	# 不能移动、互动
 	player_node.can_move = false
@@ -232,7 +216,8 @@ func _spawn_dialogue(style: int, start: int, end: int) -> void:
 		return
 
 	# 将对话节点加入到 CanvasLayer（固定在屏幕空间）
-	inst.dialogue = dialogue_content.slice(start,end)
+	inst.dialogue = _get_dialogue_content_slice(start, end)
+	inst.set_meta("source_trigger_flag_index", source_flag_index)
 	# 设置 scene_root 引用，让对话框能正确解析相对路径
 	inst.scene_root = self
 	inst.modulate.a = 0.0
@@ -248,6 +233,162 @@ func _spawn_dialogue(style: int, start: int, end: int) -> void:
 
 
 # 当对话节点发出结束信号时回收
+func apply_dialogue_choice_next_index(dialogue_node: Node, next_index: int) -> void:
+	if next_index < 0:
+		return
+	if next_index >= trigger_flag.size():
+		push_warning("DialogueComponent: choice next_index(%d) 越界" % next_index)
+		return
+
+	var flag_data: dialogue_flag = trigger_flag[next_index]
+	if not _is_flag_data_valid(flag_data, next_index):
+		return
+	if not _is_choice_branch_compatible(dialogue_node, flag_data, next_index):
+		return
+
+	var branch_dialogue: Array = _get_dialogue_content_slice(flag_data.start, flag_data.end)
+	_insert_dialogue_after_current(dialogue_node, branch_dialogue)
+	_extend_dual_dialogue_indices(dialogue_node, flag_data, branch_dialogue.size())
+	_apply_next_flag(flag_data.next_flag)
+
+
+func _insert_dialogue_after_current(dialogue_node: Node, branch_dialogue: Array) -> void:
+	if dialogue_node == null or not is_instance_valid(dialogue_node):
+		return
+	if branch_dialogue.is_empty():
+		return
+	if not ("dialogue" in dialogue_node):
+		push_warning("DialogueComponent: dialogue_node has no dialogue property.")
+		return
+
+	var active_dialogue: Array = dialogue_node.dialogue
+	var insert_index: int = active_dialogue.size()
+	if "current_dialogue_item" in dialogue_node:
+		insert_index = clamp(int(dialogue_node.current_dialogue_item) + 1, 0, active_dialogue.size())
+
+	for i in range(branch_dialogue.size() - 1, -1, -1):
+		active_dialogue.insert(insert_index, branch_dialogue[i])
+	dialogue_node.dialogue = active_dialogue
+
+
+func _extend_dual_dialogue_indices(dialogue_node: Node, flag_data: dialogue_flag, inserted_count: int) -> void:
+	if inserted_count <= 0:
+		return
+	if dialogue_node == null or not is_instance_valid(dialogue_node):
+		return
+	if not ("a_index" in dialogue_node and "b_index" in dialogue_node):
+		return
+
+	var insert_index: int = 0
+	if "current_dialogue_item" in dialogue_node:
+		insert_index = int(dialogue_node.current_dialogue_item) + 1
+
+	dialogue_node.a_index = _shift_indices_after_insert(dialogue_node.a_index, insert_index, inserted_count)
+	dialogue_node.b_index = _shift_indices_after_insert(dialogue_node.b_index, insert_index, inserted_count)
+
+	if flag_data.double:
+		var local_a_indices: Array[int] = _global_indices_to_local_indices(flag_data.a_index, flag_data.start, inserted_count)
+		var local_b_indices: Array[int] = _global_indices_to_local_indices(flag_data.b_index, flag_data.start, inserted_count)
+		for local_index in local_a_indices:
+			dialogue_node.a_index.append(insert_index + local_index)
+		for local_index in local_b_indices:
+			dialogue_node.b_index.append(insert_index + local_index)
+	else:
+		var which_index: int = 0
+		if "which" in dialogue_node:
+			which_index = int(dialogue_node.which)
+		for i in range(inserted_count):
+			if which_index == 1:
+				dialogue_node.b_index.append(insert_index + i)
+			else:
+				dialogue_node.a_index.append(insert_index + i)
+
+
+func _shift_indices_after_insert(indices: Array, insert_index: int, inserted_count: int) -> Array[int]:
+	var result: Array[int] = []
+	for raw_index in indices:
+		var index: int = int(raw_index)
+		if index >= insert_index:
+			index += inserted_count
+		result.append(index)
+	return result
+
+
+func _global_indices_to_local_indices(indices: Array, global_start: int, content_count: int) -> Array[int]:
+	var result: Array[int] = []
+	for raw_index in indices:
+		var local_index: int = int(raw_index) - global_start
+		if local_index >= 0 and local_index < content_count:
+			result.append(local_index)
+		else:
+			push_warning("DialogueComponent: dual index %d is outside dialogue range %d-%d" % [int(raw_index), global_start, global_start + content_count - 1])
+	return result
+
+
+func _get_dialogue_node_source_flag_index(dialogue_node: Node) -> int:
+	if dialogue_node == null or not is_instance_valid(dialogue_node):
+		return -1
+	if not dialogue_node.has_meta("source_trigger_flag_index"):
+		return -1
+	return int(dialogue_node.get_meta("source_trigger_flag_index"))
+
+
+func _is_choice_branch_compatible(dialogue_node: Node, branch_flag: dialogue_flag, branch_index: int) -> bool:
+	if branch_flag.double and (dialogue_node == null or not is_instance_valid(dialogue_node) or not ("a_index" in dialogue_node and "b_index" in dialogue_node)):
+		push_error("DialogueComponent: choice next_index trigger_flag[%d] is double, but active dialogue node is not dialogue_dual." % branch_index)
+		return false
+
+	var source_index: int = _get_dialogue_node_source_flag_index(dialogue_node)
+	if source_index < 0 or source_index >= trigger_flag.size():
+		return true
+
+	var source_flag: dialogue_flag = trigger_flag[source_index]
+	if not source_flag:
+		return true
+
+	if source_flag.double and not branch_flag.double:
+		push_error("DialogueComponent: current trigger_flag[%d] is double, but choice next_index trigger_flag[%d] is not double." % [source_index, branch_index])
+		return false
+
+	if source_flag.double and branch_flag.double and source_flag.style != branch_flag.style:
+		push_warning("DialogueComponent: current trigger_flag[%d] and choice next_index trigger_flag[%d] are both double but style differs." % [source_index, branch_index])
+
+	return true
+
+
+func _get_dialogue_content_slice(start: int, end: int) -> Array:
+	if dialogue_content.is_empty():
+		return []
+
+	var safe_start: int = clamp(start, 0, dialogue_content.size() - 1)
+	var safe_end: int = clamp(end, 0, dialogue_content.size() - 1)
+	if safe_end < safe_start:
+		push_warning("DialogueComponent: invalid dialogue range start=%d end=%d" % [start, end])
+		return []
+
+	return dialogue_content.slice(safe_start, safe_end + 1)
+
+
+func _apply_next_flag(next_idx: int) -> void:
+	if next_idx == -1:
+		current_flag = -1
+	elif next_idx >= 0 and next_idx < trigger_flag.size():
+		current_flag = next_idx
+	else:
+		push_warning("DialogueComponent: next_flag(%d) 非法，已停用触发" % next_idx)
+		current_flag = -1
+
+	_sync_current_flag_to_base_level()
+
+
+func _sync_current_flag_to_base_level() -> void:
+	var base_level = _find_base_level()
+	if base_level:
+		base_level.update_interactable_state(get_path(), current_flag)
+	else:
+		push_warning("DialogueComponent: 未找到 BaseLevel，无法更新 interactables 状态")
+
+
 func _on_dialogue_finished(inst: Node) -> void:
 	await _fade_out_and_free_dialogue(inst)
 
@@ -353,18 +494,19 @@ func _destory_reminder(area: Area2D) -> void:
 
 func _is_flag_data_valid(flag_data: dialogue_flag, idx: int) -> bool:
 	if not flag_data:
-		push_warning("DialogueComponent: trigger_flag[%d] 为空" % idx)
+		push_warning("DialogueComponent: trigger_flag[%d] is null" % idx)
 		return false
-	if flag_data.style.size() == 0:
-		push_warning("DialogueComponent: trigger_flag[%d].style 为空" % idx)
+	if flag_data.style <= 0:
+		push_warning("DialogueComponent: trigger_flag[%d].style must be >= 1" % idx)
 		return false
-	if flag_data.start.size() == 0:
-		push_warning("DialogueComponent: trigger_flag[%d].start 为空" % idx)
+	if flag_data.start < 0:
+		push_warning("DialogueComponent: trigger_flag[%d].start must be >= 0" % idx)
 		return false
-	if flag_data.end.size() == 0:
-		push_warning("DialogueComponent: trigger_flag[%d].end 为空" % idx)
+	if flag_data.end < 0:
+		push_warning("DialogueComponent: trigger_flag[%d].end must be >= 0" % idx)
 		return false
 	return true
+
 
 func _find_base_level() -> BaseLevel:
 	"""

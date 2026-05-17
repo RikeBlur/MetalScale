@@ -5,9 +5,9 @@ extends Resource
 @export var next_flag : int = -1
 @export var double : bool = false
 
-@export var style : Array[int]
-@export var start : Array[int]
-@export var end :Array[int]
+@export var style : int = 1
+@export var start : int = 0
+@export var end : int = 0
 
 @export var a_index :Array[int]
 @export var b_index :Array[int]

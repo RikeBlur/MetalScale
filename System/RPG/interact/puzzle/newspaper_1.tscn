@@ -15,9 +15,8 @@ size = Vector2(321, 457)
 [sub_resource type="Resource" id="Resource_7bcsi"]
 script = ExtResource("8_a7ar0")
 next_flag = 0
-style = Array[int]([3])
-start = Array[int]([0])
-end = Array[int]([4])
+style = 3
+end = 3
 metadata/_custom_type_script = "uid://b37t7a67t8onx"
 
 [sub_resource type="Resource" id="Resource_gx6ub"]
