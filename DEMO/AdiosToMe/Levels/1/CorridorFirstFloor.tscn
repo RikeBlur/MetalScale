@@ -13,6 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://88p35q5if7qc" path="res://System/RPG/interact/door/var1/door_left.tscn" id="11_rlxka"]
 [ext_resource type="PackedScene" uid="uid://bwtq3gl510hfd" path="res://System/RPG/interact/deadbody/deadbody_melt.tscn" id="12_ivsdg"]
 [ext_resource type="PackedScene" uid="uid://7rnhxanhcss5" path="res://System/RPG/interact/deadbody/deadbody_melt_filp.tscn" id="13_eyllx"]
+[ext_resource type="PackedScene" uid="uid://csmywo1cghnr8" path="res://System/RPG/interact/deadbody/stain_3.tscn" id="14_nal5a"]
+[ext_resource type="PackedScene" uid="uid://c1l887q6reatd" path="res://System/RPG/interact/deadbody/stain_1.tscn" id="15_l7mjd"]
+[ext_resource type="PackedScene" uid="uid://chgicsacdaghx" path="res://System/RPG/interact/deadbody/stain_4.tscn" id="16_r21n8"]
 
 [sub_resource type="Resource" id="Resource_awlan"]
 script = ExtResource("2_56krx")
@@ -58,25 +61,49 @@ metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Resource" id="Resource_eyllx"]
 script = ExtResource("2_56krx")
-node_path = NodePath("ObjectAndCharacter/DeadbodyMelt")
+node_path = NodePath("ObjectAndCharacter/deadbody/DeadbodyMelt")
 type = 4
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Resource" id="Resource_nal5a"]
 script = ExtResource("2_56krx")
-node_path = NodePath("ObjectAndCharacter/DeadbodyMelt2")
+node_path = NodePath("ObjectAndCharacter/deadbody/DeadbodyMelt2")
 type = 4
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Resource" id="Resource_l7mjd"]
 script = ExtResource("2_56krx")
-node_path = NodePath("ObjectAndCharacter/DeadbodyMelt3")
+node_path = NodePath("ObjectAndCharacter/deadbody/DeadbodyMelt3")
 type = 4
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Resource" id="Resource_r21n8"]
 script = ExtResource("2_56krx")
-node_path = NodePath("ObjectAndCharacter/DeadbodyMelt4")
+node_path = NodePath("ObjectAndCharacter/deadbody/DeadbodyMelt4")
+type = 4
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_skw24"]
+script = ExtResource("2_56krx")
+node_path = NodePath("ObjectAndCharacter/deadbody/DeadbodyMelt5")
+type = 4
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_dlcsi"]
+script = ExtResource("2_56krx")
+node_path = NodePath("ObjectAndCharacter/deadbody/DeadbodyMelt6")
+type = 4
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_kewgx"]
+script = ExtResource("2_56krx")
+node_path = NodePath("ObjectAndCharacter/deadbody/DeadbodyMelt7")
+type = 4
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_4oox6"]
+script = ExtResource("2_56krx")
+node_path = NodePath("ObjectAndCharacter/deadbody/DeadbodyMelt8")
 type = 4
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
@@ -114,7 +141,7 @@ y_sort_enabled = true
 script = ExtResource("1_410n1")
 player_initial_position = Array[Vector2]([Vector2(245, 250), Vector2(245, 290), Vector2(590, 290), Vector2(920, 290), Vector2(570, 250), Vector2(825, 250), Vector2(960, 250), Vector2(100, 230)])
 player_initial_direction = Array[Vector2]([Vector2(0, 1), Vector2(0, -1), Vector2(0, -1), Vector2(0, -1), Vector2(0, 1), Vector2(0, 1), Vector2(0, 1), Vector2(1, 0)])
-interactables = Array[ExtResource("2_56krx")]([SubResource("Resource_awlan"), SubResource("Resource_mmvxn"), SubResource("Resource_dpdbr"), SubResource("Resource_0hjgw"), SubResource("Resource_0tkip"), SubResource("Resource_njo3k"), SubResource("Resource_pfjua"), SubResource("Resource_rlxka"), SubResource("Resource_eyllx"), SubResource("Resource_nal5a"), SubResource("Resource_l7mjd"), SubResource("Resource_r21n8")])
+interactables = Array[ExtResource("2_56krx")]([SubResource("Resource_awlan"), SubResource("Resource_mmvxn"), SubResource("Resource_dpdbr"), SubResource("Resource_0hjgw"), SubResource("Resource_0tkip"), SubResource("Resource_njo3k"), SubResource("Resource_pfjua"), SubResource("Resource_rlxka"), SubResource("Resource_eyllx"), SubResource("Resource_nal5a"), SubResource("Resource_l7mjd"), SubResource("Resource_r21n8"), SubResource("Resource_skw24"), SubResource("Resource_dlcsi"), SubResource("Resource_kewgx"), SubResource("Resource_4oox6")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 
@@ -246,18 +273,33 @@ y_sort_enabled = true
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=435539595]
 y_sort_enabled = true
 
-[node name="DeadbodyMelt" parent="ObjectAndCharacter" unique_id=959578855 instance=ExtResource("12_ivsdg")]
+[node name="deadbody" type="Node2D" parent="ObjectAndCharacter" unique_id=284326209]
+y_sort_enabled = true
+
+[node name="DeadbodyMelt" parent="ObjectAndCharacter/deadbody" unique_id=959578855 instance=ExtResource("12_ivsdg")]
 position = Vector2(120, 278)
 
-[node name="DeadbodyMelt2" parent="ObjectAndCharacter" unique_id=1606522405 instance=ExtResource("12_ivsdg")]
+[node name="DeadbodyMelt2" parent="ObjectAndCharacter/deadbody" unique_id=1606522405 instance=ExtResource("12_ivsdg")]
 position = Vector2(733, 252)
-skew = -0.23212878
+skew = -0.23212886
 
-[node name="DeadbodyMelt3" parent="ObjectAndCharacter" unique_id=1686828407 instance=ExtResource("13_eyllx")]
+[node name="DeadbodyMelt3" parent="ObjectAndCharacter/deadbody" unique_id=1686828407 instance=ExtResource("13_eyllx")]
 position = Vector2(374, 253)
 
-[node name="DeadbodyMelt4" parent="ObjectAndCharacter" unique_id=1042902108 instance=ExtResource("13_eyllx")]
+[node name="DeadbodyMelt4" parent="ObjectAndCharacter/deadbody" unique_id=1042902108 instance=ExtResource("13_eyllx")]
 position = Vector2(1174, 323)
+
+[node name="DeadbodyMelt5" parent="ObjectAndCharacter/deadbody" unique_id=415909549 instance=ExtResource("14_nal5a")]
+position = Vector2(392, 187)
+
+[node name="DeadbodyMelt6" parent="ObjectAndCharacter/deadbody" unique_id=706518405 instance=ExtResource("15_l7mjd")]
+position = Vector2(133, 192)
+
+[node name="DeadbodyMelt7" parent="ObjectAndCharacter/deadbody" unique_id=179704986 instance=ExtResource("15_l7mjd")]
+position = Vector2(388, 189)
+
+[node name="DeadbodyMelt8" parent="ObjectAndCharacter/deadbody" unique_id=2027758519 instance=ExtResource("16_r21n8")]
+position = Vector2(1081, 192)
 
 [node name="WorldOfWonder" type="WorldEnvironment" parent="." unique_id=945717885]
 environment = SubResource("Environment_5n7gh")

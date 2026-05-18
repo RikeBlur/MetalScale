@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://b1b6rwr7k0tf8"]
+
+[ext_resource type="Shader" uid="uid://g68h8mpjhpom" path="res://Effect/Shader/glowing_outline/glowingOutline.gdshader" id="1_33w2x"]
+[ext_resource type="Texture2D" uid="uid://c08jd5wfa5ino" path="res://Assests/sprite/Character/EYE/deadbody.png" id="2_33w2x"]
+[ext_resource type="PackedScene" uid="uid://di67e174120x4" path="res://System/RPG/interact/others/doorplate_invisible.tscn" id="3_kuc65"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_101i4"]
+shader = ExtResource("1_33w2x")
+shader_parameter/outline_width = 8.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
+shader_parameter/hit_flash_intensity = 0.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_33w2x"]
+height = 60.0
+
+[node name="DeadbodyEYE" type="Node2D" unique_id=959578855]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1843756782]
+z_index = 1
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_101i4")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_33w2x")
+offset = Vector2(0, -230)
+flip_h = true
+
+[node name="Doorplate" parent="." unique_id=1822776458 instance=ExtResource("3_kuc65")]
+position = Vector2(0, -11)
+door_name = "一团血肉，被破坏的不成样子。"
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1242354844]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=295797297]
+position = Vector2(0, -18)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_33w2x")

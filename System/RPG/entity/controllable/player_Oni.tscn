@@ -1793,7 +1793,7 @@ motion_mode = 1
 safe_margin = 0.1
 script = ExtResource("1_58adm")
 player_walk_speed_max = 150
-player_run_speed_max = 300
+player_run_speed_max = 250
 player_walk_acceleration = 300
 player_run_acceleration = 300
 character_name = "O_ni______"
@@ -1900,8 +1900,8 @@ player_node = NodePath("..")
 
 [node name="lightdetector" parent="arrgo_component" unique_id=605312149 instance=ExtResource("36_5qh6w")]
 position = Vector2(0, -53)
-extension_length = 15.0
-future_length = 30.0
+extension_length = 10.0
+future_length = 20.0
 debug_mode = false
 
 [node name="ambient_light" type="PointLight2D" parent="." unique_id=1497612009]

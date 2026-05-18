@@ -178,10 +178,11 @@ y_sort_enabled = true
 [node name="blink_seq" type="Node2D" parent="ObjectAndCharacter/light" unique_id=645618901 node_paths=PackedStringArray("lighting_list")]
 y_sort_enabled = true
 script = ExtResource("14_pxs8r")
-lighting_list = [NodePath("ElectrionicScreen_back3"), NodePath("ElectrionicScreen_back2"), NodePath("ElectrionicScreen_back"), NodePath("ElectrionicScreen"), NodePath("ElectrionicScreen2"), NodePath("ElectrionicScreen3")]
+lighting_list = [NodePath("ElectrionicScreen_back3"), NodePath("ElectrionicScreen_back2"), NodePath("ElectrionicScreen_back"), NodePath("ElectrionicScreen3"), NodePath("ElectrionicScreen2"), NodePath("ElectrionicScreen")]
 start_time = 1.0
-blink_states = Array[Array]([[true, true, true, false, false, false], [false, false, false, true, true, true]])
+blink_states = Array[Array]([[true, true, false, false, true, true], [true, false, false, true, true, true], [false, false, true, true, true, true], [false, true, true, true, true, false], [true, true, true, true, false, false], [true, true, true, false, false, true]])
 loop = true
+self_start = true
 
 [node name="ElectrionicScreen" parent="ObjectAndCharacter/light/blink_seq" unique_id=987910373 instance=ExtResource("12_b4lkb")]
 z_index = 1
@@ -189,14 +190,14 @@ position = Vector2(294, 46)
 
 [node name="ElectrionicScreen2" parent="ObjectAndCharacter/light/blink_seq" unique_id=1290693355 instance=ExtResource("12_b4lkb")]
 z_index = 1
-position = Vector2(399, 46)
+position = Vector2(405, 46)
 
 [node name="ElectrionicScreen3" parent="ObjectAndCharacter/light/blink_seq" unique_id=1987197660 instance=ExtResource("12_b4lkb")]
 z_index = 1
-position = Vector2(503, 46)
+position = Vector2(511, 46)
 
 [node name="ElectrionicScreen_back" parent="ObjectAndCharacter/light/blink_seq" unique_id=1846256616 instance=ExtResource("16_kbxo1")]
-position = Vector2(513, -42)
+position = Vector2(524, -42)
 
 [node name="ElectrionicScreen_back2" parent="ObjectAndCharacter/light/blink_seq" unique_id=1138670244 instance=ExtResource("16_kbxo1")]
 position = Vector2(418, -42)

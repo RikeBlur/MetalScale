@@ -327,6 +327,7 @@ func _restore_player_tool_data(player_node: player, tool_data_dict: Dictionary) 
 	if player_node.tool >= 0 and player_node.tool < player_node.tool_available.size():
 		tool_mgr.current_tool = player_node.tool_available[player_node.tool]
 	tool_mgr._current_tool_index = player_node.tool
+	tool_mgr._sync_available_tool_changes()
 	tool_mgr._sync_runtime_lookup()
 	print("ArchiveManager: 已恢复工具数据")
 

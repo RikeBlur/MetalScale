@@ -455,7 +455,7 @@ func _spawn_reminder(area: Area2D) -> void:
 	var inst = dialogue_reminder.instantiate()
 	
 	# 设置位置偏移（可以根据需要调整）
-	var offset = Vector2(30, -100)  
+	var offset = Vector2(30, -80)  
 	
 	# 添加到场景树
 	add_child(inst)

@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://chgicsacdaghx"]
+
+[ext_resource type="Texture2D" uid="uid://n6bdkucgmadu" path="res://Assests/sprite/object/stain_2.png" id="1_6fs6a"]
+
+[node name="DeadbodyMelt" type="Node2D" unique_id=959578855]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1843756782]
+modulate = Color(1, 1, 1, 0.7058824)
+z_index = 1
+y_sort_enabled = true
+texture = ExtResource("1_6fs6a")
+offset = Vector2(0, -32)
+flip_h = true

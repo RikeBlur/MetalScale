@@ -49,7 +49,6 @@ script = ExtResource("2_6cts8")
 radius = 200.0
 sampling_rate = 12
 angle_range = 0.6
-debug_mode = true
 
 [node name="ScreenContent" type="Sprite2D" parent="." unique_id=158828935]
 z_index = 1

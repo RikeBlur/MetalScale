@@ -1142,7 +1142,7 @@ height = 70.0
 y_sort_enabled = true
 motion_mode = 1
 script = ExtResource("1_d7g1r")
-running_speed = 400.0
+running_speed = 350.0
 
 [node name="StateMachine" type="Node2D" parent="." unique_id=1886784812 node_paths=PackedStringArray("initial_node_state", "entity")]
 script = ExtResource("1_3ftw8")
@@ -1167,6 +1167,7 @@ position = Vector2(0, -3.8146973e-06)
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_pjei4")
 animation = &"run_back_left"
+frame_progress = 0.8344132
 offset = Vector2(0, -210)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=252321699]

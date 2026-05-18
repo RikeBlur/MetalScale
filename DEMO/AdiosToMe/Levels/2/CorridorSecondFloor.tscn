@@ -13,6 +13,8 @@
 [ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/var1/door_back.tscn" id="10_i5ykk"]
 [ext_resource type="PackedScene" uid="uid://gy5s7mt2h1j8" path="res://System/RPG/object/plant/plant_3.tscn" id="10_lnne8"]
 [ext_resource type="PackedScene" uid="uid://clwn3re40dgmx" path="res://System/RPG/interact/door/var2_invisible/door_invisible.tscn" id="11_awlan"]
+[ext_resource type="PackedScene" uid="uid://7rnhxanhcss5" path="res://System/RPG/interact/deadbody/deadbody_melt_filp.tscn" id="11_ooltd"]
+[ext_resource type="PackedScene" uid="uid://c1l887q6reatd" path="res://System/RPG/interact/deadbody/stain_1.tscn" id="12_cbe1x"]
 [ext_resource type="PackedScene" uid="uid://ckqqsxjg1mxqs" path="res://System/RPG/interact/door/var3_doubled/door_front_doubled.tscn" id="12_mmvxn"]
 [ext_resource type="PackedScene" uid="uid://dqcap280yv4rh" path="res://System/RPG/interact/others/doorplate.tscn" id="15_4p02l"]
 [ext_resource type="Environment" uid="uid://sec1uc51yggp" path="res://Style/environment/WorldOfWonder.tres" id="15_hixpp"]
@@ -230,19 +232,30 @@ y_sort_enabled = true
 [node name="object" type="Node2D" parent="ObjectAndCharacter" unique_id=1999891148]
 y_sort_enabled = true
 
-[node name="Plant2" parent="ObjectAndCharacter/object" unique_id=1623943168 instance=ExtResource("5_246ut")]
-position = Vector2(72, 213)
-
-[node name="Plant1" parent="ObjectAndCharacter/object" unique_id=349480135 instance=ExtResource("6_sjp6x")]
-position = Vector2(1091, 214)
-
-[node name="Plant3" parent="ObjectAndCharacter/object" unique_id=682420739 instance=ExtResource("7_j5tyw")]
-position = Vector2(414, 120)
-
 [node name="pingpong_table" parent="ObjectAndCharacter/object" unique_id=1896627830 instance=ExtResource("9_prh82")]
 position = Vector2(1336, 279)
 
-[node name="Plant4" parent="ObjectAndCharacter/object" unique_id=1537513870 instance=ExtResource("10_lnne8")]
+[node name="deadbody" type="Node2D" parent="ObjectAndCharacter/object" unique_id=2100040360]
+y_sort_enabled = true
+
+[node name="DeadbodyMelt" parent="ObjectAndCharacter/object/deadbody" unique_id=959578855 instance=ExtResource("11_ooltd")]
+position = Vector2(713, 247)
+
+[node name="DeadbodyMelt2" parent="ObjectAndCharacter/object/deadbody" unique_id=1942858797 instance=ExtResource("12_cbe1x")]
+position = Vector2(725, 186)
+
+[node name="plants" type="Node2D" parent="ObjectAndCharacter/object" unique_id=1197998462]
+
+[node name="Plant2" parent="ObjectAndCharacter/object/plants" unique_id=1623943168 instance=ExtResource("5_246ut")]
+position = Vector2(72, 213)
+
+[node name="Plant1" parent="ObjectAndCharacter/object/plants" unique_id=349480135 instance=ExtResource("6_sjp6x")]
+position = Vector2(1091, 214)
+
+[node name="Plant3" parent="ObjectAndCharacter/object/plants" unique_id=682420739 instance=ExtResource("7_j5tyw")]
+position = Vector2(414, 120)
+
+[node name="Plant4" parent="ObjectAndCharacter/object/plants" unique_id=1537513870 instance=ExtResource("10_lnne8")]
 position = Vector2(1489, 413)
 
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]

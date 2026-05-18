@@ -29,6 +29,7 @@ extends Resource
 @export var tool: int = -1
 # 注意：tool_available 是复杂类型，暂时用 Array 存储
 @export var tool_available: Array = []
+var _has_tool_available_data: bool = false
 
 # 生命值
 @export var health_max: float = 100.0
@@ -132,6 +133,8 @@ func from_player_node(player_node: player) -> void:
 	player_direction = player_node.player_direction
 	player_last_direction = player_node.player_last_direction
 	tool = player_node.tool
+	tool_available = _serialize_tool_available(player_node.tool_available)
+	_has_tool_available_data = true
 	health_max = player_node.health_max
 	health_now = player_node.health_now
 	is_died = player_node.is_died
@@ -166,6 +169,8 @@ func apply_to_player_node(player_node: player) -> void:
 	player_node.player_direction = player_direction
 	player_node.player_last_direction = player_last_direction
 	player_node.tool = tool
+	if _has_tool_available_data:
+		player_node.tool_available = _deserialize_tool_available(tool_available)
 	player_node.health_max = health_max
 	player_node.health_now = health_now
 	player_node.is_died = is_died
@@ -176,6 +181,10 @@ func apply_to_player_node(player_node: player) -> void:
 	if player_node.stamina_manager and is_instance_valid(player_node.stamina_manager):
 		player_node.stamina_manager.setup(player_node)
 	player_node.global_position = global_position
+	var tool_manager := player_node.get_node_or_null("ToolManager") as ToolManager
+	if tool_manager:
+		tool_manager._sync_available_tool_changes()
+		tool_manager._sync_runtime_lookup()
 
 func to_dict() -> Dictionary:
 	"""
@@ -200,6 +209,7 @@ func to_dict() -> Dictionary:
 		"player_direction": {"x": player_direction.x, "y": player_direction.y},
 		"player_last_direction": {"x": player_last_direction.x, "y": player_last_direction.y},
 		"tool": tool,
+		"tool_available": tool_available,
 		"health_max": health_max,
 		"health_now": health_now,
 		"is_died": is_died,
@@ -219,6 +229,8 @@ func from_dict(data: Dictionary) -> void:
 	"""
 	if data.is_empty():
 		return
+
+	_has_tool_available_data = false
 	
 	# 恢复所有变量
 	if data.has("player_walk_speed_max"):
@@ -251,6 +263,9 @@ func from_dict(data: Dictionary) -> void:
 		player_last_direction = Vector2(data["player_last_direction"]["x"], data["player_last_direction"]["y"])
 	if data.has("tool"):
 		tool = data["tool"]
+	if data.has("tool_available") and data["tool_available"] is Array:
+		tool_available = _serialize_tool_available(data["tool_available"])
+		_has_tool_available_data = true
 	if data.has("health_max"):
 		health_max = data["health_max"]
 	if data.has("health_now"):
@@ -263,3 +278,21 @@ func from_dict(data: Dictionary) -> void:
 	exhausted = bool(data.get("exhausted", stamina_now <= 0.0))
 	if data.has("global_position"):
 		global_position = Vector2(data["global_position"]["x"], data["global_position"]["y"])
+
+func _serialize_tool_available(source_tools: Array) -> Array:
+	var result: Array = []
+	for tool_value in source_tools:
+		result.append(_normalize_tool_id(tool_value))
+	return result
+
+func _deserialize_tool_available(source_tools: Array) -> Array[ToolManager.Tool]:
+	var result: Array[ToolManager.Tool] = []
+	for tool_value in source_tools:
+		result.append(_normalize_tool_id(tool_value))
+	return result
+
+func _normalize_tool_id(tool_value: Variant) -> int:
+	var tool_id := int(tool_value)
+	if not ToolManager.Tool.values().has(tool_id):
+		return ToolManager.Tool.NONE
+	return tool_id

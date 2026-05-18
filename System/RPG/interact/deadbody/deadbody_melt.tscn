@@ -11,6 +11,9 @@ shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
 shader_parameter/hit_flash_intensity = 0.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ovq8d"]
+height = 60.0
+
 [node name="DeadbodyMelt" type="Node2D" unique_id=959578855]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1843756782]
@@ -22,5 +25,13 @@ texture = ExtResource("1_clten")
 offset = Vector2(0, -150)
 
 [node name="Doorplate" parent="." unique_id=1822776458 instance=ExtResource("3_ovq8d")]
-position = Vector2(0, -32)
-door_name = "一团血肉，被破坏的不成样子啊。"
+position = Vector2(0, -38)
+door_name = "一团血肉，被破坏的不成样子。"
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=230641639]
+position = Vector2(0, -20)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=677057014]
+position = Vector2(0, -18)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_ovq8d")
