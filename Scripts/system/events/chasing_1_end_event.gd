@@ -11,6 +11,7 @@ const DEFAULT_JUMPSCARE_PLAYER_SCENE_PATH: String = "res://Effect/Animation/eye_
 @export var target_interactable_paths: Array[NodePath] = []
 @export var teleport_player_after_wait: bool = false
 @export var teleport_player_global_position: Vector2 = Vector2.ZERO
+@export var teleport_player_direction: Vector2 = Vector2.UP
 @export var camera_follow_after_teleport_time: float = 0.6
 
 var _is_event_running: bool = false
@@ -108,6 +109,8 @@ func _teleport_player_and_camera_after_wait(player_node: player) -> void:
 		return
 
 	player_node.global_position = teleport_player_global_position
+	player_node.player_direction = teleport_player_direction
+	player_node.player_last_direction = teleport_player_direction
 	player_node.velocity = Vector2.ZERO
 
 	var camera := GameManager.get_camera()

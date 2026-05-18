@@ -41,6 +41,16 @@ shadow_effect_floor：暗部至少保留多少滤镜存在感 <br>
 
 # UPDATE
 
+## 26.05.19
+
+需要音效：
+switch_on
+jumpscare
+jumpscare+excution
+
+唉，先玩吧
+
+
 ## 26.05.17
 
 DEMO_END:

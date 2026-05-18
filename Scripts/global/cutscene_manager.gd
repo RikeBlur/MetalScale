@@ -48,7 +48,7 @@ const FADE_DURATION: float = 0.5
 var cutscene_scenes: Dictionary = {
 	"test": preload("res://System/RPG/cutscene/1_1/test.tscn"),
 	"death": preload("res://System/RPG/cutscene/1_1/death.tscn"),
-	"demo_end": preload("res://System/RPG/cutscene/1_1/death.tscn")
+	"demo_end": preload("res://System/RPG/cutscene/1_1/demo_end.tscn")
 }
 
 # ====================================================================================================

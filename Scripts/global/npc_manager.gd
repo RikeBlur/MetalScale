@@ -64,7 +64,7 @@ func _create_default_npc_dict() -> Dictionary:
 	return {
 		"0-0": NPCData.new().setup(
 			preload("res://System/RPG/entity/npc/Enemy/EYE/EYE.tscn"),
-			npc_type.EYE, "1-1", Vector2(600,250), Vector2.DOWN, false, 0
+			npc_type.EYE, "KF", Vector2(600,250), Vector2.DOWN, false, 0
 		),
 		"1-0": NPCData.new().setup(
 			preload("res://System/RPG/entity/npc/Enemy/melt/melt.tscn"),
@@ -425,7 +425,8 @@ func _update_eye_behaviors(delta: float) -> void:
 
 		match data.state:
 			0: #patrol
-				_update_eye_wander(npc_id, data, delta)
+				# update_eye_wander(npc_id, data, delta)
+				pass
 			1: #pursue
 				_update_eye_chase(npc_id, data, delta)
 

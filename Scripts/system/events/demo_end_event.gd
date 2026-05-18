@@ -1,11 +1,17 @@
 class_name DemoEndEvent
 extends GameEvents
 
+const DEMO_END_BLACKOUT_LAYER_INDEX: int = 4
+
 @export var end_door: BaseDoor = null
+@export var blackout_fade_time: float = 0.5
 
 var _interaction_requested: bool = false
 var _is_event_running: bool = false
 var _connected_interacted_component: interacted_component = null
+var _demo_end_blackout_layer: CanvasLayer = null
+var _demo_end_blackout_rect: ColorRect = null
+var _demo_end_blackout_tween: Tween = null
 
 
 func _ready() -> void:
@@ -60,10 +66,9 @@ func _run_event_flow() -> void:
 	GameManager.set_running_state(GameManager.RunningState.AUTO)
 	_lock_player_control()
 	_mark_end_1_completed()
+	await _fade_in_demo_end_blackout_mask()
 
 	var played_cutscene: bool = _play_demo_end_cutscene()
-	await get_tree().process_frame
-	_unload_current_player_camera_and_ui()
 
 	if played_cutscene and CutsceneManager.has_signal("cutscene_playback_finished"):
 		await CutsceneManager.cutscene_playback_finished
@@ -119,20 +124,48 @@ func _lock_player_control() -> void:
 	player_node.velocity = Vector2.ZERO
 
 
-func _unload_current_player_camera_and_ui() -> void:
-	if UIManager and UIManager.has_method("safe_remove_all_ui"):
-		UIManager.safe_remove_all_ui()
+func _ensure_demo_end_blackout_mask() -> void:
+	if _demo_end_blackout_layer and is_instance_valid(_demo_end_blackout_layer):
+		_demo_end_blackout_layer.visible = true
+		return
+	if not get_tree().current_scene:
+		return
 
-	var player_node: player = GameManager.get_player()
-	if player_node and is_instance_valid(player_node):
-		player_node.queue_free()
-	GameManager.player_instance = null
+	_demo_end_blackout_layer = CanvasLayer.new()
+	_demo_end_blackout_layer.name = "DemoEndBlackoutLayer"
+	_demo_end_blackout_layer.layer = DEMO_END_BLACKOUT_LAYER_INDEX
 
-	var camera_node: AdvancedCamera = GameManager.get_camera()
-	if camera_node and is_instance_valid(camera_node):
-		camera_node.target = null
-		camera_node.queue_free()
-	GameManager.camera_instance = null
+	var black_rect := ColorRect.new()
+	black_rect.name = "Blackout"
+	black_rect.color = Color(0.0, 0.0, 0.0, 0.0)
+	black_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_demo_end_blackout_layer.add_child(black_rect)
+	black_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	black_rect.position = Vector2.ZERO
+	black_rect.size = get_viewport().get_visible_rect().size
+	_demo_end_blackout_rect = black_rect
+
+	get_tree().current_scene.add_child(_demo_end_blackout_layer)
+
+
+func _fade_in_demo_end_blackout_mask() -> void:
+	_ensure_demo_end_blackout_mask()
+	if not _demo_end_blackout_rect or not is_instance_valid(_demo_end_blackout_rect):
+		await get_tree().process_frame
+		return
+
+	if _demo_end_blackout_tween and is_instance_valid(_demo_end_blackout_tween):
+		_demo_end_blackout_tween.kill()
+
+	var fade_time: float = max(blackout_fade_time, 0.0)
+	if fade_time <= 0.0:
+		_demo_end_blackout_rect.color = Color.BLACK
+		await get_tree().process_frame
+		return
+
+	_demo_end_blackout_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	_demo_end_blackout_tween.tween_property(_demo_end_blackout_rect, "color:a", 1.0, fade_time)
+	await _demo_end_blackout_tween.finished
 
 
 func _connect_end_door_signal_deferred() -> void:

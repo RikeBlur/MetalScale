@@ -5,6 +5,8 @@ signal oneshot_finished
 
 @export var animation_array: Array[AnimatedSprite2D] = []
 @export var animation_player_array: Array[AnimationPlayer] = []
+@export var sfx_array: Array[SFXPlayer] = []
+@export var sfx_play_time_array: Array[float] = []
 @export var start_time: float = 0.0
 @export var loop: bool = false
 
@@ -102,6 +104,18 @@ func _run_oneshot_timeline() -> void:
 		_active_tween.tween_interval(animation_start_time + animation_length)
 		has_tweeners = true
 
+	for i in range(sfx_array.size()):
+		var sfx: SFXPlayer = sfx_array[i]
+		if not sfx or not is_instance_valid(sfx):
+			continue
+
+		var sfx_play_time: float = 0.0
+		if i < sfx_play_time_array.size():
+			sfx_play_time = max(sfx_play_time_array[i], 0.0)
+
+		_active_tween.tween_callback(_play_sfx_once.bind(sfx)).set_delay(sfx_play_time)
+		has_tweeners = true
+
 	if has_tweeners:
 		await _active_tween.finished
 	else:
@@ -162,6 +176,12 @@ func _play_default_animation_player(animation_player: AnimationPlayer) -> void:
 		return
 
 	animation_player.play(DEFAULT_ANIMATION_NAME)
+
+
+func _play_sfx_once(sfx: SFXPlayer) -> void:
+	if not sfx or not is_instance_valid(sfx):
+		return
+	sfx.play_once()
 
 
 func _set_dissolve(sprite: AnimatedSprite2D, parameter_name: StringName, value: float) -> void:

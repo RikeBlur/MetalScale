@@ -44,6 +44,7 @@ func trigger_effect() -> void:
 	EnvironmentManager.set_environment()
 	# 来人
 	_show_ax_in_third_steproom_in_scene_data()
+	_show_dialogue_in_third_steproom_in_scene_data()
 	# 滚人
 	_disappear_ax_in_teacher_rest_room_in_scene_data()
 	_slay_all_melt_in_second_and_first_floor()
@@ -79,6 +80,36 @@ func _show_ax_in_third_steproom_in_scene_data() -> void:
 
 	interactable.state = 1
 	print("SwitchOnEvent: SceneData 3-6 interactables[3] others state set to 1.")
+
+
+func _show_dialogue_in_third_steproom_in_scene_data() -> void:
+	if not SceneManager:
+		push_warning("SwitchOnEvent: SceneManager is missing, cannot unlock 3-6 interactable 3.")
+		return
+
+	var scene_data: SceneData = SceneManager.get_scene_data("3-6")
+	if not scene_data:
+		push_warning("SwitchOnEvent: SceneData 3-6 is missing.")
+		return
+
+	if scene_data.interactables.size() <= 4:
+		push_warning("SwitchOnEvent: SceneData 3-6 interactables size is %d, cannot access index 3." % scene_data.interactables.size())
+		return
+
+	var interactable: InteractableData = scene_data.interactables[4]
+	if not interactable:
+		push_warning("SwitchOnEvent: SceneData 3-6 interactables[4] is null.")
+		return
+
+	if interactable.type != 2:
+		push_warning("SwitchOnEvent: SceneData 3-6 interactables[4] is not a others, type=%d." % interactable.type)
+		return
+
+	if interactable.state == 0:
+		return
+
+	interactable.state = 0
+	print("SwitchOnEvent: SceneData 3-6 interactables[4] others state set to 0.")
 
 
 func _disappear_ax_in_teacher_rest_room_in_scene_data() -> void:

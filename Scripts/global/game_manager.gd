@@ -29,8 +29,8 @@ const CONFIG_PATH: String = "user://config.tres"
 const DEFAULT_GLOBAL_VFX_SHADER_PATH: String = "res://Effect/Shader/default_global_vfx/global_vfx_vhs.gdshader"
 const DEFAULT_FIRST_DIALOGUE: String = "ObjectAndCharacter/Interactable/DialogueComponent"
 const DEATHWAIT_TIME: float = 0.5
-const lighting_stage_0 = Color(0.21, 0.157, 0.157, 1.0)
-const lighting_stage_1 = Color(0.45, 0.373, 0.395, 1.0)
+const lighting_stage_0 = Color(0.2, 0.15, 0.15, 1.0)
+const lighting_stage_1 = Color(0.35, 0.28, 0.3, 1.0)
 
 # ====================================================================================================
 # ============================================ 游戏状态枚举 =============================================

@@ -1058,7 +1058,7 @@ motion_mode = 1
 script = ExtResource("1_4atho")
 detector_range = 200.0
 lose_track_time = 2.0
-running_speed = 180.0
+running_speed = 120.0
 walking_speed = 50.0
 
 [node name="StateMachine" type="Node2D" parent="." unique_id=1886784812 node_paths=PackedStringArray("initial_node_state", "entity")]

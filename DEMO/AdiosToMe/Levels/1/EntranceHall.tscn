@@ -26,6 +26,7 @@
 [ext_resource type="Script" uid="uid://b37t7a67t8onx" path="res://Scripts/system/interact/dialogue/dialogue_flag.gd" id="15_01ec6"]
 [ext_resource type="PackedScene" uid="uid://bajrucetxnehm" path="res://System/RPG/object/table/var1/table_left_up.tscn" id="15_sy10r"]
 [ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/data/dialogue_resource/DialogueResource.gd" id="16_00vep"]
+[ext_resource type="PackedScene" uid="uid://b1b6rwr7k0tf8" path="res://System/RPG/interact/deadbody/deadbody_EYE.tscn" id="16_agmmm"]
 [ext_resource type="Script" uid="uid://4p4vcldhkkvo" path="res://Scripts/data/dialogue_resource/DialogueTextResource.gd" id="17_i0njy"]
 [ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/var1/door_back.tscn" id="21_krxjf"]
 [ext_resource type="PackedScene" uid="uid://cmunt4k6poabr" path="res://System/RPG/events/demo_end_event.tscn" id="24_1u768"]
@@ -46,6 +47,12 @@ script = ExtResource("2_o7ogc")
 node_path = NodePath("ObjectAndCharacter/DialogueComponent")
 type = 2
 state = -1
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
+[sub_resource type="Resource" id="Resource_3cvst"]
+script = ExtResource("2_o7ogc")
+node_path = NodePath("ObjectAndCharacter/object/DeadbodyEYE")
+type = 4
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
 [sub_resource type="Gradient" id="Gradient_336yt"]
@@ -134,7 +141,7 @@ y_sort_enabled = true
 script = ExtResource("1_i0njy")
 player_initial_position = Array[Vector2]([Vector2(880, 270)])
 player_initial_direction = Array[Vector2]([Vector2(-1, 0)])
-interactables = Array[ExtResource("2_o7ogc")]([SubResource("Resource_ax0f4"), SubResource("Resource_i0njy"), SubResource("Resource_8xsw7")])
+interactables = Array[ExtResource("2_o7ogc")]([SubResource("Resource_ax0f4"), SubResource("Resource_i0njy"), SubResource("Resource_8xsw7"), SubResource("Resource_3cvst")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 
@@ -225,13 +232,16 @@ position = Vector2(892, 746)
 [node name="table" parent="ObjectAndCharacter/object/desolate" unique_id=2010194278 instance=ExtResource("15_sy10r")]
 position = Vector2(585, 369)
 
+[node name="DeadbodyEYE" parent="ObjectAndCharacter/object" unique_id=959578855 instance=ExtResource("16_agmmm")]
+position = Vector2(738, 909)
+
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 
 [node name="BlinkSeq" type="Node2D" parent="ObjectAndCharacter/light" unique_id=1731621233 node_paths=PackedStringArray("lighting_list")]
 script = ExtResource("6_myfsf")
 lighting_list = [NodePath("SpotLight"), NodePath("SpotLight2"), NodePath("SpotLight3"), NodePath("SpotLight4"), NodePath("SpotLight5")]
-blink_time = 0.2
-blink_states = Array[Array]([[true, true, false, true, false], [true, false, true, false, true], [false, true, true, true, true], [false, false, false, false, false]])
+blink_time = 0.15
+blink_states = Array[Array]([[true, true, false, true, false], [true, true, false, false, true], [false, true, false, false, true], [false, true, true, true, true], [false, false, false, false, false]])
 metadata/_custom_type_script = "uid://bbx3duawo82qg"
 
 [node name="SpotLight" parent="ObjectAndCharacter/light/BlinkSeq" unique_id=987910373 instance=ExtResource("7_fu2ww")]
@@ -293,9 +303,9 @@ shape = SubResource("CircleShape2D_i0njy")
 [node name="chasing_1_end" parent="ObjectAndCharacter/Interactable" unique_id=159308639 instance=ExtResource("12_ow5of")]
 wait_time = 0.3
 jumpscare_player_scene_path = "uid://bycn3ddjpwu6x"
-target_interactable_indices = Array[int]([1, 2])
+target_interactable_indices = Array[int]([1, 2, 3])
 teleport_player_after_wait = true
-teleport_player_global_position = Vector2(750, 1000)
+teleport_player_global_position = Vector2(750, 1050)
 
 [node name="demo_end_event" parent="ObjectAndCharacter/Interactable" unique_id=999532343 node_paths=PackedStringArray("end_door") instance=ExtResource("24_1u768")]
 end_door = NodePath("../door/door2")
