@@ -1138,7 +1138,7 @@ height = 70.0
 radius = 18.0
 height = 70.0
 
-[node name="Eye" type="CharacterBody2D" unique_id=431185256]
+[node name="Eye" type="CharacterBody2D" unique_id=431185256 groups=["NPC"]]
 y_sort_enabled = true
 motion_mode = 1
 script = ExtResource("1_d7g1r")

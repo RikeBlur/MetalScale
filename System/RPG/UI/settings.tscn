@@ -49,9 +49,6 @@ shader_parameter/edge_color = Color(0.84, 0, 0, 1)
 shader_parameter/edge_width = 0.1
 shader_parameter/edge_intensity = 2.0
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2hqe3"]
-load_path = "res://.godot/imported/settingbox-exit.png-1b1c14d433ad0b33d0df6123af682b36.ctex"
-
 [sub_resource type="Animation" id="Animation_eqabb"]
 length = 0.001
 tracks/0/type = "value"
@@ -122,9 +119,6 @@ shader_parameter/edge_color = Color(0.83, 0, 0, 1)
 shader_parameter/edge_width = 0.1
 shader_parameter/edge_intensity = 2.0
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hp7d5"]
-load_path = "res://.godot/imported/settingbox-exit.png-1b1c14d433ad0b33d0df6123af682b36.ctex"
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i4d30"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_agof2"]
@@ -159,9 +153,6 @@ shader_parameter/edge_color = Color(0.83, 0, 0, 1)
 shader_parameter/edge_width = 0.1
 shader_parameter/edge_intensity = 2.0
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3unt8"]
-load_path = "res://.godot/imported/settingbox-exit.png-1b1c14d433ad0b33d0df6123af682b36.ctex"
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l7f6u"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uswx7"]
@@ -195,9 +186,6 @@ shader_parameter/noise_scale = 1.0
 shader_parameter/edge_color = Color(0.83, 0, 0, 1)
 shader_parameter/edge_width = 0.1
 shader_parameter/edge_intensity = 2.0
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cqwn0"]
-load_path = "res://.godot/imported/settingbox-exit.png-1b1c14d433ad0b33d0df6123af682b36.ctex"
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oaby7"]
 
@@ -299,7 +287,7 @@ toggle_mode = true
 material = SubResource("ShaderMaterial_orq7f")
 position = Vector2(35.5, 39)
 scale = Vector2(0.25, 0.25)
-texture = SubResource("CompressedTexture2D_2hqe3")
+texture = ExtResource("3_lev6s")
 
 [node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox1/back" unique_id=821242642]
 libraries/ = SubResource("AnimationLibrary_cqwn0")
@@ -338,7 +326,7 @@ toggle_mode = true
 material = SubResource("ShaderMaterial_j580r")
 position = Vector2(35.5, 39)
 scale = Vector2(0.25, 0.25)
-texture = SubResource("CompressedTexture2D_hp7d5")
+texture = ExtResource("3_lev6s")
 
 [node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox2/back" unique_id=1913121114]
 libraries/ = SubResource("AnimationLibrary_cqwn0")
@@ -377,7 +365,7 @@ toggle_mode = true
 material = SubResource("ShaderMaterial_gri4g")
 position = Vector2(35.5, 39)
 scale = Vector2(0.25, 0.25)
-texture = SubResource("CompressedTexture2D_3unt8")
+texture = ExtResource("3_lev6s")
 
 [node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox3/back" unique_id=2099619374]
 libraries/ = SubResource("AnimationLibrary_cqwn0")
@@ -416,7 +404,7 @@ toggle_mode = true
 material = SubResource("ShaderMaterial_grm8c")
 position = Vector2(35.5, 39)
 scale = Vector2(0.25, 0.25)
-texture = SubResource("CompressedTexture2D_cqwn0")
+texture = ExtResource("3_lev6s")
 
 [node name="dissolve_player" type="AnimationPlayer" parent="topoffset/PanelContainer/MarginContainer/settings/settingbox4/back" unique_id=1624738560]
 libraries/ = SubResource("AnimationLibrary_cqwn0")

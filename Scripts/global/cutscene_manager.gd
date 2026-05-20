@@ -46,6 +46,7 @@ const FADE_DURATION: float = 0.5
 # 在此处填写过场动画，例如：
 #   "intro": preload("res://System/Cutscenes/intro.tscn"),
 var cutscene_scenes: Dictionary = {
+	"preloading": preload("res://System/RPG/cutscene/1_1/preloading.tscn"),
 	"test": preload("res://System/RPG/cutscene/1_1/test.tscn"),
 	"death": preload("res://System/RPG/cutscene/1_1/death.tscn"),
 	"demo_end": preload("res://System/RPG/cutscene/1_1/demo_end.tscn")

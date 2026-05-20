@@ -70,8 +70,7 @@ func _on_setting_0_pressed():
 func _on_setting_1_pressed():
 	"""设置项 1 的处理函数（例如：全屏切换）"""
 	print("执行设置项 1")
-	# 在这里添加具体的功能实现
-	pass
+	call_deferred("try_on_question")
 
 func _on_setting_2_pressed():
 	"""设置项 2 的处理函数（例如：分辨率设置）"""
@@ -111,10 +110,13 @@ func try_to_quit_game() -> void:
 	own_manager.instantiate_ui(UI_manager.UI_component.EXITWINDOW)
 	
 func try_to_savegame() -> void:
-	own_manager.instantiate_ui(UI_manager.UI_component.SAVEGAMEWINDOW)
+	own_manager.instantiate_ui(UI_manager.UI_component.LOADGAMEWINDOW)
 
 func try_to_change_config() -> void:
 	own_manager.instantiate_ui(UI_manager.UI_component.GAMECONFIG)
+	
+func try_on_question() -> void:
+	own_manager.instantiate_ui(UI_manager.UI_component.QUESTIONWINDOW)
 
 func _connect_button_sfx() -> void:
 	for button in _collect_buttons(self):

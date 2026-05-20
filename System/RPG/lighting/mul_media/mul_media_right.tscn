@@ -32,6 +32,7 @@ polygon = PackedVector2Array(-30.238491, -61.07892, -30.033772, -58.08591, -16.0
 
 [node name="ElectrionicScreen" type="Node2D" unique_id=987910373]
 script = ExtResource("1_uobvr")
+logic_energy = 0.5
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=559647924]
 position = Vector2(-4, -102)

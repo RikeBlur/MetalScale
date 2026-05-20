@@ -38,6 +38,13 @@ node_path = NodePath("ObjectAndCharacter/light/ElectrionicScreen3")
 type = 5
 metadata/_custom_type_script = "uid://dpl7usng0cfyl"
 
+[sub_resource type="Resource" id="Resource_co1g6"]
+script = ExtResource("2_2g8gb")
+node_path = NodePath("ObjectAndCharacter/Interactable/collectable/CollectableSuicideking")
+type = 1
+state = 1
+metadata/_custom_type_script = "uid://dpl7usng0cfyl"
+
 [sub_resource type="Gradient" id="Gradient_336yt"]
 offsets = PackedFloat32Array(0, 0.993506)
 
@@ -72,7 +79,7 @@ y_sort_enabled = true
 script = ExtResource("1_y34y8")
 player_initial_position = Array[Vector2]([Vector2(630, 450)])
 player_initial_direction = Array[Vector2]([Vector2(0, -1)])
-interactables = Array[ExtResource("2_2g8gb")]([SubResource("Resource_va5wj"), SubResource("Resource_cu16r"), SubResource("Resource_eg62i")])
+interactables = Array[ExtResource("2_2g8gb")]([SubResource("Resource_va5wj"), SubResource("Resource_cu16r"), SubResource("Resource_eg62i"), SubResource("Resource_co1g6")])
 
 [node name="UI_LAYERS" type="Node" parent="." unique_id=528273675]
 

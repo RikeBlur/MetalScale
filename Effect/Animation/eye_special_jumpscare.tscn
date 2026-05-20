@@ -2,12 +2,16 @@
 
 [ext_resource type="Script" uid="uid://b4jvxoy1tupgv" path="res://Scripts/system/view/jumpscare_player.gd" id="1_jsjw0"]
 [ext_resource type="Shader" uid="uid://dkx347hhlonq2" path="res://Effect/Shader/neo_dissolve/neo_dissolve.gdshader" id="2_3u4kb"]
-[ext_resource type="Texture2D" uid="uid://bh21edho63p0y" path="res://Assests/sprite/Character/EYE/back.png" id="3_0pdne"]
+[ext_resource type="Texture2D" uid="uid://w0ndq2gdr4yd" path="res://Assests/sprite/Character/EYE/back.png" id="3_0pdne"]
 [ext_resource type="Texture2D" uid="uid://b0qh0wtaqhfst" path="res://Effect/Shader/waving_noise/noise_0.tres" id="3_0xt5f"]
 [ext_resource type="Texture2D" uid="uid://bnc00ao14ombt" path="res://Assests/sprite/effect/new_noise_texture_2d.tres" id="3_l2t5t"]
 [ext_resource type="Script" uid="uid://crvdr60vce5nn" path="res://Scripts/system/view/jumpscare_animated_sprite.gd" id="5_l2t5t"]
 [ext_resource type="Texture2D" uid="uid://b2c6g4xi56lts" path="res://Assests/sprite/Character/EYE/jumpscare_special-Sheet.png" id="7_0xt5f"]
 [ext_resource type="Texture2D" uid="uid://ceflg403p7tmk" path="res://Assests/sprite/Character/EYE/jumpscare-Sheet.png" id="8_0pdne"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="9_l2t5t"]
+[ext_resource type="AudioStream" uid="uid://cadmdccyc78ao" path="res://Assests/SFX/Character/EYE/scream.mp3" id="9_pyaac"]
+[ext_resource type="AudioStream" uid="uid://b7tgrcodd4v4o" path="res://Assests/SFX/Character/EYE/zapsplat_food_egg_shell_crack_crunch_crush_005_108989_[cut_1sec].mp3" id="11_pyaac"]
+[ext_resource type="AudioStream" uid="uid://kmnkke7iaddi" path="res://Assests/SFX/Character/EYE/zapsplat_food_celery_crush_110827.mp3" id="12_ib0ya"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3u4kb"]
 shader = ExtResource("2_3u4kb")
@@ -328,29 +332,41 @@ animations = [{
 "duration": 5.0,
 "texture": SubResource("AtlasTexture_cdoto")
 }, {
-"duration": 1.0,
+"duration": 1.5,
 "texture": SubResource("AtlasTexture_0pdne")
 }, {
-"duration": 1.0,
+"duration": 1.5,
 "texture": SubResource("AtlasTexture_l2t5t")
 }, {
-"duration": 1.0,
+"duration": 1.5,
 "texture": SubResource("AtlasTexture_b7cpw")
 }, {
-"duration": 1.0,
+"duration": 1.5,
 "texture": SubResource("AtlasTexture_pyaac")
 }, {
-"duration": 1.0,
+"duration": 1.5,
 "texture": SubResource("AtlasTexture_ib0ya")
 }, {
-"duration": 1.0,
+"duration": 1.5,
 "texture": SubResource("AtlasTexture_7ayae")
 }, {
-"duration": 1.0,
+"duration": 1.5,
 "texture": SubResource("AtlasTexture_egwdd")
 }, {
-"duration": 1.0,
+"duration": 1.5,
 "texture": SubResource("AtlasTexture_gacnj")
+}, {
+"duration": 1.5,
+"texture": SubResource("AtlasTexture_xrm07")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qmr7q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o2qm7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dcowg")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xrm07")
@@ -369,6 +385,18 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_tihk0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r7cae")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5i42w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tihk0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gacnj")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_r7cae")
@@ -414,9 +442,11 @@ animations = [{
 "speed": 12.0
 }]
 
-[node name="EyeSpecialJumpscare" type="Node2D" unique_id=31136147 node_paths=PackedStringArray("animation_array")]
+[node name="EyeSpecialJumpscare" type="Node2D" unique_id=31136147 node_paths=PackedStringArray("animation_array", "sfx_array")]
 script = ExtResource("1_jsjw0")
 animation_array = [NodePath("Eye"), NodePath("back")]
+sfx_array = [NodePath("SFXPlayer"), NodePath("SFXPlayer2"), NodePath("SFXPlayer3")]
+sfx_play_time_array = Array[float]([0.1, 1.4, 1.8])
 
 [node name="back" type="AnimatedSprite2D" parent="." unique_id=1248786073]
 material = SubResource("ShaderMaterial_3u4kb")
@@ -430,8 +460,8 @@ end_scale = Vector2(1.2, 1.2)
 start_position = Vector2(574, 325)
 end_position = Vector2(574, 325)
 animate_time = 0.2
-wait_time = 2.3
-dissolve_time = 1.0
+wait_time = 3.0
+dissolve_time = 2.0
 metadata/_custom_type_script = "uid://crvdr60vce5nn"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="back" unique_id=2027300087]
@@ -445,10 +475,32 @@ scale = Vector2(1.9999999, 1.9999999)
 sprite_frames = SubResource("SpriteFrames_ovhn3")
 autoplay = "default"
 script = ExtResource("5_l2t5t")
-end_scale = Vector2(2, 2)
+end_scale = Vector2(2.5, 2.5)
 start_position = Vector2(570, 500)
 end_position = Vector2(590, 280)
 end_rotate = 0.1
 animate_time = 0.5
-wait_time = 2.0
-dissolve_time = 1.0
+wait_time = 2.5
+dissolve_time = 1.5
+
+[node name="SFXPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1026577134]
+stream = ExtResource("9_pyaac")
+script = ExtResource("9_l2t5t")
+base_volume_db = 5.0
+fade_duration = 0.1
+metadata/_custom_type_script = "uid://use5ds4i6ib4"
+
+[node name="SFXPlayer2" type="AudioStreamPlayer2D" parent="." unique_id=635335941]
+stream = ExtResource("11_pyaac")
+pitch_scale = 0.8
+script = ExtResource("9_l2t5t")
+base_volume_db = 5.0
+fade_duration = 0.1
+metadata/_custom_type_script = "uid://use5ds4i6ib4"
+
+[node name="SFXPlayer3" type="AudioStreamPlayer2D" parent="." unique_id=2099884761]
+stream = ExtResource("12_ib0ya")
+script = ExtResource("9_l2t5t")
+base_volume_db = 10.0
+fade_duration = 0.1
+metadata/_custom_type_script = "uid://use5ds4i6ib4"

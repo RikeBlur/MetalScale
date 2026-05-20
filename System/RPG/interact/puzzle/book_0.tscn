@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://btispe3bup3op"]
+
+[ext_resource type="Script" uid="uid://0gutfec57dpp" path="res://Scripts/system/interact/puzzle/examinable_thing.gd" id="1_hv0oq"]
+[ext_resource type="Texture2D" uid="uid://cuykolb748c8d" path="res://Assests/sprite/CG/book_0.png" id="2_hv0oq"]
+[ext_resource type="AudioStream" uid="uid://bmkbvgximk7io" path="res://Assests/SFX/UI/collect.mp3" id="3_6tj7v"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="4_wk8e5"]
+[ext_resource type="Script" uid="uid://dgprjwspphr6g" path="res://Scripts/system/interact/dialogue/dialogue_component.gd" id="5_tt3jx"]
+[ext_resource type="Script" uid="uid://b37t7a67t8onx" path="res://Scripts/system/interact/dialogue/dialogue_flag.gd" id="6_wycng"]
+[ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/data/dialogue_resource/DialogueResource.gd" id="7_423ht"]
+[ext_resource type="Script" uid="uid://4p4vcldhkkvo" path="res://Scripts/data/dialogue_resource/DialogueTextResource.gd" id="8_qifkh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fh07l"]
+size = Vector2(377, 279)
+
+[sub_resource type="Resource" id="Resource_7bcsi"]
+script = ExtResource("6_wycng")
+next_flag = 0
+style = 3
+end = 2
+metadata/_custom_type_script = "uid://b37t7a67t8onx"
+
+[sub_resource type="Resource" id="Resource_myq0a"]
+script = ExtResource("8_qifkh")
+speaker_entity = "Oni"
+text = "一本被翻开的笔记，似乎用红色的水迹在写字。"
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+
+[sub_resource type="Resource" id="Resource_gx6ub"]
+script = ExtResource("8_qifkh")
+speaker_entity = "Oni"
+text = "“站在电子屏幕的光照前，会涌起一种强烈的被注视感。”"
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+
+[sub_resource type="Resource" id="Resource_vnujv"]
+script = ExtResource("8_qifkh")
+speaker_entity = "Oni"
+text = "“但打开身上的光源可以减弱这种感觉。”"
+metadata/_custom_type_script = "uid://4p4vcldhkkvo"
+
+[node name="book_0" type="Control" unique_id=902084392]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hv0oq")
+
+[node name="click" type="Area2D" parent="." unique_id=890880513]
+position = Vector2(485, 220)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="click" unique_id=1666908185]
+position = Vector2(67.5, 115.5)
+shape = SubResource("RectangleShape2D_fh07l")
+
+[node name="sprite" type="Sprite2D" parent="." unique_id=423755607]
+position = Vector2(548, 337)
+scale = Vector2(3.5271318, 3.5271323)
+texture = ExtResource("2_hv0oq")
+
+[node name="SFXPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1324049236]
+stream = ExtResource("3_6tj7v")
+script = ExtResource("4_wk8e5")
+metadata/_custom_type_script = "uid://use5ds4i6ib4"
+
+[node name="dialogue" type="Node2D" parent="." unique_id=1268667399]
+script = ExtResource("5_tt3jx")
+trigger_flag = Array[ExtResource("6_wycng")]([SubResource("Resource_7bcsi")])
+dialogue_content = Array[ExtResource("7_423ht")]([SubResource("Resource_myq0a"), SubResource("Resource_gx6ub"), SubResource("Resource_vnujv")])
+
+[node name="CanvasLayer" type="CanvasLayer" parent="dialogue" unique_id=214268892]
+layer = 5

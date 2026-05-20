@@ -84,6 +84,7 @@ size_flags_horizontal = 3
 [node name="RichTextLabel" type="RichTextLabel" parent="Control/HBoxContainer/VBoxContainer" unique_id=441723599]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/line_separation = 10
 theme_override_fonts/normal_font = ExtResource("2_1xri0")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true

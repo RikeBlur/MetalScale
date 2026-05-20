@@ -128,12 +128,12 @@ metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 [sub_resource type="Resource" id="Resource_cb74a"]
 script = ExtResource("21_snavj")
 speaker_entity = "Oni"
-text = "同学，这里现在到底..."
+text = "同学，这里现在到底......"
 metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 
 [sub_resource type="Resource" id="Resource_7028d"]
 script = ExtResource("21_snavj")
-text = "处境和你差不多，完全没头绪啊，快点从这溜走会比较好吧。"
+text = "处境和你差不多，完全没头绪啊。快点从这溜走会比较好。"
 metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 
 [sub_resource type="Resource" id="Resource_aosta"]
@@ -156,7 +156,7 @@ metadata/_custom_type_script = "uid://bns5otigdg8vu"
 
 [sub_resource type="Resource" id="Resource_qr03t"]
 script = ExtResource("21_snavj")
-text = "啊啊...这个是刚刚逃跑时摔伤的，自己的血，嗯自己的血"
+text = "啊啊...这个是刚刚逃跑时摔伤的，嗯自己的血。"
 metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 
 [sub_resource type="Resource" id="Resource_dmmh3"]

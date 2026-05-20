@@ -109,6 +109,7 @@ light_detector=""
 tool=""
 interactable=""
 camera=""
+NPC=""
 
 [gui]
 

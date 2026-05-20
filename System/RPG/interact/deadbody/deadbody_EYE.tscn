@@ -22,7 +22,7 @@ y_sort_enabled = true
 material = SubResource("ShaderMaterial_101i4")
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_33w2x")
-offset = Vector2(0, -230)
+offset = Vector2(0, -200)
 flip_h = true
 
 [node name="Doorplate" parent="." unique_id=1822776458 instance=ExtResource("3_kuc65")]

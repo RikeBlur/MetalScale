@@ -12,6 +12,8 @@ const MIN_BLINK_TIME := 0.001
 @export var loop: bool = false
 @export var self_start: bool = false
 
+@export var start_sfx: SFXPlayer = null
+
 var _start_requested := false
 var _started := false
 var _finished := false
@@ -80,6 +82,8 @@ func _begin_start_countdown() -> void:
 
 
 func _start_blink() -> void:
+	if start_sfx :
+		start_sfx.play_once()
 	_started = true
 	_elapsed = start_time
 	_blink_elapsed = 0.0

@@ -12,7 +12,7 @@ shader_parameter/hit_flash_color = Color(1, 1, 1, 1)
 shader_parameter/hit_flash_intensity = 0.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qru23"]
-height = 60.0
+height = 78.0
 
 [node name="DeadbodyMelt" type="Node2D" unique_id=959578855]
 
@@ -22,7 +22,7 @@ y_sort_enabled = true
 material = SubResource("ShaderMaterial_101i4")
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_sndje")
-offset = Vector2(0, -150)
+offset = Vector2(0, -89)
 flip_h = true
 
 [node name="Doorplate" parent="." unique_id=1822776458 instance=ExtResource("3_qru23")]
@@ -33,6 +33,6 @@ door_name = "一团血肉，被破坏的不成样子。"
 position = Vector2(0, -14)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=2098832346]
-position = Vector2(0, -18)
+position = Vector2(-7, -16)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_qru23")

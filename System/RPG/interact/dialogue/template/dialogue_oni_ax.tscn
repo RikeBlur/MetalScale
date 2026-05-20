@@ -163,6 +163,7 @@ size_flags_horizontal = 3
 [node name="RichTextLabel" type="RichTextLabel" parent="b/Control/HBoxContainer/VBoxContainer" unique_id=1842080979]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/line_separation = 10
 theme_override_fonts/normal_font = ExtResource("7_dy21y")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
@@ -179,7 +180,7 @@ size_flags_stretch_ratio = 0.0
 
 [node name="illustrate" type="AnimatedSprite2D" parent="b" unique_id=1737144110]
 material = SubResource("ShaderMaterial_u42b1")
-position = Vector2(406.9625, -68)
+position = Vector2(441.00003, -68)
 scale = Vector2(0.4, 0.4)
 sprite_frames = SubResource("SpriteFrames_y4e2c")
 animation = &"idle"

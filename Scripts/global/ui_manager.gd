@@ -12,6 +12,7 @@ enum UI_component {
 	ARRGOBAR = 6,
 	COLLECTWINDOW = 7,
 	PLAYERINFO = 8,
+	QUESTIONWINDOW = 16,
 	# 谜题
 	PUZZLESWITCH = 9,
 	PUZZLESWITCH2 = 10,
@@ -19,6 +20,7 @@ enum UI_component {
 	WATERSIGN = 12,
 	NEWSPAPER1 = 13,
 	BOOK1 = 14,
+	BOOK0 = 17,
 	SAFEBOX = 15
 }
 
@@ -78,6 +80,12 @@ const UI_DATA = {
 		"layer": 3,
 		"stage": -1
 	},
+	UI_component.QUESTIONWINDOW: {
+		"name": UI_component.QUESTIONWINDOW,
+		"scene": preload("res://System/RPG/UI/windows/question.tscn"),
+		"layer": 3,
+		"stage": -1
+	},
 	UI_component.PUZZLESWITCH: {
 		"name": UI_component.PUZZLESWITCH,
 		"scene": preload("res://System/RPG/interact/puzzle/puzzle_switch_1.tscn"),
@@ -111,6 +119,12 @@ const UI_DATA = {
 	UI_component.BOOK1: {
 		"name": UI_component.BOOK1,
 		"scene": preload("res://System/RPG/interact/puzzle/book_1.tscn"),
+		"layer": 2,
+		"stage": -1
+	},
+	UI_component.BOOK0: {
+		"name": UI_component.BOOK0,
+		"scene": preload("res://System/RPG/interact/puzzle/book_0.tscn"),
 		"layer": 2,
 		"stage": -1
 	},
@@ -257,6 +271,8 @@ func _puzzle_quit_once() -> bool:
 		return true
 	if UI_DATA.has(UI_component.BOOK1) and is_ui_visible(UI_component.BOOK1):
 		return true
+	if UI_DATA.has(UI_component.BOOK0) and is_ui_visible(UI_component.BOOK0):
+		return true
 	if UI_DATA.has(UI_component.SAFEBOX) and is_ui_visible(UI_component.SAFEBOX):
 		return true
 	return false
@@ -346,6 +362,13 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 		if "own_manager" in ui_instance:
 			ui_instance.own_manager = self
 		_add_ui_to_visible_list(UI_component.COLLECTWINDOW)
+		
+		# 特殊处理：为collectwindow设置own_manager引用
+	if ui_type == UI_component.QUESTIONWINDOW :
+		if "own_manager" in ui_instance:
+			ui_instance.own_manager = self
+		_add_ui_to_visible_list(UI_component.QUESTIONWINDOW)
+
 
 	# 特殊处理：为playerinfo设置own_manager引用和player引用
 	if ui_type == UI_component.PLAYERINFO :
@@ -398,6 +421,13 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 		if "ui_type" in ui_instance:
 			ui_instance.ui_type = UI_component.BOOK1
 		_add_ui_to_visible_list(UI_component.BOOK1)
+		
+	if ui_type == UI_component.BOOK0 :
+		if "own_manager" in ui_instance:
+			ui_instance.own_manager = self
+		if "ui_type" in ui_instance:
+			ui_instance.ui_type = UI_component.BOOK0
+		_add_ui_to_visible_list(UI_component.BOOK0)
 
 	if ui_type == UI_component.SAFEBOX :
 		if "own_manager" in ui_instance:

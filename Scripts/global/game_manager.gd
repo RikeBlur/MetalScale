@@ -29,6 +29,7 @@ const CONFIG_PATH: String = "user://config.tres"
 const DEFAULT_GLOBAL_VFX_SHADER_PATH: String = "res://Effect/Shader/default_global_vfx/global_vfx_vhs.gdshader"
 const DEFAULT_FIRST_DIALOGUE: String = "ObjectAndCharacter/Interactable/DialogueComponent"
 const DEATHWAIT_TIME: float = 0.5
+const OPENING_MENU_MASK_FADE_TIME: float = 1.0
 const lighting_stage_0 = Color(0.2, 0.15, 0.15, 1.0)
 const lighting_stage_1 = Color(0.35, 0.28, 0.3, 1.0)
 
@@ -220,6 +221,7 @@ func preloading() -> void:
 	# 等待一帧，确保所有节点都已进入场景树并执行了_ready
 	_ensure_default_global_vfx_layer()
 	await get_tree().process_frame
+	await _play_preloading_cutscene()
 	
 	print("GameManager: 所有管理器加载完成")
 	emit_signal("Preloaded")
@@ -415,7 +417,14 @@ func notify_player_died(dead_player: player = null) -> void:
 	if death_flow_token != _death_flow_token or not _is_player_death_flow_running:
 		return
 
+	_free_current_scene_npcs()
 	player_died.emit()
+
+
+func _free_current_scene_npcs() -> void:
+	for npc_node in get_tree().get_nodes_in_group("NPC"):
+		if npc_node and is_instance_valid(npc_node):
+			npc_node.queue_free()
 
 
 func _on_player_died() -> void:
@@ -585,7 +594,7 @@ func _fade_opening_menu_mask(target_alpha: float, hide_on_finish: bool) -> void:
 
 	_opening_menu_mask_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	# mask 取消时间
-	_opening_menu_mask_tween.tween_property(mask, "modulate:a", target_alpha, 1.0)
+	_opening_menu_mask_tween.tween_property(mask, "modulate:a", target_alpha, OPENING_MENU_MASK_FADE_TIME)
 	await _opening_menu_mask_tween.finished
 
 	if transition_id != _opening_menu_mask_transition_id:
@@ -614,6 +623,25 @@ func _get_opening_menu_mask() -> Sprite2D:
 		await get_tree().process_frame
 
 	return null
+
+
+func _play_preloading_cutscene() -> void:
+	if not CutsceneManager or not CutsceneManager.has_method("play_cutscene"):
+		return
+
+	var scenes_value: Variant = CutsceneManager.get("cutscene_scenes")
+	if not (scenes_value is Dictionary):
+		return
+	var scenes: Dictionary = scenes_value
+	if not scenes.has("preloading"):
+		push_warning("GameManager: CutsceneManager has no 'preloading' cutscene")
+		return
+
+	CutsceneManager.play_cutscene("preloading")
+	if CutsceneManager.has_signal("cutscene_playback_finished"):
+		await CutsceneManager.cutscene_playback_finished
+	else:
+		await get_tree().process_frame
 
 
 func _create_death_return_blackout() -> CanvasLayer:

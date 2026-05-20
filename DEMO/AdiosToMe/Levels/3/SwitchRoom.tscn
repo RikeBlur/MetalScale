@@ -171,15 +171,15 @@ position = Vector2(727, 215)
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 
 [node name="SpotLight" parent="ObjectAndCharacter/light" unique_id=987910373 instance=ExtResource("10_qm0bh")]
-position = Vector2(536, 317)
+position = Vector2(536, 328)
 logic_energy = 0.08
 
 [node name="SpotLight2" parent="ObjectAndCharacter/light" unique_id=1011092976 instance=ExtResource("10_qm0bh")]
-position = Vector2(728, 205)
+position = Vector2(727, 216)
 logic_energy = 0.08
 
 [node name="SpotLight3" parent="ObjectAndCharacter/light" unique_id=465154337 instance=ExtResource("10_qm0bh")]
-position = Vector2(862, 410)
+position = Vector2(862, 422)
 logic_energy = 0.08
 
 [node name="Interactable" type="Node2D" parent="ObjectAndCharacter" unique_id=1164615803]

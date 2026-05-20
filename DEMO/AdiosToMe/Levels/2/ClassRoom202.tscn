@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="3_1yrga"]
 [ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="4_ac42g"]
 [ext_resource type="TileSet" uid="uid://dt350ynmnt232" path="res://Style/tilesets/Indoors.tres" id="5_y74eg"]
+[ext_resource type="Texture2D" uid="uid://cldiq6pcwqgdb" path="res://Assests/tileset/AdiosToMe/classroom_1.png" id="6_ac42g"]
 [ext_resource type="PackedScene" uid="uid://coqgjvirs7uk3" path="res://System/RPG/object/table/var1/table_left.tscn" id="6_ln46q"]
 [ext_resource type="PackedScene" uid="uid://0d02haowqy1a" path="res://System/RPG/object/plant/plant_1.tscn" id="7_y5ld1"]
 [ext_resource type="PackedScene" uid="uid://bu723s56bbckd" path="res://System/RPG/object/OnWall/painting/notice.tscn" id="8_1yrga"]
@@ -50,6 +51,10 @@ shader_parameter/use_gradient = true
 shader_parameter/base_color = Color(0, 0, 0, 1)
 shader_parameter/alpha_multiplier = 1.0
 shader_parameter/color_mix_strength = 0.90000004275
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y74eg"]
+atlas = ExtResource("6_ac42g")
+region = Rect2(154, 5, 23, 32)
 
 [sub_resource type="Environment" id="Environment_5n7gh"]
 ssao_enabled = true
@@ -114,6 +119,13 @@ y_sort_enabled = true
 
 [node name="object" type="Node2D" parent="ObjectAndCharacter" unique_id=1999891148]
 y_sort_enabled = true
+
+[node name="book1" type="Sprite2D" parent="ObjectAndCharacter/object" unique_id=1511681726]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(785, 239)
+texture = SubResource("AtlasTexture_y74eg")
+offset = Vector2(0, -52)
 
 [node name="tables" type="Node2D" parent="ObjectAndCharacter/object" unique_id=1450906746]
 y_sort_enabled = true
@@ -234,6 +246,10 @@ y_sort_enabled = true
 [node name="PuzzleComponent" parent="ObjectAndCharacter/Interactable" unique_id=1169429463 instance=ExtResource("13_ac42g")]
 position = Vector2(627, 155)
 puzzle_ui_type = 13
+
+[node name="PuzzleComponent2" parent="ObjectAndCharacter/Interactable" unique_id=667678788 instance=ExtResource("13_ac42g")]
+position = Vector2(786, 238)
+puzzle_ui_type = 17
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
 y_sort_enabled = true

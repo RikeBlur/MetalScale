@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://w0ndq2gdr4yd"
-path="res://.godot/imported/back.png-8bbde9770868fdd2ec126aa47fa808f8.ctex"
+uid="uid://blyocnsi8mno0"
+path="res://.godot/imported/474426a376d7d90b9a5ad003e887d1e7.png-2b7a2d86d164faad6e176d30ed56fe2d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assests/sprite/Character/EYE/back.png"
-dest_files=["res://.godot/imported/back.png-8bbde9770868fdd2ec126aa47fa808f8.ctex"]
+source_file="res://DEMO/AdiosToMe/Levels/3/474426a376d7d90b9a5ad003e887d1e7.png"
+dest_files=["res://.godot/imported/474426a376d7d90b9a5ad003e887d1e7.png-2b7a2d86d164faad6e176d30ed56fe2d.ctex"]
 
 [params]
 

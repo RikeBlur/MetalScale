@@ -112,7 +112,7 @@ func _initialize_scene_data_interactables_from_level_files() -> bool:
 	同步到 scene_dict 里的 SceneData。这里不切换当前场景，只加载 PackedScene 并实例化到内存读取数据。
 	"""
 	var scene_paths: Array[String] = []
-	_collect_scene_file_paths(LEVELS_ROOT_PATH, scene_paths)
+	_collect_scene_file_paths_from_scene_dict(scene_paths)
 	var path_to_scene_key: Dictionary = _build_scene_path_to_key_map()
 	var initialized_scene_keys: Dictionary = {}
 	var initialized_count: int = 0
@@ -220,6 +220,14 @@ func _collect_scene_file_paths(root_path: String, out_paths: Array[String]) -> v
 
 		file_name = dir.get_next()
 	dir.list_dir_end()
+
+
+func _collect_scene_file_paths_from_scene_dict(out_paths: Array[String]) -> void:
+	for scene_key in scene_dict.keys():
+		var scene_data: SceneData = scene_dict[scene_key] as SceneData
+		if not scene_data or scene_data.path.is_empty():
+			continue
+		out_paths.append(scene_data.path)
 
 
 func _duplicate_interactables(source_interactables: Array[InteractableData]) -> Array[InteractableData]:

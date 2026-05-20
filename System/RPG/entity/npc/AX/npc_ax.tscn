@@ -1186,7 +1186,7 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="ax_npc" type="CharacterBody2D" unique_id=788386440]
+[node name="ax_npc" type="CharacterBody2D" unique_id=788386440 groups=["NPC"]]
 motion_mode = 1
 script = ExtResource("1_hjppg")
 

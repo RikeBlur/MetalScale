@@ -13,8 +13,6 @@
 [ext_resource type="PackedScene" uid="uid://bu723s56bbckd" path="res://System/RPG/object/OnWall/painting/notice.tscn" id="11_llq42"]
 [ext_resource type="PackedScene" uid="uid://ddogc5usl1gwh" path="res://System/RPG/lighting/mul_media/mul_media_front.tscn" id="12_nkd1l"]
 [ext_resource type="PackedScene" uid="uid://b53iiq3eyf2kl" path="res://System/RPG/interact/door/var1/door_front.tscn" id="13_cahy2"]
-[ext_resource type="PackedScene" uid="uid://b4ih55pwbw58l" path="res://System/RPG/object/small/book1.tscn" id="13_ey8rp"]
-[ext_resource type="PackedScene" uid="uid://b13niicv3ko0e" path="res://System/RPG/interact/puzzle/puzzle_component.tscn" id="15_6mvde"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
 script = ExtResource("2_ey8rp")
@@ -260,9 +258,6 @@ position = Vector2(879, 128)
 [node name="ElectrionicScreen" parent="ObjectAndCharacter/object/Onwall" unique_id=987910373 instance=ExtResource("12_nkd1l")]
 position = Vector2(666, 167)
 
-[node name="book" parent="ObjectAndCharacter/object" unique_id=640201639 instance=ExtResource("13_ey8rp")]
-position = Vector2(648, 488)
-
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 
 [node name="Interactable" type="Node2D" parent="ObjectAndCharacter" unique_id=1164615803]
@@ -279,10 +274,6 @@ scene_to_index = 2
 
 [node name="collectable" type="Node2D" parent="ObjectAndCharacter/Interactable" unique_id=988614444]
 y_sort_enabled = true
-
-[node name="PuzzleComponent" parent="ObjectAndCharacter/Interactable" unique_id=1169429463 instance=ExtResource("15_6mvde")]
-position = Vector2(650, 453)
-puzzle_ui_type = 14
 
 [node name="NPC" type="Node2D" parent="ObjectAndCharacter" unique_id=2071000447]
 y_sort_enabled = true

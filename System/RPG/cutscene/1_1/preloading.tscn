@@ -1,0 +1,112 @@
+[gd_scene format=3 uid="uid://cdcjmpvct5lhq"]
+
+[ext_resource type="Script" uid="uid://bkajs0slwr7ip" path="res://Scripts/system/view/cutscene/cutscene.gd" id="1_preloading"]
+[ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="2_7h1p5"]
+[ext_resource type="Script" uid="uid://c36tca7psw8t6" path="res://Scripts/system/view/cutscene/text_control.gd" id="2_preloading"]
+[ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="3_jwvog"]
+[ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="3_preloading"]
+[ext_resource type="FontFile" uid="uid://cfukh65rhbo36" path="res://Assests/font/gufeng/ChillHuoSong_F_Bold.otf" id="6_furoh"]
+
+[sub_resource type="Gradient" id="Gradient_em7ig"]
+offsets = PackedFloat32Array(0, 0.993506)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_x35id"]
+offset = Vector3(0, 140.35, 0)
+fractal_type = 2
+domain_warp_enabled = true
+domain_warp_type = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n84yp"]
+noise = SubResource("FastNoiseLite_x35id")
+color_ramp = SubResource("Gradient_em7ig")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pbvye"]
+shader = ExtResource("3_jwvog")
+shader_parameter/wave_speed = 0.25
+shader_parameter/noise_scale = 3.0
+shader_parameter/wave_amplitude = 0.5
+shader_parameter/time_offset = 0.0
+shader_parameter/gradient_texture = SubResource("NoiseTexture2D_n84yp")
+shader_parameter/use_gradient = true
+shader_parameter/base_color = Color(0, 0, 0, 1)
+shader_parameter/alpha_multiplier = 1.200000057
+shader_parameter/color_mix_strength = 0.990000047025
+
+[node name="Statemachine" type="Control" unique_id=883631207]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_preloading")
+fadein_time = 1.0
+any_key_continue = true
+buffer_time = 1.0
+
+[node name="D1" parent="." unique_id=2129294719 instance=ExtResource("2_7h1p5")]
+material = SubResource("ShaderMaterial_pbvye")
+position = Vector2(675, 319)
+
+[node name="text_control" type="Control" parent="." unique_id=806291952]
+layout_mode = 1
+anchor_right = 0.99700004
+anchor_bottom = 0.994
+offset_right = 0.45593262
+offset_bottom = -0.11199951
+script = ExtResource("2_preloading")
+text_speed = 12.0
+label_time = 1.0
+setup_time = 1.0
+
+[node name="1" type="RichTextLabel" parent="text_control" unique_id=393224284]
+layout_mode = 0
+offset_left = 133.0
+offset_right = 1028.0
+offset_bottom = 289.0
+theme = ExtResource("3_preloading")
+theme_override_colors/default_color = Color(0.83, 0.1494, 0.1494, 1)
+theme_override_fonts/normal_font = ExtResource("6_furoh")
+theme_override_font_sizes/normal_font_size = 64
+text = "警告"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="2" type="RichTextLabel" parent="text_control" unique_id=1657609002]
+layout_mode = 0
+offset_left = 248.0
+offset_top = 215.0
+offset_right = 935.0
+offset_bottom = 297.0
+theme = ExtResource("3_preloading")
+theme_override_fonts/normal_font = ExtResource("6_furoh")
+theme_override_font_sizes/normal_font_size = 48
+text = "有 惊吓画面"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="3" type="RichTextLabel" parent="text_control" unique_id=826272470]
+layout_mode = 0
+offset_left = 248.0
+offset_top = 297.0
+offset_right = 935.0
+offset_bottom = 379.0
+theme = ExtResource("3_preloading")
+theme_override_fonts/normal_font = ExtResource("6_furoh")
+theme_override_font_sizes/normal_font_size = 48
+text = "有 闪烁画面"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="4" type="RichTextLabel" parent="text_control" unique_id=1458722663]
+layout_mode = 0
+offset_left = 248.0
+offset_top = 481.0
+offset_right = 935.0
+offset_bottom = 563.0
+theme = ExtResource("3_preloading")
+theme_override_fonts/normal_font = ExtResource("6_furoh")
+theme_override_font_sizes/normal_font_size = 36
+text = "按任意键继续"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://dhyclcqlfg1mx"]
+
+[ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="2_3rost"]
+
+[node name="question" type="Control" unique_id=977050762]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Panel" type="MarginContainer" parent="." unique_id=1120024192]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -348.0
+offset_top = -213.0
+offset_right = 382.0
+offset_bottom = 228.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_3rost")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Container" type="PanelContainer" parent="Panel" unique_id=611752434]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel/Container" unique_id=1121386982]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 30
+
+[node name="Label" type="Label" parent="Panel/Container/MarginContainer" unique_id=658614195]
+layout_mode = 2
+theme_override_constants/line_spacing = 10
+theme_override_font_sizes/font_size = 36
+text = "操作说明：
+W/A/S/D：移动
+E： 交互
+Tab：打开物品栏
+1/2/3/4/5/6：选取道具
+R：使用道具
+ESC：打开菜单/退出当前页面"
+vertical_alignment = 1

@@ -50,6 +50,8 @@ polygon = PackedVector2Array(22.49911, -71.99854, 19.653187, -13.067221, 23.3591
 
 [node name="ElectrionicScreen" type="Node2D" unique_id=987910373]
 script = ExtResource("1_3reh7")
+logic_energy = 0.5
+angle_rotate = 90.0
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=559647924]
 position = Vector2(0, -28)
@@ -66,7 +68,6 @@ script = ExtResource("3_mdoyw")
 radius = 200.0
 sampling_rate = 12
 angle_range = 0.6
-angle_rotate = 90.0
 debug_mode = true
 
 [node name="ScreenContent" type="Sprite2D" parent="." unique_id=158828935]

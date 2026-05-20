@@ -56,6 +56,7 @@ text = "应急光源"
 [node name="description" type="RichTextLabel" parent="Panel/Container/MarginContainer/VBoxContainer" unique_id=1808757134]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/line_separation = 5
 theme_override_fonts/normal_font = ExtResource("3_5t6db")
 theme_override_font_sizes/normal_font_size = 24
 text = "提灯模样的备用光源，照明范围有限，注意电量。"

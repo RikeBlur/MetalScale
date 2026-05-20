@@ -28,7 +28,9 @@
 [ext_resource type="Script" uid="uid://dtips72gedgf" path="res://Scripts/data/dialogue_resource/DialogueResource.gd" id="16_00vep"]
 [ext_resource type="PackedScene" uid="uid://b1b6rwr7k0tf8" path="res://System/RPG/interact/deadbody/deadbody_EYE.tscn" id="16_agmmm"]
 [ext_resource type="Script" uid="uid://4p4vcldhkkvo" path="res://Scripts/data/dialogue_resource/DialogueTextResource.gd" id="17_i0njy"]
+[ext_resource type="AudioStream" uid="uid://cth15kcmjhluo" path="res://Assests/SFX/bgm/BlinkGlitch.mp3" id="21_aoan7"]
 [ext_resource type="PackedScene" uid="uid://8kmirqega10u" path="res://System/RPG/interact/door/var1/door_back.tscn" id="21_krxjf"]
+[ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="21_w30qo"]
 [ext_resource type="PackedScene" uid="uid://cmunt4k6poabr" path="res://System/RPG/events/demo_end_event.tscn" id="24_1u768"]
 
 [sub_resource type="Resource" id="Resource_ax0f4"]
@@ -103,18 +105,18 @@ metadata/_custom_type_script = "uid://b37t7a67t8onx"
 
 [sub_resource type="Resource" id="Resource_o7ogc"]
 script = ExtResource("17_i0njy")
-text = "嗯，一件完了。"
+text = "呼 ... 呼 ......"
 metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 
 [sub_resource type="Resource" id="Resource_04m7r"]
 script = ExtResource("17_i0njy")
-text = "因为这个玩意儿跑得太块，找不到机会处理，拖到现在。"
+text = "跑太块了啊，这玩意。"
 metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 
 [sub_resource type="Resource" id="Resource_1u768"]
 script = ExtResource("17_i0njy")
 speaker_entity = "Oni"
-text = "其他怪物的尸体，也是你 ..."
+text = "其他的那些，也是你 ..."
 metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 
 [sub_resource type="Resource" id="Resource_agmmm"]
@@ -237,11 +239,12 @@ position = Vector2(738, 909)
 
 [node name="light" type="Node2D" parent="ObjectAndCharacter" unique_id=504841586]
 
-[node name="BlinkSeq" type="Node2D" parent="ObjectAndCharacter/light" unique_id=1731621233 node_paths=PackedStringArray("lighting_list")]
+[node name="BlinkSeq" type="Node2D" parent="ObjectAndCharacter/light" unique_id=1731621233 node_paths=PackedStringArray("lighting_list", "start_sfx")]
 script = ExtResource("6_myfsf")
 lighting_list = [NodePath("SpotLight"), NodePath("SpotLight2"), NodePath("SpotLight3"), NodePath("SpotLight4"), NodePath("SpotLight5")]
 blink_time = 0.15
 blink_states = Array[Array]([[true, true, false, true, false], [true, true, false, false, true], [false, true, false, false, true], [false, true, true, true, true], [false, false, false, false, false]])
+start_sfx = NodePath("SFXPlayer")
 metadata/_custom_type_script = "uid://bbx3duawo82qg"
 
 [node name="SpotLight" parent="ObjectAndCharacter/light/BlinkSeq" unique_id=987910373 instance=ExtResource("7_fu2ww")]
@@ -268,6 +271,12 @@ logic_energy = 4.0
 position = Vector2(795, 305)
 turned_on = false
 logic_energy = 4.0
+
+[node name="SFXPlayer" type="AudioStreamPlayer2D" parent="ObjectAndCharacter/light/BlinkSeq" unique_id=132931212]
+stream = ExtResource("21_aoan7")
+script = ExtResource("21_w30qo")
+base_volume_db = 2.0
+metadata/_custom_type_script = "uid://use5ds4i6ib4"
 
 [node name="Interactable" type="Node2D" parent="ObjectAndCharacter" unique_id=1164615803]
 y_sort_enabled = true

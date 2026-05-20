@@ -12,6 +12,7 @@ var bgm_list: Dictionary = {
 	"arrgoing": "res://Assests/SFX/bgm/white-noise.mp3",
 	"arrgoed": "res://Assests/SFX/bgm/scary-slam.mp3",
 	"death": "res://Assests/SFX/bin/horror/Gore_Wet_4.wav",
+	"tense": ""
 	# "battle":  "res://Assests/BGM/battle.mp3",
 }
 

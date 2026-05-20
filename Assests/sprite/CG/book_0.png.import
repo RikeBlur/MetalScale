@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://w0ndq2gdr4yd"
-path="res://.godot/imported/back.png-8bbde9770868fdd2ec126aa47fa808f8.ctex"
+uid="uid://cuykolb748c8d"
+path="res://.godot/imported/book_0.png-94c3bd193bd2c857b7d05c32ea306f2c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assests/sprite/Character/EYE/back.png"
-dest_files=["res://.godot/imported/back.png-8bbde9770868fdd2ec126aa47fa808f8.ctex"]
+source_file="res://Assests/sprite/CG/book_0.png"
+dest_files=["res://.godot/imported/book_0.png-94c3bd193bd2c857b7d05c32ea306f2c.ctex"]
 
 [params]
 

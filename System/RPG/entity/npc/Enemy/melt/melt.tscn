@@ -1010,10 +1010,14 @@ animations = [{
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3ftw8"]
 radius = 7.0
-height = 34.0
+height = 40.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q7uvl"]
-radius = 16.0
+radius = 20.0
+height = 62.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1pgjb"]
+radius = 19.0
 height = 62.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m0qil"]
@@ -1052,7 +1056,7 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="melt" type="CharacterBody2D" unique_id=431185256]
+[node name="melt" type="CharacterBody2D" unique_id=431185256 groups=["NPC"]]
 y_sort_enabled = true
 motion_mode = 1
 script = ExtResource("1_4atho")
@@ -1088,7 +1092,7 @@ frame_progress = 0.7159671
 offset = Vector2(0, -22)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=252321699]
-position = Vector2(0, -17)
+position = Vector2(0, -23)
 shape = SubResource("CapsuleShape2D_3ftw8")
 
 [node name="SFXManager" type="Node2D" parent="." unique_id=2051950631]
@@ -1149,7 +1153,7 @@ collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="damage_component/DamageArea" unique_id=131557867]
 position = Vector2(0, -35)
-shape = SubResource("CapsuleShape2D_q7uvl")
+shape = SubResource("CapsuleShape2D_1pgjb")
 
 [node name="react_reminder" type="AnimatedSprite2D" parent="." unique_id=1066395697]
 position = Vector2(52, -101)

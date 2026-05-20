@@ -2,11 +2,25 @@
 
 [ext_resource type="Script" uid="uid://bcymdpg7pp327" path="res://Scripts/system/view/UI/NormalUI/opening_meun.gd" id="1_e1kxj"]
 [ext_resource type="Texture2D" uid="uid://dq80j3rf10ytp" path="res://Assests/sprite/UI/NORMALUI/LOGO.png" id="2_kt0g7"]
+[ext_resource type="Shader" uid="uid://cw7jbka4vnep4" path="res://Effect/Shader/waving_noise/waving_noise.gdshader" id="2_ylavq"]
+[ext_resource type="Texture2D" uid="uid://b0qh0wtaqhfst" path="res://Effect/Shader/waving_noise/noise_0.tres" id="3_h0324"]
 [ext_resource type="Theme" uid="uid://boqtjf88xcpu4" path="res://Style/UI/ui.theme" id="3_jkds0"]
 [ext_resource type="PackedScene" uid="uid://dkk8n11tefmot" path="res://System/RPG/view/d_1.tscn" id="4_yow4s"]
 [ext_resource type="AudioStream" uid="uid://bhx132gkd3s0w" path="res://Assests/SFX/UI/hoven_1.mp3" id="5_h4ysq"]
 [ext_resource type="Script" uid="uid://use5ds4i6ib4" path="res://Scripts/system/sound/SFXPlayer.gd" id="6_wwv41"]
 [ext_resource type="AudioStream" uid="uid://dmunfc7rlysuf" path="res://Assests/SFX/UI/Click.mp3" id="7_ylavq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_274v4"]
+shader = ExtResource("2_ylavq")
+shader_parameter/wave_speed = 0.250000011875
+shader_parameter/noise_scale = 3.0000001392401203
+shader_parameter/wave_amplitude = 0.5
+shader_parameter/time_offset = 0.0
+shader_parameter/gradient_texture = ExtResource("3_h0324")
+shader_parameter/use_gradient = true
+shader_parameter/base_color = Color(0.83, 0.1494, 0.1494, 1)
+shader_parameter/alpha_multiplier = 2.0
+shader_parameter/color_mix_strength = 0.950000045125
 
 [node name="OpeningMenu" type="Control" unique_id=1916706883 node_paths=PackedStringArray("menu_buttons")]
 layout_mode = 3
@@ -21,6 +35,7 @@ offset_bottom = 660.0
 color = Color(0.13333334, 0.1254902, 0.1254902, 1)
 
 [node name="Title" type="TextureRect" parent="." unique_id=1095314837]
+material = SubResource("ShaderMaterial_274v4")
 layout_mode = 0
 offset_top = 4.0
 offset_right = 1148.0
