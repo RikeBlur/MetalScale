@@ -37,6 +37,27 @@ func _ready() -> void:
 	_connect_player_died_signal()
 	_setup_bgm_player.call_deferred()
 
+func reinitialize() -> void:
+	for tween_value in _bgm_fade_tweens.values():
+		if tween_value and is_instance_valid(tween_value):
+			var tween := tween_value as Tween
+			if tween and tween.is_valid():
+				tween.kill()
+
+	for child in get_children():
+		child.queue_free()
+
+	bgm_player = null
+	_current_key = ""
+	_bgm_fade_tweens.clear()
+	_arrgoed_sfx_players.clear()
+	_death_sfx_players.clear()
+
+	_connect_arrgo_signals()
+	_connect_player_died_signal()
+	await get_tree().process_frame
+	_setup_bgm_player()
+
 func _setup_bgm_player() -> void:
 	"""创建 bgm_player 节点，加载 default BGM 并开始播放"""
 	if bgm_player and is_instance_valid(bgm_player):

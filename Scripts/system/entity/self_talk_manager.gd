@@ -9,6 +9,8 @@ enum SelfTalkType {
 enum TriggerCondition {
 	NONE,
 	HAS_ELECTRONIC_SCREEN,
+	FIX_SWITCH,
+	MEET_SLAYER,
 	SULFUR_SCENE_SWITCH_ON
 }
 
@@ -46,9 +48,21 @@ const TALK_CONDITION_KEY: String = "condition"
 		"condition": TriggerCondition.HAS_ELECTRONIC_SCREEN
 	},
 	{
+		"text": "修好了！真的假的...",
+		"type": SelfTalkType.TRIGGER,
+		"probability": 1.00,
+		"condition": TriggerCondition.FIX_SWITCH
+	},
+	{
+		"text": "好浓的血腥。",
+		"type": SelfTalkType.TRIGGER,
+		"probability": 0.90,
+		"condition": TriggerCondition.MEET_SLAYER
+	},
+	{
 		"text": "闻起来像...硫磺",
 		"type": SelfTalkType.TRIGGER,
-		"probability": 0.25,
+		"probability": 0.90,
 		"condition": TriggerCondition.SULFUR_SCENE_SWITCH_ON
 	}
 ]
@@ -211,6 +225,10 @@ func _is_trigger_condition_met(condition: int) -> bool:
 	match condition:
 		TriggerCondition.HAS_ELECTRONIC_SCREEN:
 			return _current_scene_has_electronic_screen()
+		TriggerCondition.FIX_SWITCH:
+			return _is_switch_on_in_scene("3-7")
+		TriggerCondition.MEET_SLAYER:
+			return _is_switch_on_in_scene("3-6")
 		TriggerCondition.SULFUR_SCENE_SWITCH_ON:
 			return _is_switch_on_in_sulfur_scene()
 		_:
@@ -242,6 +260,14 @@ func _is_switch_on_in_sulfur_scene() -> bool:
 
 	var scene_key: String = SceneManager.get_current_scene_key() if SceneManager else ""
 	return SULFUR_SCENE_KEYS.has(scene_key)
+
+
+func _is_switch_on_in_scene(target_scene_key: String) -> bool:
+	if not GameManager.switch_on:
+		return false
+
+	var scene_key: String = SceneManager.get_current_scene_key() if SceneManager else ""
+	return scene_key == target_scene_key
 
 
 func _has_valid_player() -> bool:

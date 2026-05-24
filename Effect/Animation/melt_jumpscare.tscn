@@ -108,6 +108,6 @@ dissolve_time = 0.5
 [node name="SFXPlayer" type="AudioStreamPlayer2D" parent="." unique_id=872585864]
 stream = ExtResource("6_l3j0l")
 script = ExtResource("6_7scg7")
-base_volume_db = 5.0
+base_volume_db = 2.0
 fade_duration = 0.1
 metadata/_custom_type_script = "uid://use5ds4i6ib4"

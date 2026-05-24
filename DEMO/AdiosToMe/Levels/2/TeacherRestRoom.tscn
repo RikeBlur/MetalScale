@@ -143,7 +143,7 @@ metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 
 [sub_resource type="Resource" id="Resource_uwn8i"]
 script = ExtResource("21_snavj")
-text = "而且一层大门的电子锁估计打不开吧。总之还是先去三层配电室看看吧。"
+text = "而且一层大门的电子锁估计打不开。总之还是先去三层配电室看看吧。"
 metadata/_custom_type_script = "uid://4p4vcldhkkvo"
 
 [sub_resource type="Resource" id="Resource_c562g"]

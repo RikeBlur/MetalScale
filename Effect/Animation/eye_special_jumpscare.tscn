@@ -486,7 +486,7 @@ dissolve_time = 1.5
 [node name="SFXPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1026577134]
 stream = ExtResource("9_pyaac")
 script = ExtResource("9_l2t5t")
-base_volume_db = 5.0
+base_volume_db = 3.0
 fade_duration = 0.1
 metadata/_custom_type_script = "uid://use5ds4i6ib4"
 
@@ -494,13 +494,13 @@ metadata/_custom_type_script = "uid://use5ds4i6ib4"
 stream = ExtResource("11_pyaac")
 pitch_scale = 0.8
 script = ExtResource("9_l2t5t")
-base_volume_db = 5.0
+base_volume_db = 4.0
 fade_duration = 0.1
 metadata/_custom_type_script = "uid://use5ds4i6ib4"
 
 [node name="SFXPlayer3" type="AudioStreamPlayer2D" parent="." unique_id=2099884761]
 stream = ExtResource("12_ib0ya")
 script = ExtResource("9_l2t5t")
-base_volume_db = 10.0
+base_volume_db = 5.0
 fade_duration = 0.1
 metadata/_custom_type_script = "uid://use5ds4i6ib4"

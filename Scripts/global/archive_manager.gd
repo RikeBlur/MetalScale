@@ -237,58 +237,28 @@ func _refresh_current_scene_npcs(npc_mgr: npc_manager) -> void:
 	if npc_mgr and npc_mgr.has_method("_on_player_reseted"):
 		npc_mgr._on_player_reseted()
 
+func _reinitialize_runtime_managers_after_load() -> void:
+	var bgm_mgr := get_node_or_null("/root/BgmManager")
+	if bgm_mgr and bgm_mgr.has_method("reinitialize"):
+		await bgm_mgr.reinitialize()
+
+	var environment_mgr := get_node_or_null("/root/EnvironmentManager")
+	if environment_mgr and environment_mgr.has_method("reinitialize"):
+		await environment_mgr.reinitialize()
+
 func _get_player_tool_manager(player_node: player) -> ToolManager:
 	if not player_node:
 		return null
 	return player_node.get_node_or_null("ToolManager") as ToolManager
 
-func _resource_to_path(resource: Resource) -> String:
-	if not resource:
-		return ""
-	return resource.resource_path
-
 func _serialize_tool_data(data: ToolData) -> Dictionary:
 	if not data:
 		return {}
-
-	return {
-		"display_name": data.display_name,
-		"description": data.description,
-		"packed_scene_path": _resource_to_path(data.packed_scene),
-		"icon_path": _resource_to_path(data.icon),
-		"type": data.type,
-		"durability": data.durability,
-		"durability_max": data.durability_max,
-		"consumption": data.consumption,
-		"consumption_max": data.consumption_max,
-		"state": data.state,
-		"useable": data.useable
-	}
+	return data.to_dict()
 
 func _deserialize_tool_data(data: Dictionary) -> ToolData:
 	var result := ToolData.new()
-	if data.is_empty():
-		return result
-
-	result.display_name = data.get("display_name", "")
-	result.description = data.get("description", "")
-
-	var packed_scene_path: String = data.get("packed_scene_path", "")
-	if packed_scene_path != "":
-		result.packed_scene = load(packed_scene_path) as PackedScene
-
-	var icon_path: String = data.get("icon_path", "")
-	if icon_path != "":
-		result.icon = load(icon_path) as Texture2D
-
-	result.type = int(data.get("type", ToolData.TYPE_PERMANENT))
-	result.durability = float(data.get("durability", -1.0))
-	result.durability_max = float(data.get("durability_max", -1.0))
-	result.consumption = int(data.get("consumption", -1))
-	result.consumption_max = int(data.get("consumption_max", -1))
-	result.state = int(data.get("state", ToolData.STATE_UNSELECTED))
-	result.useable = int(data.get("useable", ToolData.USEABLE_FALSE))
-
+	result.from_dict(data)
 	return result
 
 func _serialize_player_tool_data(player_node: player) -> Dictionary:
@@ -399,6 +369,16 @@ func game_save(index : int) -> bool:
 	return true
 
 func game_load(index : int) -> bool:
+	if not save_path_dict.has(index):
+		push_warning("ArchiveManager: 无效的存档索引，跳过读取: %d" % index)
+		return false
+
+	var save_path = ROOT_DIR.path_join(save_path_dict[index])
+	if not FileAccess.file_exists(save_path):
+		save_state_dict[index] = false
+		push_warning("ArchiveManager: 存档槽位 %d 为空，跳过读取: %s" % [index, save_path])
+		return false
+
 	# 游戏总线 pipeline
 	GameManager.set_game_state(GameManager.GameState.LOADING)
 	GameManager.prepare_for_archive_load()
@@ -407,9 +387,9 @@ func game_load(index : int) -> bool:
 	print("ArchiveManager: 开始读档")
 
 	# 检查存档文件是否存在
-	var save_path = ROOT_DIR.path_join(save_path_dict[index])
 	if not FileAccess.file_exists(save_path):
-		push_error("ArchiveManager: 快速存档文件不存在: %s" % save_path)
+		save_state_dict[index] = false
+		push_warning("ArchiveManager: 存档槽位 %d 为空，跳过读取: %s" % [index, save_path])
 		return false
 	
 	# 读取文件
@@ -526,6 +506,7 @@ func game_load(index : int) -> bool:
 	print("ArchiveManager: 读档完成")
 	if wait_for_scene_change_finished:
 		await scene_mgr.scene_change_finished
+	await _reinitialize_runtime_managers_after_load()
 	GameManager.Loaded.emit()
 
 	return true
@@ -749,6 +730,7 @@ func quick_load() -> bool:
 	print("ArchiveManager: 快速读档完成")
 	if wait_for_scene_change_finished:
 		await scene_mgr.scene_change_finished
+	await _reinitialize_runtime_managers_after_load()
 	GameManager.Loaded.emit()
 	return true
 

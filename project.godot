@@ -96,7 +96,7 @@ folder_colors={
 "res://Scripts/": "red",
 "res://Style/": "yellow",
 "res://System/": "teal",
-"res://doucuments/": "blue"
+"res://documents/": "blue"
 }
 
 [global_group]

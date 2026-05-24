@@ -1156,6 +1156,7 @@ position = Vector2(0, -35)
 shape = SubResource("CapsuleShape2D_1pgjb")
 
 [node name="react_reminder" type="AnimatedSprite2D" parent="." unique_id=1066395697]
+z_index = 4
 position = Vector2(52, -101)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_prlo4")

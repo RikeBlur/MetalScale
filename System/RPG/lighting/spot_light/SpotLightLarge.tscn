@@ -31,7 +31,6 @@ texture_scale = 8.0
 
 [node name="LightSource" type="Node2D" parent="." unique_id=1659965690 groups=["light_source"]]
 script = ExtResource("2_viq5f")
-debug_mode = true
 
 [node name="ScreenContent" type="Sprite2D" parent="." unique_id=158828935]
 z_index = 1

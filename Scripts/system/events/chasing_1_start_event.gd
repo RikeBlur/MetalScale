@@ -20,6 +20,8 @@ func _ready() -> void:
 func trigger_condition() -> bool:
 	if triggered_already or _is_event_running:
 		return false
+	# if not GameManager.switch_on:
+	# 	return false
 	if not trigger_area or not is_instance_valid(trigger_area):
 		return false
 
@@ -50,6 +52,8 @@ func _run_event_flow() -> void:
 	else:
 		await get_tree().process_frame
 
+	_force_player_arrgoed_after_lock(player_node)
+
 	GameManager.set_running_state(GameManager.RunningState.CONTROL)
 	_set_player_control_enabled(player_node, true)
 
@@ -71,6 +75,18 @@ func _emit_blink_seq_start() -> void:
 		return
 
 	blink_seq.emit_signal("blink_seq_start")
+
+
+func _force_player_arrgoed_after_lock(player_node: player) -> void:
+	if not player_node or not is_instance_valid(player_node):
+		return
+	if player_node.aggro_value >= 100.0:
+		return
+
+	player_node.aggro_value = 100.0
+	if GameManager.player_arrgo != 2:
+		GameManager.player_arrgo = 2
+		GameManager.arrgoed.emit()
 
 
 func _set_player_control_enabled(player_node: player, enabled: bool) -> void:

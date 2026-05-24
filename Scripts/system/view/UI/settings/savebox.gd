@@ -6,21 +6,21 @@ extends MarginContainer
 @onready var border: TextureRect = $border
 
 @export_group("Border Shader Params")
-@export var normal_base_color: Color = Color(1.0, 1.0, 1.0, 1.0)
-@export var normal_alpha_multiplier: float = 0.4
-@export var normal_color_mix_strength: float = 0.5
+@export var normal_base_color: Color = Color(0.35, 0.35, 0.35, 1.0)
+@export var normal_alpha_multiplier: float = 0.35
+@export var normal_color_mix_strength: float = 0.65
 
 @export var hover_base_color: Color = Color(1, 1, 1, 1)
 @export var hover_alpha_multiplier: float = 1.0
-@export var hover_color_mix_strength: float = 0.5
+@export var hover_color_mix_strength: float = 0.85
 
 @export var focus_base_color: Color = Color(1, 1, 1, 1)
-@export var focus_alpha_multiplier: float = 1.0
-@export var focus_color_mix_strength: float = 0.5
+@export var focus_alpha_multiplier: float = 0.75
+@export var focus_color_mix_strength: float = 0.65
 
-@export var pressed_base_color: Color = Color(1.0, 0.0, 0.0, 1.0)
+@export var pressed_base_color: Color = Color(0.12, 0.12, 0.12, 1.0)
 @export var pressed_alpha_multiplier: float = 0.25
-@export var pressed_color_mix_strength: float = 0.25
+@export var pressed_color_mix_strength: float = 0.85
 
 enum VisualState {
 	NORMAL,
@@ -28,6 +28,8 @@ enum VisualState {
 	FOCUS,
 	PRESSED
 }
+
+var _is_button_down: bool = false
 
 func _ready() -> void:
 	_ensure_unique_border_material()
@@ -40,10 +42,18 @@ func _connect_button_signals() -> void:
 	button.focus_entered.connect(_update_border_visual)
 	button.focus_exited.connect(_update_border_visual)
 	button.toggled.connect(_on_button_toggled)
-	button.button_down.connect(_update_border_visual)
-	button.button_up.connect(_update_border_visual)
+	button.button_down.connect(_on_button_down)
+	button.button_up.connect(_on_button_up)
 
 func _on_button_toggled(_toggled_on: bool) -> void:
+	_update_border_visual()
+
+func _on_button_down() -> void:
+	_is_button_down = true
+	_update_border_visual()
+
+func _on_button_up() -> void:
+	_is_button_down = false
 	_update_border_visual()
 
 func _update_border_visual() -> void:
@@ -59,12 +69,12 @@ func _update_border_visual() -> void:
 			_apply_border_params(normal_base_color, normal_alpha_multiplier, normal_color_mix_strength)
 
 func _get_current_visual_state() -> VisualState:
-	# Priority: pressed > hover > focus > normal
-	if button.button_pressed or button.is_pressed():
+	# Priority: physical press > hover > active/focus > normal
+	if _is_button_down:
 		return VisualState.PRESSED
 	if button.is_hovered():
 		return VisualState.HOVER
-	if button.has_focus():
+	if button.button_pressed or button.has_focus():
 		return VisualState.FOCUS
 	return VisualState.NORMAL
 

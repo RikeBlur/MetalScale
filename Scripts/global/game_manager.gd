@@ -38,7 +38,7 @@ const lighting_stage_1 = Color(0.35, 0.28, 0.3, 1.0)
 # ====================================================================================================
 
 # ！！！   DEBUG 选项    ！！！
-var debug : bool = false
+var debug : bool = true
 # ！！！   DEBUG 选项    ！！！
 
 # 游戏状态枚举
@@ -917,20 +917,14 @@ func load_config() -> void:
 			config_data = loaded
 	if not config_data:
 		config_data = ConfigData.new()
-	BGM_gain = config_data.BGM_gain
-	SFX_gain = config_data.SFX_gain
-	Gamma    = config_data.Gamma
-	end_1    = config_data.end_1
+	config_data.apply_to_game_manager(self, false)
 	print("GameManager: 配置已加载 (BGM=%.0f SFX=%.0f Gamma=%.2f)" % [BGM_gain, SFX_gain, Gamma])
 
 func save_config() -> void:
 	"""将当前变量同步回 config_data 并保存到本地。"""
 	if not config_data:
 		config_data = ConfigData.new()
-	config_data.BGM_gain = BGM_gain
-	config_data.SFX_gain = SFX_gain
-	config_data.Gamma    = Gamma
-	config_data.end_1    = end_1
+	config_data.from_game_manager(self)
 	ResourceSaver.save(config_data, CONFIG_PATH)
 	print("GameManager: 配置已保存")
 
@@ -938,10 +932,7 @@ func apply_config() -> void:
 	"""从 config_data 重新应用所有设置（含副作用，如 Gamma 后处理）。"""
 	if not config_data:
 		return
-	BGM_gain = config_data.BGM_gain
-	SFX_gain = config_data.SFX_gain
-	end_1    = config_data.end_1
-	set_gamma(config_data.Gamma) 
+	config_data.apply_to_game_manager(self)
 
 	
 # ====================================================================================================
@@ -1193,6 +1184,7 @@ func _create_debug_ui() -> void:
 	# 创建背景面板
 	var panel = PanelContainer.new()
 	panel.name = "DebugPanel"
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	debug_canvas.add_child(panel)
 	
 	# 设置面板样式
@@ -1210,6 +1202,7 @@ func _create_debug_ui() -> void:
 	# 创建Label
 	debug_label = Label.new()
 	debug_label.name = "DebugLabel"
+	debug_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.add_child(debug_label)
 	
 	# 设置Label样式
@@ -1244,19 +1237,7 @@ func _update_debug_ui() -> void:
 	state_text += "\n[额外信息]\n"
 	state_text += "运行时长: %s\n" % get_runtime_formatted()
 	state_text += "存档时长: %.1fs\n" % (game_archive_msec / 1000.0)
-	var arrgo_state_name: String = (["无仇恨", "仇恨中", "完全仇恨"] as Array[String])[player_arrgo]
-	var aggro_val: float = 0.0
-	var p := get_player()
-	if p and is_instance_valid(p) and "aggro_value" in p:
-		aggro_val = p.aggro_value
-	state_text += "player_arrgo: %d (%s) | aggro: %.1f\n" % [player_arrgo, arrgo_state_name, aggro_val]
 	state_text += "Gamma: %.2f\n" % Gamma
-	state_text += "[Arrgo信号]"
-	if _debug_signal_log.is_empty():
-		state_text += "  (无)\n"
-	else:
-		for entry in _debug_signal_log:
-			state_text += "  %s\n" % entry
 	
 	debug_label.text = state_text
 

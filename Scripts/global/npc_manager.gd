@@ -138,9 +138,6 @@ func _ready() -> void:
 	# 仇恨系统：arrgoed → 所有EYE进入追杀；not_arrgoed → 所有EYE回到巡逻
 	GameManager.arrgoed.connect(_on_arrgoed)
 	GameManager.not_arrgoed.connect(_on_not_arrgoed)
-	# 初始化 Debug UI
-	if GameManager.debug and not _debug_canvas:
-		_create_debug_ui()
 	call_deferred("_connect_player_hurted_component")
 
 
@@ -691,6 +688,7 @@ func _create_debug_ui() -> void:
 
 	var panel := PanelContainer.new()
 	panel.name = "NpcManagerDebugPanel"
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_debug_canvas.add_child(panel)
 
 	var style_box := StyleBoxFlat.new()
@@ -706,6 +704,7 @@ func _create_debug_ui() -> void:
 
 	_debug_label = Label.new()
 	_debug_label.name = "NpcManagerDebugLabel"
+	_debug_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_debug_label.add_theme_color_override("font_color", Color(0.8, 1.0, 0.85, 1.0))
 	_debug_label.add_theme_font_size_override("font_size", 14)
 	panel.add_child(_debug_label)

@@ -5,6 +5,7 @@ extends Control
 
 var own_manager: UI_manager = null
 var save_on_chosen : int = -1
+var _savebox_button_group := ButtonGroup.new()
 
 @onready var hoven: SFXPlayer = $SFXManager/hoven
 @onready var pressed: SFXPlayer = $SFXManager/pressed
@@ -16,7 +17,7 @@ var save_on_chosen : int = -1
 
 func _on_save_pressed() -> void:
 	print("保存游戏...")
-	if save_on_chosen >= 0:
+	if _has_valid_selection():
 		ArchiveManager.game_save(save_on_chosen)
 		call_deferred("update_save_info", save_on_chosen)
 	else :
@@ -24,15 +25,20 @@ func _on_save_pressed() -> void:
 
 func _on_load_pressed() -> void:
 	print("读取游戏")
-	safe_remove_self()
-	if save_on_chosen >= 0:
-		ArchiveManager.game_load(save_on_chosen)
-	else :
+	if not _has_valid_selection():
 		print("请选择存档序号！！")
+		return
+	ArchiveManager.check_save_state()
+	if not _save_slot_has_file(save_on_chosen):
+		push_warning("SavegameWindow: 存档槽位 %d 为空，跳过读取" % save_on_chosen)
+		update_save_info(save_on_chosen)
+		return
+	safe_remove_self()
+	ArchiveManager.game_load(save_on_chosen)
 
 func _on_delete_pressed() -> void:
 	print("删除游戏...")
-	if save_on_chosen >= 0:
+	if _has_valid_selection():
 		ArchiveManager.save_delete(save_on_chosen)
 		call_deferred("update_save_info", save_on_chosen)
 	else :
@@ -68,14 +74,55 @@ func update_save_on_chosen() -> void:
 			else :
 				continue
 
-func _process(_delta: float) -> void:
+func _setup_savebox_buttons() -> void:
+	_savebox_button_group.allow_unpress = false
+	for i in saveboxes.size():
+		var savebox = saveboxes[i]
+		if not is_instance_valid(savebox) or savebox.button == null:
+			push_warning("SavegameWindow: 存档槽位 %d 缺少可用按钮" % i)
+			continue
+		if savebox.label:
+			savebox.label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		if savebox.border:
+			savebox.border.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		savebox.button.toggle_mode = true
+		savebox.button.button_group = _savebox_button_group
+		var pressed_callable := _on_savebox_pressed.bind(i)
+		if not savebox.button.pressed.is_connected(pressed_callable):
+			savebox.button.pressed.connect(pressed_callable)
 	update_save_on_chosen()
+
+func _on_savebox_pressed(index: int) -> void:
+	_select_savebox(index)
+
+func _select_savebox(index: int) -> void:
+	if index < 0 or index >= saveboxes.size():
+		push_warning("SavegameWindow: 无效的存档选择索引: %d" % index)
+		return
+	save_on_chosen = index
+	for i in saveboxes.size():
+		var savebox = saveboxes[i]
+		if is_instance_valid(savebox) and savebox.button:
+			savebox.button.button_pressed = (i == index)
+
+func _has_valid_selection() -> bool:
+	return save_on_chosen >= 0 and save_on_chosen < saveboxes.size() and ArchiveManager.save_path_dict.has(save_on_chosen)
+
+func _save_slot_has_file(index: int) -> bool:
+	if not ArchiveManager.save_path_dict.has(index):
+		return false
+	var save_path = ArchiveManager.ROOT_DIR.path_join(ArchiveManager.save_path_dict[index])
+	var has_file := FileAccess.file_exists(save_path)
+	ArchiveManager.save_state_dict[index] = has_file
+	return has_file
 
 # ====================================================================================================
 # ==============================================存档信息显示============================================
 # ====================================================================================================
 
 func _ready() -> void:
+	ArchiveManager.check_save_state()
+	_setup_savebox_buttons()
 	for i in saveboxes.size():
 		call_deferred("update_save_info", i)
 	_connect_button_sfx()
@@ -98,7 +145,7 @@ func update_save_info(index : int) -> void:
 		return
 	
 	# 检查存档状态
-	var has_save = ArchiveManager.save_state_dict.get(index, false)
+	var has_save = _save_slot_has_file(index)
 	
 	if not has_save:
 		# 空存档：显示 "空存档\n\nindex"

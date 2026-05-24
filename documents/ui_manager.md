@@ -8,7 +8,7 @@ Autoload 名称：`UIManager`
 ## 主要职责
 
 - 维护 `UI_component` 枚举。
-- 维护 `UI_DATA`，记录 UI 场景、层级、初始化阶段。
+- 维护 `UI_DATA`，记录 UI 场景、层级、初始化阶段、是否可退出、是否谜题 UI。
 - 扫描当前场景的 `UI_LAYERS`，缓存 CanvasLayer。
 - 初始化 stage 0 UI。
 - 管理 UI 实例缓存。
@@ -97,28 +97,25 @@ UI_component.MY_WINDOW: {
 	"name": UI_component.MY_WINDOW,
 	"scene": preload("res://System/RPG/UI/my_window.tscn"),
 	"layer": 2,
-	"stage": -1
+	"stage": -1,
+	"can_be_quit": true,
+	"is_puzzle": false
 }
 ```
 
-5. 如果需要实例化时注入依赖，在 `instantiate_ui()` 中添加特殊处理：
+`can_be_quit` 表示实例化后是否加入可见队列。设为 `true` 时，ESC/quit 会按 layer 从高到低的顺序逐个关闭它。
 
-```gdscript
-if ui_type == UI_component.MY_WINDOW:
-	if "own_manager" in ui_instance:
-		ui_instance.own_manager = self
-	if "player_now" in ui_instance:
-		ui_instance.player_now = player_now
-	_add_ui_to_visible_list(UI_component.MY_WINDOW)
-```
+`is_puzzle` 表示该 UI 是否属于谜题界面。设为 `true` 时会沿用谜题退出检测逻辑。
 
-6. 外部打开：
+如果 UI 脚本里声明了 `own_manager`、`player_now` 或 `ui_type`，`instantiate_ui()` 会自动注入，不需要再为每个 UI 写单独分支。
+
+5. 外部打开：
 
 ```gdscript
 UIManager.instantiate_ui(UI_manager.UI_component.MY_WINDOW)
 ```
 
-7. 外部关闭：
+6. 外部关闭：
 
 ```gdscript
 UIManager.remove_ui(UI_manager.UI_component.MY_WINDOW)
@@ -132,7 +129,7 @@ UIManager.remove_ui(UI_manager.UI_component.MY_WINDOW)
 - layer 2：菜单页或功能面板，例如设置详情、玩家信息、保存、读取。
 - layer 3：弹窗，例如退出确认、拾取提示。
 
-ESC 关闭顺序是先 layer 3，再 layer 2，最后 settings。因此新弹窗一般放 layer 3。
+ESC 会优先关闭最高 layer 的 `can_be_quit == true` UI，最后才处理 settings。因此新弹窗一般放 layer 3。
 
 ### 设置 UI 是否自动创建
 
@@ -158,18 +155,13 @@ UI_LAYERS
 
 ### 给 UI 传玩家引用
 
-当前 `instantiate_ui()` 会给以下 UI 注入 `player_now`：
+`instantiate_ui()` 会统一检查 UI 实例是否暴露了以下字段，并自动注入：
 
-- `TOOLBAR`
-- `ARRGOBAR`
-- `PLAYERINFO`
+- `own_manager`：注入当前 `UIManager`。
+- `player_now`：注入当前玩家引用。
+- `ui_type`：注入当前 `UI_component`，谜题 UI 关闭自身时会用到。
 
-新 UI 如果需要玩家引用，有两种做法：
-
-- 在 `instantiate_ui()` 增加对应特殊处理。
-- UI 脚本中直接调用 `GameManager.get_player()`。
-
-推荐需要长期刷新玩家状态的 UI 使用注入方式，弹窗类 UI 可以直接读取。
+新 UI 如果需要这些引用，只要在脚本中声明对应变量即可。推荐需要长期刷新玩家状态的 UI 使用 `player_now` 注入，弹窗类 UI 也可以直接调用 `GameManager.get_player()`。
 
 ## 注意事项
 

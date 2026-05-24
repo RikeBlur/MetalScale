@@ -1,3 +1,39 @@
+# How To Extent ！
+
+## Data 字段扩展
+
+存档 JSON 主要读写 `GameData`、`PlayerData`、`NPCData`、`SceneData`、`ToolData`。配置走 `ConfigData`，保存到 `user://config.tres`，不写入普通存档 JSON。
+
+新增 `Player` 字段：
+1. 在 `player.gd` 增加运行时变量。
+2. 在 `player_data.gd` 增加 `@export var`。
+3. 同步更新 `from_player_node()`、`apply_to_player_node()`、`to_dict()`、`from_dict()`。
+
+新增 `NPC` 字段：
+1. 在 `npc_data.gd` 增加 `@export var`。
+2. 同步更新 `to_dict()`、`from_dict()`。
+3. 如果字段来自场上 NPC 节点，也要在 `npc_manager.gd` 写回 `NPCData` 的逻辑里同步它。
+
+新增 `GameManager` 运行时存档字段：
+1. 在 `game_manager.gd` 增加变量。
+2. 在 `game_data.gd` 增加 `@export var`。
+3. 同步更新 `from_game_manager()`、`apply_to_game_manager()`、`to_dict()`、`from_dict()`。
+
+新增 `Config` 字段：
+1. 在 `config_data.gd` 增加 `@export var`。
+2. 在 `game_manager.gd` 增加对应运行时变量。
+3. 同步更新 `ConfigData.from_game_manager()`、`ConfigData.apply_to_game_manager()`。
+4. 如果需要设置界面控制它，在配置 UI 的 `bound_config_properties` 填同名字段。
+
+新增 `ToolData` 字段：
+1. 在 `tool_data.gd` 增加 `@export var`。
+2. 同步更新 `to_dict()`、`from_dict()`。
+
+
+
+
+============================================================================================
+
 # AdiosToMe
 
 1. 主色调：（34，32，52）；（172，50，50）; 分辨率 1152*648 <br>
@@ -39,7 +75,21 @@ shadow_protection_start：从多暗开始保护
 shadow_protection_end：到多亮恢复完整 VHS 效果
 shadow_effect_floor：暗部至少保留多少滤镜存在感 <br>
 
+
+
+
+
+============================================================================================
+=========================== STAGE 1 （2025.8.25 - 2025.5.20）================================
+============================================================================================
+
+
 # UPDATE
+
+## 26.05.20
+
+尽情的享受吧
+
 
 ## 26.05.19
 

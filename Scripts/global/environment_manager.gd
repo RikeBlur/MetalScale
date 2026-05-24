@@ -33,6 +33,15 @@ func _ready() -> void:
 	_connect_arrgo_signals()
 	_ensure_arrgo_effect_layer()
 
+func reinitialize() -> void:
+	clear_all_visual_effects()
+	_arrgo_effect_scenes.clear()
+	_ensure_player_reseted_signal_connected()
+	_connect_arrgo_signals()
+	_ensure_arrgo_effect_layer()
+	await get_tree().process_frame
+	set_environment()
+
 func _process(_delta: float) -> void:
 	_update_arrgoing_material_parameters()
 
@@ -61,6 +70,10 @@ func _connect_arrgo_signals() -> void:
 		GameManager.arrgoed.connect(_on_arrgoed)
 	if not GameManager.not_arrgoed.is_connected(_on_not_arrgoed):
 		GameManager.not_arrgoed.connect(_on_not_arrgoed)
+
+func _ensure_player_reseted_signal_connected() -> void:
+	if not SceneManager.player_reseted.is_connected(set_environment):
+		SceneManager.player_reseted.connect(set_environment)
 
 func _on_get_in_arrgo() -> void:
 	_fade_in_arrgo_effect(ARRGOING_EFFECT_KEY)

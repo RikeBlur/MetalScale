@@ -45,3 +45,46 @@ func reset_runtime_values() -> void:
 
 	if state == STATE_BROKEN:
 		state = STATE_UNSELECTED
+
+func to_dict() -> Dictionary:
+	return {
+		"display_name": display_name,
+		"description": description,
+		"packed_scene_path": _resource_to_path(packed_scene),
+		"icon_path": _resource_to_path(icon),
+		"type": type,
+		"durability": durability,
+		"durability_max": durability_max,
+		"consumption": consumption,
+		"consumption_max": consumption_max,
+		"state": state,
+		"useable": useable
+	}
+
+func from_dict(data: Dictionary) -> void:
+	if data.is_empty():
+		return
+
+	display_name = data.get("display_name", "")
+	description = data.get("description", "")
+
+	var packed_scene_path: String = data.get("packed_scene_path", "")
+	if packed_scene_path != "":
+		packed_scene = load(packed_scene_path) as PackedScene
+
+	var icon_path: String = data.get("icon_path", "")
+	if icon_path != "":
+		icon = load(icon_path) as Texture2D
+
+	type = int(data.get("type", TYPE_PERMANENT))
+	durability = float(data.get("durability", -1.0))
+	durability_max = float(data.get("durability_max", -1.0))
+	consumption = int(data.get("consumption", -1))
+	consumption_max = int(data.get("consumption_max", -1))
+	state = int(data.get("state", STATE_UNSELECTED))
+	useable = int(data.get("useable", USEABLE_FALSE))
+
+func _resource_to_path(resource: Resource) -> String:
+	if not resource:
+		return ""
+	return resource.resource_path

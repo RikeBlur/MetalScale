@@ -39,6 +39,7 @@ func trigger_condition() -> bool:
 
 func trigger_effect() -> void:
 	print("Switch ON!!!")
+	GameManager.switch_on = true
 	# 开灯
 	GameManager.default_lighting = GameManager.lighting_stage_1
 	EnvironmentManager.set_environment()

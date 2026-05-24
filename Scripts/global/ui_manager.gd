@@ -24,115 +24,151 @@ enum UI_component {
 	SAFEBOX = 15
 }
 
-# UI统一数据结构：name(UI_component)、scene、layer、stage
+# UI统一数据结构：name(UI_component)、scene、layer、stage、can_be_quit、is_puzzle
 const UI_DATA = {
 	UI_component.TOOLBAR: {
 		"name": UI_component.TOOLBAR,
 		"scene": preload("res://System/RPG/UI/toolbar.tscn"),
 		"layer": 1,
-		"stage": 0
+		"stage": 0,
+		"can_be_quit": false,
+		"is_puzzle": false
 	},
 	UI_component.SETTINGS: {
 		"name": UI_component.SETTINGS,
 		"scene": preload("res://System/RPG/UI/settings.tscn"),
 		"layer": 1,
-		"stage": 0
+		"stage": 0,
+		"can_be_quit": false,
+		"is_puzzle": false
 	},
 	UI_component.GAMECONFIG: {
 		"name": UI_component.GAMECONFIG,
 		"scene": preload("res://System/RPG/UI/game_config.tscn"),
 		"layer": 2,
-		"stage": -1
+		"stage": -1,
+		"can_be_quit": true,
+		"is_puzzle": false
 	},
 	UI_component.PLAYERINFO: {
 		"name": UI_component.PLAYERINFO,
 		"scene": preload("res://System/RPG/UI/player_info.tscn"),
 		"layer": 2,
-		"stage": -1
+		"stage": -1,
+		"can_be_quit": true,
+		"is_puzzle": false
 	},
 	UI_component.EXITWINDOW: {
 		"name": UI_component.EXITWINDOW,
 		"scene": preload("res://System/RPG/UI/windows/exit_window.tscn"),
 		"layer": 3,
-		"stage": -1
+		"stage": -1,
+		"can_be_quit": true,
+		"is_puzzle": false
 	},
 	UI_component.SAVEGAMEWINDOW: {
 		"name": UI_component.SAVEGAMEWINDOW,
 		"scene": preload("res://System/RPG/UI/save_game.tscn"),
 		"layer": 2,
-		"stage": -1
+		"stage": -1,
+		"can_be_quit": true,
+		"is_puzzle": false
 	},
 	UI_component.LOADGAMEWINDOW: {
 		"name": UI_component.LOADGAMEWINDOW,
 		"scene": preload("res://System/RPG/UI/load_game.tscn"),
 		"layer": 2,
-		"stage": -1
+		"stage": -1,
+		"can_be_quit": true,
+		"is_puzzle": false
 	},
 	UI_component.ARRGOBAR: {
 		"name": UI_component.ARRGOBAR,
 		"scene": preload("res://System/RPG/UI/arrgobar.tscn"),
 		"layer": 3,
-		"stage": 0
+		"stage": 0,
+		"can_be_quit": false,
+		"is_puzzle": false
 	},
 	UI_component.COLLECTWINDOW: {
 		"name": UI_component.COLLECTWINDOW,
 		"scene": preload("res://System/RPG/UI/windows/collected_window.tscn"),
 		"layer": 3,
-		"stage": -1
+		"stage": -1,
+		"can_be_quit": true,
+		"is_puzzle": false
 	},
 	UI_component.QUESTIONWINDOW: {
 		"name": UI_component.QUESTIONWINDOW,
 		"scene": preload("res://System/RPG/UI/windows/question.tscn"),
 		"layer": 3,
-		"stage": -1
+		"stage": -1,
+		"can_be_quit": true,
+		"is_puzzle": false
 	},
 	UI_component.PUZZLESWITCH: {
 		"name": UI_component.PUZZLESWITCH,
 		"scene": preload("res://System/RPG/interact/puzzle/puzzle_switch_1.tscn"),
 		"layer": 2,
-		"stage": -1
+		"stage": -1,
+		"can_be_quit": true,
+		"is_puzzle": true
 	},
 	UI_component.PUZZLESWITCH2: {
 		"name": UI_component.PUZZLESWITCH2,
 		"scene": preload("res://System/RPG/interact/puzzle/puzzle_switch_2.tscn"),
 		"layer": 2,
-		"stage": -1
+		"stage": -1,
+		"can_be_quit": true,
+		"is_puzzle": true
 	},
 	UI_component.PUZZLESWITCH3: {
 		"name": UI_component.PUZZLESWITCH3,
 		"scene": preload("res://System/RPG/interact/puzzle/puzzle_switch_3.tscn"),
 		"layer": 2,
-		"stage": -1
+		"stage": -1,
+		"can_be_quit": true,
+		"is_puzzle": true
 	},
 	UI_component.WATERSIGN: {
 		"name": UI_component.WATERSIGN,
 		"scene": preload("res://System/RPG/interact/puzzle/water_sign.tscn"),
 		"layer": 2,
-		"stage": -1
+		"stage": -1,
+		"can_be_quit": true,
+		"is_puzzle": true
 	},
 	UI_component.NEWSPAPER1: {
 		"name": UI_component.NEWSPAPER1,
 		"scene": preload("res://System/RPG/interact/puzzle/newspaper_1.tscn"),
 		"layer": 2,
-		"stage": -1
+		"stage": -1,
+		"can_be_quit": true,
+		"is_puzzle": true
 	},
 	UI_component.BOOK1: {
 		"name": UI_component.BOOK1,
 		"scene": preload("res://System/RPG/interact/puzzle/book_1.tscn"),
 		"layer": 2,
-		"stage": -1
+		"stage": -1,
+		"can_be_quit": true,
+		"is_puzzle": true
 	},
 	UI_component.BOOK0: {
 		"name": UI_component.BOOK0,
 		"scene": preload("res://System/RPG/interact/puzzle/book_0.tscn"),
 		"layer": 2,
-		"stage": -1
+		"stage": -1,
+		"can_be_quit": true,
+		"is_puzzle": true
 	},
 	UI_component.SAFEBOX: {
 		"name": UI_component.SAFEBOX,
 		"scene": preload("res://System/RPG/interact/puzzle/safebox.tscn"),
 		"layer": 2,
-		"stage": -1
+		"stage": -1,
+		"can_be_quit": true,
+		"is_puzzle": true
 	}
 }
 
@@ -228,8 +264,8 @@ func _process(_delta):
 		_update_debug_ui()
 
 func _handle_quit_pressed() -> void:
-	# 优先销毁最高层可见UI（先 layer3，再 layer2）
-	if _try_close_top_visible_ui_in_layers([3, 2]):
+	# 优先销毁最高层可退出UI
+	if _try_close_top_visible_ui_in_layers(_get_visible_layer_order_desc()):
 		return
 	
 	# 如果 settings 正在显示，且没有更高层窗口，则关闭 settings
@@ -247,11 +283,27 @@ func _try_close_top_visible_ui_in_layers(layer_ids: Array[int]) -> bool:
 		var visible_list = get_visible_uis_in_layer(layer_id)
 		for i in range(visible_list.size() - 1, -1, -1):
 			var top_ui = visible_list[i]
-			if top_ui == UI_component.ARRGOBAR:
+			if not _can_ui_be_quit(top_ui):
 				continue
 			remove_ui(top_ui)
 			return true
 	return false
+
+
+func _get_visible_layer_order_desc() -> Array[int]:
+	var layer_ids: Array[int] = []
+	for layer_id in layer_visible_uis.keys():
+		layer_ids.append(layer_id)
+	layer_ids.sort()
+	layer_ids.reverse()
+	return layer_ids
+
+
+func _can_ui_be_quit(ui_type: UI_component) -> bool:
+	var ui_data = UI_DATA.get(ui_type)
+	if not ui_data:
+		return false
+	return ui_data.get("can_be_quit", false)
 
 
 # ============================== 谜题退出机制 ================================
@@ -259,22 +311,10 @@ func _try_close_top_visible_ui_in_layers(layer_ids: Array[int]) -> bool:
 func _puzzle_quit_once() -> bool:
 	if not Input.is_action_just_pressed("quit"):
 		return false
-	if is_ui_visible(UI_component.PUZZLESWITCH):
-		return true
-	if UI_DATA.has(UI_component.PUZZLESWITCH2) and is_ui_visible(UI_component.PUZZLESWITCH2):
-		return true
-	if UI_DATA.has(UI_component.PUZZLESWITCH3) and is_ui_visible(UI_component.PUZZLESWITCH3):
-		return true
-	if UI_DATA.has(UI_component.WATERSIGN) and is_ui_visible(UI_component.WATERSIGN):
-		return true
-	if UI_DATA.has(UI_component.NEWSPAPER1) and is_ui_visible(UI_component.NEWSPAPER1):
-		return true
-	if UI_DATA.has(UI_component.BOOK1) and is_ui_visible(UI_component.BOOK1):
-		return true
-	if UI_DATA.has(UI_component.BOOK0) and is_ui_visible(UI_component.BOOK0):
-		return true
-	if UI_DATA.has(UI_component.SAFEBOX) and is_ui_visible(UI_component.SAFEBOX):
-		return true
+	for ui_type in UI_DATA:
+		var ui_data = UI_DATA[ui_type]
+		if ui_data.get("is_puzzle", false) and is_ui_visible(ui_type):
+			return true
 	return false
 
 # ===================================================================
@@ -315,126 +355,7 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 		push_error("UI_manager: 无法实例化UI类型 %d" % ui_type)
 		return null
 	
-	# 特殊处理：为toolbar设置player引用
-	if ui_type == UI_component.TOOLBAR and player_now:
-		if "player_now" in ui_instance:
-			ui_instance.player_now = player_now
-			
-	# 特殊处理：为setting设置own_manager引用
-	if ui_type == UI_component.SETTINGS :
-		if "own_manager" in ui_instance:
-			ui_instance.own_manager = self
-	
-	# 特殊处理：为gameconfig设置own_manager引用
-	if ui_type == UI_component.GAMECONFIG :
-		if "own_manager" in ui_instance:
-			ui_instance.own_manager = self
-		_add_ui_to_visible_list(UI_component.GAMECONFIG)
-			
-	# 特殊处理：为exitwindow设置own_manager引用
-	if ui_type == UI_component.EXITWINDOW :
-		if "own_manager" in ui_instance:
-			ui_instance.own_manager = self
-		_add_ui_to_visible_list(UI_component.EXITWINDOW)
-			
-	# 特殊处理：为savegamewindow设置own_manager引用
-	if ui_type == UI_component.SAVEGAMEWINDOW :
-		if "own_manager" in ui_instance:
-			ui_instance.own_manager = self
-		_add_ui_to_visible_list(UI_component.SAVEGAMEWINDOW)
-		
-	# 特殊处理：为loadgamewindow设置own_manager引用
-	if ui_type == UI_component.LOADGAMEWINDOW :
-		if "own_manager" in ui_instance:
-			ui_instance.own_manager = self
-		_add_ui_to_visible_list(UI_component.LOADGAMEWINDOW)
-		
-	# 特殊处理：为arrgobar设置own_manager引用和player引用，且隐藏掉
-	if ui_type == UI_component.ARRGOBAR :
-		if "own_manager" in ui_instance:
-			ui_instance.own_manager = self
-		if "player_now" in ui_instance:
-			ui_instance.player_now = player_now
-			ui_instance.hide()
-	
-	# 特殊处理：为collectwindow设置own_manager引用
-	if ui_type == UI_component.COLLECTWINDOW :
-		if "own_manager" in ui_instance:
-			ui_instance.own_manager = self
-		_add_ui_to_visible_list(UI_component.COLLECTWINDOW)
-		
-		# 特殊处理：为collectwindow设置own_manager引用
-	if ui_type == UI_component.QUESTIONWINDOW :
-		if "own_manager" in ui_instance:
-			ui_instance.own_manager = self
-		_add_ui_to_visible_list(UI_component.QUESTIONWINDOW)
-
-
-	# 特殊处理：为playerinfo设置own_manager引用和player引用
-	if ui_type == UI_component.PLAYERINFO :
-		if "own_manager" in ui_instance:
-			ui_instance.own_manager = self
-		if "player_now" in ui_instance:
-			ui_instance.player_now = player_now
-		_add_ui_to_visible_list(UI_component.PLAYERINFO)
-		
-# ========================= 谜题场景实例化 ==============================
-
-	if ui_type == UI_component.PUZZLESWITCH :
-		if "own_manager" in ui_instance:
-			ui_instance.own_manager = self
-		if "ui_type" in ui_instance:
-			ui_instance.ui_type = UI_component.PUZZLESWITCH
-		_add_ui_to_visible_list(UI_component.PUZZLESWITCH)
-
-	if ui_type == UI_component.PUZZLESWITCH2 :
-		if "own_manager" in ui_instance:
-			ui_instance.own_manager = self
-		if "ui_type" in ui_instance:
-			ui_instance.ui_type = UI_component.PUZZLESWITCH2
-		_add_ui_to_visible_list(UI_component.PUZZLESWITCH2)
-		
-	if ui_type == UI_component.PUZZLESWITCH3 :
-		if "own_manager" in ui_instance:
-			ui_instance.own_manager = self
-		if "ui_type" in ui_instance:
-			ui_instance.ui_type = UI_component.PUZZLESWITCH3
-		_add_ui_to_visible_list(UI_component.PUZZLESWITCH3)
-
-	if ui_type == UI_component.WATERSIGN :
-		if "own_manager" in ui_instance:
-			ui_instance.own_manager = self
-		if "ui_type" in ui_instance:
-			ui_instance.ui_type = UI_component.WATERSIGN
-		_add_ui_to_visible_list(UI_component.WATERSIGN)
-	
-	if ui_type == UI_component.NEWSPAPER1 :
-		if "own_manager" in ui_instance:
-			ui_instance.own_manager = self
-		if "ui_type" in ui_instance:
-			ui_instance.ui_type = UI_component.NEWSPAPER1
-		_add_ui_to_visible_list(UI_component.NEWSPAPER1)
-
-	if ui_type == UI_component.BOOK1 :
-		if "own_manager" in ui_instance:
-			ui_instance.own_manager = self
-		if "ui_type" in ui_instance:
-			ui_instance.ui_type = UI_component.BOOK1
-		_add_ui_to_visible_list(UI_component.BOOK1)
-		
-	if ui_type == UI_component.BOOK0 :
-		if "own_manager" in ui_instance:
-			ui_instance.own_manager = self
-		if "ui_type" in ui_instance:
-			ui_instance.ui_type = UI_component.BOOK0
-		_add_ui_to_visible_list(UI_component.BOOK0)
-
-	if ui_type == UI_component.SAFEBOX :
-		if "own_manager" in ui_instance:
-			ui_instance.own_manager = self
-		if "ui_type" in ui_instance:
-			ui_instance.ui_type = UI_component.SAFEBOX
-		_add_ui_to_visible_list(UI_component.SAFEBOX)
+	_configure_ui_instance(ui_type, ui_data, ui_instance)
 
 	target_layer.add_child(ui_instance)
 	
@@ -447,6 +368,29 @@ func instantiate_ui(ui_type: UI_component) -> Node:
 	print("UI_manager: 实例化 UI类型 %d 到 layer %d" % [ui_type, ui_data["layer"]])
 	
 	return ui_instance
+
+
+func _configure_ui_instance(ui_type: UI_component, ui_data: Dictionary, ui_instance: Node) -> void:
+	if "own_manager" in ui_instance:
+		ui_instance.own_manager = self
+	if "player_now" in ui_instance:
+		ui_instance.player_now = player_now
+	if "ui_type" in ui_instance:
+		ui_instance.ui_type = ui_type
+
+	if ui_data["stage"] == 0:
+		_configure_stage0_ui(ui_type, ui_instance)
+
+	if ui_data.get("can_be_quit", false):
+		_add_ui_to_visible_list(ui_type)
+
+
+func _configure_stage0_ui(ui_type: UI_component, ui_instance: Node) -> void:
+	match ui_type:
+		UI_component.ARRGOBAR:
+			ui_instance.hide()
+		_:
+			pass
 
 
 func remove_ui(ui_type: UI_component):
@@ -901,6 +845,7 @@ func _create_debug_ui() -> void:
 	
 	var panel := PanelContainer.new()
 	panel.name = "UIManagerDebugPanel"
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_debug_canvas.add_child(panel)
 	
 	var style_box := StyleBoxFlat.new()
@@ -916,6 +861,7 @@ func _create_debug_ui() -> void:
 	
 	_debug_label = Label.new()
 	_debug_label.name = "UIManagerDebugLabel"
+	_debug_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_debug_label.add_theme_color_override("font_color", Color(0.8, 0.95, 1.0, 1.0))
 	_debug_label.add_theme_font_size_override("font_size", 14)
 	panel.add_child(_debug_label)
