@@ -24,6 +24,7 @@ const USEABLE_TRUE: int = 1
 @export var consumption_max: int = -1
 @export_range(0, 3, 1) var state: int = STATE_UNSELECTED
 @export_range(0, 1, 1) var useable: int = USEABLE_FALSE
+@export var cooldown_time: float = -1.0
 
 func has_durability() -> bool:
 	return type == TYPE_DURABILITY and durability >= 0.0
@@ -58,7 +59,8 @@ func to_dict() -> Dictionary:
 		"consumption": consumption,
 		"consumption_max": consumption_max,
 		"state": state,
-		"useable": useable
+		"useable": useable,
+		"cooldown_time": cooldown_time
 	}
 
 func from_dict(data: Dictionary) -> void:
@@ -83,6 +85,9 @@ func from_dict(data: Dictionary) -> void:
 	consumption_max = int(data.get("consumption_max", -1))
 	state = int(data.get("state", STATE_UNSELECTED))
 	useable = int(data.get("useable", USEABLE_FALSE))
+	cooldown_time = float(data.get("cooldown_time", -1.0))
+	if useable == USEABLE_FALSE:
+		cooldown_time = -1.0
 
 func _resource_to_path(resource: Resource) -> String:
 	if not resource:

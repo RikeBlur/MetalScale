@@ -6,10 +6,11 @@ extends Node2D
 
 const max_durability: float = 100.0
 const CONSUMABLE_STACK_LIMIT: int = 64
+const DEFAULT_USE_COOLDOWN: float = 0.2
 
-# ===================================================================
-# ========================== Tool Data 信息 维护 ======================
-# ===================================================================
+# ======================================================================
+# ========================== Tool Data 信息 维护 ========================
+# ======================================================================
 
 enum Tool {
 	NONE,
@@ -24,95 +25,128 @@ enum Tool {
 	BATTERY
 }
 
-const TOOL_DISPLAY_NAMES = {
-	Tool.NONE: "无",
-	Tool.EMERGENCELIGHT: "应急光源",
-	Tool.FLASHLIGHT: "手电筒",
-	Tool.ADRENALINE: "肾上腺素",
-	Tool.KEYA: "会议室钥匙",
-	Tool.KEYB: "三层连廊钥匙",
-	Tool.KEYC: "配电室钥匙",
-	Tool.BOOLDYWATER: "血水",
-	Tool.SUICIDEKING: "红桃K",
-	Tool.BATTERY: "电池"
-}
-
-const TOOL_DESCRIPTION = {
-	Tool.NONE: "无",
-	Tool.EMERGENCELIGHT: "提灯模样的备用光源，可以遮蔽从电子屏幕中射来的视线。请留意电量。",
-	Tool.FLASHLIGHT: "可以照亮前方的手电筒",
-	Tool.ADRENALINE: "短时间激发身体机能的药剂，请按处方使用。",
-	Tool.KEYA: "会议室的钥匙。旧教学楼除了大门之外没有上电子锁，每个房间都有着令人怀念实体钥匙。",
-	Tool.KEYB: "通向三层连廊钥匙。旧教学楼一共有三栋，三栋建筑的均在第三层通过空中连廊连接，方便学生在不同建筑间移动。",
-	Tool.KEYC: "三楼配电室的钥匙。为了打开一层的通向玄关的大门，必须先恢复电力来解开电子锁。",
-	Tool.BOOLDYWATER: "血色的瓶装水。没有想象中的粘稠。",
-	Tool.SUICIDEKING: "自杀之王，红桃K。查理曼大帝将头颅插入卡槽，流淌的血水恩泽了三个儿子。",
-	Tool.BATTERY: "9号电池，似乎可以装入应急光源中,可以在电量低时使用。"
-}
-
-const TOOL_ICONS = {
-	Tool.NONE: null,
-	Tool.EMERGENCELIGHT: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/EmergenceLight_icon.png"),
-	Tool.FLASHLIGHT: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/FlashLight_icon.png"),
-	Tool.ADRENALINE: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/Adrenaline_icon.png"),
-	Tool.KEYA: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/keyA_icon.png"),
-	Tool.KEYB: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/keyB_icon.png"),
-	Tool.KEYC: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/keyC_icon.png"),
-	Tool.BOOLDYWATER: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/bloodywater_icon.png"),
-	Tool.SUICIDEKING: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/suicideking_icon.png"),
-	Tool.BATTERY: preload("res://Assests/sprite/UI/TOOLBAR/toolicon/Battery_icon.png")
-}
-
-const TOOL_PACKED_SCENES = {
-	Tool.NONE: null,
-	Tool.EMERGENCELIGHT: preload("res://System/RPG/tools/Tool/EmergenceLight.tscn"),
-	Tool.FLASHLIGHT: preload("res://System/RPG/tools/Tool/FlashLight.tscn"),
-	Tool.ADRENALINE: preload("res://System/RPG/tools/Tool/adrenaline.tscn"),
-	Tool.KEYA: preload("res://System/RPG/tools/Tool/KeyA.tscn"),
-	Tool.KEYB: null,
-	Tool.KEYC: null,
-	Tool.BOOLDYWATER: null,
-	Tool.SUICIDEKING: null,
-	Tool.BATTERY: preload("res://System/RPG/tools/Tool/Battery.tscn")
-}
-
-const TOOL_TYPES = {
-	Tool.NONE: ToolData.TYPE_PERMANENT,
-	Tool.EMERGENCELIGHT: ToolData.TYPE_DURABILITY,
-	Tool.FLASHLIGHT: ToolData.TYPE_DURABILITY,
-	Tool.ADRENALINE: ToolData.TYPE_CONSUMABLE,
-	Tool.KEYA: ToolData.TYPE_PERMANENT,
-	Tool.KEYB: ToolData.TYPE_PERMANENT,
-	Tool.KEYC: ToolData.TYPE_PERMANENT,
-	Tool.BOOLDYWATER: ToolData.TYPE_CONSUMABLE,
-	Tool.SUICIDEKING: ToolData.TYPE_CONSUMABLE,
-	Tool.BATTERY: ToolData.TYPE_CONSUMABLE
-}
-
-const TOOL_USEABLE = {
-	Tool.NONE: ToolData.USEABLE_FALSE,
-	Tool.EMERGENCELIGHT: ToolData.USEABLE_TRUE,
-	Tool.FLASHLIGHT: ToolData.USEABLE_TRUE,
-	Tool.ADRENALINE: ToolData.USEABLE_TRUE,
-	Tool.KEYA: ToolData.USEABLE_FALSE,
-	Tool.KEYB: ToolData.USEABLE_FALSE,
-	Tool.KEYC: ToolData.USEABLE_FALSE,
-	Tool.BOOLDYWATER: ToolData.USEABLE_FALSE,
-	Tool.SUICIDEKING: ToolData.USEABLE_FALSE,
-	Tool.BATTERY: ToolData.USEABLE_TRUE
-}
-
-const TOOL_DURABILITY_MAX = {
-	Tool.EMERGENCELIGHT: max_durability,
-	Tool.FLASHLIGHT: max_durability
-}
-
-const TOOL_CONSUMPTION_MAX = {
-	Tool.ADRENALINE: 0,
-	Tool.SUICIDEKING: 0,
-	Tool.BOOLDYWATER: 0,
-	Tool.BATTERY: 0
-}
+const DEFAULT_TOOL_LIST = [
+	{
+		"tool": Tool.NONE,
+		"display_name": "无",
+		"description": "无",
+		"icon": null,
+		"packed_scene": null,
+		"type": ToolData.TYPE_PERMANENT,
+		"useable": ToolData.USEABLE_FALSE,
+		"cooldown_time": -1.0,
+		"durability_max": -1.0,
+		"consumption_max": -1,
+	},
+	{
+		"tool": Tool.EMERGENCELIGHT,
+		"display_name": "应急光源",
+		"description": "提灯模样的备用光源，可以遮蔽从电子屏幕中射来的视线。请留意电量。",
+		"icon": preload("res://Assests/sprite/UI/TOOLBAR/toolicon/EmergenceLight_icon.png"),
+		"packed_scene": preload("res://System/RPG/tools/Tool/EmergenceLight.tscn"),
+		"type": ToolData.TYPE_DURABILITY,
+		"useable": ToolData.USEABLE_TRUE,
+		"cooldown_time": DEFAULT_USE_COOLDOWN,
+		"durability_max": max_durability,
+		"consumption_max": -1,
+	},
+	{
+		"tool": Tool.FLASHLIGHT,
+		"display_name": "手电筒",
+		"description": "可以照亮前方的手电筒",
+		"icon": preload("res://Assests/sprite/UI/TOOLBAR/toolicon/FlashLight_icon.png"),
+		"packed_scene": preload("res://System/RPG/tools/Tool/FlashLight.tscn"),
+		"type": ToolData.TYPE_DURABILITY,
+		"useable": ToolData.USEABLE_TRUE,
+		"cooldown_time": DEFAULT_USE_COOLDOWN,
+		"durability_max": max_durability,
+		"consumption_max": -1,
+	},
+	{
+		"tool": Tool.ADRENALINE,
+		"display_name": "肾上腺素",
+		"description": "短时间激发身体机能的药剂，请按处方使用。",
+		"icon": preload("res://Assests/sprite/UI/TOOLBAR/toolicon/Adrenaline_icon.png"),
+		"packed_scene": preload("res://System/RPG/tools/Tool/adrenaline.tscn"),
+		"type": ToolData.TYPE_CONSUMABLE,
+		"useable": ToolData.USEABLE_TRUE,
+		"cooldown_time": DEFAULT_USE_COOLDOWN,
+		"durability_max": -1.0,
+		"consumption_max": 0,
+	},
+	{
+		"tool": Tool.KEYA,
+		"display_name": "会议室钥匙",
+		"description": "会议室的钥匙。旧教学楼除了大门之外没有上电子锁，每个房间都有着令人怀念实体钥匙。",
+		"icon": preload("res://Assests/sprite/UI/TOOLBAR/toolicon/keyA_icon.png"),
+		"packed_scene": preload("res://System/RPG/tools/Tool/KeyA.tscn"),
+		"type": ToolData.TYPE_PERMANENT,
+		"useable": ToolData.USEABLE_FALSE,
+		"cooldown_time": -1.0,
+		"durability_max": -1.0,
+		"consumption_max": -1,
+	},
+	{
+		"tool": Tool.KEYB,
+		"display_name": "三层连廊钥匙",
+		"description": "通向三层连廊钥匙。旧教学楼一共有三栋，三栋建筑的均在第三层通过空中连廊连接，方便学生在不同建筑间移动。",
+		"icon": preload("res://Assests/sprite/UI/TOOLBAR/toolicon/keyB_icon.png"),
+		"packed_scene": null,
+		"type": ToolData.TYPE_PERMANENT,
+		"useable": ToolData.USEABLE_FALSE,
+		"cooldown_time": -1.0,
+		"durability_max": -1.0,
+		"consumption_max": -1,
+	},
+	{
+		"tool": Tool.KEYC,
+		"display_name": "配电室钥匙",
+		"description": "三楼配电室的钥匙。为了打开一层的通向玄关的大门，必须先恢复电力来解开电子锁。",
+		"icon": preload("res://Assests/sprite/UI/TOOLBAR/toolicon/keyC_icon.png"),
+		"packed_scene": null,
+		"type": ToolData.TYPE_PERMANENT,
+		"useable": ToolData.USEABLE_FALSE,
+		"cooldown_time": -1.0,
+		"durability_max": -1.0,
+		"consumption_max": -1,
+	},
+	{
+		"tool": Tool.BOOLDYWATER,
+		"display_name": "血水",
+		"description": "血色的瓶装水。没有想象中的粘稠。",
+		"icon": preload("res://Assests/sprite/UI/TOOLBAR/toolicon/bloodywater_icon.png"),
+		"packed_scene": null,
+		"type": ToolData.TYPE_CONSUMABLE,
+		"useable": ToolData.USEABLE_FALSE,
+		"cooldown_time": -1.0,
+		"durability_max": -1.0,
+		"consumption_max": 0,
+	},
+	{
+		"tool": Tool.SUICIDEKING,
+		"display_name": "自杀之王，红桃K",
+		"description": "自杀之王，红桃K。查理曼大帝将头颅插入卡槽，流淌的血水恩泽了三个儿子。",
+		"icon": preload("res://Assests/sprite/UI/TOOLBAR/toolicon/suicideking_icon.png"),
+		"packed_scene": null,
+		"type": ToolData.TYPE_CONSUMABLE,
+		"useable": ToolData.USEABLE_FALSE,
+		"cooldown_time": -1.0,
+		"durability_max": -1.0,
+		"consumption_max": 0,
+	},
+	{
+		"tool": Tool.BATTERY,
+		"display_name": "电池",
+		"description": "9号电池，似乎可以装入应急光源中,可以在电量低时使用。",
+		"icon": preload("res://Assests/sprite/UI/TOOLBAR/toolicon/Battery_icon.png"),
+		"packed_scene": preload("res://System/RPG/tools/Tool/Battery.tscn"),
+		"type": ToolData.TYPE_CONSUMABLE,
+		"useable": ToolData.USEABLE_TRUE,
+		"cooldown_time": DEFAULT_USE_COOLDOWN,
+		"durability_max": -1.0,
+		"consumption_max": 0,
+	},
+]
 
 # ===================================================================
 # ===================================================================
@@ -129,6 +163,7 @@ var consumption: Dictionary = {}
 
 var _current_tool_index: int = -1
 var _available_tool_counts: Dictionary = {}
+var _last_tool_use_time: Dictionary = {}
 
 func _ready() -> void:
 	if not player_now:
@@ -146,16 +181,23 @@ func _ready() -> void:
 		_on_tool_changed(0)
 
 static func get_tool_display_name(tool: Tool) -> String:
-	return TOOL_DISPLAY_NAMES.get(tool, "未知工具")
+	return String(_get_default_tool_config(tool).get("display_name", "未知工具"))
 
 static func get_tool_description(tool: Tool) -> String:
-	return TOOL_DESCRIPTION.get(tool, "")
+	return String(_get_default_tool_config(tool).get("description", ""))
 
 static func get_tool_icon_static(tool: Tool) -> Texture2D:
-	return TOOL_ICONS.get(tool, null)
+	return _get_default_tool_config(tool).get("icon", null) as Texture2D
 
 static func get_tool_type_static(tool: Tool) -> int:
-	return TOOL_TYPES.get(tool, ToolData.TYPE_PERMANENT)
+	return int(_get_default_tool_config(tool).get("type", ToolData.TYPE_PERMANENT))
+
+static func _get_default_tool_config(tool: Tool) -> Dictionary:
+	for config in DEFAULT_TOOL_LIST:
+		var default_config: Dictionary = config
+		if default_config.get("tool", Tool.NONE) == tool:
+			return default_config
+	return {}
 
 func _process(_delta: float) -> void:
 	if not player_now:
@@ -204,11 +246,11 @@ func get_tool_data(tool: Tool) -> ToolData:
 
 func get_tool_icon(tool: Tool) -> Texture2D:
 	var data := get_tool_data(tool)
-	return data.icon if data else TOOL_ICONS.get(tool, null)
+	return data.icon if data else get_tool_icon_static(tool)
 
 func get_tool_type(tool: Tool) -> int:
 	var data := get_tool_data(tool)
-	return data.type if data else TOOL_TYPES.get(tool, ToolData.TYPE_PERMANENT)
+	return data.type if data else get_tool_type_static(tool)
 
 func get_tool_state(tool: Tool) -> int:
 	var data := get_tool_data(tool)
@@ -226,9 +268,38 @@ func get_tool_consumption(tool: Tool) -> int:
 	var data := get_tool_data(tool)
 	return data.consumption if data and data.has_consumption() else -1
 
+func get_tool_cooldown_time(tool: Tool) -> float:
+	var data := get_tool_data(tool)
+	return data.cooldown_time if data else -1.0
+
+func get_tool_cooldown_remaining(tool: Tool) -> float:
+	var data := get_tool_data(tool)
+	if not data or not data.is_useable() or data.cooldown_time <= 0.0:
+		return 0.0
+
+	var elapsed_time := Time.get_ticks_msec() / 1000.0 - float(_last_tool_use_time.get(tool, -INF))
+	return max(data.cooldown_time - elapsed_time, 0.0)
+
 func is_tool_useable(tool: Tool) -> bool:
 	var data := get_tool_data(tool)
 	return data.is_useable() if data else false
+
+func is_tool_use_ready(tool: Tool) -> bool:
+	var data := get_tool_data(tool)
+	if not data or not data.is_useable():
+		return false
+	if _is_tool_broken(data):
+		return false
+	return get_tool_cooldown_remaining(tool) <= 0.0
+
+func consume_tool_use_once(tool: Tool) -> bool:
+	if not is_tool_use_ready(tool):
+		return false
+	if not InputEvents.consume_once():
+		return false
+
+	_last_tool_use_time[tool] = Time.get_ticks_msec() / 1000.0
+	return true
 
 func set_tool_state(tool: Tool, new_state: int) -> void:
 	var data := get_tool_data(tool)
@@ -300,7 +371,7 @@ func _on_tool_changed(new_tool_index: int) -> void:
 	_current_tool_index = new_tool_index
 	player_now.tool = new_tool_index
 
-	if data.state != ToolData.STATE_ACTIVE:
+	if data.state == ToolData.STATE_UNSELECTED:
 		data.state = ToolData.STATE_SELECTED
 
 	_ensure_tool_instance(new_tool, true)
@@ -312,16 +383,20 @@ func _initialize_tool_data() -> void:
 		tool_data[tool] = _create_tool_data(tool)
 
 func _create_tool_data(tool: Tool) -> ToolData:
+	var default_config := _get_default_tool_config(tool)
 	var data := ToolData.new()
-	data.display_name = TOOL_DISPLAY_NAMES.get(tool, "")
-	data.description = TOOL_DESCRIPTION.get(tool, "")
-	data.packed_scene = TOOL_PACKED_SCENES.get(tool, null)
-	data.icon = TOOL_ICONS.get(tool, null)
-	data.type = TOOL_TYPES.get(tool, ToolData.TYPE_PERMANENT)
-	data.useable = TOOL_USEABLE.get(tool, ToolData.USEABLE_FALSE)
-	data.durability_max = TOOL_DURABILITY_MAX.get(tool, -1.0)
+	data.display_name = String(default_config.get("display_name", ""))
+	data.description = String(default_config.get("description", ""))
+	data.packed_scene = default_config.get("packed_scene", null) as PackedScene
+	data.icon = default_config.get("icon", null) as Texture2D
+	data.type = int(default_config.get("type", ToolData.TYPE_PERMANENT))
+	data.useable = int(default_config.get("useable", ToolData.USEABLE_FALSE))
+	data.cooldown_time = float(default_config.get("cooldown_time", -1.0))
+	if data.useable == ToolData.USEABLE_FALSE:
+		data.cooldown_time = -1.0
+	data.durability_max = float(default_config.get("durability_max", -1.0))
 	data.durability = data.durability_max
-	data.consumption_max = TOOL_CONSUMPTION_MAX.get(tool, -1)
+	data.consumption_max = int(default_config.get("consumption_max", -1))
 	data.consumption = data.consumption_max
 	data.state = ToolData.STATE_UNSELECTED
 	return data

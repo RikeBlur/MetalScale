@@ -1,6 +1,633 @@
-# How To Extent ！
+# 项目扩展指南
 
-## Data 字段扩展
+## 总体约定
+
+- 场景切换由 `SceneManager.change_scene()` 负责。玩家和相机会从旧场景移到新场景，不随关卡场景一起释放。
+- 玩家落位完成后，`SceneManager.player_reseted` 会发出。NPC、环境、读档后的玩家状态恢复等逻辑都依赖这个信号。
+- 可存档的关卡状态放在 `SceneData.interactables`、`NPCData`、`ToolData`、`PlayerData` 中。运行时改变状态后要同步回对应 Data。
+- RPG 关卡场景建议保持固定节点结构：
+
+```text
+LevelRoot 或 BaseLevel
+  UI_LAYERS
+	UI_layer1  CanvasLayer layer = 1
+	UI_layer2  CanvasLayer layer = 2
+	UI_layer3  CanvasLayer layer = 3
+  terrain
+  ObjectAndCharacter
+	Object
+	Light
+	Interactable
+	NPC
+  WorldOfWonder  WorldEnvironment
+	CanvasModulate
+```
+
+其中 `ObjectAndCharacter` 用于玩家、NPC、物体的 y-sort 组织；`UI_LAYERS` 给 `UIManager` 扫描；`WorldOfWonder` 给 `EnvironmentManager` 设置环境和光照。
+
+## 1. 新增 Tool
+
+参考文件：`Scripts/system/tools/tool_manager.gd`、`Scripts/data/tool_data.gd`、已有工具脚本如 `flash_light.gd`、`emergence_light.gd`、`battery.gd`。
+
+### 需要改哪里
+
+1. 在 `ToolManager.Tool` 枚举里添加新工具名。
+
+```gdscript
+enum Tool {
+	NONE,
+	EMERGENCELIGHT,
+	FLASHLIGHT,
+	NEW_TOOL
+}
+```
+
+2. 在 `ToolManager.DEFAULT_TOOL_LIST` 中添加配置。
+
+```gdscript
+{
+	"tool": Tool.NEW_TOOL,
+	"display_name": "新工具",
+	"description": "工具说明。",
+	"icon": preload("res://Assests/sprite/UI/TOOLBAR/toolicon/new_tool_icon.png"),
+	"packed_scene": preload("res://System/RPG/tools/Tool/NewTool.tscn"),
+	"type": ToolData.TYPE_DURABILITY,
+	"useable": ToolData.USEABLE_TRUE,
+	"cooldown_time": DEFAULT_USE_COOLDOWN,
+	"durability_max": max_durability,
+	"consumption_max": -1,
+}
+```
+
+常用类型：
+
+- `ToolData.TYPE_PERMANENT`：永久物品，例如钥匙。通常 `useable = USEABLE_FALSE`、`packed_scene = null`。
+- `ToolData.TYPE_DURABILITY`：耐久工具，例如应急光源、手电筒。需要 `durability_max`。
+- `ToolData.TYPE_CONSUMABLE`：消耗品，例如肾上腺素、电池。需要 `consumption_max`，数量变化通过 `consumption_changed()`。
+
+3. 如果工具有实际效果，创建工具场景和脚本。
+
+推荐路径：
+
+```text
+System/RPG/tools/Tool/NewTool.tscn
+Scripts/system/tools/new_tool.gd
+```
+
+工具场景会被 `ToolManager._ensure_tool_instance()` 实例化为 `ToolManager` 的子节点。脚本里可以用：
+
+```gdscript
+var tool_manager: ToolManager = null
+
+func _ready() -> void:
+	tool_manager = get_parent() as ToolManager
+```
+
+如果场景里有 `success_sfx` 变量，`ToolManager` 切换到该工具时会自动播放：
+
+```gdscript
+@onready var success_sfx: AudioStreamPlayer2D = $SuccessSFX
+```
+
+4. 在工具脚本里读取状态并处理输入。
+
+当前可用工具通常在 `_process()` 里：
+
+```gdscript
+_sync_state_from_tool_manager()
+if _can_use() and tool_manager.consume_tool_use_once(ToolManager.Tool.NEW_TOOL):
+	_use_new_tool()
+```
+
+`consume_tool_use_once()` 会检查 `useable`、坏损状态、冷却时间，并消费一次 `InputEvents.consume_once()`。不要在工具脚本里重复绕过冷却判断。
+
+5. 如果工具会消耗耐久或数量，调用 manager 接口。
+
+```gdscript
+tool_manager.durability_changed(ToolManager.Tool.NEW_TOOL, -amount)
+tool_manager.consumption_changed(ToolManager.Tool.NEW_TOOL, -1)
+```
+
+耐久为 0 时会进入 `ToolData.STATE_BROKEN`。消耗品数量为 0 时会从玩家 `tool_available` 中移除。
+
+6. 让玩家获得工具。
+
+拾取物一般通过 `CollectableComponent` 或交互逻辑把工具写入玩家 `tool_available`。消耗品如果可能叠加，优先调用：
+
+```gdscript
+player.tool_manager.add_consumable_tool(ToolManager.Tool.NEW_TOOL, amount)
+```
+
+永久工具则保证 `player.tool_available` 里有对应枚举值即可。
+
+### 存档注意
+
+`ToolManager` 的运行时数据会同步到 `ToolData`。如果你给 `ToolData` 新增字段，必须同步更新：
+
+- `Scripts/data/tool_data.gd` 的 `@export var`
+- `to_dict()`
+- `from_dict()`
+- 工具创建/恢复时的默认值
+
+## 2. 新增 UI 界面或 Puzzle UI
+
+参考文件：`Scripts/global/ui_manager.gd`。
+
+`UIManager` 使用 `UI_component` 枚举和 `UI_DATA` 注册 UI。实例化时会扫描当前场景的 `UI_LAYERS`，把 UI 放到指定 `CanvasLayer`。
+
+### 普通游戏 UI
+
+1. 创建 UI 场景。
+
+推荐路径：
+
+```text
+System/RPG/UI/my_window.tscn
+Scripts/system/view/UI/my_window.gd
+```
+
+2. 如果脚本需要 manager、玩家或自身 UI 类型，声明这些变量即可，`UIManager.instantiate_ui()` 会自动注入：
+
+```gdscript
+var own_manager: UI_manager = null
+var player_now: CharacterBody2D = null
+var ui_type: UI_manager.UI_component
+```
+
+3. 在 `UIManager.UI_component` 添加枚举。
+
+```gdscript
+enum UI_component {
+	TOOLBAR = 0,
+	MY_WINDOW = 18,
+}
+```
+
+4. 在 `UI_DATA` 添加配置。
+
+```gdscript
+UI_component.MY_WINDOW: {
+	"name": UI_component.MY_WINDOW,
+	"scene": preload("res://System/RPG/UI/my_window.tscn"),
+	"layer": 2,
+	"stage": -1,
+	"can_be_quit": true,
+	"is_puzzle": false
+}
+```
+
+字段含义：
+
+- `layer`：目标 CanvasLayer。`1` 通常是 HUD，`2` 是菜单/功能面板，`3` 是弹窗。
+- `stage`：`0` 表示每次 `refresh_ui_manager()` 自动创建；`-1` 表示按需创建。
+- `can_be_quit`：是否进入 ESC 可关闭队列。
+- `is_puzzle`：是否按谜题 UI 处理退出。
+
+5. 外部打开和关闭：
+
+```gdscript
+UIManager.instantiate_ui(UI_manager.UI_component.MY_WINDOW)
+UIManager.remove_ui(UI_manager.UI_component.MY_WINDOW)
+```
+
+如果 UI 自己关闭自己：
+
+```gdscript
+own_manager.remove_ui(ui_type)
+```
+
+### Puzzle UI
+
+Puzzle UI 也是 UIManager 注册项，但 `scene` 通常放在：
+
+```text
+System/RPG/interact/puzzle/
+```
+
+新增步骤和普通 UI 基本相同，区别是：
+
+```gdscript
+"is_puzzle": true,
+"can_be_quit": true,
+"layer": 2
+```
+
+谜题入口通常是场景中的 `PuzzleComponent` 或可交互节点，交互后调用：
+
+```gdscript
+UIManager.instantiate_ui(UI_manager.UI_component.MY_PUZZLE)
+```
+
+如果谜题状态要被保存，需要把场景中的谜题触发节点加入当前 `BaseLevel.interactables`，类型设为 `3`。`InteractableData.state` 对谜题的当前约定是：
+
+- `0`：不可交互
+- `1`：可交互且未完成
+- `2`：已完成且不可交互
+- `3`：已完成且可交互
+
+谜题完成时应更新当前关卡的状态：
+
+```gdscript
+var base_level := get_tree().current_scene as BaseLevel
+base_level.update_interactable_state(node_path, 2)
+```
+
+`BaseLevel.apply_interactable_states()` 会优先调用谜题节点的 `set_puzzle_state(state)`，没有则调用 `set_puzzle_interactable(bool)`，再没有才尝试开关子树里的交互组件。
+
+### UI 场景要求
+
+每个 RPG 关卡必须有 `UI_LAYERS`，并至少提供 `layer = 1/2/3` 的 CanvasLayer。没有这些层时，`instantiate_ui()` 会找不到目标 layer。
+
+## 3. 新增 NPC 实体
+
+参考文件：`Scripts/global/npc_manager.gd`、`Scripts/data/npc_data.gd`。
+
+`NPCManager` 维护全局 `npc_dict`。每个 NPC 都对应一个 `NPCData`，用于跨场景保存位置、朝向、状态和所在场景。场景切换前 `GameManager.Loading` 会触发 NPC 数据写回；玩家落位后 `SceneManager.player_reseted` 会触发 NPC 入场检测。
+
+### 新增普通 NPC
+
+1. 创建 NPC 场景。
+
+推荐路径：
+
+```text
+System/RPG/entity/npc/Enemy/NewEnemy/new_enemy.tscn
+Scripts/system/entity/npc/new_enemy.gd
+```
+
+NPC 根节点建议继承项目已有 `npc` 基类或保持和现有敌人一致。为了被 manager 同步，脚本至少建议有：
+
+```gdscript
+var npc_direction: Vector2
+var state: int = 0
+```
+
+如果需要接入状态机切换，可提供：
+
+```gdscript
+signal toPatrol
+signal toPursue
+```
+
+2. 在 `NPCManager.npc_type` 添加类型。
+
+```gdscript
+enum npc_type {
+	EYE,
+	melt,
+	NEW_ENEMY
+}
+```
+
+3. 在 `_create_default_npc_dict()` 添加默认数据。
+
+```gdscript
+"2-7": NPCData.new().setup(
+	preload("res://System/RPG/entity/npc/Enemy/NewEnemy/new_enemy.tscn"),
+	npc_type.NEW_ENEMY,
+	"2-2",
+	Vector2(500, 300),
+	Vector2.DOWN,
+	false,
+	0
+),
+```
+
+字段顺序是：
+
+```gdscript
+setup(packed_scene, type, current_scene, position, direction, is_inscene, state)
+```
+
+`current_scene` 必须是 `SceneManager.scene_dict` 中已经注册的 key。
+
+4. 确认目标关卡有 `ObjectAndCharacter/NPC`。没有时 NPC 会降级挂到 `ObjectAndCharacter` 或场景根节点，但组织和 y-sort 会更难控制。
+
+5. 如果新 NPC 有特殊入场/离场逻辑，在 `NPCManager._process()` 中新增更新入口。场内移动、AI、攻击仍建议放在 NPC 自己的场景脚本或状态机中，`NPCManager` 只管跨场景数据和全局事件。
+
+### 新增 NPC jumpscare
+
+1. 创建 jumpscare 场景。
+
+推荐路径：
+
+```text
+Effect/Animation/new_enemy_jumpscare.tscn
+```
+
+根节点使用 `Scripts/system/view/jumpscare_player.gd`，子节点可使用 `jumpscare_animated_sprite.gd` 配置缩放、位置、旋转、等待和 dissolve。
+
+2. 在 `NPCManager.jumpscare_player_paths` 加入映射。
+
+```gdscript
+var jumpscare_player_paths: Dictionary = {
+	npc_type.EYE: "res://Effect/Animation/eye_jumpscare.tscn",
+	npc_type.melt: "res://Effect/Animation/melt_jumpscare.tscn",
+	npc_type.NEW_ENEMY: "res://Effect/Animation/new_enemy_jumpscare.tscn"
+}
+```
+
+3. 在 `_get_jumpscare_type_for_damage_source()` 加入判断。
+
+```gdscript
+if damage_source is NewEnemy:
+	return npc_type.NEW_ENEMY
+```
+
+NPC 击杀玩家时，玩家的 `hurted_component.npc_kill_player` 会把伤害来源传给 `NPCManager`。`NPCManager` 会把 jumpscare 放到独立的 `JumpscareCanvasLayer`，层级为 `10`。
+
+### 新增 NPC 存档字段
+
+如果 NPC 需要保存额外运行时字段：
+
+1. 在 `NPCData` 添加 `@export var`。
+2. 更新 `NPCData.to_dict()` 和 `from_dict()`。
+3. 在 `NPCManager._update_inscene_npc_data()` 中从 NPC 实例写回 data。
+4. 在 `instantiate_npc()` 或 `_apply_npc_initial_state()` 中把 data 写回实例。
+
+## 4. 新增地图、场景与动态节点 Interactables
+
+参考文件：`Scripts/global/scene_manager.gd`、`Scripts/system/level/BaseLevel.gd`、`Scripts/data/interactable.gd`、`Scripts/data/scene_data.gd`。
+
+### 新增地图场景
+
+1. 创建 `.tscn` 场景，根节点或子节点挂 `BaseLevel`。
+2. 配置 `BaseLevel.player_initial_position` 和 `BaseLevel.player_initial_direction`。数组下标要和门的 `scene_to_index` 对应。
+3. 添加推荐节点结构：`UI_LAYERS`、`ObjectAndCharacter`、`ObjectAndCharacter/Interactable`、`ObjectAndCharacter/NPC`、`WorldOfWonder/CanvasModulate`。
+4. 在 `SceneManager.scene_dict` 注册。
+
+```gdscript
+"2-7": SceneData.new(
+	"res://DEMO/AdiosToMe/Levels/2/NewRoom.tscn",
+	"新房间",
+	[]
+),
+```
+
+5. 从门或脚本切换到该场景：
+
+```gdscript
+SceneManager.change_scene("2-7", 0)
+```
+
+### 新增门连接
+
+门节点使用 `BaseDoor`。关键字段：
+
+- `scene_from`：当前场景 key。
+- `scene_to`：目标场景 key，必须已注册。
+- `scene_to_index`：目标场景 `BaseLevel.player_initial_position` 的下标。
+- `state`：`0` 可打开，`1` 上锁，`2` 不能从这一侧打开。
+- `responding_key`：解锁需要的 `ToolManager.Tool`。
+
+如果门状态要跨存档保持，必须把该门加入当前 `BaseLevel.interactables`。
+
+### 新增动态节点 Interactables
+
+`InteractableData` 字段：
+
+```gdscript
+@export var node_path: NodePath
+@export_enum("门", "可拾取物", "对话", "谜题", "其他", "灯") var type: int
+@export var state: int
+```
+
+`node_path` 是相对于 `BaseLevel` 的路径。场景加载时，`BaseLevel.apply_interactable_states()` 会根据 `type/state` 应用状态。
+
+当前类型约定：
+
+- `0 门`：`0` 开，`1` 锁，`2` 不能从这一侧打开。
+- `1 可拾取物`：`0` 不可收集，`1` 可收集。
+- `2 对话`：表示 `DialogueComponent.current_flag`；`-1` 表示不可触发、不可见且不可交互。
+- `3 谜题`：`0` 不可交互，`1` 可交互未完成，`2` 已完成不可交互，`3` 已完成可交互。
+- `4 其他`：`0` 不可见且关闭碰撞，`1` 可见且恢复碰撞。
+- `5 灯`：`0` 关闭，`1` 开启。
+
+运行中改变状态后，必须写回当前 `BaseLevel` 的 `SceneData`：
+
+```gdscript
+var base_level := get_tree().current_scene as BaseLevel
+base_level.update_interactable_state(get_path(), new_state)
+```
+
+如果你新增新的 interactable 类型，需要同时更新：
+
+- `InteractableData` 的 `@export_enum`
+- `BaseLevel.apply_interactable_states()` 的 `match`
+- `SceneData.to_dict()` / `from_dict()` 中需要保存的字段
+- 相关交互节点在状态改变时的 `update_interactable_state()` 调用
+
+### 交互组件约定
+
+玩家交互区使用 `interact_component`，被交互物使用 `interacted_component`。当前脚本会自动设置碰撞层：
+
+- `interact_component`：layer `7`，mask `8`
+- `interacted_component`：layer `8`，mask `7`
+
+被交互节点通常监听 `interacted_component.interacted` 信号执行逻辑。
+
+## 5. 新增过场动画 Cutscene，并决定插入位置
+
+参考文件：`Scripts/global/cutscene_manager.gd`、`Scripts/system/view/cutscene/cutscene.gd`。
+
+### 新增 cutscene 场景
+
+1. 创建 cutscene 场景。
+
+推荐路径：
+
+```text
+System/RPG/cutscene/chapter_key/my_cutscene.tscn
+```
+
+2. 根节点建议是 `Control`，挂 `Scripts/system/view/cutscene/cutscene.gd`。
+
+常用导出字段：
+
+- `fadein_time`：淡入淡出时间。
+- `any_key_continue`：是否等待任意键结束。
+- `buffer_time`：开始后多久允许按键/跳过。
+
+3. 如果 cutscene 由多个子控件组成，子控件可以发出 `cutscene_finished_partly`。`Cutscene` 会等待所有带该信号的子 `Control` 各完成一次后，发出整体 `cutscene_finished`。
+
+4. 在 `CutsceneManager.cutscene_scenes` 注册。
+
+```gdscript
+var cutscene_scenes: Dictionary = {
+	"my_cutscene": preload("res://System/RPG/cutscene/chapter_key/my_cutscene.tscn"),
+}
+```
+
+5. 播放：
+
+```gdscript
+CutsceneManager.play_cutscene("my_cutscene")
+await CutsceneManager.cutscene_playback_finished
+```
+
+播放期间 `CutsceneManager` 会：
+
+- 保存当前 `RunningState`
+- 设置 `RunningState.AUTO`
+- 禁用玩家移动和交互
+- 创建 `CanvasLayer`，层级 `5`
+- 淡入、等待 `cutscene_finished`、淡出释放
+- 恢复播放前状态
+
+### 应该插入在哪里
+
+常见插入点：
+
+1. 新游戏开场：在 `GameManager.start_new_game()` 中，当前已有 `CutsceneManager.play_cutscene("test")`。要换开场，替换 `"test"` 对应资源，或修改调用 key。
+2. 玩家死亡：死亡流程固定读取 `"death"` key。替换死亡过场时只需改 `cutscene_scenes["death"]`。
+3. 场景切换后：等待 `SceneManager.player_reseted` 或 `scene_change_finished` 后播放，适合玩家进入某房间后触发。
+4. 交互后：在门、对话、谜题奖励、事件脚本中调用 `play_cutscene()`。
+5. 全局事件：在 `Scripts/system/events/` 下的事件脚本中，当条件满足时设置 `RunningState.AUTO` 或直接播放 cutscene。
+
+如果 cutscene 中途要触发外部逻辑，优先让 cutscene 场景自身脚本在时间点调用明确 API，例如：
+
+```gdscript
+BgmManager.set_bgm("tense")
+SceneManager.change_scene("2-7", 0)
+base_level.update_interactable_state(target_path, 1)
+```
+
+注意：同一时间只允许一个 cutscene。播放中再次调用会被忽略。
+
+## 6. 新增 BGM、音效和视觉效果
+
+参考文件：`Scripts/global/bgm_manager.gd`、`Scripts/system/sound/SFXPlayer.gd`、`Scripts/global/environment_manager.gd`。
+
+### 新增全局 BGM
+
+1. 放入音频资源，例如：
+
+```text
+Assests/SFX/bgm/new_theme.mp3
+```
+
+2. 在 `BgmManager.bgm_list` 注册：
+
+```gdscript
+var bgm_list: Dictionary = {
+	"default": "res://Assests/SFX/bgm/Rain_Medium_2.mp3",
+	"new_theme": "res://Assests/SFX/bgm/new_theme.mp3",
+}
+```
+
+3. 在需要的地方切换：
+
+```gdscript
+BgmManager.set_bgm("new_theme")
+```
+
+`set_bgm()` 会创建新播放器淡入，并淡出释放旧播放器。同一个 key 重复调用不会重播。
+
+如果是 MP3，`BgmManager._load_stream(key, true)` 会设置循环。其他格式需要确认资源自身循环设置。
+
+### 新增局部音效
+
+门、UI、怪物、工具、谜题等局部音效优先使用 `SFXPlayer`，而不是都塞进 `BgmManager`。
+
+1. 在场景里添加 `AudioStreamPlayer2D`，脚本设为 `Scripts/system/sound/SFXPlayer.gd`。
+2. 配置：
+
+- `one_shot = true`：调用 `play_once()`。
+- `one_shot = false`：循环音，调用 `play_start()` / `play_stop()`，支持淡入淡出。
+- `base_volume_db`：基础音量。
+- `fade_duration`：循环音淡入淡出时间。
+
+3. 播放：
+
+```gdscript
+@export var success_sfx: SFXPlayer = null
+
+func do_something() -> void:
+	success_sfx.play_once()
+```
+
+`SFXPlayer` 会读取 `GameManager.SFX_gain`。`BgmManager` 管理的声音读取 `GameManager.BGM_gain`。
+
+### 新增全局视觉效果
+
+全局滤镜由 `EnvironmentManager` 管理，当前仇恨效果是 `arrgoing` 和 `arrgoed`。
+
+1. 创建视觉效果场景。
+
+推荐路径：
+
+```text
+Effect/Shader/low_health/low_health.tscn
+```
+
+场景中至少要有一个 `ColorRect` 或其他 `CanvasItem`。如果希望淡入淡出由 shader 控制，shader 中提供：
+
+```glsl
+uniform float effect_opacity = 0.0;
+```
+
+2. 在 `EnvironmentManager` 添加 key 和路径。
+
+```gdscript
+const LOW_HEALTH_EFFECT_KEY: String = "low_health"
+@export_file("*.tscn") var low_health_scene_path: String = "res://Effect/Shader/low_health/low_health.tscn"
+```
+
+3. 在 `_get_effect_scene_path(effect_key)` 注册路径。
+
+```gdscript
+LOW_HEALTH_EFFECT_KEY:
+	return low_health_scene_path
+```
+
+4. 在合适的信号或状态变化中淡入淡出。
+
+```gdscript
+_fade_in_arrgo_effect(LOW_HEALTH_EFFECT_KEY)
+_fade_out_arrgo_effect(LOW_HEALTH_EFFECT_KEY)
+```
+
+这些函数名虽然带 `arrgo`，内部实际是通用的效果节点管理：实例化、缓存、淡入淡出、释放。
+
+5. 如果效果会随数值变化，在 `_process()` 中添加更新函数，参考 `_update_arrgoing_material_parameters()`：
+
+```gdscript
+material.set_shader_parameter("my_param", value)
+```
+
+6. 如果新增效果保存了额外缓存，记得纳入 `clear_all_visual_effects()` 清理。死亡回主菜单前 `GameManager` 会调用这个函数，避免滤镜残留。
+
+### 场景环境和光照
+
+新地图如果要接入环境系统，需要有：
+
+```text
+WorldOfWonder  WorldEnvironment
+  CanvasModulate  CanvasModulate
+```
+
+`EnvironmentManager` 会在 `SceneManager.player_reseted` 后查找名为 `WorldOfWonder` 的节点，并把环境设为：
+
+```gdscript
+res://Style/environment/WorldOfWonder.tres
+```
+
+同时将 `CanvasModulate.color` 设为 `GameManager.default_lighting`。
+
+## 扩展前检查清单
+
+- 新枚举是否同时加入了对应注册表？
+- 新场景 key 是否已经加入 `SceneManager.scene_dict`？
+- 需要存档的运行时状态是否写回 Data？
+- 新关卡是否有 `BaseLevel`、`UI_LAYERS`、`ObjectAndCharacter`、`WorldOfWonder`？
+- 新 UI 是否配置了正确 `layer`、`stage`、`can_be_quit`？
+- 新 NPC 是否在 `_create_default_npc_dict()` 中有默认数据？
+- 新 cutscene 是否会发出 `cutscene_finished`，或能被 `finish_cutscene()` 结束？
+- 新全局视觉效果是否能被 `EnvironmentManager.clear_all_visual_effects()` 清理？
+
+============================================================================================
+
+# Data 字段扩展
 
 存档 JSON 主要读写 `GameData`、`PlayerData`、`NPCData`、`SceneData`、`ToolData`。配置走 `ConfigData`，保存到 `user://config.tres`，不写入普通存档 JSON。
 

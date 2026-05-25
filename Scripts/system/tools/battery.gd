@@ -19,7 +19,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	_sync_state_from_tool_manager()
 
-	if _can_use() and InputEvents.consume_once():
+	if _can_use() and tool_manager.consume_tool_use_once(ToolManager.Tool.BATTERY):
 		battery_release()
 
 

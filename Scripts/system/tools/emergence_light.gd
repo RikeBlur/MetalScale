@@ -31,7 +31,7 @@ func _process(delta: float) -> void:
 		if previous_state_after_consumption != state and state == ToolData.STATE_BROKEN:
 			_fade_light_energy(0.0)
 
-	if _can_toggle() and InputEvents.consume_once():
+	if _can_toggle() and tool_manager.consume_tool_use_once(ToolManager.Tool.EMERGENCELIGHT):
 		_toggle_light()
 
 func _sync_state_from_tool_manager() -> void:
